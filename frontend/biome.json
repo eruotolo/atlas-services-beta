@@ -1,0 +1,114 @@
+{
+    "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+    "assist": { "actions": { "source": { "organizeImports": "off" } } },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "correctness": {
+                "noUnusedImports": "warn",
+                "noUnusedVariables": "warn",
+                "useExhaustiveDependencies": "error",
+                "noUnreachable": "error",
+                "useHookAtTopLevel": "error",
+                "noChildrenProp": "error",
+                "useJsxKeyInIterable": "error"
+            },
+            "suspicious": {
+                "noConsole": {
+                    "level": "warn",
+                    "options": {
+                        "allow": ["warn", "error", "info"]
+                    }
+                },
+                "noExplicitAny": "warn",
+                "noImplicitAnyLet": "off",
+                "noDuplicateCase": "error",
+                "noArrayIndexKey": "warn",
+                "noEmptyBlockStatements": "error",
+                "noConfusingVoidType": "error"
+            },
+            "style": {
+                "useConst": "error",
+                "useEnumInitializers": "off",
+                "noUselessElse": "error",
+                "useTemplate": "error",
+                "useSelfClosingElements": "error",
+                "noParameterAssign": "error",
+                "useAsConstAssertion": "error",
+                "useDefaultParameterLast": "error",
+                "useSingleVarDeclarator": "error",
+                "noUnusedTemplateLiteral": "error",
+                "useNumberNamespace": "error",
+                "noInferrableTypes": "error",
+                "useFragmentSyntax": "error",
+                "useShorthandAssign": "error",
+                "useConsistentArrayType": {
+                    "level": "error",
+                    "options": { "syntax": "shorthand" }
+                }
+            },
+            "a11y": {
+                "useKeyWithClickEvents": "warn",
+                "noSvgWithoutTitle": "warn",
+                "useAriaPropsForRole": "error",
+                "useValidAriaProps": "error",
+                "noAccessKey": "error"
+            },
+            "complexity": {
+                "noBannedTypes": "warn",
+                "noStaticOnlyClass": "warn",
+                "noExcessiveCognitiveComplexity": {
+                    "level": "warn",
+                    "options": {
+                        "maxAllowedComplexity": 15
+                    }
+                },
+                "noForEach": "off",
+                "useOptionalChain": "error",
+                "useLiteralKeys": "error",
+                "useSimplifiedLogicExpression": "off"
+            },
+            "security": {
+                "noDangerouslySetInnerHtml": "warn"
+            }
+        }
+    },
+    "formatter": {
+        "enabled": false
+    },
+    "json": {
+        "parser": {
+            "allowComments": true
+        }
+    },
+    "css": {
+        "linter": {
+            "enabled": true
+        }
+    },
+    "files": {
+        "includes": [
+            "**/src/**/*.ts",
+            "**/src/**/*.tsx",
+            "**/src/**/*.js",
+            "**/src/**/*.jsx",
+            "**/app/**/*.ts",
+            "**/app/**/*.tsx",
+            "**/components/**/*.ts",
+            "**/components/**/*.tsx",
+            "!**/.next",
+            "!**/node_modules",
+            "!**/public",
+            "!**/dist",
+            "!**/.vercel",
+            "!**/prisma/generated",
+            "!**/*.config.js",
+            "!**/*.config.ts",
+            "!**/*.min.js",
+            "!**/*.min.css",
+            "!**/.env*",
+            "!**/coverage"
+        ]
+    }
+}

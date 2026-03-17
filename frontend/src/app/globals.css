@@ -1,0 +1,109 @@
+@import 'tailwindcss';
+
+@theme {
+    --color-border: var(--border);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-muted: var(--muted);
+    --color-card: var(--card);
+}
+
+/* Configuración de variante Dark para Tailwind v4 basada en clase */
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+    --background: #ffffff;
+    --foreground: #111827;
+    --border: #f3f4f6;
+    --muted: #f9fafb;
+    --card: #ffffff;
+    --font-inter:
+        'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+        sans-serif;
+}
+
+.dark {
+    --background: #09090b;
+    --foreground: #f9fafb;
+    --border: #18181b;
+    --muted: #111827;
+    --card: #09090b;
+}
+
+@layer base {
+    body {
+        background-color: var(--background);
+        color: var(--foreground);
+        transition:
+            background-color 0.3s ease,
+            color 0.3s ease;
+        font-family: var(--font-inter);
+    }
+
+    /* Asegurar que SVG use la fuente Inter */
+    svg text {
+        font-family: var(--font-inter);
+    }
+}
+
+/* Mejora para el Prose de Tailwind en Dark Mode */
+.dark .prose {
+    --tw-prose-body: #d1d5db;
+    --tw-prose-headings: #f9fafb;
+    --tw-prose-bold: #f9fafb;
+    --tw-prose-links: #3b82f6;
+}
+
+@layer components {
+    .form-input {
+        @apply w-full rounded-2xl border border-gray-200 py-3 text-gray-900 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
+    }
+
+    /* Input con icono izquierdo */
+    .form-input-with-icon {
+        @apply w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
+    }
+
+    /* Label estándar */
+    .form-label {
+        @apply mb-2 block text-sm font-bold text-gray-700 dark:text-gray-300;
+    }
+
+    /* Select con icono */
+    .form-select-with-icon {
+        @apply w-full appearance-none rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
+    }
+}
+
+/* Custom Scrollbar */
+@layer utilities {
+    .scrollbar-custom::-webkit-scrollbar {
+        width: 6px;
+    }
+    .scrollbar-custom::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .scrollbar-custom::-webkit-scrollbar-thumb {
+        background: #e5e7eb;
+        border-radius: 10px;
+    }
+    .dark .scrollbar-custom::-webkit-scrollbar-thumb {
+        background: #27272a;
+    }
+    .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+        background: #d1d5db;
+    }
+    .dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+        background: #3f3f46;
+    }
+}
+
+/* Aplicar scrollbar fino a todo el sitio por defecto */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #e5e7eb transparent;
+}
+
+.dark * {
+    scrollbar-color: #27272a transparent;
+}
