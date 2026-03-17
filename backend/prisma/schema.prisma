@@ -1,0 +1,263 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum ServiceLevel {
+    BASIC
+    PREMIUM
+}
+
+enum SponsorCategory {
+    SENIOR
+    PREMIUM
+    STANDARD
+}
+
+enum CommentStatus {
+    PENDING
+    ACTIVE
+    DELETED
+}
+
+enum InteractionType {
+    VIEW_PHONE
+    VIEW_EMAIL
+    CALL
+    WHATSAPP
+}
+
+enum SocialMediaType {
+    WEBSITE
+    FACEBOOK
+    INSTAGRAM
+    LINKEDIN
+    TIKTOK
+    TWITTER
+    YOUTUBE
+    OTHER
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+    id        String   @id @default(uuid())
+    email     String   @unique
+    password  String?
+    name      String
+    phone     String?
+    avatar    String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    services     Service[]
+    ratings      Rating[]
+    roles        UserRole[]
+    interactions Interaction[]
+
+    @@map("users")
+}
+
+model Role {
+    id        String   @id @default(uuid())
+    name      String   @unique
+    active    Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    users UserRole[]
+
+    @@map("roles")
+}
+
+model UserRole {
+    id        String   @id @default(uuid())
+    userId    String
+    roleId    String
+    createdAt DateTime @default(now())
+
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, roleId])
+    @@index([userId])
+    @@index([roleId])
+    @@map("user_roles")
+}
+
+model ServiceCategory {
+    id        String   @id @default(uuid())
+    name      String   @unique
+    slug      String   @unique
+    icon      String?
+    order     Int      @default(0)
+    active    Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    services ServiceCategoryMap[]
+
+    @@map("service_categories")
+}
+
+model ServiceCategoryMap {
+    id         String   @id @default(uuid())
+    serviceId  String
+    categoryId String
+    createdAt  DateTime @default(now())
+
+    service  Service         @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+    category ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+    @@unique([serviceId, categoryId])
+    @@index([serviceId])
+    @@index([categoryId])
+    @@map("service_category_map")
+}
+
+model Service {
+    id           String       @id @default(uuid())
+    userId       String
+    title        String
+    slug         String       @unique
+    description  String       @db.Text
+    price        Decimal      @db.Decimal(10, 2)
+    commune      String
+    contactName  String?
+    contactEmail String?
+    contactPhone String?
+    mainImage    String?
+    images       String[]
+    averageRating Decimal?    @db.Decimal(2, 1)
+    totalRatings  Int         @default(0)
+    featured     Boolean      @default(false)
+    active       Boolean      @default(true)
+    level        ServiceLevel @default(BASIC)
+    startDate    DateTime     @default(now())
+    endDate      DateTime
+    createdAt    DateTime     @default(now())
+    updatedAt    DateTime     @updatedAt
+
+    user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    categories   ServiceCategoryMap[]
+    ratings      Rating[]
+    subscription Subscription?
+    interactions Interaction[]
+    socialMedia  SocialMedia[]
+
+    @@index([commune])
+    @@index([userId])
+    @@index([averageRating])
+    @@index([level])
+    @@index([endDate])
+    @@map("services")
+}
+
+model Rating {
+    id        String        @id @default(uuid())
+    serviceId String
+    userId    String
+    stars     Int
+    comment   String?       @db.Text
+    status    CommentStatus @default(ACTIVE)
+    createdAt DateTime      @default(now())
+    updatedAt DateTime      @updatedAt
+
+    service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([serviceId, userId])
+    @@index([serviceId])
+    @@index([userId])
+    @@map("ratings")
+}
+
+model Subscription {
+    id             String   @id @default(uuid())
+    serviceId      String   @unique
+    durationMonths Int
+    amount         Decimal  @db.Decimal(10, 2)
+    paymentMethod  String?
+    paymentStatus  String   @default("pending")
+    transactionId  String?
+    startDate      DateTime @default(now())
+    endDate        DateTime
+    active         Boolean  @default(true)
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+    @@index([serviceId])
+    @@index([active])
+    @@index([paymentStatus])
+    @@map("subscriptions")
+}
+
+model Sponsor {
+    id           String          @id @default(uuid())
+    name         String
+    level        SponsorCategory
+    imageUrl     String
+    description  String?         @db.Text
+    externalLink String
+    startDate    DateTime        @default(now())
+    endDate      DateTime
+    active       Boolean         @default(true)
+    createdAt    DateTime        @default(now())
+    updatedAt    DateTime        @updatedAt
+
+    @@index([level])
+    @@index([active])
+    @@map("sponsors")
+}
+
+model PremiumPrice {
+    id             String   @id @default(uuid())
+    durationMonths Int      @unique
+    price          Decimal  @db.Decimal(10, 2)
+    description    String?
+    active         Boolean  @default(true)
+    createdAt      DateTime @default(now())
+    updatedAt      DateTime @updatedAt
+
+    @@index([active])
+    @@index([durationMonths])
+    @@map("premium_prices")
+}
+
+model Interaction {
+    id        String          @id @default(uuid())
+    type      InteractionType
+    serviceId String
+    userId    String?
+    metadata  Json?
+    createdAt DateTime        @default(now())
+
+    service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+    user    User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+    @@index([serviceId])
+    @@index([type])
+    @@index([createdAt])
+    @@map("interactions")
+}
+
+model SocialMedia {
+    id        String          @id @default(uuid())
+    serviceId String
+    type      SocialMediaType
+    url       String
+    createdAt DateTime        @default(now())
+    updatedAt DateTime        @updatedAt
+
+    service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+    @@index([serviceId])
+    @@map("social_media")
+}

@@ -1,0 +1,39 @@
+pg_dump: el último OID interno es 16383
+pg_dump: leyendo las extensiones
+pg_dump: identificando miembros de extensión
+pg_dump: leyendo esquemas
+pg_dump: leyendo las tablas definidas por el usuario
+pg_dump: leyendo las funciones definidas por el usuario
+pg_dump: leyendo los tipos definidos por el usuario
+pg_dump: leyendo los lenguajes procedurales
+pg_dump: leyendo las funciones de agregación definidas por el usuario
+pg_dump: leyendo los operadores definidos por el usuario
+pg_dump: leyendo los métodos de acceso definidos por el usuario
+pg_dump: leyendo las clases de operadores definidos por el usuario
+pg_dump: leyendo las familias de operadores definidas por el usuario
+pg_dump: leyendo los procesadores (parsers) de búsqueda en texto definidos por el usuario
+pg_dump: leyendo las plantillas de búsqueda en texto definidas por el usuario
+pg_dump: leyendo los diccionarios de búsqueda en texto definidos por el usuario
+pg_dump: leyendo las configuraciones de búsqueda en texto definidas por el usuario
+pg_dump: leyendo los conectores de datos externos definidos por el usuario
+pg_dump: leyendo los servidores foráneos definidas por el usuario
+pg_dump: leyendo los privilegios por omisión
+pg_dump: leyendo los ordenamientos definidos por el usuario
+pg_dump: leyendo las conversiones definidas por el usuario
+pg_dump: leyendo conversiones de tipo
+pg_dump: leyendo las transformaciones
+pg_dump: leyendo la información de herencia de las tablas
+pg_dump: leyendo los disparadores por eventos
+pg_dump: buscando tablas de extensión
+pg_dump: buscando relaciones de herencia
+pg_dump: leyendo la información de columnas para las tablas interesantes
+pg_dump: encontrando expresiones default de tablas
+pg_dump: marcando las columnas heredadas en las subtablas
+pg_dump: leyendo datos de particionamiento
+pg_dump: leyendo los índices
+pg_dump: marcando índices en las tablas particionadas
+pg_dump: leyendo estadísticas extendidas
+pg_dump: leyendo las restricciones
+pg_dump: leyendo los disparadores (triggers)
+pg_dump: leyendo las reglas de reescritura
+pg_dump: leyendo políticas

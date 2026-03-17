@@ -1,0 +1,218 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+
+import { Check, ChevronDown, Search } from 'lucide-react';
+
+const COUNTRIES = [
+    { code: 'CL', name: 'Chile', dial: '+56', flag: '🇨🇱', placeholder: '9 1234 5678' },
+    { code: 'AR', name: 'Argentina', dial: '+54', flag: '🇦🇷', placeholder: '9 11 1234 5678' },
+    { code: 'PE', name: 'Perú', dial: '+51', flag: '🇵🇪', placeholder: '912 345 678' },
+    { code: 'CO', name: 'Colombia', dial: '+57', flag: '🇨🇴', placeholder: '300 123 4567' },
+    { code: 'MX', name: 'México', dial: '+52', flag: '🇲🇽', placeholder: '55 1234 5678' },
+    { code: 'ES', name: 'España', dial: '+34', flag: '🇪🇸', placeholder: '612 34 56 78' },
+    { code: 'US', name: 'Estados Unidos', dial: '+1', flag: '🇺🇸', placeholder: '202 555 0123' },
+    { code: 'VE', name: 'Venezuela', dial: '+58', flag: '🇻🇪', placeholder: '412 123 4567' },
+    { code: 'BR', name: 'Brasil', dial: '+55', flag: '🇧🇷', placeholder: '11 91234 5678' },
+    { code: 'UY', name: 'Uruguay', dial: '+598', flag: '🇺🇾', placeholder: '99 123 456' },
+
+    // Países adicionales muy comunes en Latam y usuarios hispanohablantes
+    { code: 'EC', name: 'Ecuador', dial: '+593', flag: '🇪🇨', placeholder: '99 123 4567' },
+    { code: 'BO', name: 'Bolivia', dial: '+591', flag: '🇧🇴', placeholder: '701 234 567' },
+    { code: 'PY', name: 'Paraguay', dial: '+595', flag: '🇵🇾', placeholder: '981 234 567' },
+    { code: 'CR', name: 'Costa Rica', dial: '+506', flag: '🇨🇷', placeholder: '8312 3456' },
+    { code: 'PA', name: 'Panamá', dial: '+507', flag: '🇵🇦', placeholder: '6123 4567' },
+    {
+        code: 'DO',
+        name: 'República Dominicana',
+        dial: '+1',
+        flag: '🇩🇴',
+        placeholder: '809 123 4567',
+    }, // comparte +1 con US
+    { code: 'GT', name: 'Guatemala', dial: '+502', flag: '🇬🇹', placeholder: '1234 5678' },
+    { code: 'SV', name: 'El Salvador', dial: '+503', flag: '🇸🇻', placeholder: '7123 4567' },
+    { code: 'HN', name: 'Honduras', dial: '+504', flag: '🇭🇳', placeholder: '9123 4567' },
+    { code: 'NI', name: 'Nicaragua', dial: '+505', flag: '🇳🇮', placeholder: '8123 4567' },
+
+    // Europa y otros frecuentes
+    { code: 'PT', name: 'Portugal', dial: '+351', flag: '🇵🇹', placeholder: '912 345 678' },
+    { code: 'IT', name: 'Italia', dial: '+39', flag: '🇮🇹', placeholder: '340 123 4567' },
+    { code: 'FR', name: 'Francia', dial: '+33', flag: '🇫🇷', placeholder: '6 12 34 56 78' },
+    { code: 'DE', name: 'Alemania', dial: '+49', flag: '🇩🇪', placeholder: '1521 1234567' },
+    { code: 'GB', name: 'Reino Unido', dial: '+44', flag: '🇬🇧', placeholder: '7400 123456' },
+    { code: 'CA', name: 'Canadá', dial: '+1', flag: '🇨🇦', placeholder: '416 123 4567' }, // comparte +1
+
+    // Algunos más globales / populares en dropdowns
+    { code: 'CU', name: 'Cuba', dial: '+53', flag: '🇨🇺', placeholder: '5 123 4567' },
+];
+
+interface PhoneInputProps {
+    name: string;
+    defaultValue?: string;
+    value?: string;
+    onChange?: (value: string) => void;
+    required?: boolean;
+    error?: string;
+    label?: string;
+    id?: string;
+}
+
+export default function PhoneInput({
+    name,
+    defaultValue = '',
+    value,
+    onChange,
+    required,
+    error,
+    label,
+    id,
+}: PhoneInputProps) {
+    const [isOpen, setIsOpen] = useState(false);
+    const [search, setSearch] = useState('');
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    const [selectedCountry, setSelectedCountry] = useState(COUNTRIES[0]);
+    const [phoneNumber, setPhoneNumber] = useState('');
+
+    // Manejar cambios desde props (value o defaultValue)
+    useEffect(() => {
+        const valueToUse = value !== undefined ? value : defaultValue;
+        if (valueToUse) {
+            const found = COUNTRIES.find((c) => valueToUse.startsWith(c.dial));
+            if (found) {
+                setSelectedCountry(found);
+                setPhoneNumber(valueToUse.replace(found.dial, ''));
+            } else {
+                setPhoneNumber(valueToUse);
+            }
+        } else if (value !== undefined && value === '') {
+            // Si es controlado y llega vacío, limpiar
+            setPhoneNumber('');
+        }
+    }, [defaultValue, value]);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const filteredCountries = COUNTRIES.filter(
+        (c) => c.name.toLowerCase().includes(search.toLowerCase()) || c.dial.includes(search),
+    );
+
+    const fullValue = phoneNumber ? `${selectedCountry.dial}${phoneNumber.replace(/\s/g, '')}` : '';
+
+    const handleCountryChange = (country: (typeof COUNTRIES)[0]) => {
+        setSelectedCountry(country);
+        setIsOpen(false);
+        setSearch('');
+        const newFullValue = phoneNumber ? `${country.dial}${phoneNumber.replace(/\s/g, '')}` : '';
+        onChange?.(newFullValue);
+    };
+
+    const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const val = e.target.value.replace(/[^0-9\s]/g, '');
+        setPhoneNumber(val);
+        const newFullValue = val ? `${selectedCountry.dial}${val.replace(/\s/g, '')}` : '';
+        onChange?.(newFullValue);
+    };
+
+    return (
+        <div ref={containerRef} className="relative">
+            {label && (
+                <label
+                    htmlFor={id}
+                    className="mb-2 block text-sm font-bold text-gray-700 dark:text-gray-300"
+                >
+                    {label}
+                </label>
+            )}
+
+            <div
+                className={`form-input flex items-center overflow-hidden p-0 ${
+                    error ? 'border-red-500' : ''
+                }`}
+            >
+                <button
+                    type="button"
+                    onClick={() => setIsOpen(!isOpen)}
+                    className="flex h-full shrink-0 items-center gap-2 border-r border-gray-200 px-4 py-3 hover:bg-gray-50 focus:outline-none dark:border-white/10 dark:hover:bg-white/5"
+                >
+                    <span className="text-xl">{selectedCountry.flag}</span>
+                    <span className="font-bold text-gray-600 dark:text-gray-300">
+                        {selectedCountry.dial}
+                    </span>
+                    <ChevronDown size={14} className="text-gray-400" />
+                </button>
+
+                <input
+                    id={id}
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={handlePhoneChange}
+                    placeholder={selectedCountry.placeholder}
+                    className="h-full w-full bg-transparent px-4 py-3 font-medium text-gray-900 placeholder:text-gray-300 focus:outline-none dark:text-white dark:placeholder:text-gray-600"
+                />
+
+                <input type="hidden" name={name} value={fullValue} required={required} />
+            </div>
+
+            {error && <p className="mt-1 px-1 text-xs text-red-600 dark:text-red-400">{error}</p>}
+
+            {isOpen && (
+                <div className="animate-in fade-in zoom-in-95 absolute top-full left-0 z-50 mt-2 w-full max-w-xs overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl dark:border-gray-700 dark:bg-gray-900">
+                    <div className="border-b border-gray-100 p-2 dark:border-gray-800">
+                        <div className="relative">
+                            <Search
+                                size={14}
+                                className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
+                            />
+                            <input
+                                type="text"
+                                placeholder="Buscar país..."
+                                value={search}
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="w-full rounded-xl bg-gray-50 py-2 pr-3 pl-9 text-xs outline-none focus:ring-2 focus:ring-blue-500/20 dark:bg-gray-800 dark:text-white"
+                            />
+                        </div>
+                    </div>
+                    <ul className="max-h-60 overflow-y-auto p-1">
+                        {filteredCountries.map((country) => (
+                            <li key={country.code}>
+                                <button
+                                    type="button"
+                                    onClick={() => handleCountryChange(country)}
+                                    className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm transition-colors hover:bg-blue-50 dark:hover:bg-blue-900/20 ${
+                                        selectedCountry.code === country.code
+                                            ? 'bg-blue-50 dark:bg-blue-900/10'
+                                            : ''
+                                    }`}
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-lg">{country.flag}</span>
+                                        <span className="font-medium text-gray-700 dark:text-gray-200">
+                                            {country.name}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-xs text-gray-400">
+                                            {country.dial}
+                                        </span>
+                                        {selectedCountry.code === country.code && (
+                                            <Check size={14} className="text-blue-600" />
+                                        )}
+                                    </div>
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
+        </div>
+    );
+}

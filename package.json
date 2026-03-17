@@ -1,0 +1,25 @@
+{
+    "name": "atlas-services",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "concurrently --names \"backend,frontend\" --prefix-colors \"blue,green\" \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
+        "dev:backend": "pnpm --filter backend dev",
+        "dev:frontend": "pnpm --filter frontend dev"
+    },
+    "devDependencies": {
+        "concurrently": "^9.1.2"
+    },
+    "pnpm": {
+        "onlyBuiltDependencies": [
+            "@nestjs/core",
+            "@prisma/client",
+            "@prisma/engines",
+            "bcrypt",
+            "esbuild",
+            "prisma",
+            "protobufjs",
+            "sharp"
+        ]
+    }
+}

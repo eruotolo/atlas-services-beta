@@ -1,0 +1,83 @@
+import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import helmet from 'helmet';
+
+import { PrismaExceptionFilter } from '@common/filters/prisma-exception.filter';
+import { SerializeInterceptor } from '@common/interceptors/serialize.interceptor';
+
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+    const app = await NestFactory.create(AppModule, {
+        logger: ['error', 'warn', 'log', 'debug'],
+    });
+
+    const configService = app.get(ConfigService);
+    const port = configService.get<number>('PORT', 4000);
+    const nodeEnv = configService.get<string>('NODE_ENV', 'development');
+    const frontendUrl = configService.get<string>('FRONTEND_URL', 'http://localhost:3000');
+
+    // Seguridad: headers HTTP seguros
+    app.use(helmet());
+
+    // CORS: solo permite el origen del frontend
+    app.enableCors({
+        origin: frontendUrl,
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    });
+
+    // Prefijo global para la API
+    app.setGlobalPrefix('api/v1');
+
+    // Versionado via URI
+    app.enableVersioning({ type: VersioningType.URI });
+
+    // Filtro global de errores Prisma
+    app.useGlobalFilters(new PrismaExceptionFilter());
+
+    // Interceptor global: elimina campos sensibles (password, etc.)
+    app.useGlobalInterceptors(new SerializeInterceptor());
+
+    // Validación global de DTOs
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true,
+            forbidNonWhitelisted: true,
+            transform: true,
+            transformOptions: {
+                enableImplicitConversion: true,
+            },
+        }),
+    );
+
+    // Swagger — solo en desarrollo
+    if (nodeEnv !== 'production') {
+        const config = new DocumentBuilder()
+            .setTitle('Atlas Services API')
+            .setDescription('API REST para la plataforma Chiloé Servicios')
+            .setVersion('1.0')
+            .addApiKey({ type: 'apiKey', in: 'header', name: 'X-API-Key' }, 'api-key')
+            .addBearerAuth(
+                { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+                'access-token',
+            )
+            .build();
+
+        const document = SwaggerModule.createDocument(app, config);
+        SwaggerModule.setup('api/docs', app, document, {
+            swaggerOptions: { persistAuthorization: true },
+        });
+
+        console.log(`📄 Swagger disponible en: http://localhost:${port}/api/docs`);
+    }
+
+    await app.listen(port);
+    console.log(`🚀 Backend corriendo en: http://localhost:${port}/api/v1`);
+    console.log(`🌍 Entorno: ${nodeEnv}`);
+}
+
+bootstrap();

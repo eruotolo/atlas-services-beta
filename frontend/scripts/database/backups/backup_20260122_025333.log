@@ -1,0 +1,143 @@
+pg_dump: el último OID interno es 16383
+pg_dump: leyendo las extensiones
+pg_dump: identificando miembros de extensión
+pg_dump: leyendo esquemas
+pg_dump: leyendo las tablas definidas por el usuario
+pg_dump: leyendo las funciones definidas por el usuario
+pg_dump: leyendo los tipos definidos por el usuario
+pg_dump: leyendo los lenguajes procedurales
+pg_dump: leyendo las funciones de agregación definidas por el usuario
+pg_dump: leyendo los operadores definidos por el usuario
+pg_dump: leyendo los métodos de acceso definidos por el usuario
+pg_dump: leyendo las clases de operadores definidos por el usuario
+pg_dump: leyendo las familias de operadores definidas por el usuario
+pg_dump: leyendo los procesadores (parsers) de búsqueda en texto definidos por el usuario
+pg_dump: leyendo las plantillas de búsqueda en texto definidas por el usuario
+pg_dump: leyendo los diccionarios de búsqueda en texto definidos por el usuario
+pg_dump: leyendo las configuraciones de búsqueda en texto definidas por el usuario
+pg_dump: leyendo los conectores de datos externos definidos por el usuario
+pg_dump: leyendo los servidores foráneos definidas por el usuario
+pg_dump: leyendo los privilegios por omisión
+pg_dump: leyendo los ordenamientos definidos por el usuario
+pg_dump: leyendo las conversiones definidas por el usuario
+pg_dump: leyendo conversiones de tipo
+pg_dump: leyendo las transformaciones
+pg_dump: leyendo la información de herencia de las tablas
+pg_dump: leyendo los disparadores por eventos
+pg_dump: buscando tablas de extensión
+pg_dump: buscando relaciones de herencia
+pg_dump: leyendo la información de columnas para las tablas interesantes
+pg_dump: encontrando expresiones default de tablas
+pg_dump: marcando las columnas heredadas en las subtablas
+pg_dump: leyendo datos de particionamiento
+pg_dump: leyendo los índices
+pg_dump: marcando índices en las tablas particionadas
+pg_dump: leyendo estadísticas extendidas
+pg_dump: leyendo las restricciones
+pg_dump: leyendo los disparadores (triggers)
+pg_dump: leyendo las reglas de reescritura
+pg_dump: leyendo políticas
+pg_dump: leyendo políticas de seguridad a nivel de registros
+pg_dump: leyendo publicaciones
+pg_dump: leyendo membresía de tablas en publicaciones
+pg_dump: leyendo membresía de esquemas en publicaciones
+pg_dump: leyendo las suscripciones
+pg_dump: leyendo membresía de tablas en suscripciones
+pg_dump: leyendo objetos grandes
+pg_dump: obteniendo datos de dependencias
+pg_dump: salvando codificaciones = UTF8
+pg_dump: salvando «standard_conforming_strings = on»
+pg_dump: salvando «search_path = »
+pg_dump: creando TYPE «public.CategoriaSponsor»
+pg_dump: creando TYPE «public.EstadoComentario»
+pg_dump: creando TYPE «public.NivelServicio»
+pg_dump: creando TYPE «public.TipoInteraccion»
+pg_dump: creando TYPE «public.TipoRedSocial»
+pg_dump: creando TABLE «public._prisma_migrations»
+pg_dump: creando TABLE «public.calificaciones»
+pg_dump: creando TABLE «public.categoriaservicios»
+pg_dump: creando TABLE «public.interacciones»
+pg_dump: creando TABLE «public.precios_premium»
+pg_dump: creando TABLE «public.redes_sociales»
+pg_dump: creando TABLE «public.roles»
+pg_dump: creando TABLE «public.servicios»
+pg_dump: creando TABLE «public.sponsors»
+pg_dump: creando TABLE «public.suscripciones»
+pg_dump: creando TABLE «public.usuarios»
+pg_dump: creando TABLE «public.usuarios_roles»
+pg_dump: procesando datos de la tabla «public._prisma_migrations»
+pg_dump: extrayendo el contenido de la tabla «public._prisma_migrations»
+pg_dump: procesando datos de la tabla «public.calificaciones»
+pg_dump: extrayendo el contenido de la tabla «public.calificaciones»
+pg_dump: procesando datos de la tabla «public.categoriaservicios»
+pg_dump: extrayendo el contenido de la tabla «public.categoriaservicios»
+pg_dump: procesando datos de la tabla «public.interacciones»
+pg_dump: extrayendo el contenido de la tabla «public.interacciones»
+pg_dump: procesando datos de la tabla «public.precios_premium»
+pg_dump: extrayendo el contenido de la tabla «public.precios_premium»
+pg_dump: procesando datos de la tabla «public.redes_sociales»
+pg_dump: extrayendo el contenido de la tabla «public.redes_sociales»
+pg_dump: procesando datos de la tabla «public.roles»
+pg_dump: extrayendo el contenido de la tabla «public.roles»
+pg_dump: procesando datos de la tabla «public.servicios»
+pg_dump: extrayendo el contenido de la tabla «public.servicios»
+pg_dump: procesando datos de la tabla «public.sponsors»
+pg_dump: extrayendo el contenido de la tabla «public.sponsors»
+pg_dump: procesando datos de la tabla «public.suscripciones»
+pg_dump: extrayendo el contenido de la tabla «public.suscripciones»
+pg_dump: procesando datos de la tabla «public.usuarios»
+pg_dump: extrayendo el contenido de la tabla «public.usuarios»
+pg_dump: procesando datos de la tabla «public.usuarios_roles»
+pg_dump: extrayendo el contenido de la tabla «public.usuarios_roles»
+pg_dump: creando CONSTRAINT «public._prisma_migrations _prisma_migrations_pkey»
+pg_dump: creando CONSTRAINT «public.calificaciones calificaciones_pkey»
+pg_dump: creando CONSTRAINT «public.categoriaservicios categoriaservicios_pkey»
+pg_dump: creando CONSTRAINT «public.interacciones interacciones_pkey»
+pg_dump: creando CONSTRAINT «public.precios_premium precios_premium_pkey»
+pg_dump: creando CONSTRAINT «public.redes_sociales redes_sociales_pkey»
+pg_dump: creando CONSTRAINT «public.roles roles_pkey»
+pg_dump: creando CONSTRAINT «public.servicios servicios_pkey»
+pg_dump: creando CONSTRAINT «public.sponsors sponsors_pkey»
+pg_dump: creando CONSTRAINT «public.suscripciones suscripciones_pkey»
+pg_dump: creando CONSTRAINT «public.usuarios usuarios_pkey»
+pg_dump: creando CONSTRAINT «public.usuarios_roles usuarios_roles_pkey»
+pg_dump: creando INDEX «public.calificaciones_servicioId_idx»
+pg_dump: creando INDEX «public.calificaciones_servicioId_usuarioId_key»
+pg_dump: creando INDEX «public.calificaciones_usuarioId_idx»
+pg_dump: creando INDEX «public.categoriaservicios_nombre_key»
+pg_dump: creando INDEX «public.categoriaservicios_slug_key»
+pg_dump: creando INDEX «public.interacciones_createdAt_idx»
+pg_dump: creando INDEX «public.interacciones_servicioId_idx»
+pg_dump: creando INDEX «public.interacciones_tipo_idx»
+pg_dump: creando INDEX «public.precios_premium_activo_idx»
+pg_dump: creando INDEX «public.precios_premium_duracionMeses_idx»
+pg_dump: creando INDEX «public.precios_premium_duracionMeses_key»
+pg_dump: creando INDEX «public.redes_sociales_servicioId_idx»
+pg_dump: creando INDEX «public.roles_nombre_key»
+pg_dump: creando INDEX «public.servicios_calificacionPromedio_idx»
+pg_dump: creando INDEX «public.servicios_categoriaId_idx»
+pg_dump: creando INDEX «public.servicios_comuna_idx»
+pg_dump: creando INDEX «public.servicios_fechaFin_idx»
+pg_dump: creando INDEX «public.servicios_nivel_idx»
+pg_dump: creando INDEX «public.servicios_slug_key»
+pg_dump: creando INDEX «public.servicios_usuarioId_idx»
+pg_dump: creando INDEX «public.sponsors_activo_idx»
+pg_dump: creando INDEX «public.sponsors_nivel_idx»
+pg_dump: creando INDEX «public.suscripciones_activa_idx»
+pg_dump: creando INDEX «public.suscripciones_estadoPago_idx»
+pg_dump: creando INDEX «public.suscripciones_servicioId_idx»
+pg_dump: creando INDEX «public.suscripciones_servicioId_key»
+pg_dump: creando INDEX «public.usuarios_email_key»
+pg_dump: creando INDEX «public.usuarios_roles_roleId_idx»
+pg_dump: creando INDEX «public.usuarios_roles_usuarioId_idx»
+pg_dump: creando INDEX «public.usuarios_roles_usuarioId_roleId_key»
+pg_dump: creando FK CONSTRAINT «public.calificaciones calificaciones_servicioId_fkey»
+pg_dump: creando FK CONSTRAINT «public.calificaciones calificaciones_usuarioId_fkey»
+pg_dump: creando FK CONSTRAINT «public.interacciones interacciones_servicioId_fkey»
+pg_dump: creando FK CONSTRAINT «public.interacciones interacciones_usuarioId_fkey»
+pg_dump: creando FK CONSTRAINT «public.redes_sociales redes_sociales_servicioId_fkey»
+pg_dump: creando FK CONSTRAINT «public.servicios servicios_categoriaId_fkey»
+pg_dump: creando FK CONSTRAINT «public.servicios servicios_usuarioId_fkey»
+pg_dump: creando FK CONSTRAINT «public.suscripciones suscripciones_servicioId_fkey»
+pg_dump: creando FK CONSTRAINT «public.usuarios_roles usuarios_roles_roleId_fkey»
+pg_dump: creando FK CONSTRAINT «public.usuarios_roles usuarios_roles_usuarioId_fkey»
