@@ -1,6 +1,6 @@
-# Atlas Services — Plataforma Chiloé Servicios
+# Atlas Services — Plataforma de Servicios (Beta)
 
-Plataforma hiperlocal para la Isla de Chiloé que conecta usuarios con proveedores de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas) en una comunidad de ~35,000 habitantes.
+Plataforma de servicios que conecta usuarios con proveedores de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas). Disponible en Chile, Argentina, Uruguay, Estados Unidos y España.
 
 ---
 
