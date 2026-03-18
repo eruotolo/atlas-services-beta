@@ -62,11 +62,5 @@ next-env.d.ts
 # Internal Tools & Scripts
 /scripts/
 
-# Agent Context
-.claude/
-.gemini/
-Gemini.md
-CLAUDE.md
-
 # Docker — datos persistidos de PostgreSQL
 docker-database/postgres-data/
