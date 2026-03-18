@@ -66,6 +66,7 @@ next-env.d.ts
 .claude/
 .gemini/
 Gemini.md
+CLAUDE.md
 
 # Docker — datos persistidos de PostgreSQL
 docker-database/postgres-data/
