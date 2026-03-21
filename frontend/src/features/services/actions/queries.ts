@@ -6,11 +6,7 @@ import { apiClient } from '@/lib/api/apiClient';
 import type {
     BackendPaginatedResponse,
     BackendServiceDto,
-    BackendServiciosQueryParams,
 } from '@/lib/api/backendTypes';
-
-import { comunaMap } from '@/shared/constants/locations';
-import { Comuna } from '@/shared/types/common';
 
 const PLACEHOLDER_IMAGE = 'https://placehold.co/600x400/3B82F6/FFFFFF?text=Sin+Imagen';
 
@@ -20,10 +16,6 @@ function buildQueryString(params: Record<string, string | number | boolean | und
     );
     if (entries.length === 0) return '';
     return `?${entries.map(([k, v]) => `${k}=${encodeURIComponent(String(v))}`).join('&')}`;
-}
-
-function mapComuneValue(commune: string): Comuna {
-    return comunaMap[commune] ?? comunaMap[commune.toUpperCase()] ?? Comuna.CASTRO;
 }
 
 function mapServiceDto(s: BackendServiceDto) {
@@ -39,7 +31,7 @@ function mapServiceDto(s: BackendServiceDto) {
         categories: s.categories.map((c) => ({ id: c.id, nombre: c.name })),
         description: s.description,
         price: Number(s.price),
-        comuna: mapComuneValue(s.commune),
+        comuna: s.commune ?? '',
         rating: Number(s.averageRating ?? 0),
         reviewsCount: s.totalRatings,
         image: s.mainImage ?? s.images[0] ?? PLACEHOLDER_IMAGE,
@@ -73,14 +65,18 @@ function mapServiceDetailDto(s: BackendServiceDto) {
     };
 }
 
-export const getPublicFeaturedServices = cache(async () => {
+export const getPublicFeaturedServices = cache(async (countryCode = 'cl') => {
     try {
-        const params: BackendServiciosQueryParams = { limit: 8, page: 1 };
-        const qs = buildQueryString(params as Record<string, string | number | boolean>);
+        const params: Record<string, string | number | boolean> = {
+            limit: 8,
+            page: 1,
+            countryCode,
+        };
+        const qs = buildQueryString(params);
 
         const response = await apiClient.get<BackendPaginatedResponse<BackendServiceDto>>(
             `/services${qs}`,
-            { revalidate: 60, tags: ['servicios-destacados'] },
+            { revalidate: 60, tags: [`servicios-destacados-${countryCode}`] },
         );
 
         return (response?.data ?? []).map(mapServiceDto);
@@ -110,22 +106,31 @@ export const getFilteredServices = cache(
     async ({
         query = '',
         category = 'Todos',
-        comuna = 'Todas',
+        countryCode = 'cl',
+        regionCode = '',
+        localitySlug = '',
         page = 1,
         limit = 9,
     }: {
         query?: string;
         category?: string;
-        comuna?: string;
+        countryCode?: string;
+        regionCode?: string;
+        localitySlug?: string;
         page?: number;
         limit?: number;
     }) => {
         try {
-            const params: Record<string, string | number | boolean | undefined> = { page, limit };
+            const params: Record<string, string | number | boolean | undefined> = {
+                page,
+                limit,
+                countryCode,
+            };
 
             if (query) params.query = query;
             if (category && category !== 'Todos') params.category = category;
-            if (comuna && comuna !== 'Todas') params.commune = comuna;
+            if (regionCode) params.regionCode = regionCode;
+            if (localitySlug) params.localitySlug = localitySlug;
 
             const qs = buildQueryString(params);
 

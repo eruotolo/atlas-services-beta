@@ -17,15 +17,17 @@ interface AdminHeaderProps {
 export default function AdminHeader({ user }: AdminHeaderProps) {
     const pathname = usePathname();
 
+    const country = pathname.split('/')[1] ?? 'cl';
+
     const titles: Record<string, string> = {
-        '/admin': 'Bienvenido, Admin',
-        '/admin/servicios': 'Gestión de Servicios',
-        '/admin/usuarios': 'Gestión de Usuarios',
-        '/admin/categorias': 'Gestión de Categorías',
-        '/admin/calificaciones': 'Gestión de Reseñas',
-        '/admin/pagos': 'Historial de Pagos',
-        '/admin/sponsors': 'Gestión de Sponsors',
-        '/admin/precios-premium': 'Configuración de Precios',
+        [`/${country}/admin`]: 'Bienvenido, Admin',
+        [`/${country}/admin/servicios`]: 'Gestión de Servicios',
+        [`/${country}/admin/usuarios`]: 'Gestión de Usuarios',
+        [`/${country}/admin/categorias`]: 'Gestión de Categorías',
+        [`/${country}/admin/calificaciones`]: 'Gestión de Reseñas',
+        [`/${country}/admin/pagos`]: 'Historial de Pagos',
+        [`/${country}/admin/sponsors`]: 'Gestión de Sponsors',
+        [`/${country}/admin/precios-premium`]: 'Configuración de Precios',
     };
 
     return (
@@ -35,7 +37,7 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
                     {titles[pathname] || 'Panel Admin'}
                 </h1>
                 <p className="mt-1 text-sm font-medium text-gray-500 italic dark:text-gray-400">
-                    Administra el talento de Chiloé desde un solo lugar.
+                    Administra tu plataforma de servicios desde un solo lugar.
                 </p>
             </div>
             <div className="flex items-center gap-4">
@@ -58,7 +60,7 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
                 </div>
                 <button
                     type="button"
-                    onClick={() => signOut({ callbackUrl: '/login', redirect: true })}
+                    onClick={() => signOut({ callbackUrl: `/${country}/login`, redirect: true })}
                     className="flex cursor-pointer items-center gap-2 rounded-2xl bg-red-50 px-4 py-3 font-bold text-red-600 transition-colors hover:bg-red-100 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-900/30"
                     title="Cerrar Sesión"
                 >

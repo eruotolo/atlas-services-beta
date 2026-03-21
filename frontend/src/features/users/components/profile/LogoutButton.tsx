@@ -2,10 +2,14 @@
 
 import { LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
 
 export default function LogoutButton() {
+    const pathname = usePathname();
+    const country = pathname.split('/')[1] ?? 'cl';
+
     function handleLogout() {
-        signOut({ callbackUrl: '/login', redirect: true });
+        signOut({ callbackUrl: `/${country}/login`, redirect: true });
     }
 
     return (

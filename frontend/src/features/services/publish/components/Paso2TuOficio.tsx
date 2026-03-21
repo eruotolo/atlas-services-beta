@@ -20,8 +20,10 @@ import {
 } from 'lucide-react';
 
 import { getCategorias } from '@/features/categories/actions';
+import { LocalitySelect } from '@/features/geo/components/LocalitySelect';
 import { generarDescripcionIA, publicarServicioPublico } from '@/features/services/publish/actions';
 import { getUsuarioById } from '@/features/users/actions/queries';
+import { useCountry } from '@/lib/providers/CountryProvider';
 
 import PhoneInput from '@/shared/components/ui/PhoneInput';
 
@@ -53,19 +55,6 @@ interface Categoria {
     icono?: string | null;
 }
 
-const COMUNAS_CHILOE = [
-    'Ancud',
-    'Castro',
-    'Chonchi',
-    'Curaco de Vélez',
-    'Dalcahue',
-    'Puqueldón',
-    'Queilén',
-    'Quellón',
-    'Quemchi',
-    'Quinchao',
-];
-
 const TIPOS_RED_SOCIAL = [
     { value: 'WEBSITE', label: 'Sitio Web' },
     { value: 'FACEBOOK', label: 'Facebook' },
@@ -78,11 +67,12 @@ const TIPOS_RED_SOCIAL = [
 ];
 
 export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps) {
+    const { code: countryCode, regionLabel, localityLabel } = useCountry();
+
     const tituloId = useId();
     const descripcionId = useId();
     const imagenPrincipalId = useId();
     const precioId = useId();
-    const comunaId = useId();
     const declaracionId = useId();
 
     // IDs para contacto
@@ -106,6 +96,11 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
     const [imagenPrincipalPreview, setImagenPrincipalPreview] = useState<string>('');
     const [galeriaImagenes, setGaleriaImagenes] = useState<File[]>([]);
     const [redesSociales, setRedesSociales] = useState<RedSocial[]>([]);
+    const [selectedLocality, setSelectedLocality] = useState<{
+        localitySlug: string;
+        localityName: string;
+        regionCode: string;
+    } | null>(null);
 
     // Estados para datos de contacto
     const [nombreContacto, setNombreContacto] = useState('');
@@ -288,7 +283,14 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
             formData.set('emailContacto', emailContacto);
             formData.set('telefonoContacto', telefonoContacto);
 
-            // 5.5. Agregar usuarioId (importante para usuarios no autenticados)
+            // 5.5. Agregar ubicación geográfica
+            if (selectedLocality) {
+                formData.set('regionCode', selectedLocality.regionCode);
+                formData.set('localitySlug', selectedLocality.localitySlug);
+            }
+            formData.set('countryCode', countryCode);
+
+            // 5.6. Agregar usuarioId (importante para usuarios no autenticados)
             formData.set('usuarioId', usuario.id);
 
             // 6. Publicar servicio
@@ -479,37 +481,16 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                     </div>
 
                     <div>
-                        <label
-                            htmlFor={comunaId}
-                            className="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-300"
-                        >
-                            Comuna
-                        </label>
-                        <div className="relative">
-                            <MapPin
-                                size={18}
-                                className="pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-gray-400 dark:text-gray-600"
-                            />
-                            <select
-                                id={comunaId}
-                                name="comuna"
-                                required
-                                className="form-input appearance-none bg-white pr-4 pl-12 dark:bg-gray-800"
-                            >
-                                <option value="" className="dark:bg-gray-900">
-                                    Selecciona comuna
-                                </option>
-                                {COMUNAS_CHILOE.map((comuna) => (
-                                    <option
-                                        key={comuna}
-                                        value={comuna}
-                                        className="dark:bg-gray-900"
-                                    >
-                                        {comuna}
-                                    </option>
-                                ))}
-                            </select>
+                        <div className="mb-1.5 flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-gray-300">
+                            <MapPin size={16} className="text-gray-400" />
+                            Ubicación
                         </div>
+                        <LocalitySelect
+                            countryCode={countryCode}
+                            regionLabel={regionLabel}
+                            localityLabel={localityLabel}
+                            onSelect={setSelectedLocality}
+                        />
                     </div>
                 </div>
 

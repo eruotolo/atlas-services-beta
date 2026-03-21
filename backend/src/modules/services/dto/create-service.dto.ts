@@ -110,4 +110,21 @@ export class CreateServiceDto {
     @ValidateNested({ each: true })
     @Type(() => RedesSocialesDto)
     redesSociales?: RedesSocialesDto[];
+
+    @ApiProperty({ description: 'Código de país ISO', example: 'cl' })
+    @IsString()
+    @MaxLength(10)
+    countryCode: string;
+
+    @ApiPropertyOptional({ description: 'Código de región', example: 'LL' })
+    @IsOptional()
+    @IsString()
+    @MaxLength(20)
+    regionCode?: string;
+
+    @ApiPropertyOptional({ description: 'Slug de localidad', example: 'castro' })
+    @IsOptional()
+    @IsString()
+    @MaxLength(100)
+    localitySlug?: string;
 }

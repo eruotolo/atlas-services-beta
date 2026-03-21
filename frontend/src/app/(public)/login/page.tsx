@@ -4,7 +4,7 @@ import type React from 'react';
 import { useId, useState } from 'react';
 
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 
 import { ArrowLeft, ArrowRight, Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import { signIn } from 'next-auth/react';
@@ -17,7 +17,9 @@ export default function LoginPage() {
     const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
     const searchParams = useSearchParams();
-    const callbackUrl = searchParams.get('callbackUrl') || '/perfil';
+    const params = useParams();
+    const country = (params?.country as string) ?? 'cl';
+    const callbackUrl = searchParams.get('callbackUrl') || `/${country}/perfil`;
     const emailId = useId();
     const passwordId = useId();
 
@@ -156,7 +158,7 @@ export default function LoginPage() {
                     <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
                         ¿No tienes cuenta?{' '}
                         <Link
-                            href="/registro"
+                            href={`/${country}/registro`}
                             className="font-bold text-blue-600 hover:underline dark:text-blue-400"
                         >
                             Regístrate aquí

@@ -25,8 +25,11 @@ export class AuthController {
     @Throttle({ short: { limit: 5, ttl: 60000 } })
     @UseGuards(AuthGuard('local'))
     @ApiOperation({ summary: 'Iniciar sesión — retorna JWT' })
-    login(@CurrentUser() user: { id: string; email: string; roles: string[] }) {
-        return this.authService.login(user.id, user.email, user.roles);
+    login(
+        @CurrentUser()
+        user: { id: string; email: string; roles: string[]; adminCountries: string[] },
+    ) {
+        return this.authService.login(user.id, user.email, user.roles, user.adminCountries);
     }
 
     @Post('refresh')

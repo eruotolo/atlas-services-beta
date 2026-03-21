@@ -6,14 +6,15 @@ import Image from 'next/image';
 
 import { Image as ImageIcon, Loader2, Mail, Save, User, X } from 'lucide-react';
 
+import { LocalitySelect } from '@/features/geo/components/LocalitySelect';
 import CategoriaMultiSelect from '@/features/services/publish/components/CategoriaMultiSelect';
 import GaleriaUpload from '@/features/services/publish/components/GaleriaUpload';
+import { useCountry } from '@/lib/providers/CountryProvider';
 
 import PhoneInput from '@/shared/components/ui/PhoneInput';
 
 import { useImageUpload } from '../../../hooks/useImageUpload';
 import { useSocialNetworks } from '../../../hooks/useSocialNetworks';
-import { COMUNAS_CHILOE } from '../../../lib/constants';
 import type { Categoria, Result, Servicio } from '../../../types/shared';
 import SocialNetworksInput from '../shared/SocialNetworksInput';
 
@@ -46,10 +47,17 @@ export default function ServicioFormBase({
     submitLabel,
     usuarioActual,
 }: ServicioFormBaseProps) {
+    const { code: countryCode, regionLabel, localityLabel } = useCountry();
+
     const id = useId();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState<string[]>([]);
+    const [selectedLocality, setSelectedLocality] = useState<{
+        localitySlug: string;
+        localityName: string;
+        regionCode: string;
+    } | null>(null);
 
     // IDs para contacto
     const nombreContactoId = useId();
@@ -168,7 +176,9 @@ export default function ServicioFormBase({
             const payload = {
                 titulo: formData.get('titulo') as string,
                 categoriasIds: categoriasSeleccionadas,
-                comuna: formData.get('comuna') as string,
+                countryCode,
+                regionCode: selectedLocality?.regionCode ?? (servicio as { regionCode?: string })?.regionCode ?? '',
+                localitySlug: selectedLocality?.localitySlug ?? (servicio as { localitySlug?: string })?.localitySlug ?? '',
                 precio: Number(formData.get('precio')),
                 descripcion: formData.get('descripcion') as string,
                 imagenPrincipal: imagenPrincipalUrl,
@@ -274,25 +284,13 @@ export default function ServicioFormBase({
                 </div>
 
                 <div>
-                    <label htmlFor={`${id}-comuna`} className={labelClass}>
-                        Comuna
-                    </label>
-                    <select
-                        id={`${id}-comuna`}
-                        name="comuna"
-                        defaultValue={servicio?.comuna}
-                        required
-                        className="form-select-with-icon"
-                    >
-                        <option value="" className="dark:bg-gray-900">
-                            Seleccionar comuna...
-                        </option>
-                        {COMUNAS_CHILOE.map((comuna) => (
-                            <option key={comuna} value={comuna} className="dark:bg-gray-900">
-                                {comuna}
-                            </option>
-                        ))}
-                    </select>
+                    <span className={labelClass}>Ubicación</span>
+                    <LocalitySelect
+                        countryCode={countryCode}
+                        regionLabel={regionLabel}
+                        localityLabel={localityLabel}
+                        onSelect={setSelectedLocality}
+                    />
                 </div>
             </div>
 

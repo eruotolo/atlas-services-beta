@@ -5,7 +5,8 @@
     "scripts": {
         "dev": "concurrently --names \"backend,frontend\" --prefix-colors \"blue,green\" \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
         "dev:backend": "pnpm --filter backend dev",
-        "dev:frontend": "pnpm --filter frontend dev"
+        "dev:frontend": "pnpm --filter frontend dev",
+        "db:seed": "pnpm --filter backend db:seed"
     },
     "devDependencies": {
         "concurrently": "^9.1.2"

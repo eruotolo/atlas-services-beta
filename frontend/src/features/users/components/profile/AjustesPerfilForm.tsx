@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, Camera, Key, Loader2, Save, User } from 'lucide-react';
 
 import { actualizarPassword, actualizarPerfil } from '@/features/users/actions';
+import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
 
 interface AjustesPerfilFormProps {
     usuario: {
@@ -22,6 +23,7 @@ interface AjustesPerfilFormProps {
 
 export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
     const router = useRouter();
+    const link = useCountryLink();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // States for Profile Info
@@ -148,7 +150,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
             <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
                 <div className="flex items-center gap-4">
                     <Link
-                        href="/perfil"
+                        href={link('/perfil')}
                         className="rounded-xl border border-gray-100 bg-white p-2.5 text-gray-400 shadow-sm transition-all hover:border-blue-100 hover:text-blue-600 dark:border-white/10 dark:bg-gray-900 dark:text-gray-500 dark:hover:text-blue-400"
                     >
                         <ArrowLeft size={18} />

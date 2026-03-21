@@ -31,7 +31,19 @@ export class ServicesService {
     constructor(private readonly prisma: PrismaService) {}
 
     async findAll(query: QueryServicesDto) {
-        const { query: textQuery, category, comuna, categoriaSlug, nivel, destacado, page = 1, limit = 20 } = query;
+        const {
+            query: textQuery,
+            category,
+            comuna,
+            categoriaSlug,
+            nivel,
+            destacado,
+            page = 1,
+            limit = 20,
+            countryCode,
+            regionCode,
+            localitySlug,
+        } = query;
         const skip = (page - 1) * limit;
 
         const where: Prisma.ServiceWhereInput = {
@@ -40,6 +52,9 @@ export class ServicesService {
             ...(comuna && { commune: comuna }),
             ...(nivel && { level: nivel as ServiceLevel }),
             ...(destacado !== undefined && { featured: destacado }),
+            ...(countryCode && { country: { code: countryCode.toLowerCase() } }),
+            ...(regionCode && { region: { code: regionCode } }),
+            ...(localitySlug && { locality: { slug: localitySlug } }),
             ...(categoriaSlug && {
                 categories: { some: { category: { slug: categoriaSlug } } },
             }),
@@ -183,6 +198,35 @@ export class ServicesService {
             slug = `${base}-${counter++}`;
         }
 
+        // Resolver countryId desde countryCode
+        const country = await this.prisma.country.findUnique({
+            where: { code: dto.countryCode.toLowerCase() },
+            select: { id: true },
+        });
+        if (!country) {
+            throw new Error(`País "${dto.countryCode}" no encontrado`);
+        }
+
+        // Resolver regionId desde regionCode (opcional)
+        let regionId: string | undefined;
+        if (dto.regionCode) {
+            const region = await this.prisma.geoRegion.findFirst({
+                where: { countryId: country.id, code: dto.regionCode },
+                select: { id: true },
+            });
+            regionId = region?.id;
+        }
+
+        // Resolver localityId desde localitySlug (opcional)
+        let localityId: string | undefined;
+        if (dto.localitySlug && regionId) {
+            const locality = await this.prisma.geoLocality.findFirst({
+                where: { regionId, slug: dto.localitySlug },
+                select: { id: true },
+            });
+            localityId = locality?.id;
+        }
+
         const { categoriaIds, redesSociales, ...data } = dto;
 
         return this.prisma.service.create({
@@ -201,6 +245,9 @@ export class ServicesService {
                 featured: data.destacado ?? false,
                 endDate,
                 user: { connect: { id: userId } },
+                country: { connect: { id: country.id } },
+                ...(regionId && { region: { connect: { id: regionId } } }),
+                ...(localityId && { locality: { connect: { id: localityId } } }),
                 categories: {
                     create: categoriaIds.map((categoryId) => ({
                         category: { connect: { id: categoryId } },

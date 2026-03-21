@@ -5,6 +5,17 @@ import * as bcrypt from 'bcrypt';
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL as string });
 const prisma = new PrismaClient({ adapter });
 
+async function assignRole(userId: string, roleId: string) {
+    const existing = await prisma.userRole.findFirst({
+        where: { userId, roleId, countryId: null },
+    });
+    if (!existing) {
+        await prisma.userRole.create({
+            data: { userId, roleId },
+        });
+    }
+}
+
 export async function seedRolesUsers() {
     console.log('👥 Creando roles...');
 
@@ -14,7 +25,7 @@ export async function seedRolesUsers() {
         create: { name: 'SuperAdministrador', active: true },
     });
 
-    await prisma.role.upsert({
+    const roleUsuario = await prisma.role.upsert({
         where: { name: 'Usuario' },
         update: {},
         create: { name: 'Usuario', active: true },
@@ -35,20 +46,7 @@ export async function seedRolesUsers() {
         },
     });
 
-    await prisma.userRole.upsert({
-        where: {
-            userId_roleId: {
-                userId: adminUser.id,
-                roleId: roleSuperAdmin.id,
-            },
-        },
-        update: {},
-        create: {
-            userId: adminUser.id,
-            roleId: roleSuperAdmin.id,
-        },
-    });
-
+    await assignRole(adminUser.id, roleSuperAdmin.id);
     console.log('  ✓ Usuario SuperAdmin creado y rol asignado');
 
     console.log('👤 Creando Test Users para E2E...');
@@ -62,45 +60,18 @@ export async function seedRolesUsers() {
         },
     });
 
-    await prisma.userRole.upsert({
-        where: {
-            userId_roleId: {
-                userId: testAdminUser.id,
-                roleId: roleSuperAdmin.id,
-            },
-        },
+    await assignRole(testAdminUser.id, roleSuperAdmin.id);
+
+    const testUserUser = await prisma.user.upsert({
+        where: { email: 'test-user@chiloeservicios.cl' },
         update: {},
         create: {
-            userId: testAdminUser.id,
-            roleId: roleSuperAdmin.id,
+            email: 'test-user@chiloeservicios.cl',
+            password: await bcrypt.hash('TestPassword123!', 12),
+            name: 'Test Regular User',
         },
     });
 
-    const roleNormalUser = await prisma.role.findUnique({ where: { name: 'Usuario' } });
-    if(roleNormalUser) {
-        const testUserUser = await prisma.user.upsert({
-            where: { email: 'test-user@chiloeservicios.cl' },
-            update: {},
-            create: {
-                email: 'test-user@chiloeservicios.cl',
-                password: await bcrypt.hash('TestPassword123!', 12),
-                name: 'Test Regular User',
-            },
-        });
-
-        await prisma.userRole.upsert({
-            where: {
-                userId_roleId: {
-                    userId: testUserUser.id,
-                    roleId: roleNormalUser.id,
-                },
-            },
-            update: {},
-            create: {
-                userId: testUserUser.id,
-                roleId: roleNormalUser.id,
-            },
-        });
-    }
+    await assignRole(testUserUser.id, roleUsuario.id);
     console.log('  ✓ Test users para E2E creados y roles asignados');
 }
