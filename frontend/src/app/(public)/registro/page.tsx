@@ -3,6 +3,7 @@
 import { useActionState, useId, useState } from 'react';
 
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 import { ArrowLeft, ArrowRight, Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
 
@@ -23,6 +24,8 @@ interface RegisterState {
 }
 
 export default function RegistroPage() {
+    const params = useParams();
+    const country = (params?.country as string) ?? 'cl';
     const [showPassword, setShowPassword] = useState(false);
 
     const ids = {
@@ -110,7 +113,7 @@ export default function RegistroPage() {
                             Crear Cuenta
                         </h2>
                         <p className="mt-2 font-medium text-gray-500 dark:text-gray-400">
-                            Únete a la comunidad de Chiloé Servicios
+                            Crea tu cuenta en Atlas Servicios
                         </p>
                     </div>
 
@@ -177,7 +180,7 @@ export default function RegistroPage() {
                                 >
                                     Acepto los{' '}
                                     <Link
-                                        href="/terminos"
+                                        href={`/${country}/terminos`}
                                         target="_blank"
                                         className="font-bold text-blue-600 hover:underline dark:text-blue-400"
                                     >
@@ -185,7 +188,7 @@ export default function RegistroPage() {
                                     </Link>{' '}
                                     y la{' '}
                                     <Link
-                                        href="/privacidad"
+                                        href={`/${country}/privacidad`}
                                         target="_blank"
                                         className="font-bold text-blue-600 hover:underline dark:text-blue-400"
                                     >
@@ -214,7 +217,7 @@ export default function RegistroPage() {
                     <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
                         ¿Ya tienes cuenta?{' '}
                         <Link
-                            href="/login"
+                            href={`/${country}/login`}
                             className="font-bold text-blue-600 hover:underline dark:text-blue-400"
                         >
                             Inicia sesión

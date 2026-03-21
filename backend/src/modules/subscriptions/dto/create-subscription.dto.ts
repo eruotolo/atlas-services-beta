@@ -17,4 +17,8 @@ export class CreateSubscriptionDto {
     @IsOptional()
     @IsString()
     paymentMethod?: string;
+
+    @ApiProperty({ description: 'Código de país ISO para seleccionar gateway y precio', example: 'cl' })
+    @IsString()
+    countryCode: string;
 }

@@ -20,9 +20,20 @@ const SPONSOR_SELECT = {
 export class SponsorsService {
     constructor(private readonly prisma: PrismaService) {}
 
-    findAll() {
+    findAll(countryCode?: string) {
+        const where = countryCode
+            ? {
+                  active: true,
+                  endDate: { gte: new Date() },
+                  OR: [
+                      { countryId: null },
+                      { country: { code: countryCode.toLowerCase() } },
+                  ],
+              }
+            : { active: true, endDate: { gte: new Date() } };
+
         return this.prisma.sponsor.findMany({
-            where: { active: true, endDate: { gte: new Date() } },
+            where,
             orderBy: { level: 'asc' },
             select: SPONSOR_SELECT,
         });

@@ -17,6 +17,8 @@ import {
     Zap,
 } from 'lucide-react';
 
+import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
+
 import { eliminarServicioPropio, toggleActivoServicioPropio } from '@/features/users/actions';
 
 import Modal from '@/shared/components/admin/Modal';
@@ -87,6 +89,7 @@ interface MisServiciosProps {
 
 export default function MisServicios({ servicios, categorias, usuario }: MisServiciosProps) {
     const router = useRouter();
+    const link = useCountryLink();
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
     const [isDeleting, setIsDeleting] = useState<string | null>(null);
@@ -160,7 +163,7 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                         </p>
                     </div>
                     <Link
-                        href="/publicar"
+                        href={link('/publicar')}
                         className="flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-8 py-3 font-bold text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 dark:shadow-none"
                     >
                         <Plus size={18} /> Publicar Nuevo
@@ -284,7 +287,7 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                                     </button>
                                     {servicio.nivel === 'BASICO' && (
                                         <Link
-                                            href={`/publicar?upgrade=${servicio.id}`}
+                                            href={link(`/publicar?upgrade=${servicio.id}`)}
                                             className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-amber-200 bg-amber-50 py-2.5 text-xs font-black text-amber-700 transition-all hover:bg-amber-100 dark:border-amber-900/30 dark:bg-amber-900/20 dark:text-amber-400"
                                         >
                                             <Crown size={14} /> Actualizar a Premium
@@ -304,11 +307,11 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                         Aún no tienes servicios activos
                     </h4>
                     <p className="mx-auto mb-8 max-w-xs text-sm leading-relaxed text-gray-500 dark:text-gray-400">
-                        Publica tu oficio hoy mismo y empieza a recibir llamados de vecinos en toda
-                        la isla.
+                        Publica tu oficio hoy mismo y empieza a recibir llamados de clientes en tu
+                        zona.
                     </p>
                     <Link
-                        href="/publicar"
+                        href={link('/publicar')}
                         className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-10 py-4 font-bold text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 dark:shadow-none"
                     >
                         <Zap size={20} /> Crear mi primer aviso

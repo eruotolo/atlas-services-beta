@@ -1,7 +1,9 @@
+import 'dotenv/config';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
 
 import { seedCategories } from './categories';
+import { seedGeo } from './geo';
 import { seedPrices } from './prices';
 import { seedRolesUsers } from './roles-users';
 
@@ -12,15 +14,19 @@ async function main() {
     console.log('🌱 Iniciando seed de la base de datos...\n');
 
     try {
-        // 1. Roles y usuario admin (deben crearse primero)
+        // 1. Datos geográficos (países, regiones, localidades) — requerido por precios y servicios
+        await seedGeo();
+        console.log('');
+
+        // 2. Roles y usuario admin
         await seedRolesUsers();
         console.log('');
 
-        // 2. Categorías de servicios
+        // 3. Categorías de servicios
         await seedCategories();
         console.log('');
 
-        // 3. Planes premium
+        // 4. Planes premium (depende de países)
         await seedPrices();
         console.log('');
 

@@ -1,16 +1,3 @@
-export const COMUNAS_CHILOE = [
-    'Ancud',
-    'Castro',
-    'Chonchi',
-    'Curaco de Vélez',
-    'Dalcahue',
-    'Puqueldón',
-    'Queilén',
-    'Quellón',
-    'Quemchi',
-    'Quinchao',
-] as const;
-
 export const TIPOS_RED_SOCIAL = [
     { value: 'WEBSITE', label: 'Sitio Web' },
     { value: 'FACEBOOK', label: 'Facebook' },

@@ -1,48 +1,119 @@
-# Atlas Services — Plataforma de Servicios (Beta)
+# Atlas Services — Plataforma Multi-País de Servicios (Beta)
 
-Plataforma de servicios que conecta usuarios con proveedores de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas). Disponible en Chile, Argentina, Uruguay, Estados Unidos y España.
+Plataforma que conecta usuarios con proveedores de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas). Soporta múltiples países con routing, moneda y pasarela de pago por país.
 
----
-
-## Relación con el proyecto original
-
-Este proyecto es una refactorización de [`next-chiloeservicios`](../next-chiloeservicios), el MVP original. La funcionalidad es equivalente — mismas páginas, mismos flujos, misma UX — con una diferencia arquitectónica central: **el backend fue desacoplado en un servicio NestJS independiente**.
-
-### Diferencia central
-
-```
-next-chiloeservicios (original):
-Server Action → Prisma → PostgreSQL
-
-next-atlas-services (este proyecto):
-Server Action → apiClient (HTTP) → NestJS → Prisma → PostgreSQL
-```
+**Países activos:** Chile (`cl`), Argentina (`ar`), Uruguay (`uy`), España (`es`), Estados Unidos (`us`)
 
 ---
 
-## Comparativa de arquitecturas
+## Arquitectura general
 
-| Aspecto | `next-chiloeservicios` | `next-atlas-services` |
-|---------|------------------------|----------------------|
-| **Arquitectura** | Monolito Next.js | Next.js + NestJS separado |
-| **Base de datos** | Prisma directo desde Server Actions | Prisma vía API REST (NestJS) |
-| **Auth** | Auth.js (NextAuth) | Auth.js (NextAuth) |
-| **Pagos** | MercadoPago SDK | MercadoPago SDK |
-| **Rutas** | Idénticas | Idénticas |
-| **Features** | services, users, reviews, payments, sponsors... | Mismas features |
-| **Tests E2E** | Playwright | Playwright (135/135 ✅) |
-| **Latencia** | Cero (query directa a DB) | HTTP entre frontend → NestJS |
-| **Dev server** | `pnpm dev` (1 proceso) | `pnpm dev` (2 procesos en paralelo) |
-| **Escalabilidad** | Media (monolítico) | Alta (API-first) |
+```
+next-atlas-services/
+├── frontend/           # Next.js 16.1 + React 19
+├── backend/            # NestJS 10.4 + Prisma v7
+├── docker-database/    # PostgreSQL (desarrollo local)
+├── .doc/               # Documentación y planes de implementación
+├── package.json        # Scripts raíz (workspace pnpm)
+└── pnpm-workspace.yaml
+```
 
-### ¿Por qué el desacople?
+### Flujo de capas
 
-El desacople permite:
-- Exponer la API a terceros (apps móviles, integraciones externas)
-- Escalar frontend y backend de forma independiente
-- Reutilizar el backend desde múltiples clientes
+```
+Browser → proxy.ts → Next.js (RSC + Server Actions) → apiClient (HTTP + x-api-key) → NestJS → Prisma → PostgreSQL
+```
 
-A costa de mayor complejidad operacional (2 servidores, HTTP entre capas).
+---
+
+## Sistema Multi-País
+
+### Routing por país
+
+Toda la aplicación vive bajo el prefijo `/{country}/`. Ejemplos:
+
+| URL | Descripción |
+|-----|-------------|
+| `/cl` | Home de Chile |
+| `/cl/buscar?region=LL&locality=castro` | Búsqueda en Los Lagos, Castro |
+| `/cl/admin` | Panel admin de Chile |
+| `/ar/buscar` | Búsqueda en Argentina |
+| `/es/suscripcion-pro` | Planes premium en España (EUR) |
+
+### Detección automática de país (`proxy.ts`)
+
+En cada visita, `proxy.ts` ejecuta esta cascada de prioridad:
+
+```
+1. Cookie `atlas_country` (preferencia guardada del usuario)
+2. Header `CF-IPCountry` (Cloudflare)
+3. Header `x-vercel-ip-country` (Vercel)
+4. Header `Accept-Language` (navegador)
+5. Default: `cl`
+```
+
+El redirect ocurre **una sola vez** (primera visita). Luego la cookie persiste la preferencia.
+
+### Estructura de rutas App Router
+
+```
+app/
+├── (country)/[country]/
+│   ├── (public)/          # Rutas públicas con contexto de país
+│   │   ├── page.tsx       # Home: /cl, /ar, /es, ...
+│   │   ├── buscar/        # Búsqueda con filtros geo dinámicos
+│   │   ├── servicio/[slug]/
+│   │   ├── perfil/
+│   │   ├── publicar/
+│   │   ├── registro/
+│   │   ├── login/
+│   │   └── suscripcion-pro/
+│   └── (admin)/           # Panel admin con scope de país
+│       └── admin/
+│           ├── page.tsx   # Dashboard
+│           ├── servicios/
+│           ├── usuarios/
+│           ├── categorias/
+│           ├── precios-premium/
+│           ├── sponsors/
+│           ├── calificaciones/
+│           ├── pagos/
+│           └── interacciones/
+│
+├── (public)/              # LEGACY — solo redirects a /cl/...
+├── (admin)/               # LEGACY — re-exporters para admin
+└── api/                   # Route Handlers (auth, webhooks, upload)
+```
+
+> **Regla:** Las páginas activas son las de `(country)/[country]/`. Las de `(public)/` sin prefijo de país son redirects de fallback a `/cl/`.
+
+### Geo: países, regiones y localidades
+
+Los datos geográficos viven en la base de datos (no hardcodeados):
+
+```
+Country → GeoRegion[] → GeoLocality[]
+   cl   →   LL (Los Lagos)  →  castro, ancud, quellon, ...
+   ar   →   BA (Buenos Aires) →  mar-del-plata, la-plata, ...
+```
+
+**Frontend:** `features/geo/actions/queries.ts` — `getRegionsByCountry(code)`, `getLocalitiesByRegion(regionId)`
+
+**Backend:** `GeoModule` expone `/geo/countries/:code/regions` y `/geo/regions/:regionId/localities`
+
+> ⚠️ Las actions de geo deben usar `apiClient` (incluye `x-api-key`), no `fetch` directo.
+
+### Moneda y pasarela por país
+
+| País | Moneda | Pasarela |
+|------|--------|----------|
+| Chile (`cl`) | CLP | MercadoPago |
+| Argentina (`ar`) | ARS | MercadoPago |
+| Uruguay (`uy`) | UYU | MercadoPago |
+| España (`es`) | EUR | Stripe |
+| Estados Unidos (`us`) | USD | Stripe |
+
+Los precios premium se almacenan en moneda local por país en la tabla `PremiumPrice`.
 
 ---
 
@@ -55,13 +126,13 @@ A costa de mayor complejidad operacional (2 servidores, HTTP entre capas).
 | **Next.js** | 16.1.1 | App Router, React Server Components |
 | **React** | 19.2.3 | React Compiler habilitado |
 | **TypeScript** | ^5 | Strict mode |
-| **Tailwind CSS** | v4 | Estilos (PostCSS integration) |
-| **Auth.js (NextAuth)** | ^4.24 | Autenticación con JWT + sesiones |
-| **Zod** | ^4 | Validación de schemas |
-| **MercadoPago** | ^2.12 | Pagos y suscripciones |
+| **Tailwind CSS** | v4 | Estilos (PostCSS) |
+| **Auth.js (NextAuth)** | ^4.24 | JWT + sesiones |
+| **Zod** | ^4 | Validación |
+| **MercadoPago SDK** | ^2.12 | Pagos CL/AR/UY |
+| **Stripe SDK** | — | Pagos ES/US |
 | **Brevo** | ^3 | Email transaccional |
 | **Vercel Blob** | ^2 | Almacenamiento de imágenes |
-| **Google GenAI** | ^1.35 | Funcionalidades de IA |
 | **Biome** | 2.2.0 | Linting |
 | **Playwright** | ^1.57 | Tests E2E |
 
@@ -69,155 +140,153 @@ A costa de mayor complejidad operacional (2 servidores, HTTP entre capas).
 
 | Tecnología | Versión | Rol |
 |------------|---------|-----|
-| **NestJS** | ^10.4 | Framework backend |
+| **NestJS** | ^10.4 | Framework |
 | **Prisma ORM** | ^7.5 | Acceso a base de datos |
 | **PostgreSQL** | — | Base de datos |
-| **JWT (Passport)** | ^10.2 | Autenticación de API |
-| **Swagger** | ^7.4 | Documentación en `/api/docs` |
-| **Helmet** | ^8 | Seguridad HTTP headers |
+| **JWT (Passport)** | ^10.2 | Auth de API |
+| **Swagger** | ^7.4 | Docs en `/api/docs` |
+| **Helmet** | ^8 | Headers HTTP seguros |
 | **Throttler** | ^6.3 | Rate limiting |
-| **bcrypt** | ^5.1 | Hash de contraseñas |
-| **class-validator** | ^0.14 | Validación de DTOs |
-| **Biome** | — | Linting |
-
----
-
-## Estructura del monorepo
-
-```
-next-atlas-services/
-├── frontend/           # Aplicación Next.js
-├── backend/            # API NestJS
-├── docker-database/    # Configuración PostgreSQL
-├── .doc/               # Documentación y planes
-├── package.json        # Scripts raíz (workspace pnpm)
-└── pnpm-workspace.yaml
-```
 
 ---
 
 ## Arquitectura Frontend — DDD
 
-El frontend usa **Domain-Driven Design** para organizar el código por dominios de negocio.
-
 ```
 frontend/src/
-├── app/                    # Next.js App Router (Presentation Layer)
-│   ├── (admin)/           # Rutas administrativas
-│   ├── (public)/          # Rutas públicas
-│   └── (auth)/            # Rutas de autenticación
+├── app/                         # Next.js App Router (Presentation)
+│   ├── (country)/[country]/    # Rutas activas multi-país
+│   ├── (public)/               # Legacy redirects
+│   └── api/                    # Route Handlers
 │
-├── features/               # DOMINIOS DEL NEGOCIO
-│   ├── services/          # Servicios ofertados
-│   │   ├── actions/       # Server Actions (queries + mutations)
-│   │   ├── components/    # UI del dominio (cards, forms, admin)
-│   │   ├── hooks/         # Custom hooks
-│   │   ├── schemas/       # Validación Zod
-│   │   └── types/         # Tipos TypeScript
-│   ├── users/             # Gestión de usuarios y proveedores
-│   ├── categories/        # Categorías de servicios
-│   ├── reviews/           # Calificaciones y reseñas
-│   └── payments/          # Pagos y suscripciones
+├── features/                   # DOMINIOS DE NEGOCIO
+│   ├── geo/                   # Países, regiones, localidades
+│   │   ├── actions/           # getRegionsByCountry, getLocalitiesByRegion
+│   │   ├── components/        # LocalitySelect (cascading region→locality)
+│   │   ├── hooks/             # useCountryLink()
+│   │   ├── lib/               # countryUtils, countryLink()
+│   │   └── types/             # GeoRegion, GeoLocality, Country
+│   ├── services/              # Servicios ofertados
+│   ├── categories/            # Categorías
+│   ├── payments/              # Pagos y suscripciones
+│   ├── sponsors/              # Espacios publicitarios
+│   ├── users/                 # Perfil y gestión de usuarios
+│   └── reviews/               # Calificaciones
 │
-└── shared/                 # Shared Kernel (código entre dominios)
-    ├── components/        # Navbar, Footer, Modal
-    ├── lib/               # Utilidades globales
-    └── types/             # Tipos compartidos
+├── lib/
+│   ├── api/apiClient.ts       # HTTP client (agrega x-api-key automáticamente)
+│   └── providers/
+│       └── CountryProvider.tsx  # Context: country, currency, gateway, labels
+│
+└── shared/
+    ├── components/layout/     # Navbar, Footer, HomeHeroSection
+    └── types/common.ts        # Service, User, CategoriaServicio, etc.
 ```
 
-> Ver `frontend/README.md` para documentación completa de la arquitectura DDD, patrones aplicados y procedimiento de migraciones de base de datos.
+### Hooks y helpers de navegación
+
+```typescript
+// Client Components — lee country de useParams()
+const link = useCountryLink();
+link('/buscar') // → '/cl/buscar'
+
+// Server Components — función pura
+countryLink('cl', '/buscar') // → '/cl/buscar'
+
+// Datos del país actual (client)
+const { country, currency, gateway, regionLabel } = useCountry();
+```
 
 ---
 
 ## Arquitectura Backend — Módulos NestJS
 
 ```
-backend/src/
-├── modules/
-│   ├── auth/              # Autenticación (login, registro, JWT, refresh)
-│   ├── users/             # CRUD de usuarios
-│   ├── services/          # CRUD de servicios (con filtros y paginación)
-│   ├── categories/        # Categorías de servicios
-│   ├── ratings/           # Calificaciones y reseñas
-│   ├── subscriptions/     # Suscripciones premium
-│   ├── sponsors/          # Espacios publicitarios
-│   ├── prices/            # Gestión de precios
-│   └── interactions/      # Registro de interacciones (clicks, contactos)
-│
-├── common/
-│   ├── guards/            # JwtAuthGuard, RolesGuard, ApiKeyGuard, WebhookGuard
-│   ├── decorators/        # @CurrentUser(), @Roles()
-│   ├── filters/           # PrismaExceptionFilter
-│   └── interceptors/      # SerializeInterceptor (elimina campos sensibles)
-│
-└── prisma/                # PrismaModule + PrismaService (singleton)
+backend/src/modules/
+├── geo/           # Países, regiones, localidades (GET público)
+├── auth/          # Login, registro, JWT, refresh token
+├── users/         # CRUD usuarios (cuenta global)
+├── services/      # CRUD servicios (scoped por countryCode)
+├── categories/    # Categorías (globales o por país)
+├── prices/        # Precios premium por país y duración
+├── subscriptions/ # Suscripciones (usa precio del país del usuario)
+├── sponsors/      # Sponsors (globales o por país)
+├── ratings/       # Calificaciones y reseñas
+├── payments/      # Gateway pattern: MercadoPago | Stripe
+└── interactions/  # Clicks y contactos (analítica)
 ```
 
-### Seguridad del backend
+### Seguridad
 
-- **Helmet**: Headers HTTP seguros en todas las respuestas
-- **CORS**: Solo acepta origen del frontend (`FRONTEND_URL`)
-- **Rate limiting**: Throttler global para prevenir abuso
-- **API Key**: Guard para rutas internas (Server Actions del frontend)
-- **JWT**: Autenticación stateless para usuarios
-- **Roles**: Guard RBAC para rutas administrativas
-- **Swagger**: Solo disponible en entorno `development`
+- `ApiKeyGuard` — guard global: **todas** las rutas requieren `x-api-key` en el header
+- `JwtAuthGuard` — rutas autenticadas
+- `RolesGuard` — RBAC: `Usuario`, `Proveedor`, `Administrador`, `SuperAdministrador`
+- `CountryAdminGuard` — los admin solo acceden a datos de sus países asignados (`adminCountries[]` en JWT)
+- Helmet, CORS, Throttler configurados globalmente
+
+### Scoping de datos por país
+
+| Tabla | Scoped a país | Campo |
+|-------|--------------|-------|
+| `Service` | Sí | `countryId` (FK obligatorio) |
+| `PremiumPrice` | Sí | `countryId` (FK obligatorio) |
+| `GeoRegion` | Sí | `countryId` |
+| `GeoLocality` | Sí | via `GeoRegion.countryId` |
+| `Sponsor` | Opcional | `countryId` nullable (null = global) |
+| `Category` | Opcional | `countryCode` nullable (null = global) |
+| `User` | No | Cuenta global (sin countryId) |
+
+---
+
+## Base de datos — Seed inicial
+
+El seed puebla en orden: geo → roles/usuarios → categorías → precios.
+
+```bash
+# 1. Crear/aplicar migraciones
+pnpm --filter backend db:migrate
+
+# 2. Poblar datos iniciales (geo + roles + categorías + precios para los 5 países)
+pnpm --filter backend db:seed
+```
+
+| Comando | Cuándo |
+|---------|--------|
+| `pnpm --filter backend db:migrate` | Nueva migración en desarrollo |
+| `pnpm --filter backend db:migrate:deploy` | Producción |
+| `pnpm --filter backend db:generate` | Regenerar cliente Prisma |
+| `pnpm --filter backend db:studio` | GUI explorar datos |
+| `pnpm --filter backend db:seed` | Poblar datos iniciales |
+
+> **Regla:** Nunca usar `prisma db push`. Siempre migraciones versionadas.
 
 ---
 
 ## Comandos de desarrollo
 
 ```bash
-# Levantar todo (frontend + backend en paralelo)
-pnpm dev
-
-# Solo frontend
-pnpm dev:frontend
-
-# Solo backend
-pnpm dev:backend
+pnpm dev            # Frontend + Backend en paralelo
+pnpm dev:frontend   # Solo Next.js (puerto 3000)
+pnpm dev:backend    # Solo NestJS (puerto 4000)
 ```
-
-### URLs en desarrollo
 
 | Servicio | URL |
 |----------|-----|
-| Frontend | http://localhost:3000 |
+| Frontend | http://localhost:3000 → redirige a http://localhost:3000/cl |
 | Backend API | http://localhost:4000/api/v1 |
-| Swagger docs | http://localhost:4000/api/docs |
+| Swagger | http://localhost:4000/api/docs |
 
 ---
 
 ## Tests E2E
 
 ```bash
-# Ejecutar suite completa (135 tests)
-pnpm test:e2e
-
-# Por categoría
+pnpm test:e2e        # Suite completa
 pnpm test:security   # Seguridad de rutas y roles
 pnpm test:admin      # CRUD administrador
 pnpm test:user       # CRUD usuario autenticado
 pnpm test:guest      # Funcionalidad pública
 ```
-
-**Cobertura:** formularios públicos y privados, CRUD admin, pagos, login/logout/registro y permisos por roles.
-
----
-
-## Base de datos
-
-### Comandos (desde `/backend` o `/frontend`)
-
-| Comando | Cuándo usarlo | Dónde |
-|---------|---------------|-------|
-| `pnpm db:migrate` | Crear nueva migración | **Local** |
-| `pnpm db:migrate:deploy` | Aplicar migraciones existentes | **Producción** |
-| `pnpm db:generate` | Regenerar cliente Prisma | Local y Prod |
-| `pnpm db:studio` | Explorar datos con GUI | **Local** |
-| `pnpm db:seed` | Poblar datos iniciales | **Local** |
-
-> **Regla de oro:** Nunca usar `db:push` en producción con datos reales.
 
 ---
 
@@ -227,11 +296,12 @@ pnpm test:guest      # Funcionalidad pública
 
 ```env
 NEXT_PUBLIC_API_URL="http://localhost:4000/api/v1"
-NEXT_PUBLIC_API_KEY="..."
+NEXT_PUBLIC_API_KEY="..."        # Mismo valor que API_KEY del backend
 AUTH_SECRET="..."
 AUTH_URL="http://localhost:3000"
-NEXT_PUBLIC_MP_PUBLIC_KEY="..."
+NEXT_PUBLIC_MP_PUBLIC_KEY="..."  # MercadoPago (CL/AR/UY)
 MP_ACCESS_TOKEN="..."
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
 BREVO_API_KEY="..."
 ```
 
@@ -242,8 +312,7 @@ PORT=4000
 NODE_ENV=development
 DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE"
 JWT_SECRET="..."
-JWT_REFRESH_SECRET="..."
-API_KEY="..."
+API_KEY="..."                    # Mismo valor que NEXT_PUBLIC_API_KEY del frontend
 FRONTEND_URL="http://localhost:3000"
 ```
 
@@ -251,12 +320,9 @@ FRONTEND_URL="http://localhost:3000"
 
 ## Gestión de paquetes
 
-Siempre usar `pnpm`. Nunca `npm` ni `yarn`.
+Siempre `pnpm`. Nunca `npm` ni `yarn`.
 
 ```bash
-# Instalar dependencia en frontend
 pnpm --filter frontend add <paquete>
-
-# Instalar dependencia en backend
 pnpm --filter backend add <paquete>
 ```

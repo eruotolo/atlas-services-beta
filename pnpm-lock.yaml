@@ -77,6 +77,9 @@ importers:
       rxjs:
         specifier: ^7.8.1
         version: 7.8.2
+      stripe:
+        specifier: ^20.4.1
+        version: 20.4.1(@types/node@22.19.15)
     devDependencies:
       '@nestjs/cli':
         specifier: ^10.4.9
@@ -108,9 +111,6 @@ importers:
       dotenv:
         specifier: ^17.3.1
         version: 17.3.1
-      dotenv-cli:
-        specifier: ^11.0.0
-        version: 11.0.0
       prettier:
         specifier: ^3.8.1
         version: 3.8.1
@@ -168,6 +168,9 @@ importers:
       react-icons:
         specifier: ^5.5.0
         version: 5.6.0(react@19.2.3)
+      stripe:
+        specifier: ^20.4.1
+        version: 20.4.1(@types/node@20.19.37)
       zod:
         specifier: ^4.3.5
         version: 4.3.6
@@ -1845,16 +1848,8 @@ packages:
     resolution: {integrity: sha512-yS+Q5i3hBf7GBkd4KG8a7eBNNWNGLTaEwwYWUijIYM7zrlYDM0BFXHjjPWlWZ1Rg7UaddZeIDmi9jF3HmqiQ2w==}
     engines: {node: '>=6.0.0'}
 
-  dotenv-cli@11.0.0:
-    resolution: {integrity: sha512-r5pA8idbk7GFWuHEU7trSTflWcdBpQEK+Aw17UrSHjS6CReuhrrPcyC3zcQBPQvhArRHnBo/h6eLH1fkCvNlww==}
-    hasBin: true
-
   dotenv-expand@10.0.0:
     resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
-    engines: {node: '>=12'}
-
-  dotenv-expand@12.0.3:
-    resolution: {integrity: sha512-uc47g4b+4k/M/SeaW1y4OApx+mtLWl92l5LMPP0GNXctZqELk+YGgOPIIC5elYmUH4OuoK3JLhuRUYegeySiFA==}
     engines: {node: '>=12'}
 
   dotenv@16.4.5:
@@ -3457,6 +3452,15 @@ packages:
   strip-json-comments@3.1.1:
     resolution: {integrity: sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==}
     engines: {node: '>=8'}
+
+  stripe@20.4.1:
+    resolution: {integrity: sha512-axCguHItc8Sxt0HC6aSkdVRPffjYPV7EQqZRb2GkIa8FzWDycE7nHJM19C6xAIynH1Qp1/BHiopSi96jGBxT0w==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@types/node': '>=16'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
 
   strtok3@10.3.4:
     resolution: {integrity: sha512-KIy5nylvC5le1OdaaoCJ07L+8iQzJHGH6pWDuzS+d07Cu7n1MZ2x26P8ZKIWfbK02+XIL8Mp4RkWeqdUCrDMfg==}
@@ -5348,18 +5352,7 @@ snapshots:
     dependencies:
       esutils: 2.0.3
 
-  dotenv-cli@11.0.0:
-    dependencies:
-      cross-spawn: 7.0.6
-      dotenv: 17.3.1
-      dotenv-expand: 12.0.3
-      minimist: 1.2.8
-
   dotenv-expand@10.0.0: {}
-
-  dotenv-expand@12.0.3:
-    dependencies:
-      dotenv: 16.6.1
 
   dotenv@16.4.5: {}
 
@@ -6988,6 +6981,14 @@ snapshots:
   strip-bom@3.0.0: {}
 
   strip-json-comments@3.1.1: {}
+
+  stripe@20.4.1(@types/node@20.19.37):
+    optionalDependencies:
+      '@types/node': 20.19.37
+
+  stripe@20.4.1(@types/node@22.19.15):
+    optionalDependencies:
+      '@types/node': 22.19.15
 
   strtok3@10.3.4:
     dependencies:

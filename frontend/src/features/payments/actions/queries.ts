@@ -49,24 +49,30 @@ export const getPagoReciente = cache(async () => {
     return null;
 });
 
-export const obtenerPreciosPremiumActivos = cache(async (): Promise<PrecioPremium[]> => {
-    try {
-        const result = await apiClient.get<BackendPrecioDto[]>('/prices', {
-            revalidate: 300,
-            tags: ['precios-premium'],
-        });
-        return (result ?? []).map(mapPrecioDto);
-    } catch (error) {
-        console.error('Error obteniendo precios premium:', error);
-        return [];
-    }
-});
+export const obtenerPreciosPremiumActivos = cache(
+    async (countryCode = 'cl'): Promise<PrecioPremium[]> => {
+        try {
+            const result = await apiClient.get<BackendPrecioDto[]>(
+                `/prices?countryCode=${countryCode}`,
+                {
+                    revalidate: 300,
+                    tags: [`precios-premium-${countryCode}`],
+                },
+            );
+            return (result ?? []).map(mapPrecioDto);
+        } catch (error) {
+            console.error('Error obteniendo precios premium:', error);
+            return [];
+        }
+    },
+);
 
 export const getAdminPreciosPremium = cache(
-    async (page = 1, limit = 10, _search?: string) => {
+    async (page = 1, limit = 10, _search?: string, countryCode?: string) => {
         try {
             const token = await getAuthToken();
-            const result = await apiClient.get<BackendPrecioDto[]>('/prices', {
+            const url = countryCode ? `/prices?countryCode=${countryCode}` : '/prices';
+            const result = await apiClient.get<BackendPrecioDto[]>(url, {
                 token,
                 revalidate: 0,
             });

@@ -19,9 +19,13 @@ const CATEGORY_SELECT = {
 export class CategoriesService {
     constructor(private readonly prisma: PrismaService) {}
 
-    findAll() {
+    findAll(countryCode?: string) {
+        const where: Prisma.ServiceCategoryWhereInput = countryCode
+            ? { active: true, OR: [{ countryCode: null }, { countryCode: countryCode.toLowerCase() }] }
+            : { active: true };
+
         return this.prisma.serviceCategory.findMany({
-            where: { active: true },
+            where,
             orderBy: { order: 'asc' },
             select: CATEGORY_SELECT,
         });

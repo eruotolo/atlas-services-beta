@@ -1,4 +1,4 @@
-import { Comuna, type Service, SubscriptionLevel, type User } from '@/shared/types/common';
+import { type Service, SubscriptionLevel, type User } from '@/shared/types/common';
 
 export const mockUsers: User[] = [
     {
@@ -29,7 +29,7 @@ export const mockServices: Service[] = [
         description:
             'Reparación de filtraciones, mantención de calefont y destapes. Atiendo en todo Castro y alrededores.',
         price: 25000,
-        comuna: Comuna.CASTRO,
+        comuna: 'Castro',
         rating: 4.8,
         reviewsCount: 15,
         image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=800',
@@ -45,7 +45,7 @@ export const mockServices: Service[] = [
         categoryId: 'carpinteria',
         description: 'Especialista en maderas nativas y diseños modernos para tu cocina chilota.',
         price: 45000,
-        comuna: Comuna.ANCUD,
+        comuna: 'Ancud',
         rating: 4.5,
         reviewsCount: 8,
         image: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800',
@@ -62,7 +62,7 @@ export const mockServices: Service[] = [
         description:
             'Servicio de flete rápido con camión de 2 toneladas. Carga y descarga incluida.',
         price: 35000,
-        comuna: Comuna.CHONCHI,
+        comuna: 'Chonchi',
         rating: 5.0,
         reviewsCount: 5,
         image: 'https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=800',
@@ -78,7 +78,7 @@ export const mockServices: Service[] = [
         categoryId: 'electricista',
         description: 'Aumento de capacidad, tableros y cableado nuevo. Trabajo garantizado.',
         price: 20000,
-        comuna: Comuna.DALCAHUE,
+        comuna: 'Dalcahue',
         rating: 4.2,
         reviewsCount: 10,
         image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800',

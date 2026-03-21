@@ -106,21 +106,26 @@ export async function seedCategories() {
 
     for (let index = 0; index < categories.length; index++) {
         const cat = categories[index];
-        await prisma.serviceCategory.upsert({
-            where: { slug: cat.slug },
-            update: {
-                name: cat.name,
-                icon: cat.icon,
-                order: index + 1,
-            },
-            create: {
-                name: cat.name,
-                slug: cat.slug,
-                icon: cat.icon,
-                order: index + 1,
-                active: true,
-            },
+        const existing = await prisma.serviceCategory.findFirst({
+            where: { slug: cat.slug, countryCode: null },
         });
+
+        if (existing) {
+            await prisma.serviceCategory.update({
+                where: { id: existing.id },
+                data: { name: cat.name, icon: cat.icon, order: index + 1 },
+            });
+        } else {
+            await prisma.serviceCategory.create({
+                data: {
+                    name: cat.name,
+                    slug: cat.slug,
+                    icon: cat.icon,
+                    order: index + 1,
+                    active: true,
+                },
+            });
+        }
     }
 
 

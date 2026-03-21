@@ -40,7 +40,7 @@ export class AuthService {
             select: { id: true, email: true, name: true, createdAt: true },
         });
 
-        return this.buildTokens(user.id, user.email, []);
+        return this.buildTokens(user.id, user.email, [], []);
     }
 
     async validateCredentials(email: string, password: string) {
@@ -51,7 +51,12 @@ export class AuthService {
                 email: true,
                 name: true,
                 password: true,
-                roles: { select: { role: { select: { name: true } } } },
+                roles: {
+                    select: {
+                        role: { select: { name: true } },
+                        country: { select: { code: true } },
+                    },
+                },
             },
         });
 
@@ -61,18 +66,20 @@ export class AuthService {
         if (!valid) return null;
 
         const roles = user.roles.map((r) => r.role.name);
-        return { id: user.id, email: user.email, nombre: user.name, roles };
+        const adminCountries = user.roles
+            .filter((r) => r.country !== null)
+            .map((r) => r.country!.code);
+        return { id: user.id, email: user.email, nombre: user.name, roles, adminCountries };
     }
 
-    async login(userId: string, email: string, roles: string[]) {
-        // Incluir datos del usuario en la respuesta para el frontend
+    async login(userId: string, email: string, roles: string[], adminCountries: string[]) {
         const user = await this.prisma.user.findUnique({
             where: { id: userId },
             select: { id: true, email: true, name: true, phone: true },
         });
         if (!user) throw new UnauthorizedException('Usuario no encontrado');
-        const tokens = this.buildTokens(userId, email, roles);
-        return { ...tokens, user: { ...user, roles } };
+        const tokens = this.buildTokens(userId, email, roles, adminCountries);
+        return { ...tokens, user: { ...user, roles, adminCountries } };
     }
 
     async refresh(refreshToken: string) {
@@ -87,21 +94,29 @@ export class AuthService {
                 select: {
                     id: true,
                     email: true,
-                    roles: { select: { role: { select: { name: true } } } },
+                    roles: {
+                        select: {
+                            role: { select: { name: true } },
+                            country: { select: { code: true } },
+                        },
+                    },
                 },
             });
 
             if (!user) throw new UnauthorizedException();
 
             const roles = user.roles.map((r) => r.role.name);
-            return this.buildTokens(user.id, user.email, roles);
+            const adminCountries = user.roles
+                .filter((r) => r.country !== null)
+                .map((r) => r.country!.code);
+            return this.buildTokens(user.id, user.email, roles, adminCountries);
         } catch {
             throw new UnauthorizedException('Refresh token inválido o expirado');
         }
     }
 
-    private buildTokens(sub: string, email: string, roles: string[]) {
-        const payload = { sub, email, roles };
+    private buildTokens(sub: string, email: string, roles: string[], adminCountries: string[]) {
+        const payload = { sub, email, roles, adminCountries };
 
         const accessToken = this.jwt.sign(payload, {
             secret: this.config.getOrThrow<string>('JWT_SECRET'),

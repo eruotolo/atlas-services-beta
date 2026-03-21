@@ -12,18 +12,6 @@ export enum SubscriptionLevel {
     PREMIUM = 'Premium',
 }
 
-export enum Comuna {
-    CASTRO = 'Castro',
-    ANCUD = 'Ancud',
-    QUELLON = 'Quellón',
-    DALCAHUE = 'Dalcahue',
-    CHONCHI = 'Chonchi',
-    CURACO = 'Curaco de Vélez',
-    PUQUELDON = 'Puqueldón',
-    QUEILEN = 'Queilén',
-    QUEMCHI = 'Quemchi',
-    QUINCHAO = 'Quinchao',
-}
 
 export interface User {
     id: string;
@@ -47,7 +35,12 @@ export interface Service {
     }>;
     description: string;
     price: number;
-    comuna: Comuna;
+    /** @deprecated Usar commune (string) para soporte multi-país */
+    comuna: string;
+    commune?: string;
+    countryCode?: string;
+    regionCode?: string;
+    localitySlug?: string;
     rating: number;
     reviewsCount: number;
     image: string;

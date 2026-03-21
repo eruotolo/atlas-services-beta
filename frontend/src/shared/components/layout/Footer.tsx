@@ -1,12 +1,18 @@
+'use client';
+
 import type React from 'react';
 
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
-import { FaHeart, FaInstagram, FaMapPin, FaWhatsapp, FaYoutube } from 'react-icons/fa';
+import { FaHeart, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa';
 
 import Logo from './Logo';
 
 const Footer: React.FC = () => {
+    const params = useParams();
+    const country = (params?.country as string) ?? 'cl';
+
     return (
         <footer className="border-border bg-background border-t pt-16 pb-8">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -16,13 +22,13 @@ const Footer: React.FC = () => {
                             <Logo className="h-10 w-auto" />
                         </div>
                         <p className="pr-4 text-sm leading-relaxed text-gray-600 dark:text-gray-500">
-                            Conectamos el talento local del archipiélago con soluciones reales. La
-                            red más grande de servicios en la Isla Grande.
+                            Conectamos profesionales locales con quienes necesitan sus servicios.
+                            Encuentra expertos verificados cerca de ti.
                         </p>
 
                         <div className="mt-6 flex gap-4">
                             <a
-                                href="https://www.instagram.com/chiloeservicios/"
+                                href="https://www.instagram.com/atlasservicios/"
                                 className="text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 target="_blank"
                                 rel="noopener"
@@ -39,7 +45,7 @@ const Footer: React.FC = () => {
                                 <FaWhatsapp size={20} />
                             </a>
                             <a
-                                href="https://www.youtube.com/@Chilo%C3%A9Servicios"
+                                href="https://www.youtube.com/@AtlasServicios"
                                 className="text-gray-400 transition-colors hover:text-red-600 dark:hover:text-red-400"
                                 aria-label="YouTube"
                                 target="_blank"
@@ -57,7 +63,7 @@ const Footer: React.FC = () => {
                         <ul className="space-y-4 text-sm text-gray-600 dark:text-gray-500">
                             <li>
                                 <Link
-                                    href="/quienes-somos"
+                                    href={`/${country}/quienes-somos`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                     Quiénes somos
@@ -65,7 +71,7 @@ const Footer: React.FC = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/como-funciona"
+                                    href={`/${country}/como-funciona`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                     ¿Cómo funciona?
@@ -73,7 +79,7 @@ const Footer: React.FC = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/publicar"
+                                    href={`/${country}/publicar`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                     Publicar un servicio
@@ -81,7 +87,7 @@ const Footer: React.FC = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/suscripcion-pro"
+                                    href={`/${country}/suscripcion-pro`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                     Suscripciones Pro
@@ -97,7 +103,7 @@ const Footer: React.FC = () => {
                         <ul className="space-y-4 text-sm text-gray-600 dark:text-gray-500">
                             <li>
                                 <Link
-                                    href="/ayuda"
+                                    href={`/${country}/ayuda`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                     Centro de ayuda
@@ -105,7 +111,7 @@ const Footer: React.FC = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/terminos"
+                                    href={`/${country}/terminos`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                     Términos legales
@@ -113,7 +119,7 @@ const Footer: React.FC = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/privacidad"
+                                    href={`/${country}/privacidad`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                     Privacidad
@@ -121,7 +127,7 @@ const Footer: React.FC = () => {
                             </li>
                             <li>
                                 <Link
-                                    href="/contacto"
+                                    href={`/${country}/contacto`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                     Contacto
@@ -132,16 +138,18 @@ const Footer: React.FC = () => {
 
                     <div className="border-border bg-muted rounded-[2rem] border p-6">
                         <h4 className="mb-4 text-sm font-bold text-blue-900 italic dark:text-blue-300">
-                            ¿Vives en las islas menores?
+                            ¿Eres profesional independiente?
                         </h4>
                         <p className="mb-4 text-xs leading-relaxed text-blue-700 dark:text-blue-400">
-                            Estamos expandiendo nuestra red a Quinchao, Lemuy y el archipiélago de
-                            las Guaitecas.
+                            Publica tus servicios y llega a más clientes en tu zona. Registro
+                            gratuito.
                         </p>
-                        <div className="flex items-center gap-2 text-[10px] font-black tracking-tighter text-blue-600 uppercase dark:text-blue-400">
-                            <FaMapPin size={12} />
-                            <span>Chiloé, Región de los Lagos</span>
-                        </div>
+                        <Link
+                            href={`/${country}/publicar`}
+                            className="text-[10px] font-black tracking-tighter text-blue-600 uppercase hover:underline dark:text-blue-400"
+                        >
+                            Publicar mi servicio →
+                        </Link>
                     </div>
                 </div>
 
@@ -160,7 +168,7 @@ const Footer: React.FC = () => {
                     <p className="mt-4 flex items-center gap-1 md:mt-0">
                         Hecho con{' '}
                         <FaHeart size={14} className="animate-pulse fill-red-500 text-red-500" /> en
-                        el Archipiélago
+                        América
                     </p>
                 </div>
             </div>

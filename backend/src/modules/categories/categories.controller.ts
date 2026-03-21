@@ -15,9 +15,10 @@ export class CategoriesController {
     constructor(private readonly service: CategoriesService) {}
 
     @Get()
-    @ApiOperation({ summary: 'Listar categorías activas' })
-    findAll() {
-        return this.service.findAll();
+    @ApiOperation({ summary: 'Listar categorías activas (globales + las del país si se pasa countryCode)' })
+    @ApiQuery({ name: 'countryCode', required: false, type: String, example: 'cl' })
+    findAll(@Query('countryCode') countryCode?: string) {
+        return this.service.findAll(countryCode);
     }
 
     @Get('admin')
