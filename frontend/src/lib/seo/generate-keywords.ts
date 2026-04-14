@@ -2,93 +2,113 @@ import { getCategorias } from '@/features/categories/actions';
 
 /**
  * Genera keywords dinámicas para SEO basadas en:
+ * - País del usuario (multi-país)
  * - Categorías activas en la base de datos
  * - Long-tail keywords automáticas
  */
-export async function generateDynamicKeywords(): Promise<string[]> {
+
+const COUNTRY_CONFIG: Record<string, { name: string; regions: string[] }> = {
+    cl: {
+        name: 'Chile',
+        regions: ['Santiago', 'Valparaíso', 'Concepción', 'La Serena', 'Temuco'],
+    },
+    ar: {
+        name: 'Argentina',
+        regions: ['Buenos Aires', 'Córdoba', 'Rosario', 'Mendoza', 'Tucumán'],
+    },
+    uy: {
+        name: 'Uruguay',
+        regions: ['Montevideo', 'Punta del Este', 'Salto', 'Colonia', 'Rivera'],
+    },
+    es: {
+        name: 'España',
+        regions: ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao'],
+    },
+    us: {
+        name: 'Estados Unidos',
+        regions: ['Miami', 'Houston', 'Los Angeles', 'New York', 'Chicago'],
+    },
+};
+
+export async function generateDynamicKeywords(countryCode = 'cl'): Promise<string[]> {
     try {
         const keywords: string[] = [];
+        const config = COUNTRY_CONFIG[countryCode] ?? COUNTRY_CONFIG.cl;
 
         // 1. Keywords base (siempre presentes)
         const baseKeywords = [
-            'Chiloé Servicios',
-            'Directorio de servicios Chiloé',
-            'Profesionales en Chiloé',
-            'Servicios hogar Chiloé',
-            'Datos de maestros Chiloé',
-            'Isla de Chiloé',
-            'Región de Los Lagos',
+            'Atlas Services',
+            `Directorio de servicios ${config.name}`,
+            `Profesionales en ${config.name}`,
+            `Servicios hogar ${config.name}`,
+            'Encontrar profesionales',
+            'Directorio profesional',
         ];
         keywords.push(...baseKeywords);
 
         // 2. Obtener categorías activas desde la API
-        const categorias = await getCategorias();
+        const categorias = await getCategorias(countryCode);
 
         // 3. Keywords de categorías (oficios principales)
         for (const categoria of categorias) {
             keywords.push(categoria.nombre);
             keywords.push(`${categoria.nombre} a domicilio`);
-            keywords.push(`${categoria.nombre} en Chiloé`);
+            keywords.push(`${categoria.nombre} en ${config.name}`);
             keywords.push(`${categoria.nombre} profesional`);
         }
 
-        // 4. Comunas principales para combinaciones (Castro, Ancud, Quellón)
-        const comunasPrincipales = ['Castro', 'Ancud', 'Quellón', 'Dalcahue', 'Chonchi', 'Achao', 'Queilen', 'Quemchi', 'Curaco de Vélez', 'Puqueldón'];
-
-        // Generar combinaciones de las primeras 10 categorías (como top categorías)
+        // 4. Regiones principales para combinaciones
         const topCategorias = categorias.slice(0, 10);
         for (const categoria of topCategorias) {
-            for (const comuna of ['Castro', 'Ancud', 'Quellón']) {
-                keywords.push(`${categoria.nombre} en ${comuna}`);
-                keywords.push(`${categoria.nombre} ${comuna}`);
+            for (const region of config.regions.slice(0, 3)) {
+                keywords.push(`${categoria.nombre} en ${region}`);
+                keywords.push(`${categoria.nombre} ${region}`);
             }
         }
 
-        // 6. Keywords de ubicación (geolocalización)
-        for (const comuna of comunasPrincipales) {
-            keywords.push(`Servicios en ${comuna}`);
+        // 5. Keywords de ubicación
+        for (const region of config.regions) {
+            keywords.push(`Servicios en ${region}`);
         }
 
-        // 7. Keywords de intención/urgencia
+        // 6. Keywords de intención/urgencia
         const intencionKeywords = [
-            'Maestros urgentes 24 horas',
+            'Profesionales urgentes 24 horas',
             'Emergencias eléctricas',
             'Gasfitería de urgencia',
-            'Presupuestos gratis construcción',
+            'Presupuestos gratis',
             'Mano de obra calificada',
             'Servicios a domicilio',
             'Profesionales verificados',
         ];
         keywords.push(...intencionKeywords);
 
-        // 8. Long-tail keywords específicas
+        // 7. Long-tail keywords específicas
         const specificKeywords = [
             'Reparación de calefont e instalaciones',
             'Destape de alcantarillado y desagües',
             'Instalación eléctrica domiciliaria',
             'Arreglo de techos y goteras',
-            'Limpieza de caños y estufas a pellet',
-            'Construcción de cabañas y ampliaciones',
+            'Construcción y ampliaciones',
             'Mantenimiento general de viviendas',
-            'Corte de pasto y limpieza de parcelas',
+            'Corte de pasto y paisajismo',
         ];
         keywords.push(...specificKeywords);
 
-        // 9. Eliminar duplicados y retornar
+        // 8. Eliminar duplicados y retornar
         return Array.from(new Set(keywords));
     } catch (error) {
         console.error('Error generating dynamic keywords:', error);
 
         // Fallback a keywords estáticas básicas en caso de error
         return [
-            'Chiloé Servicios',
-            'Directorio de servicios Chiloé',
-            'Profesionales en Chiloé',
+            'Atlas Services',
+            'Directorio de servicios profesionales',
+            'Profesionales verificados',
             'Gasfíter',
             'Electricista',
             'Carpintero',
-            'Servicios en Castro',
-            'Servicios en Ancud',
+            'Servicios a domicilio',
         ];
     }
 }
@@ -106,28 +126,31 @@ export function generateServiceKeywords(
         comuna,
         title,
         `${categoryName} en ${comuna}`,
-        `${categoryName} Chiloé`,
+        `${categoryName} profesional`,
         `${categoryName} ${comuna}`,
         'servicios profesionales',
-        'Isla de Chiloé',
+        'Atlas Services',
         `${categoryName} a domicilio`,
         `${categoryName} verificado`,
     ];
 }
 
 /**
- * Genera keywords para página de categoría
+ * Genera keywords para página de categoría (multi-país)
  */
-export function generateCategoryPageKeywords(categoryName: string): string[] {
-    const comunas = ['Castro', 'Ancud', 'Quellón', 'Dalcahue', 'Chonchi'];
+export function generateCategoryPageKeywords(
+    categoryName: string,
+    countryCode = 'cl',
+): string[] {
+    const config = COUNTRY_CONFIG[countryCode] ?? COUNTRY_CONFIG.cl;
 
     return [
         categoryName,
-        `${categoryName} en Chiloé`,
+        `${categoryName} en ${config.name}`,
         `${categoryName} profesional`,
         `${categoryName} a domicilio`,
         `Directorio ${categoryName}`,
-        ...comunas.map((comuna) => `${categoryName} en ${comuna}`),
+        ...config.regions.map((region) => `${categoryName} en ${region}`),
         `Encontrar ${categoryName}`,
         `Contratar ${categoryName}`,
         `${categoryName} verificado`,

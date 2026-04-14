@@ -12,7 +12,7 @@ import ContactButtons from './ContactButtons';
 import ImageGallery from './ImageGallery';
 import ProviderContactInfo from './ProviderContactInfo';
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://chiloeservicios.cl';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.atlasservicios.com';
 
 export async function generateMetadata({
     params,
@@ -35,7 +35,7 @@ export async function generateMetadata({
             ? `${service.description.substring(0, 152)}...`
             : service.description;
 
-    const ogImage = service.imagenPrincipal || `${baseUrl}/bg-chiloe-01.png`;
+    const ogImage = service.imagenPrincipal || `${baseUrl}/bg-chiloe-01.png`; // TODO: rename to atlas-og.png
 
     return {
         title,
@@ -45,9 +45,9 @@ export async function generateMetadata({
             service.comuna,
             service.title,
             `${service.category} en ${service.comuna}`,
-            `${service.category} Chiloé`,
             'servicios profesionales',
-            'Isla de Chiloé',
+            'Atlas Services',
+            'profesionales verificados',
         ],
         openGraph: {
             title,
@@ -63,7 +63,7 @@ export async function generateMetadata({
                 },
             ],
             locale: 'es_CL',
-            siteName: 'Chiloé Servicios',
+            siteName: 'Atlas Services',
         },
         twitter: {
             card: 'summary_large_image',
@@ -512,7 +512,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                             {/* Sidebar Ad Banner */}
                             <div className="rounded-[2rem] border border-blue-100 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 text-center md:rounded-3xl dark:border-blue-900/30 dark:from-blue-900/20 dark:to-indigo-900/20">
                                 <h5 className="mb-2 text-sm font-bold text-blue-900 md:text-base dark:text-blue-200">
-                                    Garantía Chilota
+                                    Garantía Atlas
                                 </h5>
                                 <p className="text-[10px] leading-relaxed text-blue-700 md:text-xs dark:text-blue-400">
                                     Contrata tranquilo. Si el trabajo no es lo que esperabas,

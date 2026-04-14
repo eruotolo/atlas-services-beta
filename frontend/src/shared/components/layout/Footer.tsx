@@ -1,17 +1,41 @@
 'use client';
 
+import { useState } from 'react';
+
 import type React from 'react';
 
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 
 import { FaHeart, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa';
 
+import { useDictionary } from '@/lib/i18n/useDictionary';
+
 import Logo from './Logo';
+
+const COUNTRY_OPTIONS = [
+    { code: 'cl', flag: '🇨🇱', name: 'Chile' },
+    { code: 'ar', flag: '🇦🇷', name: 'Argentina' },
+    { code: 'uy', flag: '🇺🇾', name: 'Uruguay' },
+    { code: 'es', flag: '🇪🇸', name: 'España' },
+    { code: 'us', flag: '🇺🇸', name: 'United States' },
+] as const;
 
 const Footer: React.FC = () => {
     const params = useParams();
+    const router = useRouter();
     const country = (params?.country as string) ?? 'cl';
+    const dict = useDictionary();
+    const [showCountryMenu, setShowCountryMenu] = useState(false);
+
+    const currentCountry = COUNTRY_OPTIONS.find((o) => o.code === country) ?? COUNTRY_OPTIONS[0];
+
+    function handleCountryChange(newCountry: string): void {
+        // biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API no disponible en todos los navegadores
+        document.cookie = `atlas_country=${newCountry}; path=/; max-age=31536000; SameSite=Lax`;
+        setShowCountryMenu(false);
+        router.push(`/${newCountry}`);
+    }
 
     return (
         <footer className="border-border bg-background border-t pt-16 pb-8">
@@ -22,8 +46,7 @@ const Footer: React.FC = () => {
                             <Logo className="h-10 w-auto" />
                         </div>
                         <p className="pr-4 text-sm leading-relaxed text-gray-600 dark:text-gray-500">
-                            Conectamos profesionales locales con quienes necesitan sus servicios.
-                            Encuentra expertos verificados cerca de ti.
+                            {dict.footer.tagline}
                         </p>
 
                         <div className="mt-6 flex gap-4">
@@ -58,7 +81,7 @@ const Footer: React.FC = () => {
 
                     <div>
                         <h4 className="mb-6 text-xs font-bold tracking-widest text-blue-600 text-gray-900 uppercase dark:text-gray-100">
-                            Plataforma
+                            {dict.footer.platform}
                         </h4>
                         <ul className="space-y-4 text-sm text-gray-600 dark:text-gray-500">
                             <li>
@@ -66,7 +89,7 @@ const Footer: React.FC = () => {
                                     href={`/${country}/quienes-somos`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
-                                    Quiénes somos
+                                    {dict.footer.aboutUs}
                                 </Link>
                             </li>
                             <li>
@@ -74,7 +97,7 @@ const Footer: React.FC = () => {
                                     href={`/${country}/como-funciona`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
-                                    ¿Cómo funciona?
+                                    {dict.footer.howItWorks}
                                 </Link>
                             </li>
                             <li>
@@ -82,7 +105,7 @@ const Footer: React.FC = () => {
                                     href={`/${country}/publicar`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
-                                    Publicar un servicio
+                                    {dict.footer.publishService}
                                 </Link>
                             </li>
                             <li>
@@ -90,7 +113,7 @@ const Footer: React.FC = () => {
                                     href={`/${country}/suscripcion-pro`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
-                                    Suscripciones Pro
+                                    {dict.footer.proSubscriptions}
                                 </Link>
                             </li>
                         </ul>
@@ -98,7 +121,7 @@ const Footer: React.FC = () => {
 
                     <div>
                         <h4 className="mb-6 text-xs font-bold tracking-widest text-blue-600 text-gray-900 uppercase dark:text-gray-100">
-                            Soporte
+                            {dict.footer.support}
                         </h4>
                         <ul className="space-y-4 text-sm text-gray-600 dark:text-gray-500">
                             <li>
@@ -106,7 +129,7 @@ const Footer: React.FC = () => {
                                     href={`/${country}/ayuda`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
-                                    Centro de ayuda
+                                    {dict.footer.helpCenter}
                                 </Link>
                             </li>
                             <li>
@@ -114,7 +137,7 @@ const Footer: React.FC = () => {
                                     href={`/${country}/terminos`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
-                                    Términos legales
+                                    {dict.footer.terms}
                                 </Link>
                             </li>
                             <li>
@@ -122,7 +145,7 @@ const Footer: React.FC = () => {
                                     href={`/${country}/privacidad`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
-                                    Privacidad
+                                    {dict.footer.privacy}
                                 </Link>
                             </li>
                             <li>
@@ -130,7 +153,7 @@ const Footer: React.FC = () => {
                                     href={`/${country}/contacto`}
                                     className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
                                 >
-                                    Contacto
+                                    {dict.footer.contact}
                                 </Link>
                             </li>
                         </ul>
@@ -138,24 +161,23 @@ const Footer: React.FC = () => {
 
                     <div className="border-border bg-muted rounded-[2rem] border p-6">
                         <h4 className="mb-4 text-sm font-bold text-blue-900 italic dark:text-blue-300">
-                            ¿Eres profesional independiente?
+                            {dict.footer.proCalloutTitle}
                         </h4>
                         <p className="mb-4 text-xs leading-relaxed text-blue-700 dark:text-blue-400">
-                            Publica tus servicios y llega a más clientes en tu zona. Registro
-                            gratuito.
+                            {dict.footer.proCalloutDesc}
                         </p>
                         <Link
                             href={`/${country}/publicar`}
                             className="text-[10px] font-black tracking-tighter text-blue-600 uppercase hover:underline dark:text-blue-400"
                         >
-                            Publicar mi servicio →
+                            {dict.footer.proCalloutCta}
                         </Link>
                     </div>
                 </div>
 
-                <div className="border-border flex flex-col items-center justify-between border-t pt-8 text-[10px] font-bold tracking-widest text-gray-500 uppercase md:flex-row dark:text-gray-600">
+                <div className="border-border flex flex-col items-center justify-between gap-4 border-t pt-8 text-[10px] font-bold tracking-widest text-gray-500 uppercase md:flex-row dark:text-gray-600">
                     <p>
-                        Todos los derechos reservados © 2026{' '}
+                        {dict.footer.rights} © 2026{' '}
                         <a
                             href="https://crowadvance.com/"
                             target="_blank"
@@ -165,11 +187,41 @@ const Footer: React.FC = () => {
                             Crow Advance
                         </a>
                     </p>
-                    <p className="mt-4 flex items-center gap-1 md:mt-0">
-                        Hecho con{' '}
-                        <FaHeart size={14} className="animate-pulse fill-red-500 text-red-500" /> en
-                        América
-                    </p>
+
+
+                    <div className="relative">
+                        <button
+                            type="button"
+                            onClick={() => setShowCountryMenu((prev) => !prev)}
+                            className="flex items-center gap-1.5 rounded-lg px-2 py-1 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                            aria-label={dict.footer.changeCountry}
+                        >
+                            <span>{currentCountry.flag}</span>
+                            <span>{currentCountry.name}</span>
+                            <span className="text-[8px]">▾</span>
+                        </button>
+
+                        {showCountryMenu && (
+                            <ul className="bg-background border-border absolute right-0 bottom-full mb-2 w-40 overflow-hidden rounded-xl border shadow-lg">
+                                {COUNTRY_OPTIONS.map((opt) => (
+                                    <li key={opt.code}>
+                                        <button
+                                            type="button"
+                                            onClick={() => handleCountryChange(opt.code)}
+                                            className={`flex w-full items-center gap-2 px-3 py-2 text-left text-xs normal-case tracking-normal transition-colors hover:bg-blue-50 dark:hover:bg-gray-800 ${
+                                                opt.code === country
+                                                    ? 'font-black text-blue-600 dark:text-blue-400'
+                                                    : 'font-medium text-gray-700 dark:text-gray-300'
+                                            }`}
+                                        >
+                                            <span>{opt.flag}</span>
+                                            <span>{opt.name}</span>
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                 </div>
             </div>
         </footer>

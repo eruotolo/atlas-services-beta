@@ -93,6 +93,27 @@ export const getInteracciones = cache(async (page = 1, limit = 10, search?: stri
     }
 });
 
+// ─── Estadísticas per-service (dueño del servicio o admin) ────────────────────
+
+export interface ServiceStatItem {
+    type: string;
+    total: number;
+}
+
+export const getServiceStats = cache(async (serviceId: string): Promise<ServiceStatItem[]> => {
+    try {
+        const token = await getAuthToken();
+        const result = await apiClient.get<ServiceStatItem[]>(
+            `/services/${serviceId}/stats`,
+            { token, revalidate: 0 },
+        );
+        return result;
+    } catch (error) {
+        console.error(`Error obteniendo stats del servicio ${serviceId}:`, error);
+        return [];
+    }
+});
+
 // DEPRECATED
 export const getInteraccionesReport = cache(async () => {
     return {

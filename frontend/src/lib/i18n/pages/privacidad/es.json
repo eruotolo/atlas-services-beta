@@ -1,0 +1,60 @@
+{
+    "title": "Política de Privacidad",
+    "lastUpdated": "Última actualización: 14 de enero de 2026",
+    "sections": [
+        {
+            "title": "Responsable",
+            "content": "Atlas Services es el responsable del tratamiento de tus datos personales."
+        },
+        {
+            "title": "Datos recolectados",
+            "items": [
+                "Identificatorios: nombre, documento de identidad (solo para facturación si aplica), correo electrónico, teléfono/WhatsApp.",
+                "De servicio: zona, categoría, descripción, fotos.",
+                "Técnicos: dirección IP, tipo de dispositivo, cookies de sesión."
+            ]
+        },
+        {
+            "title": "Finalidades",
+            "items": [
+                "Publicar tu perfil (haciendo públicos nombre, teléfono y zona para contacto directo de clientes).",
+                "Gestionar cuentas, procesar pagos Premium y enviar notificaciones relevantes.",
+                "Mejorar la seguridad y funcionalidad de la plataforma."
+            ]
+        },
+        {
+            "title": "Base legal",
+            "content": "Consentimiento expreso al publicar o suscribirte, y cumplimiento de la normativa local de protección de datos personales aplicable en tu país."
+        },
+        {
+            "title": "Compartición",
+            "items": [
+                "Datos públicos (nombre, teléfono, zona) se muestran en tu perfil.",
+                "Correo electrónico permanece privado.",
+                "Pagos: procesados por pasarelas certificadas (no almacenamos datos de tarjetas).",
+                "No vendemos ni compartimos datos para fines comerciales con terceros."
+            ]
+        },
+        {
+            "title": "Tus derechos",
+            "content": "Puedes acceder, rectificar, cancelar o bloquear tus datos escribiendo a privacidad@atlasservicios.com o desde tu configuración de cuenta."
+        },
+        {
+            "title": "Seguridad",
+            "content": "Usamos encriptación SSL y medidas técnicas adecuadas. Ningún sistema es 100% seguro, pero protegemos tus datos al máximo."
+        },
+        {
+            "title": "Cookies",
+            "content": "Solo cookies esenciales de sesión para mantenerte logueado."
+        },
+        {
+            "title": "Conservación",
+            "content": "Conservamos los datos mientras tu cuenta esté activa y hasta 12 meses después de su eliminación (por obligaciones legales o resolución de disputas). Puedes solicitar eliminación anticipada."
+        },
+        {
+            "title": "Contacto",
+            "content": "privacidad@atlasservicios.com"
+        }
+    ],
+    "footer": "Tu confianza es importante para nosotros. Gracias por usar Atlas Services."
+}

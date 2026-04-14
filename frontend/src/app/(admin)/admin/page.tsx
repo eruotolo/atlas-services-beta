@@ -1,51 +1,79 @@
-import { CreditCard, Hammer, Megaphone, Users, } from 'lucide-react';
+import { BarChart3, CreditCard, Eye, Hammer, Megaphone, Users } from 'lucide-react';
 
+import { getInteracciones, getInteraccionesMetricas } from '@/features/analytics/actions';
+import DashboardCharts from '@/features/analytics/components/admin/DashboardCharts';
+import RecentActivity from '@/features/analytics/components/admin/RecentActivity';
 import { getAdminCategorias } from '@/features/categories/actions';
+import { getAdminServices } from '@/features/services/actions/queries';
+import { getTodasSponsors } from '@/features/sponsors/actions/queries';
 import { getAdminUsers } from '@/features/users/actions';
 import { formatCurrency } from '@/shared/lib/utils';
-import { getAuthToken } from '@/shared/lib/auth/getAuthToken';
 
-async function getStats() {
+/* ------------------------------------------------------------------ */
+/*  Data fetching                                                      */
+/* ------------------------------------------------------------------ */
+
+async function getDashboardStats() {
     try {
-        const token = await getAuthToken();
-        if (!token) throw new Error('No token');
-        
-        // Use pagination endpoint meta to get totals without fetching all data
-        const [usersData, _categoriesData] = await Promise.all([
+        const [usersData, servicesData, sponsorsData, metricas] = await Promise.all([
             getAdminUsers(1, 1),
-            getAdminCategorias(1, 1)
+            getAdminServices(1, 1),
+            getTodasSponsors(1, 1),
+            getInteraccionesMetricas(),
         ]);
-        
-        // Mock data for unimplemented endpoints
+
+        // Count active sponsors — fetch up to 100 to check
+        const sponsorsAll = await getTodasSponsors(1, 100);
+        const sponsorsActivos = sponsorsAll.data.filter((s) => s.activo).length;
+
         return {
-            servicios: 0, 
-            usuarios: usersData?.meta?.total || 0,
-            ingresosBrutos: formatCurrency(0),
+            servicios: servicesData?.meta?.total ?? 0,
+            usuarios: usersData?.meta?.total ?? 0,
+            ingresosBrutos: formatCurrency(0), // Will be real once Stripe is integrated (F1.2)
             ingresosNetos: formatCurrency(0),
-            sponsorsActivos: 0,
+            sponsorsActivos,
+            metricas: {
+                totalGlobal: metricas.totalGlobal,
+                porTipo: metricas.porTipo,
+                topServicios: metricas.topServicios,
+            },
         };
-    } catch(_e) {
+    } catch (e) {
+        console.error('Error loading dashboard stats:', e);
         return {
             servicios: 0,
             usuarios: 0,
             ingresosBrutos: formatCurrency(0),
             ingresosNetos: formatCurrency(0),
             sponsorsActivos: 0,
+            metricas: {
+                totalGlobal: 0,
+                porTipo: {} as Record<string, number>,
+                topServicios: [] as Array<{ servicioId: string; titulo: string; total: number }>,
+            },
         };
     }
 }
 
-async function getRecentActivity() {
-    return []; // Mocked until API endpoints are available
+async function getRecentInteractions() {
+    try {
+        const result = await getInteracciones(1, 8);
+        return result;
+    } catch {
+        return { data: [], meta: { total: 0, page: 1, limit: 8, totalPages: 0 } };
+    }
 }
 
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
+
 export default async function AdminOverviewPage() {
-    const stats = await getStats();
-    const activities = await getRecentActivity();
+    const [stats, recent] = await Promise.all([getDashboardStats(), getRecentInteractions()]);
 
     const statsCards = [
         {
-            label: 'Servicios Totales',
+            label: 'Servicios Publicados',
             value: stats.servicios,
             icon: Hammer,
             color: 'text-blue-600',
@@ -59,12 +87,11 @@ export default async function AdminOverviewPage() {
             bg: 'bg-green-50',
         },
         {
-            label: 'Ingresos Reales (Caja)',
-            value: stats.ingresosNetos,
-            subValue: `Cobrado: ${stats.ingresosBrutos}`,
-            icon: CreditCard,
-            color: 'text-purple-600',
-            bg: 'bg-purple-50',
+            label: 'Total Interacciones',
+            value: stats.metricas.totalGlobal.toLocaleString(),
+            icon: Eye,
+            color: 'text-indigo-600',
+            bg: 'bg-indigo-50',
         },
         {
             label: 'Sponsors Activos',
@@ -77,6 +104,7 @@ export default async function AdminOverviewPage() {
 
     return (
         <div className="animate-in fade-in space-y-8 transition-colors duration-300 duration-500">
+            {/* Stats cards */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
                 {statsCards.map((stat) => (
                     <div
@@ -94,70 +122,18 @@ export default async function AdminOverviewPage() {
                         <h4 className="mt-1 text-2xl font-black text-gray-900 dark:text-white">
                             {stat.value}
                         </h4>
-                        {/* @ts-ignore */}
-                        {stat.subValue && (
-                            <p className="mt-1 text-xs font-bold text-gray-400 dark:text-gray-500">
-                                {/* @ts-ignore */}
-                                {stat.subValue}
-                            </p>
-                        )}
                     </div>
                 ))}
             </div>
 
-            <div className="rounded-[2rem] border border-gray-100 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
-                <div className="mb-6 flex items-center justify-between">
-                    <h2 className="text-xl font-black text-gray-900 dark:text-white">
-                        Actividad Reciente
-                    </h2>
-                    <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-bold text-gray-500 dark:bg-gray-800 dark:text-gray-400">
-                        Últimos movimientos
-                    </span>
-                </div>
+            {/* Charts */}
+            <DashboardCharts
+                porTipo={stats.metricas.porTipo}
+                topServicios={stats.metricas.topServicios}
+            />
 
-                <div className="space-y-4">
-                    {activities.length > 0 ? (
-                        activities.map((item) => (
-                            <div
-                                /* @ts-expect-error */
-                                key={item.id}
-                                className="flex items-start gap-4 border-b border-gray-50 pb-4 last:border-0 last:pb-0 dark:border-white/5"
-                            >
-                                <div
-                                    /* @ts-expect-error */
-                                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${item.bg} ${item.color} dark:bg-opacity-20`}
-                                >
-                                    {/* @ts-ignore */}
-                                    <item.icon size={20} />
-                                </div>
-                                <div className="flex-grow">
-                                    <p className="text-sm font-bold text-gray-900 dark:text-white">
-                                        {/* @ts-ignore */}
-                                        {item.title}
-                                    </p>
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">
-                                        {/* @ts-ignore */}
-                                        {item.subtitle}
-                                    </p>
-                                </div>
-                                <span className="text-[10px] font-medium whitespace-nowrap text-gray-400 dark:text-gray-600">
-                                    {new Intl.DateTimeFormat('es-CL', {
-                                        day: 'numeric',
-                                        month: 'short',
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                    /* @ts-expect-error */
-                                    }).format(item.date)}
-                                </span>
-                            </div>
-                        ))
-                    ) : (
-                        <p className="py-8 text-center text-sm text-gray-500 italic dark:text-gray-600">
-                            No hay actividad reciente registrada. (Panel Admin migrado temporalmente a mocks estáticos)
-                        </p>
-                    )}
-                </div>
-            </div>
+            {/* Recent Activity */}
+            <RecentActivity interactions={recent.data} />
         </div>
     );
 }

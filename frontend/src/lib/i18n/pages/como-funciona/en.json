@@ -1,0 +1,28 @@
+{
+    "meta": {
+        "title": "How does Atlas Services work?",
+        "description": "Discover how to connect with local professionals. Simple, fast and reliable. For clients: search, contact and rate. For providers: publish, stand out and earn."
+    },
+    "hero": {
+        "title": "How does Atlas Services work?",
+        "subtitle": "The simplest platform to connect local talent with those who need quick, reliable solutions."
+    },
+    "forClients": {
+        "label": "For Clients",
+        "title": "Find the ideal expert",
+        "steps": [
+            { "title": "1. Search", "desc": "Filter by category and area. We're everywhere!" },
+            { "title": "2. Contact", "desc": "Review their profile and contact directly by WhatsApp or phone." },
+            { "title": "3. Rate", "desc": "After the job, leave your review to help others." }
+        ]
+    },
+    "forProviders": {
+        "label": "For Providers",
+        "title": "Grow your trade",
+        "steps": [
+            { "title": "1. Publish", "desc": "Create your profile in minutes. Easy, fast and free to start." },
+            { "title": "2. Stand out with Premium", "desc": "Activate a Premium plan to appear first in searches and get the verification badge." },
+            { "title": "3. Earn", "desc": "Receive calls from new clients every day directly." }
+        ]
+    }
+}

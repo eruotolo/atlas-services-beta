@@ -11,6 +11,9 @@ import { getProfilePageData } from '@/features/users/actions';
 import LogoutButton from '@/features/users/components/profile/LogoutButton';
 import MisServicios from '@/features/users/components/profile/MisServicios';
 
+import { getServiceStats } from '@/features/analytics/actions';
+import ProviderStatsCard from '@/features/analytics/components/provider/ProviderStatsCard';
+
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export const metadata: Metadata = {
@@ -38,6 +41,15 @@ export default async function ProfilePage({ params }: Props) {
     }
 
     const tienePremium = usuario.stats.premiumCount > 0;
+
+    // Fetch interaction stats for each service in parallel
+    const serviceStats = await Promise.all(
+        usuario.servicios.map(async (s) => ({
+            servicioId: s.id,
+            titulo: s.titulo,
+            stats: await getServiceStats(s.id),
+        })),
+    );
 
     return (
         <section className="bg-background min-h-screen py-12 transition-colors duration-300">
@@ -157,6 +169,24 @@ export default async function ProfilePage({ params }: Props) {
                                 telefono: usuario.phone,
                             }}
                         />
+
+                        {/* Per-service interaction stats */}
+                        {serviceStats.length > 0 && (
+                            <div>
+                                <h3 className="mb-4 text-lg font-bold text-gray-900 dark:text-white">
+                                    📊 Estadísticas por Servicio
+                                </h3>
+                                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                                    {serviceStats.map((ss) => (
+                                        <ProviderStatsCard
+                                            key={ss.servicioId}
+                                            servicioTitulo={ss.titulo}
+                                            stats={ss.stats}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
                         {!tienePremium && (
                             <div className="relative overflow-hidden rounded-[2.5rem] bg-blue-600 p-10 text-white shadow-2xl shadow-blue-900/20 dark:shadow-none">

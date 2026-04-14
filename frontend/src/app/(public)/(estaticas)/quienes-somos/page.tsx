@@ -14,18 +14,18 @@ export default function QuienesSomosPage() {
 
                 <div className="relative z-10 mx-auto max-w-4xl text-center">
                     <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-1.5 text-[10px] font-black tracking-widest text-blue-700 uppercase dark:border-blue-900/50 dark:bg-blue-950/50 dark:text-blue-400">
-                        <Anchor size={14} /> Desde el Archipiélago
+                        <Anchor size={14} /> Conectando Profesionales
                     </div>
                     <h1 className="mb-8 text-4xl leading-tight font-black tracking-tight text-gray-900 md:text-6xl dark:text-white">
                         Conectando el talento local de{' '}
                         <span className="relative text-blue-600 italic dark:text-blue-400">
-                            Chiloé
+                            Latinoamérica
                             <svg
                                 className="absolute -bottom-1 left-0 -z-10 h-3 w-full text-blue-200 dark:text-blue-900/50"
                                 viewBox="0 0 100 10"
                                 preserveAspectRatio="none"
                             >
-                                <title>Chiloé</title>
+                                <title>Latinoamérica</title>
                                 <path
                                     d="M0 5 Q 50 10 100 5"
                                     stroke="currentColor"
@@ -36,8 +36,9 @@ export default function QuienesSomosPage() {
                         </span>
                     </h1>
                     <p className="mx-auto max-w-2xl text-xl leading-relaxed font-medium text-gray-500 dark:text-gray-400">
-                        Nacimos con una misión clara: usar la tecnología para fortalecer los lazos
-                        vecinales y potenciar la economía de nuestra isla, un servicio a la vez.
+                        Nacimos con una misión clara: usar la tecnología para conectar a
+                        profesionales con quienes necesitan sus servicios, fortaleciendo la
+                        economía local en cada país donde operamos.
                     </p>
                 </div>
             </section>
@@ -47,7 +48,7 @@ export default function QuienesSomosPage() {
                 <div className="relative aspect-[16/9] overflow-hidden rounded-[2.5rem] shadow-2xl md:aspect-[21/9] dark:shadow-black/20">
                     <Image
                         src="/about.png"
-                        alt="Paisaje de Chiloé"
+                        alt="Atlas Services - Profesionales verificados"
                         fill
                         className="object-cover transition-transform duration-1000 hover:scale-105"
                         sizes="(max-width: 768px) 100vw, 1200px"
@@ -64,9 +65,9 @@ export default function QuienesSomosPage() {
                                 Más que una Aplicación
                             </h3>
                             <p className="text-base leading-relaxed font-medium text-gray-200 opacity-90 md:text-xl">
-                                Chiloé Servicios no es una multinacional. Somos un equipo de
-                                emprendedores chilotes que entendió que la mejor forma de ayudarnos
-                                es sabiendo quién hace qué en nuestra propia comunidad.
+                                Atlas Services no es una multinacional. Somos un equipo de
+                                emprendedores que entendió que la mejor forma de crecer
+                                es conectando a profesionales con quienes los necesitan.
                             </p>
                         </div>
                     </div>
@@ -89,7 +90,7 @@ export default function QuienesSomosPage() {
                         {
                             icon: MapPin,
                             title: 'Identidad Local',
-                            desc: 'Entendemos la realidad de la isla. Sabemos lo que cuesta un flete a Quellón o conseguir un eléctrico en Curaco.',
+                            desc: 'Entendemos la realidad de cada país. Adaptamos la plataforma a las necesidades locales de cada mercado.',
                             color: 'text-blue-600 dark:text-blue-400',
                             bg: 'bg-blue-50 dark:bg-blue-950/30',
                         },
@@ -103,7 +104,7 @@ export default function QuienesSomosPage() {
                         {
                             icon: Heart,
                             title: 'Comunidad',
-                            desc: 'Cada peso pagado por un servicio se queda en la isla. Apoyamos el emprendimiento local y el oficio tradicional.',
+                            desc: 'Cada peso pagado por un servicio se queda en la comunidad local. Apoyamos el emprendimiento y el oficio tradicional.',
                             color: 'text-red-500 dark:text-red-400',
                             bg: 'bg-red-50 dark:bg-red-950/30',
                         },
@@ -176,13 +177,13 @@ export default function QuienesSomosPage() {
                                     E
                                 </div>
                                 <div>
-                                    <p className="font-bold text-white">Equipo ChiloeServicios</p>
+                                    <p className="font-bold text-white">Equipo Atlas Services</p>
                                     <p className="text-xs text-blue-200">Fundadores</p>
                                 </div>
                             </div>
                             <p className="text-sm text-gray-300 italic">
-                                "Creamos esta plataforma porque nos cansamos de ver avisos perdidos
-                                en Facebook. Chiloé necesitaba algo ordenado, moderno y nuestro."
+                                "Creamos esta plataforma porque vimos la necesidad de un
+                                directorio profesional moderno, ordenado y confiable para Latinoamérica."
                             </p>
                         </div>
                     </div>

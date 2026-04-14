@@ -25,6 +25,16 @@ export async function generateMetadata({
         description: seo.description,
         other: { 'geo.region': seo.geoRegion, 'DC.language': seo.locale },
         openGraph: { locale: seo.ogLocale },
+        alternates: {
+            languages: {
+                'es-CL': `${COUNTRY_SEO_CONFIG.cl.url}/cl`,
+                'es-AR': `${COUNTRY_SEO_CONFIG.ar.url}/ar`,
+                'es-UY': `${COUNTRY_SEO_CONFIG.uy.url}/uy`,
+                'es-ES': `${COUNTRY_SEO_CONFIG.es.url}/es`,
+                'en-US': `${COUNTRY_SEO_CONFIG.us.url}/us`,
+                'x-default': `${COUNTRY_SEO_CONFIG.cl.url}/cl`,
+            },
+        },
     };
 }
 
