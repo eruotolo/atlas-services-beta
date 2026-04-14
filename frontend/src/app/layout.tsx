@@ -25,7 +25,7 @@ const siteConfig = {
     description:
         'Encuentra electricistas, carpinteros, gasfíter, fletes y más profesionales verificados cerca de ti.',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://www.atlasservicios.cl',
-    ogImage: '/bg-chiloe-01.png',
+    ogImage: '/bg-chiloe-01.png', // TODO(F1.1): rename image file to atlas-og.png
     links: {
         twitter: 'https://twitter.com/atlasservicios',
         github: 'https://github.com/atlasservicios',

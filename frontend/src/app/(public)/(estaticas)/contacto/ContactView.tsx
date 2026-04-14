@@ -84,7 +84,7 @@ const ContactView: React.FC = () => {
                                         Correo
                                     </p>
                                     <p className="text-base font-bold break-all text-gray-900 md:text-lg md:break-normal dark:text-white">
-                                        info@chiloeservicios.cl
+                                        info@atlasservicios.com
                                     </p>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@ const ContactView: React.FC = () => {
                                         Oficina
                                     </p>
                                     <p className="text-base font-bold text-gray-900 md:text-lg dark:text-white">
-                                        Castro, Isla Grande de Chiloé
+                                        Operación 100% Remota
                                     </p>
                                 </div>
                             </div>

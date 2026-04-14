@@ -10,10 +10,10 @@ export async function enviarFormularioContacto(data: ContactInput) {
 
     try {
         const contenidoHtml = generarPlantillaContacto(validated);
-        const emailDestino = process.env.CONTACT_EMAIL || 'chiloeserviciosapp@gmail.com';
+        const emailDestino = process.env.CONTACT_EMAIL || 'info@atlasservicios.com';
 
         const resultado = await enviarEmail(
-            { email: emailDestino, nombre: 'Chiloé Servicios' },
+            { email: emailDestino, nombre: 'Atlas Services' },
             `Contacto: ${validated.asunto} - ${validated.nombre}`,
             contenidoHtml,
         );
@@ -73,7 +73,7 @@ function generarPlantillaContacto(datos: ContactInput): string {
                     </div>
                 </div>
                 <div class="footer">
-                    <p>Este mensaje fue enviado desde el formulario de contacto de Chiloé Servicios</p>
+                    <p>Este mensaje fue enviado desde el formulario de contacto de Atlas Services</p>
                 </div>
             </div>
         </body>

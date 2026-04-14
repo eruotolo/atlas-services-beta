@@ -3,14 +3,14 @@ import { type Service, SubscriptionLevel, type User } from '@/shared/types/commo
 export const mockUsers: User[] = [
     {
         id: 'u1',
-        email: 'juan@chiloe.cl',
+        email: 'juan@atlas-services.com',
         name: 'Juan Perez',
         role: 'proveedor',
         subscription: SubscriptionLevel.BASICO,
     },
     {
         id: 'u2',
-        email: 'maria@chiloe.cl',
+        email: 'maria@atlas-services.com',
         name: 'Maria Soto',
         role: 'usuario',
         subscription: SubscriptionLevel.BASICO,
@@ -43,7 +43,7 @@ export const mockServices: Service[] = [
         title: 'Maestro Carpintero - Muebles de Cocina',
         category: 'Carpintero',
         categoryId: 'carpinteria',
-        description: 'Especialista en maderas nativas y diseños modernos para tu cocina chilota.',
+        description: 'Especialista en maderas nativas y diseños modernos para tu cocina.',
         price: 45000,
         comuna: 'Ancud',
         rating: 4.5,
@@ -89,7 +89,7 @@ export const mockServices: Service[] = [
 export const mockSponsors = [
     {
         id: 'ms1',
-        nombre: 'Constructora Chiloé',
+        nombre: 'Constructora Atlas',
         imagenUrl:
             'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1000',
         linkExterno: '#',
@@ -102,7 +102,7 @@ export const mockSponsors = [
         imagenUrl:
             'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=1000',
         linkExterno: '#',
-        descripcion: 'Navega por los canales y descubre la magia de Chiloé.',
+        descripcion: 'Navega por los canales y descubre la magia del sur.',
         nivel: 'SENIOR',
     },
     {
