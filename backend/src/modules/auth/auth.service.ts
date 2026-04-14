@@ -148,6 +148,15 @@ export class AuthService {
                 name: googleUser.name || 'Usuario Google',
                 avatar: googleUser.picture || null,
                 password: '', // No password for Google users
+                roles: {
+                    create: {
+                        role: {
+                            connect: {
+                                name: 'Usuario'
+                            }
+                        }
+                    }
+                }
             },
             select: {
                 id: true,
