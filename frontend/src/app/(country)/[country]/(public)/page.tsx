@@ -5,7 +5,7 @@ import { ArrowRight, Crown, Megaphone, Sparkles } from 'lucide-react';
 import { getTopCategories } from '@/features/categories/actions';
 import HeroCategories from '@/features/categories/components/HeroCategories';
 import { getRegionsByCountry } from '@/features/geo/actions';
-import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
+import { COUNTRY_CONFIG, COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
 import { getPublicFeaturedServices } from '@/features/services/actions';
 import ServiceCard from '@/features/services/components/cards/ServiceCard';
 import { getSponsorsPremium, getSponsorsSenior } from '@/features/sponsors/actions';
@@ -13,6 +13,7 @@ import SponsorSlider from '@/features/sponsors/components/SponsorSlider';
 
 import type { CategoryIconName } from '@/shared/components/icons/CategoryIcons';
 import HomeHeroSection from '@/shared/components/layout/HomeHeroSection';
+import { getDictionary } from '@/lib/i18n/getDictionary';
 import { mockServices } from '@/shared/lib/mockData';
 
 export default async function CountryHomePage({
@@ -22,6 +23,9 @@ export default async function CountryHomePage({
 }) {
     const { country } = await params;
     const countryName = COUNTRY_SEO_CONFIG[country]?.countryName ?? country.toUpperCase();
+    const dict = getDictionary(country);
+    const countryLocale = COUNTRY_CONFIG[country]?.locale ?? 'es-CL';
+    const serviceLabels = dict.service;
 
     const [topCategories, regions, realFeaturedServices, sponsorsSenior, sponsorsPremium] =
         await Promise.all([
@@ -67,13 +71,13 @@ export default async function CountryHomePage({
                             />
                             <Link href="contacto" className="text-center">
                                 <h2 className="mb-1 text-[10px] font-black tracking-[0.2em] text-blue-800 uppercase dark:text-blue-300">
-                                    Espacio Publicitario Disponible
+                                    {dict.home.adSpaceTitle}
                                 </h2>
                                 <p className="text-xs font-medium text-blue-400 dark:text-blue-500">
-                                    Destaca tu negocio aquí
+                                    {dict.home.adSpaceSubtitle}
                                 </p>
                                 <p className="mt-4 text-[9px] font-black tracking-widest text-blue-600 uppercase underline dark:text-blue-400">
-                                    Saber más
+                                    {dict.home.learnMore}
                                 </p>
                             </Link>
                         </div>
@@ -86,22 +90,27 @@ export default async function CountryHomePage({
                     <div className="mb-8 flex flex-col justify-between gap-4 md:mb-12 md:flex-row md:items-end">
                         <div>
                             <span className="mb-2 block text-[10px] font-black tracking-[0.2em] text-blue-600 uppercase dark:text-blue-400">
-                                TOP RECOMENDADOS
+                                {dict.home.featuredLabel}
                             </span>
                             <h2 className="text-2xl leading-tight font-black text-gray-900 md:text-3xl dark:text-white">
-                                Servicios Destacados
+                                {dict.home.featuredTitle}
                             </h2>
                         </div>
                         <Link
                             href="buscar"
                             className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:underline dark:text-blue-400"
                         >
-                            Ver todos <span className="text-lg">→</span>
+                            {dict.home.viewAll} <span className="text-lg">→</span>
                         </Link>
                     </div>
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                         {featuredServices.map((service) => (
-                            <ServiceCard key={service.id} service={service} />
+                            <ServiceCard
+                                key={service.id}
+                                service={service}
+                                labels={serviceLabels}
+                                locale={countryLocale}
+                            />
                         ))}
                     </div>
                 </div>
@@ -116,14 +125,13 @@ export default async function CountryHomePage({
                         <div className="relative z-10 flex flex-col items-center justify-between gap-8 md:flex-row">
                             <div className="max-w-xl text-center md:text-left">
                                 <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-1.5 text-[9px] font-black tracking-widest uppercase md:mb-6 md:text-[10px]">
-                                    <Sparkles size={14} /> Solo para proveedores
+                                    <Sparkles size={14} /> {dict.home.proCtaTag}
                                 </div>
                                 <h2 className="mb-4 text-2xl leading-tight font-black md:text-4xl">
-                                    ¿Quieres que tu servicio aparezca primero?
+                                    {dict.home.proCtaTitle}
                                 </h2>
                                 <p className="text-base leading-relaxed font-medium text-blue-100 opacity-90 md:text-lg">
-                                    Únete a Atlas Pro y destaca sobre la competencia. Atrae hasta 5x
-                                    más clientes.
+                                    {dict.home.proCtaDescription}
                                 </p>
                             </div>
                             <div className="w-full shrink-0 md:w-auto">
@@ -131,7 +139,7 @@ export default async function CountryHomePage({
                                     href="suscripcion-pro"
                                     className="flex items-center justify-center gap-3 rounded-2xl bg-white px-8 py-4 text-base font-black text-blue-700 shadow-xl transition-all hover:bg-blue-50 md:rounded-[2rem] md:px-10 md:py-5 md:text-lg dark:bg-gray-100 dark:text-blue-800"
                                 >
-                                    Hazte Premium <ArrowRight size={20} />
+                                    {dict.home.proCtaButton} <ArrowRight size={20} />
                                 </Link>
                             </div>
                         </div>
@@ -144,7 +152,7 @@ export default async function CountryHomePage({
                     <div className="mb-8 flex items-center gap-2 md:mb-10">
                         <Megaphone className="text-blue-600 dark:text-blue-400" size={20} />
                         <h2 className="text-[10px] font-black tracking-[0.25em] text-gray-400 uppercase dark:text-gray-500">
-                            Avisos de la Comunidad / Publicidad
+                            {dict.home.communityAdsTitle}
                         </h2>
                     </div>
 
@@ -168,13 +176,13 @@ export default async function CountryHomePage({
                                     />
                                     <Link href="contacto" className="text-center">
                                         <h3 className="mb-1 text-[10px] font-black tracking-[0.2em] text-blue-800 uppercase dark:text-blue-300">
-                                            Espacio Publicitario Disponible
+                                            {dict.home.adSpaceTitle}
                                         </h3>
                                         <p className="text-xs font-medium text-blue-400 dark:text-blue-500">
-                                            Destaca tu negocio aquí
+                                            {dict.home.adSpaceSubtitle}
                                         </p>
                                         <p className="mt-4 text-[9px] font-black tracking-widest text-blue-600 uppercase underline dark:text-blue-400">
-                                            Saber más
+                                            {dict.home.learnMore}
                                         </p>
                                     </Link>
                                 </div>
@@ -187,7 +195,7 @@ export default async function CountryHomePage({
                             href="contacto"
                             className="inline-block rounded-2xl bg-blue-600 px-8 py-4 text-sm font-bold text-white shadow-xl transition-all hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
                         >
-                            ¿Quieres anunciar aquí? Contáctanos
+                            {dict.home.contactCta}
                         </Link>
                     </div>
                 </div>

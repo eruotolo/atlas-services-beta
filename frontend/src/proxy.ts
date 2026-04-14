@@ -124,7 +124,9 @@ export default async function proxy(req: NextRequest) {
         return NextResponse.redirect(new URL(`/${firstSegment}/perfil`, req.url));
     }
 
-    return NextResponse.next();
+    const response = NextResponse.next();
+    response.headers.set('x-atlas-lang', firstSegment === 'us' ? 'en' : 'es');
+    return response;
 }
 
 export const config = {

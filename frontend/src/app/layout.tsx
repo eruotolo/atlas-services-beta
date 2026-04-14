@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google';
 
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
+import { headers } from 'next/headers';
 
 import Footer from '@/shared/components/layout/Footer';
 import Navbar from '@/shared/components/layout/Navbar';
@@ -106,7 +107,11 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const session = await getServerSession(authOptions);
+    const [session, headersList] = await Promise.all([
+        getServerSession(authOptions),
+        headers(),
+    ]);
+    const lang = headersList.get('x-atlas-lang') ?? 'es';
 
     const currentUser = session?.user
         ? {
@@ -156,7 +161,7 @@ export default async function RootLayout({
     };
 
     return (
-        <html lang="es" suppressHydrationWarning>
+        <html lang={lang} suppressHydrationWarning>
             <head>
                 <link rel="preconnect" href="https://www.googletagmanager.com" />
                 <link rel="preconnect" href="https://www.google-analytics.com" />
