@@ -7,7 +7,65 @@ import { AlertCircle, CheckCircle, Loader2, Mail, MapPin, Phone, Send } from 'lu
 
 import { enviarFormularioContacto } from '@/features/contact/actions';
 
-const ContactView: React.FC = () => {
+interface ContactViewTranslations {
+    title: string;
+    titleHighlight: string;
+    subtitle: string;
+    email: string;
+    whatsapp: string;
+    office: string;
+    officeValue: string;
+    form: {
+        name: string;
+        namePlaceholder: string;
+        email: string;
+        emailPlaceholder: string;
+        phone: string;
+        phonePlaceholder: string;
+        subject: string;
+        subjectOptions: string[];
+        message: string;
+        messagePlaceholder: string;
+        submit: string;
+        sending: string;
+        success: string;
+        defaultSubject: string;
+    };
+}
+
+interface ContactViewProps {
+    t?: ContactViewTranslations;
+}
+
+const DEFAULT_T: ContactViewTranslations = {
+    title: 'Hablemos de',
+    titleHighlight: 'tu próxima pega',
+    subtitle: 'Estamos aquí para ayudarte a resolver tus dudas o escuchar tus sugerencias para mejorar nuestra isla.',
+    email: 'Correo',
+    whatsapp: 'WhatsApp Soporte',
+    office: 'Oficina',
+    officeValue: 'Operación 100% Remota',
+    form: {
+        name: 'Tu Nombre',
+        namePlaceholder: 'Ej: Juan Pérez',
+        email: 'Tu Correo',
+        emailPlaceholder: 'ejemplo@correo.cl',
+        phone: 'Tu Celular',
+        phonePlaceholder: '+56 9 1234 5678',
+        subject: 'Asunto',
+        subjectOptions: ['Suscripción Pro', 'Quiero publicitar', 'Reportar Usuario', 'Soporte Técnico', 'Otro'],
+        message: 'Mensaje',
+        messagePlaceholder: '¿En qué podemos ayudarte?',
+        submit: 'Enviar Mensaje',
+        sending: 'Enviando...',
+        success: '¡Mensaje enviado con éxito! Te responderemos pronto.',
+        defaultSubject: 'Suscripción Pro',
+    },
+};
+
+const ContactView: React.FC<ContactViewProps> = ({ t }) => {
+    const tr = t ?? DEFAULT_T;
+
     const nombreId = useId();
     const emailId = useId();
     const celularId = useId();
@@ -18,7 +76,7 @@ const ContactView: React.FC = () => {
         nombre: '',
         email: '',
         celular: '',
-        asunto: 'Suscripción Pro',
+        asunto: tr.form.defaultSubject,
         mensaje: '',
     });
 
@@ -27,14 +85,14 @@ const ContactView: React.FC = () => {
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
-    ) => {
+    ): void => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
         });
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent): Promise<void> => {
         e.preventDefault();
         setEstado('loading');
         setMensajeError('');
@@ -50,7 +108,7 @@ const ContactView: React.FC = () => {
                 nombre: '',
                 email: '',
                 celular: '',
-                asunto: 'Suscripción Pro',
+                asunto: tr.form.defaultSubject,
                 mensaje: '',
             });
             // Limpiar el mensaje de éxito después de 5 segundos
@@ -64,14 +122,11 @@ const ContactView: React.FC = () => {
                 <div className="grid grid-cols-1 gap-10 md:gap-20 lg:grid-cols-2">
                     <div>
                         <h1 className="mb-4 text-3xl leading-tight font-black text-gray-900 italic md:mb-6 md:text-5xl dark:text-white">
-                            Hablemos de{' '}
-                            <span className="text-blue-600 dark:text-blue-400">
-                                tu próxima pega
-                            </span>
+                            {tr.title}{' '}
+                            <span className="text-blue-600 dark:text-blue-400">{tr.titleHighlight}</span>
                         </h1>
                         <p className="mb-8 text-base text-gray-500 md:mb-12 md:text-lg dark:text-gray-400">
-                            Estamos aquí para ayudarte a resolver tus dudas o escuchar tus
-                            sugerencias para mejorar nuestra isla.
+                            {tr.subtitle}
                         </p>
 
                         <div className="space-y-6 md:space-y-8">
@@ -81,7 +136,7 @@ const ContactView: React.FC = () => {
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-bold tracking-widest text-gray-400 uppercase dark:text-gray-500">
-                                        Correo
+                                        {tr.email}
                                     </p>
                                     <p className="text-base font-bold break-all text-gray-900 md:text-lg md:break-normal dark:text-white">
                                         info@atlasservicios.com
@@ -99,7 +154,7 @@ const ContactView: React.FC = () => {
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-bold tracking-widest text-gray-400 uppercase dark:text-gray-500">
-                                        WhatsApp Soporte
+                                        {tr.whatsapp}
                                     </p>
                                     <p className="text-base font-bold text-gray-900 md:text-lg dark:text-white">
                                         +56 9 2954 0906
@@ -112,10 +167,10 @@ const ContactView: React.FC = () => {
                                 </div>
                                 <div>
                                     <p className="text-[10px] font-bold tracking-widest text-gray-400 uppercase dark:text-gray-500">
-                                        Oficina
+                                        {tr.office}
                                     </p>
                                     <p className="text-base font-bold text-gray-900 md:text-lg dark:text-white">
-                                        Operación 100% Remota
+                                        {tr.officeValue}
                                     </p>
                                 </div>
                             </div>
@@ -130,7 +185,7 @@ const ContactView: React.FC = () => {
                                         htmlFor={nombreId}
                                         className="text-sm font-bold text-gray-700 dark:text-gray-300"
                                     >
-                                        Tu Nombre
+                                        {tr.form.name}
                                     </label>
                                     <input
                                         type="text"
@@ -138,7 +193,7 @@ const ContactView: React.FC = () => {
                                         name="nombre"
                                         value={formData.nombre}
                                         onChange={handleChange}
-                                        placeholder="Ej: Juan Pérez"
+                                        placeholder={tr.form.namePlaceholder}
                                         required
                                         className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-blue-500 md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
                                     />
@@ -148,7 +203,7 @@ const ContactView: React.FC = () => {
                                         htmlFor={emailId}
                                         className="text-sm font-bold text-gray-700 dark:text-gray-300"
                                     >
-                                        Tu Correo
+                                        {tr.form.email}
                                     </label>
                                     <input
                                         type="email"
@@ -156,7 +211,7 @@ const ContactView: React.FC = () => {
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        placeholder="ejemplo@correo.cl"
+                                        placeholder={tr.form.emailPlaceholder}
                                         required
                                         className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-blue-500 md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
                                     />
@@ -167,7 +222,7 @@ const ContactView: React.FC = () => {
                                     htmlFor={celularId}
                                     className="text-sm font-bold text-gray-700 dark:text-gray-300"
                                 >
-                                    Tu Celular
+                                    {tr.form.phone}
                                 </label>
                                 <input
                                     type="tel"
@@ -175,7 +230,7 @@ const ContactView: React.FC = () => {
                                     name="celular"
                                     value={formData.celular}
                                     onChange={handleChange}
-                                    placeholder="+56 9 1234 5678"
+                                    placeholder={tr.form.phonePlaceholder}
                                     required
                                     className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-blue-500 md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
                                 />
@@ -185,7 +240,7 @@ const ContactView: React.FC = () => {
                                     htmlFor={asuntoId}
                                     className="text-sm font-bold text-gray-700 dark:text-gray-300"
                                 >
-                                    Asunto
+                                    {tr.form.subject}
                                 </label>
                                 <select
                                     id={asuntoId}
@@ -195,11 +250,11 @@ const ContactView: React.FC = () => {
                                     required
                                     className="w-full appearance-none rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-blue-500 md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
                                 >
-                                    <option className="dark:bg-gray-900">Suscripción Pro</option>
-                                    <option className="dark:bg-gray-900">Quiero publicitar</option>
-                                    <option className="dark:bg-gray-900">Reportar Usuario</option>
-                                    <option className="dark:bg-gray-900">Soporte Técnico</option>
-                                    <option className="dark:bg-gray-900">Otro</option>
+                                    {tr.form.subjectOptions.map((option) => (
+                                        <option key={option} className="dark:bg-gray-900">
+                                            {option}
+                                        </option>
+                                    ))}
                                 </select>
                             </div>
                             <div className="space-y-1.5 md:space-y-2">
@@ -207,7 +262,7 @@ const ContactView: React.FC = () => {
                                     htmlFor={mensajeId}
                                     className="text-sm font-bold text-gray-700 dark:text-gray-300"
                                 >
-                                    Mensaje
+                                    {tr.form.message}
                                 </label>
                                 <textarea
                                     id={mensajeId}
@@ -215,7 +270,7 @@ const ContactView: React.FC = () => {
                                     value={formData.mensaje}
                                     onChange={handleChange}
                                     rows={4}
-                                    placeholder="¿En qué podemos ayudarte?"
+                                    placeholder={tr.form.messagePlaceholder}
                                     required
                                     className="w-full resize-none rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-blue-500 md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
                                 />
@@ -231,9 +286,7 @@ const ContactView: React.FC = () => {
                             {estado === 'success' && (
                                 <div className="flex items-center gap-2 rounded-2xl bg-green-50 p-4 text-green-700 dark:bg-green-900/20 dark:text-green-400">
                                     <CheckCircle size={20} />
-                                    <p className="text-sm font-medium">
-                                        ¡Mensaje enviado con éxito! Te responderemos pronto.
-                                    </p>
+                                    <p className="text-sm font-medium">{tr.form.success}</p>
                                 </div>
                             )}
 
@@ -245,12 +298,12 @@ const ContactView: React.FC = () => {
                                 {estado === 'loading' ? (
                                     <>
                                         <Loader2 size={18} className="animate-spin md:h-5 md:w-5" />
-                                        Enviando...
+                                        {tr.form.sending}
                                     </>
                                 ) : (
                                     <>
                                         <Send size={18} className="md:h-5 md:w-5" />
-                                        Enviar Mensaje
+                                        {tr.form.submit}
                                     </>
                                 )}
                             </button>
