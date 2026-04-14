@@ -38,4 +38,12 @@ export class AuthController {
     refresh(@Body('refreshToken') refreshToken: string) {
         return this.authService.refresh(refreshToken);
     }
+
+    @Post('google')
+    @HttpCode(HttpStatus.OK)
+    @Throttle({ short: { limit: 5, ttl: 60000 } })
+    @ApiOperation({ summary: 'Login con Google — recibe idToken, retorna JWT' })
+    googleLogin(@Body('idToken') idToken: string) {
+        return this.authService.googleLogin(idToken);
+    }
 }
