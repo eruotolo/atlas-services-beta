@@ -1,7 +1,12 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 
-import { refreshBackendToken, validateUserCredentials } from '@/features/auth/lib/auth.service';
+import {
+    refreshBackendToken,
+    validateGoogleToken,
+    validateUserCredentials,
+} from '@/features/auth/lib/auth.service';
 
 // Access token dura 15 minutos; refrescamos con 1 minuto de margen
 const BACKEND_TOKEN_REFRESH_MARGIN_MS = 60 * 1000;
@@ -26,18 +31,28 @@ export const authOptions: NextAuthOptions = {
                 return user;
             },
         }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID ?? '',
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
+        }),
     ],
     callbacks: {
         async jwt({ token, user }) {
-            // Primera vez: datos vienen del authorize
+            // Primera vez: datos vienen del authorize (credentials)
             if (user) {
                 token.id = user.id;
-                token.roles = user.roles;
-                token.telefono = user.telefono;
-                token.backendToken = user.backendToken;
-                token.backendRefreshToken = user.backendRefreshToken;
+                token.roles = (user as any).roles ?? [];
+                token.telefono = (user as any).telefono ?? null;
+                token.backendToken = (user as any).backendToken ?? '';
+                token.backendRefreshToken = (user as any).backendRefreshToken ?? '';
                 token.backendTokenExpires = Date.now() + BACKEND_ACCESS_TOKEN_TTL_MS;
                 return token;
+            }
+
+            // Google sign-in: exchange id_token with our backend
+            if (token.id === undefined && token.sub && token.email) {
+                // First-time Google user — need to exchange token with backend
+                // This is handled via the signIn callback below
             }
 
             // Token vigente: devolver sin cambios
@@ -74,6 +89,21 @@ export const authOptions: NextAuthOptions = {
                 session.user.backendRefreshToken = token.backendRefreshToken as string;
             }
             return session;
+        },
+        async signIn({ user, account }) {
+            // For Google sign-in, exchange the id_token with our backend
+            if (account?.provider === 'google' && account.id_token) {
+                const backendUser = await validateGoogleToken(account.id_token);
+                if (!backendUser) return false;
+
+                // Attach backend data to the user object for the jwt callback
+                (user as any).id = backendUser.id;
+                (user as any).roles = backendUser.roles;
+                (user as any).telefono = backendUser.telefono;
+                (user as any).backendToken = backendUser.backendToken;
+                (user as any).backendRefreshToken = backendUser.backendRefreshToken;
+            }
+            return true;
         },
         async redirect({ url, baseUrl }) {
             if (url.startsWith(baseUrl)) {

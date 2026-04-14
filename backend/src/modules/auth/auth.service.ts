@@ -115,6 +115,63 @@ export class AuthService {
         }
     }
 
+    async googleLogin(idToken: string) {
+        // Validate token with Google
+        const googleRes = await fetch(
+            `https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`,
+        );
+
+        if (!googleRes.ok) {
+            throw new UnauthorizedException('Token de Google inválido');
+        }
+
+        const googleUser = (await googleRes.json()) as {
+            sub: string;
+            email: string;
+            name: string;
+            picture?: string;
+        };
+
+        if (!googleUser.email) {
+            throw new UnauthorizedException('No se pudo obtener el email de Google');
+        }
+
+        // Upsert: create user if doesn't exist, otherwise update name/avatar
+        const user = await this.prisma.user.upsert({
+            where: { email: googleUser.email },
+            update: {
+                name: googleUser.name || undefined,
+                avatar: googleUser.picture || undefined,
+            },
+            create: {
+                email: googleUser.email,
+                name: googleUser.name || 'Usuario Google',
+                avatar: googleUser.picture || null,
+                password: '', // No password for Google users
+            },
+            select: {
+                id: true,
+                email: true,
+                name: true,
+                phone: true,
+                roles: {
+                    select: {
+                        role: { select: { name: true } },
+                        country: { select: { code: true } },
+                    },
+                },
+            },
+        });
+
+        const roles = user.roles.map((r) => r.role.name);
+        const adminCountries = user.roles
+            .filter((r) => r.country !== null)
+            .map((r) => r.country!.code);
+
+        const tokens = this.buildTokens(user.id, user.email, roles, adminCountries);
+        return { ...tokens, user: { ...user, roles, adminCountries } };
+    }
+
     private buildTokens(sub: string, email: string, roles: string[], adminCountries: string[]) {
         const payload = { sub, email, roles, adminCountries };
 

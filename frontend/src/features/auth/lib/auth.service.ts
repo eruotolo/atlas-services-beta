@@ -38,3 +38,22 @@ export async function refreshBackendToken(refreshToken: string) {
         return null;
     }
 }
+
+export async function validateGoogleToken(idToken: string) {
+    try {
+        const data = await apiClient.post<BackendAuthResponse>('/auth/google', { idToken });
+
+        return {
+            id: data.user.id,
+            email: data.user.email,
+            name: data.user.name,
+            telefono: data.user.phone ?? null,
+            roles: data.user.roles,
+            backendToken: data.accessToken,
+            backendRefreshToken: data.refreshToken,
+        };
+    } catch (error) {
+        console.error('Error en validación de token Google:', error);
+        return null;
+    }
+}
