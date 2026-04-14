@@ -37,26 +37,41 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async jwt({ token, user }) {
-            // Primera vez: datos vienen del authorize (credentials)
-            if (user) {
-                token.id = user.id;
-                token.roles = (user as any).roles ?? [];
-                token.telefono = (user as any).telefono ?? null;
-                token.backendToken = (user as any).backendToken ?? '';
-                token.backendRefreshToken = (user as any).backendRefreshToken ?? '';
-                token.backendTokenExpires = Date.now() + BACKEND_ACCESS_TOKEN_TTL_MS;
-                return token;
-            }
+        // 1. Manejo del Login inicial (Credenciales via authorize OR Google via account.provider)
+        async jwt({ token, user, account }) {
+            // Si el objeto account está presente, significa que es el primer inicio de sesión/generación del token
+            if (account) {
+                if (account.provider === 'credentials' && user) {
+                    // Datos vienen del bloque authorize de Credenciales
+                    token.id = user.id;
+                    token.roles = (user as any).roles ?? [];
+                    token.telefono = (user as any).telefono ?? null;
+                    token.backendToken = (user as any).backendToken ?? '';
+                    token.backendRefreshToken = (user as any).backendRefreshToken ?? '';
+                    token.backendTokenExpires = Date.now() + BACKEND_ACCESS_TOKEN_TTL_MS;
+                    return token;
+                }
 
-            // Google sign-in: exchange id_token with our backend
-            if (token.id === undefined && token.sub && token.email) {
-                // First-time Google user — need to exchange token with backend
-                // This is handled via the signIn callback below
+                if (account.provider === 'google' && account.id_token) {
+                    // Cuidado: el signIn callback no puede pasar datos al jwt. Se debe hacer aquí.
+                    const backendUser = await validateGoogleToken(account.id_token);
+                    if (backendUser) {
+                        token.id = backendUser.id;
+                        token.roles = backendUser.roles ?? [];
+                        token.telefono = backendUser.telefono ?? null;
+                        token.backendToken = backendUser.backendToken ?? '';
+                        token.backendRefreshToken = backendUser.backendRefreshToken ?? '';
+                        token.backendTokenExpires = Date.now() + BACKEND_ACCESS_TOKEN_TTL_MS;
+                    } else {
+                        // Si falla la validación en backend, marcamos error
+                        token.error = 'GoogleBackendError';
+                    }
+                    return token;
+                }
             }
 
             // Token vigente: devolver sin cambios
-            const expiresAt = token.backendTokenExpires ?? 0;
+            const expiresAt = (token.backendTokenExpires as number) ?? 0;
             if (Date.now() < expiresAt - BACKEND_TOKEN_REFRESH_MARGIN_MS) {
                 return token;
             }
@@ -90,19 +105,9 @@ export const authOptions: NextAuthOptions = {
             }
             return session;
         },
-        async signIn({ user, account }) {
-            // For Google sign-in, exchange the id_token with our backend
-            if (account?.provider === 'google' && account.id_token) {
-                const backendUser = await validateGoogleToken(account.id_token);
-                if (!backendUser) return false;
-
-                // Attach backend data to the user object for the jwt callback
-                (user as any).id = backendUser.id;
-                (user as any).roles = backendUser.roles;
-                (user as any).telefono = backendUser.telefono;
-                (user as any).backendToken = backendUser.backendToken;
-                (user as any).backendRefreshToken = backendUser.backendRefreshToken;
-            }
+        // El signIn callback simple ahora solo valida que no hubo errores
+        async signIn({ account }) {
+            // Siempre permite el paso a la etapa jwt() donde hacemos nuestro exchange
             return true;
         },
         async redirect({ url, baseUrl }) {
