@@ -5,11 +5,25 @@ import { CheckCircle, MapPin, Star } from 'lucide-react';
 
 import type { Service } from '@/shared/types/common';
 
-interface ServiceCardProps {
-    service: Service;
+interface ServiceCardLabels {
+    featured: string;
+    from: string;
+    requestQuote: string;
 }
 
-export default function ServiceCard({ service }: ServiceCardProps) {
+interface ServiceCardProps {
+    service: Service;
+    labels?: ServiceCardLabels;
+    locale?: string;
+}
+
+const DEFAULT_LABELS: ServiceCardLabels = {
+    featured: 'Destacado',
+    from: 'Desde',
+    requestQuote: 'Solicitar Cotización',
+};
+
+export default function ServiceCard({ service, labels = DEFAULT_LABELS, locale = 'es-CL' }: ServiceCardProps) {
     return (
         <Link
             href={`/servicio/${service.slug}`}
@@ -27,7 +41,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                 {service.isPremium && (
                     <div className="absolute top-3 left-3 flex items-center gap-1 rounded bg-blue-600 px-2 py-1 text-[10px] font-bold tracking-wider text-white uppercase shadow-lg">
                         <CheckCircle size={10} />
-                        Destacado
+                        {labels.featured}
                     </div>
                 )}
             </div>
@@ -95,15 +109,15 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                         {service.price > 0 ? (
                             <>
                                 <p className="text-[10px] font-medium text-gray-500 uppercase dark:text-gray-500">
-                                    Desde
+                                    {labels.from}
                                 </p>
                                 <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
-                                    ${service.price.toLocaleString('es-CL')}
+                                    ${service.price.toLocaleString(locale)}
                                 </p>
                             </>
                         ) : (
                             <p className="text-sm font-bold text-blue-600 dark:text-blue-400">
-                                Solicitar Cotización
+                                {labels.requestQuote}
                             </p>
                         )}
                     </div>

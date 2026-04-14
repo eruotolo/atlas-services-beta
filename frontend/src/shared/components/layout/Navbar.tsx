@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 
 import { LayoutDashboard, LogIn, PlusCircle, Search, User as UserIcon } from 'lucide-react';
 
+import { useDictionary } from '@/lib/i18n/useDictionary';
 import { SubscriptionLevel, type User } from '@/shared/types/common';
 
 import Logo from './Logo';
@@ -19,6 +20,7 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ user }) => {
     const params = useParams();
     const country = (params?.country as string) ?? 'cl';
+    const dict = useDictionary();
 
     return (
         <nav className="border-border bg-background/80 sticky top-0 z-50 border-b shadow-sm backdrop-blur-md">
@@ -36,7 +38,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                             className="flex items-center gap-2 font-medium text-gray-500 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
                         >
                             <Search size={18} />
-                            <span>Buscar Servicio</span>
+                            <span>{dict.nav.search}</span>
                         </Link>
 
                         <Link
@@ -44,7 +46,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                             className="flex items-center gap-2 rounded-full bg-blue-600 px-6 py-2.5 text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 dark:shadow-none"
                         >
                             <PlusCircle size={18} />
-                            <span className="font-semibold">Ofrecer Servicio</span>
+                            <span className="font-semibold">{dict.nav.publish}</span>
                         </Link>
 
                         {user?.role === 'admin' && (
@@ -53,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                                 className="flex items-center gap-2 rounded-full bg-gray-900 px-6 py-2.5 text-white transition-all hover:bg-blue-600 dark:bg-gray-800 dark:hover:bg-blue-700"
                             >
                                 <LayoutDashboard size={18} />
-                                <span className="font-semibold">Panel Admin</span>
+                                <span className="font-semibold">{dict.nav.adminPanel}</span>
                             </Link>
                         )}
 
@@ -74,7 +76,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                                     <span className="text-sm font-bold">{user.name}</span>
                                     {user.subscription === SubscriptionLevel.PREMIUM && (
                                         <span className="mt-0.5 text-[9px] font-black tracking-tighter text-blue-600 uppercase dark:text-blue-400">
-                                            Miembro Pro
+                                            {dict.nav.memberPro}
                                         </span>
                                     )}
                                 </div>
@@ -85,7 +87,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                                 className="border-border hover:bg-muted flex items-center gap-2 rounded-full border-2 px-5 py-2 font-bold text-gray-700 transition-all dark:text-gray-100"
                             >
                                 <LogIn size={18} />
-                                <span>Entrar</span>
+                                <span>{dict.nav.login}</span>
                             </Link>
                         )}
 
@@ -98,7 +100,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                             className="flex items-center gap-1.5 p-2 text-gray-500 transition-colors hover:text-blue-600 dark:text-gray-100"
                         >
                             <Search size={20} />
-                            <span className="text-xs font-bold tracking-tight">Buscar</span>
+                            <span className="text-xs font-bold tracking-tight">{dict.nav.searchMobile}</span>
                         </Link>
 
                         <Link
