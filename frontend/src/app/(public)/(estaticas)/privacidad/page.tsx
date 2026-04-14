@@ -97,7 +97,7 @@ export default function PrivacidadPage() {
                                 Puedes acceder, rectificar, cancelar o bloquear tus datos
                                 escribiendo a{' '}
                                 <span className="font-semibold text-blue-600 dark:text-blue-400">
-                                    privacidad@chiloeservicios.cl
+                                    privacidad@atlasservicios.com
                                 </span>{' '}
                                 o desde tu configuración de cuenta.
                             </p>
@@ -137,7 +137,7 @@ export default function PrivacidadPage() {
                             </h2>
                             <p>
                                 <span className="font-semibold text-blue-600 dark:text-blue-400">
-                                    privacidad@chiloeservicios.cl
+                                    privacidad@atlasservicios.com
                                 </span>
                             </p>
                         </section>

@@ -1,0 +1,60 @@
+{
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: January 14, 2026",
+    "sections": [
+        {
+            "title": "Data Controller",
+            "content": "Atlas Services is responsible for the processing of your personal data."
+        },
+        {
+            "title": "Data collected",
+            "items": [
+                "Identification: name, identity document (only for billing if applicable), email address, phone/WhatsApp.",
+                "Service: area, category, description, photos.",
+                "Technical: IP address, device type, session cookies."
+            ]
+        },
+        {
+            "title": "Purposes",
+            "items": [
+                "Publish your profile (making your name, phone and area public for direct client contact).",
+                "Manage accounts, process Premium payments and send relevant notifications.",
+                "Improve the security and functionality of the platform."
+            ]
+        },
+        {
+            "title": "Legal basis",
+            "content": "Explicit consent when publishing or subscribing, and compliance with applicable local personal data protection regulations in your country."
+        },
+        {
+            "title": "Sharing",
+            "items": [
+                "Public data (name, phone, area) is shown on your profile.",
+                "Email address remains private.",
+                "Payments: processed by certified payment gateways (we do not store card data).",
+                "We do not sell or share data for commercial purposes with third parties."
+            ]
+        },
+        {
+            "title": "Your rights",
+            "content": "You can access, rectify, cancel or block your data by writing to privacy@atlasservices.com or from your account settings."
+        },
+        {
+            "title": "Security",
+            "content": "We use SSL encryption and appropriate technical measures. No system is 100% secure, but we protect your data to the fullest extent."
+        },
+        {
+            "title": "Cookies",
+            "content": "Only essential session cookies to keep you logged in."
+        },
+        {
+            "title": "Retention",
+            "content": "We retain data while your account is active and up to 12 months after its deletion (for legal obligations or dispute resolution). You can request early deletion."
+        },
+        {
+            "title": "Contact",
+            "content": "privacy@atlasservices.com"
+        }
+    ],
+    "footer": "Your trust is important to us. Thank you for using Atlas Services."
+}

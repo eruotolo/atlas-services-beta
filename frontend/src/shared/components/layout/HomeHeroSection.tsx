@@ -7,9 +7,12 @@ import { useRouter } from 'next/navigation';
 
 import { MapPin, Search } from 'lucide-react';
 
+import { t } from '@/lib/i18n/interpolate';
+import { useDictionary } from '@/lib/i18n/useDictionary';
+
 import type { GeoRegion } from '@/features/geo/types/geoTypes';
 
-const bgHeroHome = '/bg-chiloe-01.png';
+const bgHeroHome = '/bg-chiloe-01.png'; // TODO(F1.1): rename image file to atlas-hero.png
 
 interface HomeHeroSectionProps {
     country: string;
@@ -19,6 +22,7 @@ interface HomeHeroSectionProps {
 
 export default function HomeHeroSection({ country, countryName, regions }: HomeHeroSectionProps) {
     const router = useRouter();
+    const dict = useDictionary();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRegion, setSelectedRegion] = useState('');
 
@@ -37,7 +41,7 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
                     <div className="relative flex min-h-[540px] flex-col items-center justify-center gap-8 overflow-hidden rounded-[2rem] p-8 shadow-2xl transition-transform">
                         <Image
                             src={bgHeroHome}
-                            alt={`Servicios profesionales en ${countryName}`}
+                            alt={`${dict.home.heroTitle} ${countryName}`}
                             fill
                             priority
                             sizes="100vw"
@@ -48,11 +52,10 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
 
                         <div className="relative z-10 flex max-w-3xl flex-col gap-4 text-center">
                             <h1 className="text-4xl leading-[1.1] font-black tracking-tight text-white drop-shadow-lg md:text-6xl">
-                                Encuentra profesionales cerca de ti
+                                {dict.home.heroTitle}
                             </h1>
                             <p className="text-base leading-relaxed font-medium text-blue-50 opacity-90 md:text-xl">
-                                Servicios en {countryName}. Expertos verificados listos para
-                                ayudarte.
+                                {t(dict.home.heroSubtitle, { countryName })}
                             </p>
                         </div>
 
@@ -67,7 +70,7 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
                                         type="text"
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        placeholder="¿Qué servicio necesitas?"
+                                        placeholder={dict.home.searchPlaceholder}
                                         className="w-full border-none bg-transparent text-gray-700 outline-none placeholder:text-gray-500 focus:ring-0 dark:text-white"
                                     />
                                 </div>
@@ -75,13 +78,13 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
                                 <div className="flex items-center gap-2 border-t border-gray-100 px-4 py-3 md:border-t-0 md:border-l dark:border-white/10">
                                     <MapPin className="text-blue-600" size={18} />
                                     <select
-                                        aria-label="Seleccionar región"
+                                        aria-label={dict.home.heroAriaRegion}
                                         value={selectedRegion}
                                         onChange={(e) => setSelectedRegion(e.target.value)}
                                         className="border-none bg-transparent text-sm font-medium text-gray-700 outline-none focus:ring-0 dark:text-white"
                                     >
                                         <option value="" className="dark:bg-gray-900">
-                                            Todo {countryName}
+                                            {t(dict.home.heroAllCountry, { countryName })}
                                         </option>
                                         {regions.map((r) => (
                                             <option
@@ -99,12 +102,12 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
                                     type="submit"
                                     className="m-1 cursor-pointer rounded-xl bg-blue-600 px-8 py-3 font-bold text-white transition-all hover:bg-blue-700"
                                 >
-                                    Buscar
+                                    {dict.home.searchButton}
                                 </button>
                             </form>
                             <p className="mb-6 text-sm text-white/80 drop-shadow-md">
-                                <span className="font-medium">Popular:</span> Electricista,
-                                Gasfiter, Carpintero
+                                <span className="font-medium">{dict.home.popularLabel}:</span>{' '}
+                                {dict.home.popularItems}
                             </p>
                         </div>
                     </div>

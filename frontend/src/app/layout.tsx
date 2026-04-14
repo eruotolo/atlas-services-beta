@@ -2,6 +2,7 @@ import { Inter } from 'next/font/google';
 
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
+import { headers } from 'next/headers';
 
 import Footer from '@/shared/components/layout/Footer';
 import Navbar from '@/shared/components/layout/Navbar';
@@ -25,7 +26,7 @@ const siteConfig = {
     description:
         'Encuentra electricistas, carpinteros, gasfíter, fletes y más profesionales verificados cerca de ti.',
     url: process.env.NEXT_PUBLIC_APP_URL || 'https://www.atlasservicios.cl',
-    ogImage: '/bg-chiloe-01.png',
+    ogImage: '/bg-chiloe-01.png', // TODO(F1.1): rename image file to atlas-og.png
     links: {
         twitter: 'https://twitter.com/atlasservicios',
         github: 'https://github.com/atlasservicios',
@@ -106,7 +107,11 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const session = await getServerSession(authOptions);
+    const [session, headersList] = await Promise.all([
+        getServerSession(authOptions),
+        headers(),
+    ]);
+    const lang = headersList.get('x-atlas-lang') ?? 'es';
 
     const currentUser = session?.user
         ? {
@@ -156,7 +161,7 @@ export default async function RootLayout({
     };
 
     return (
-        <html lang="es" suppressHydrationWarning>
+        <html lang={lang} suppressHydrationWarning>
             <head>
                 <link rel="preconnect" href="https://www.googletagmanager.com" />
                 <link rel="preconnect" href="https://www.google-analytics.com" />

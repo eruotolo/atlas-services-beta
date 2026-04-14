@@ -45,11 +45,12 @@ function detectCountry(request: NextRequest): string {
     const vercel = request.headers.get('x-vercel-ip-country')?.toLowerCase();
     if (vercel && SUPPORTED_COUNTRIES.includes(vercel)) return vercel;
 
-    const lang = request.headers.get('accept-language') ?? '';
-    if (lang.includes('es-AR')) return 'ar';
-    if (lang.includes('es-UY')) return 'uy';
-    if (lang.includes('es-ES')) return 'es';
-    if (lang.includes('en-US') || lang.includes('en-us')) return 'us';
+    const lang = request.headers.get('accept-language')?.toLowerCase() ?? '';
+    if (lang.includes('es-ar')) return 'ar';
+    if (lang.includes('es-uy')) return 'uy';
+    if (lang.includes('es-es')) return 'es';
+    // Any English variant (en, en-US, en-GB, en-AU, etc.) routes to US
+    if (/\ben/.test(lang)) return 'us';
 
     return DEFAULT_COUNTRY;
 }
@@ -124,7 +125,9 @@ export default async function proxy(req: NextRequest) {
         return NextResponse.redirect(new URL(`/${firstSegment}/perfil`, req.url));
     }
 
-    return NextResponse.next();
+    const response = NextResponse.next();
+    response.headers.set('x-atlas-lang', firstSegment === 'us' ? 'en' : 'es');
+    return response;
 }
 
 export const config = {

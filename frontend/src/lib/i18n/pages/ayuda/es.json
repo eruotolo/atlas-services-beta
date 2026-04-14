@@ -1,0 +1,171 @@
+{
+    "meta": {
+        "title": "Centro de Ayuda - Preguntas Frecuentes",
+        "description": "Respuestas a las preguntas más comunes sobre Atlas Services. Cómo encontrar profesionales, cómo publicar servicios, precios, verificación y más."
+    },
+    "header": {
+        "title": "Centro de Ayuda",
+        "subtitle": "Todo lo que necesitas saber sobre cómo encontrar y publicar servicios profesionales"
+    },
+    "cta": {
+        "title": "¿No encontraste tu respuesta?",
+        "subtitle": "Nuestro equipo está disponible para ayudarte",
+        "button": "Contactar Soporte"
+    },
+    "faqs": [
+        {
+            "q": "¿Cómo encuentro un profesional cerca de mí?",
+            "a": [
+                { "type": "p", "text": "Para encontrar un profesional cerca de ti:" },
+                { "type": "ol", "items": [
+                    "Ve a atlasservicios.com/buscar",
+                    "Selecciona la categoría que necesitas",
+                    "Filtra por tu zona",
+                    "Verás perfiles verificados con calificaciones, precios y contacto directo"
+                ]},
+                { "type": "note", "text": "Puedes contactar por WhatsApp o teléfono sin intermediación. Todos los profesionales están verificados y tienen reseñas de usuarios." }
+            ]
+        },
+        {
+            "q": "¿Cuánto cuesta publicar un servicio en Atlas Services?",
+            "a": [
+                { "type": "p-bold-green", "text": "Publicar un servicio es completamente GRATIS para empezar." },
+                { "type": "p", "text": "Solo necesitas crear una cuenta y llenar el formulario con tu oficio. Los planes Premium opcionales van desde:" },
+                { "type": "ul", "items": [
+                    "Plan mensual (1 mes)",
+                    "Plan trimestral (3 meses - Más popular)",
+                    "Plan anual (12 meses con descuento)"
+                ]},
+                { "type": "note", "text": "El plan Premium te da prioridad en búsquedas, sello de verificación Pro y soporte 24/7." }
+            ]
+        },
+        {
+            "q": "¿Los profesionales en Atlas Services están verificados?",
+            "a": [
+                { "type": "p-bold-blue", "text": "Sí, todos los profesionales están verificados." },
+                { "type": "p", "text": "Cada proveedor tiene:" },
+                { "type": "ul", "items": [
+                    "Identidad verificada mediante documentación",
+                    "Sistema de calificaciones públicas (estrellas y reseñas)",
+                    "Historial de trabajos visible",
+                    "Sello \"Pro\" para proveedores Premium"
+                ]},
+                { "type": "note", "text": "Las reseñas son públicas y no pueden ser eliminadas. Además, contamos con la Garantía Atlas que ofrece mediación en caso de conflictos." }
+            ]
+        },
+        {
+            "q": "¿En qué países opera Atlas Services?",
+            "a": [
+                { "type": "p-bold", "text": "Atlas Services opera en 5 países:" },
+                { "type": "ul-grid", "items": ["✓ Chile", "✓ Argentina", "✓ Uruguay", "✓ España", "✓ Estados Unidos"] },
+                { "type": "note", "text": "Puedes filtrar servicios por región y localidad en el buscador de cada país." }
+            ]
+        },
+        {
+            "q": "¿Necesito un profesional urgente, cómo lo contacto?",
+            "a": [
+                { "type": "p-bold-red", "text": "Para emergencias:" },
+                { "type": "ol", "items": [
+                    "Busca el tipo de profesional en atlasservicios.com",
+                    "Filtra por tu zona",
+                    "Verás teléfonos y WhatsApp directos",
+                    "Contacta directamente sin intermediarios"
+                ]},
+                { "type": "note", "text": "Muchos profesionales ofrecen servicio de emergencia 24/7. Los perfiles Premium suelen responder más rápido. También puedes contactar a varios proveedores en paralelo para encontrar disponibilidad inmediata." }
+            ]
+        },
+        {
+            "q": "¿Hay servicios de flete y mudanza?",
+            "a": [
+                { "type": "p-bold", "text": "Sí, hay múltiples proveedores de fletes y mudanzas en Atlas Services." },
+                { "type": "p", "text": "Ofrecen:" },
+                { "type": "ul", "items": [
+                    "Transporte de muebles",
+                    "Mudanzas completas entre zonas",
+                    "Fletes de materiales de construcción",
+                    "Traslados locales"
+                ]},
+                { "type": "note", "text": "Puedes comparar precios y ver calificaciones antes de contratar." }
+            ]
+        },
+        {
+            "q": "¿Qué oficios puedo encontrar en Atlas Services?",
+            "a": [
+                { "type": "p-bold", "text": "Oficios disponibles:" },
+                { "type": "ul-grid", "items": [
+                    "✓ Plomero / Gasfíter (instalaciones, destapes)",
+                    "✓ Electricista (instalaciones, emergencias)",
+                    "✓ Carpintero (muebles, construcciones)",
+                    "✓ Maestro Constructor (ampliaciones, reparaciones)",
+                    "✓ Pintor (casas, estructuras)",
+                    "✓ Flete y Mudanza",
+                    "✓ Jardinero (paisajismo)",
+                    "✓ Técnico Refrigeración",
+                    "✓ Mecánico (reparaciones a domicilio)",
+                    "✓ Soldador",
+                    "✓ Y más..."
+                ]},
+                { "type": "p-bold-blue", "text": "Total: 15+ categorías de servicios profesionales" }
+            ]
+        },
+        {
+            "q": "¿Cómo funciona el pago en Atlas Services?",
+            "a": [
+                { "type": "p-bold-green", "text": "Atlas Services NO cobra comisiones ni intermedia pagos." },
+                { "type": "p", "text": "El pago se acuerda directamente entre el cliente y el proveedor:" },
+                { "type": "ol", "items": [
+                    "Solicita cotización gratis",
+                    "Acuerda precio y forma de pago (efectivo, transferencia, etc.)",
+                    "Paga directamente al proveedor después del trabajo"
+                ]},
+                { "type": "note", "text": "Recomendamos pagar después de verificar la calidad del servicio." }
+            ]
+        },
+        {
+            "q": "¿Qué es la Garantía Atlas?",
+            "a": [
+                { "type": "p-bold", "text": "La Garantía Atlas es nuestro compromiso de mediación." },
+                { "type": "p", "text": "Si el servicio no cumple lo acordado:" },
+                { "type": "ol", "items": [
+                    "Contacta a soporte (info@atlasservicios.com)",
+                    "Nuestro equipo media entre ambas partes",
+                    "Buscamos una solución justa (reembolso, trabajo adicional, etc.)",
+                    "El proveedor puede ser suspendido si no responde"
+                ]},
+                { "type": "note", "text": "Esta garantía aplica para todos los servicios contratados a través de la plataforma." }
+            ]
+        },
+        {
+            "q": "¿Cuál es la diferencia entre un servicio básico y Premium?",
+            "a": [
+                { "type": "p-bold", "text": "Servicios Básicos (GRATIS):" },
+                { "type": "ul", "items": [
+                    "Aparecen en búsquedas normales",
+                    "Perfil estándar",
+                    "Contacto directo"
+                ]},
+                { "type": "p-bold-blue", "text": "Servicios Premium:" },
+                { "type": "ul", "items": [
+                    "Prioridad MÁXIMA en búsquedas (aparecen primero)",
+                    "Sello \"Pro\" visible",
+                    "Destaque visual",
+                    "Soporte prioritario 24/7",
+                    "Estadísticas de visitas"
+                ]},
+                { "type": "p-bold-green", "text": "Los proveedores Premium obtienen hasta 5x más clientes según nuestros datos." }
+            ]
+        },
+        {
+            "q": "¿Cómo se ordenan los resultados de la búsqueda?",
+            "a": [
+                { "type": "p", "text": "Para garantizar la mejor experiencia y premiar la calidad, los servicios se muestran siguiendo este orden de prioridad:" },
+                { "type": "ol", "items": [
+                    "Prioridad Premium: Los proveedores con plan activo aparecen siempre en las primeras posiciones.",
+                    "Calificaciones: Dentro de cada nivel (Premium o Básico), los profesionales con mejores notas suben de posición.",
+                    "Novedad: En caso de empate en plan y nota, mostramos primero los servicios publicados más recientemente."
+                ]},
+                { "type": "note", "text": "Los servicios sin calificaciones aparecen al final de su respectivo grupo. ¡Incentivamos a los profesionales a dar un gran servicio para subir en el ranking!" }
+            ]
+        }
+    ]
+}

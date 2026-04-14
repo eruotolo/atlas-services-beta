@@ -1,0 +1,40 @@
+{
+    "hero": {
+        "badge": "Connecting Professionals",
+        "title": "Connecting the local talent of",
+        "highlight": "Latin America",
+        "subtitle": "We were born with a clear mission: use technology to connect professionals with those who need their services, strengthening the local economy in every country we operate in."
+    },
+    "story": {
+        "label": "Our Story",
+        "title": "More than an App",
+        "description": "Atlas Services is not a multinational. We are a team of entrepreneurs who understood that the best way to grow is by connecting professionals with those who need them."
+    },
+    "values": {
+        "title": "Our Values",
+        "subtitle": "What drives us every day to improve the platform.",
+        "items": [
+            { "title": "Local Identity", "desc": "We understand the reality of each country. We adapt the platform to the local needs of each market." },
+            { "title": "Trust", "desc": "We validate identities and promote real reviews. We want contracting to be safe and transparent." },
+            { "title": "Community", "desc": "Every payment for a service stays in the local community. We support entrepreneurship and traditional trades." }
+        ]
+    },
+    "stats": {
+        "label": "Real Impact",
+        "title": "Growing alongside the community",
+        "description": "In the last year, we have helped more than 500 families find quick solutions for their homes, generating direct income for hundreds of local professionals.",
+        "items": [
+            { "value": "2.5k+", "label": "Users" },
+            { "value": "450+", "label": "Providers" },
+            { "value": "98%", "label": "Happy Clients" }
+        ],
+        "quote": "We created this platform because we saw the need for a modern, organized and reliable professional directory for Latin America.",
+        "quoteAuthor": "Atlas Services Team",
+        "quoteRole": "Founders"
+    },
+    "cta": {
+        "title": "Ready to join the network?",
+        "searchService": "Find a Service",
+        "joinProvider": "Join as Provider"
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "hero": {
+        "badge": "Conectando Profesionales",
+        "title": "Conectando el talento local de",
+        "highlight": "Latinoamérica",
+        "subtitle": "Nacimos con una misión clara: usar la tecnología para conectar a profesionales con quienes necesitan sus servicios, fortaleciendo la economía local en cada país donde operamos."
+    },
+    "story": {
+        "label": "Nuestra Historia",
+        "title": "Más que una Aplicación",
+        "description": "Atlas Services no es una multinacional. Somos un equipo de emprendedores que entendió que la mejor forma de crecer es conectando a profesionales con quienes los necesitan."
+    },
+    "values": {
+        "title": "Nuestros Valores",
+        "subtitle": "Lo que nos mueve cada día a mejorar la plataforma.",
+        "items": [
+            { "title": "Identidad Local", "desc": "Entendemos la realidad de cada país. Adaptamos la plataforma a las necesidades locales de cada mercado." },
+            { "title": "Confianza", "desc": "Validamos identidades y fomentamos las reseñas reales. Queremos que contratar sea seguro y transparente." },
+            { "title": "Comunidad", "desc": "Cada peso pagado por un servicio se queda en la comunidad local. Apoyamos el emprendimiento y el oficio tradicional." }
+        ]
+    },
+    "stats": {
+        "label": "Impacto Real",
+        "title": "Creciendo junto a la comunidad",
+        "description": "En el último año, hemos ayudado a más de 500 familias a encontrar soluciones rápidas para su hogar, generando ingresos directos para cientos de profesionales locales.",
+        "items": [
+            { "value": "2.5k+", "label": "Usuarios" },
+            { "value": "450+", "label": "Proveedores" },
+            { "value": "98%", "label": "Clientes Felices" }
+        ],
+        "quote": "Creamos esta plataforma porque vimos la necesidad de un directorio profesional moderno, ordenado y confiable para Latinoamérica.",
+        "quoteAuthor": "Equipo Atlas Services",
+        "quoteRole": "Fundadores"
+    },
+    "cta": {
+        "title": "¿Listo para ser parte de la red?",
+        "searchService": "Buscar un Servicio",
+        "joinProvider": "Unirme como Proveedor"
+    }
+}
