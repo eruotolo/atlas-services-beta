@@ -9,7 +9,7 @@ import { MapPin, Search } from 'lucide-react';
 
 import type { GeoRegion } from '@/features/geo/types/geoTypes';
 
-const bgHeroHome = '/bg-chiloe-01.png';
+const bgHeroHome = '/bg-chiloe-01.png'; // TODO(F1.1): rename image file to atlas-hero.png
 
 interface HomeHeroSectionProps {
     country: string;
