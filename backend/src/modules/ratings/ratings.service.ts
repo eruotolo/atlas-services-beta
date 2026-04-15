@@ -62,6 +62,8 @@ export class RatingsService {
                 id: true,
                 stars: true,
                 comment: true,
+                ownerResponse: true,
+                respondedAt: true,
                 createdAt: true,
                 serviceId: true,
                 userId: true,
@@ -142,5 +144,42 @@ export class RatingsService {
 
         await this.prisma.rating.delete({ where: { id }, select: { id: true } });
         void this.servicesService.recalcularCalificacion(rating.serviceId);
+    }
+
+    async replyToRating(ratingId: string, serviceId: string, userId: string, response: string) {
+        const rating = await this.prisma.rating.findUnique({
+            where: { id: ratingId },
+            select: { id: true, serviceId: true, ownerResponse: true },
+        });
+        if (!rating) throw new NotFoundException(`Calificación ${ratingId} no encontrada`);
+        if (rating.serviceId !== serviceId) {
+            throw new NotFoundException('La calificación no pertenece a este servicio');
+        }
+        if (rating.ownerResponse) {
+            throw new ConflictException('Ya se ha respondido a esta calificación');
+        }
+
+        // Verificar que el usuario es dueño del servicio
+        const service = await this.prisma.service.findUnique({
+            where: { id: serviceId },
+            select: { userId: true },
+        });
+        if (!service) throw new NotFoundException(`Servicio ${serviceId} no encontrado`);
+        if (service.userId !== userId) {
+            throw new ForbiddenException('Solo el dueño del servicio puede responder reseñas');
+        }
+
+        return this.prisma.rating.update({
+            where: { id: ratingId },
+            data: {
+                ownerResponse: response,
+                respondedAt: new Date(),
+            },
+            select: {
+                id: true,
+                ownerResponse: true,
+                respondedAt: true,
+            },
+        });
     }
 }
