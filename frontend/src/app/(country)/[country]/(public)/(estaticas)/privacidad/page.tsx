@@ -47,7 +47,7 @@ export default async function PrivacidadPage({
                                     </ul>
                                 ) : isContactSection(section.title) ? (
                                     <p>
-                                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                                        <span className="font-semibold text-brand dark:text-brand-light">
                                             {section.content}
                                         </span>
                                     </p>

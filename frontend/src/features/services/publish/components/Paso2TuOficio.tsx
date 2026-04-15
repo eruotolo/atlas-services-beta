@@ -317,7 +317,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                 <p className="text-sm text-gray-600 md:text-base dark:text-gray-400">
                     Ahora cuéntanos sobre tu oficio
                 </p>
-                <p className="mt-2 text-sm font-medium text-blue-600 dark:text-blue-400">
+                <p className="mt-2 text-sm font-medium text-brand dark:text-brand-light">
                     Hola, {usuario.nombre} 👋
                 </p>
             </div>
@@ -383,7 +383,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                             disabled={
                                 loadingIA || !titulo.trim() || categoriasSeleccionadas.length === 0
                             }
-                            className="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 px-3 py-1.5 text-xs font-bold text-white transition-all hover:from-purple-600 hover:to-blue-600 disabled:cursor-not-allowed disabled:opacity-50 disabled:grayscale"
+                            className="flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-purple-500 to-brand/50 px-3 py-1.5 text-xs font-bold text-white transition-all hover:from-purple-600 hover:to-brand disabled:cursor-not-allowed disabled:opacity-50 disabled:grayscale"
                         >
                             <Sparkles size={14} className={loadingIA ? 'animate-spin' : ''} />
                             {loadingIA ? 'Generando...' : 'Completar con IA'}
@@ -430,7 +430,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                                 accept="image/jpeg,image/jpg,image/png,image/webp"
                                 onChange={handleImagenPrincipalChange}
                                 required
-                                className="form-input pr-4 pl-12 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-3 file:text-xs file:font-bold file:text-blue-700 hover:file:bg-blue-100"
+                                className="form-input pr-4 pl-12 file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-3 file:text-xs file:font-bold file:text-brand-hover hover:file:bg-brand/10"
                             />
                         </div>
                         {imagenPrincipalPreview && (
@@ -517,7 +517,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                             id={usarDatosUsuarioId}
                             checked={usarDatosUsuario}
                             onChange={(e) => setUsarDatosUsuario(e.target.checked)}
-                            className="h-4 w-4 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
+                            className="h-4 w-4 cursor-pointer rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-600 dark:bg-gray-700"
                         />
                         <label
                             htmlFor={usarDatosUsuarioId}
@@ -600,7 +600,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                         <button
                             type="button"
                             onClick={agregarRedSocial}
-                            className="flex items-center gap-1 rounded-lg bg-blue-50 px-3 py-1.5 text-xs font-bold text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/40"
+                            className="flex items-center gap-1 rounded-lg bg-brand/5 px-3 py-1.5 text-xs font-bold text-brand hover:bg-brand/10 dark:bg-brand/10 dark:text-brand-light dark:hover:bg-brand-marino/40"
                         >
                             <Plus size={14} />
                             Agregar
@@ -657,11 +657,11 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                     )}
                 </div>
 
-                <div className="rounded-2xl border border-blue-50 bg-blue-50/30 p-5 dark:border-blue-900/30 dark:bg-blue-900/20">
-                    <h4 className="mb-1 text-sm font-bold text-blue-900 dark:text-blue-300">
+                <div className="rounded-2xl border border-brand/5 bg-brand/5/30 p-5 dark:border-brand-marino/30 dark:bg-brand/10">
+                    <h4 className="mb-1 text-sm font-bold text-brand-marino dark:text-brand-light">
                         ¿Qué sigue?
                     </h4>
-                    <ul className="space-y-1 text-xs text-blue-700 dark:text-blue-400">
+                    <ul className="space-y-1 text-xs text-brand-hover dark:text-brand-light">
                         <li>• Podrás elegir entre publicación básica o premium</li>
                         <li>• Los clientes podrán contactarte por teléfono</li>
                     </ul>
@@ -673,7 +673,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                         id={declaracionId}
                         name="declaracion"
                         required
-                        className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800"
+                        className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-700 dark:bg-gray-800"
                     />
                     <label
                         htmlFor={declaracionId}
@@ -683,7 +683,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                         <a
                             href="/terminos"
                             target="_blank"
-                            className="font-bold text-blue-600 hover:underline dark:text-blue-400"
+                            className="font-bold text-brand hover:underline dark:text-brand-light"
                             rel="noopener"
                         >
                             condiciones de publicación
@@ -695,7 +695,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full cursor-pointer rounded-2xl bg-blue-600 px-6 py-4 font-black text-white shadow-lg shadow-blue-200 transition-colors hover:bg-blue-700 disabled:opacity-50 dark:shadow-none"
+                    className="btn-primary w-full cursor-pointer rounded-2xl px-6 py-4 disabled:opacity-50"
                 >
                     {loading ? 'Guardando...' : 'Siguiente Paso'}
                 </button>

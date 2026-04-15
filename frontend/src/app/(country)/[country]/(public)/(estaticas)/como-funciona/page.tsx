@@ -38,21 +38,21 @@ export default async function ComoFuncionaPage({
 
     return (
         <div className="bg-background">
-            <section className="bg-blue-600 px-4 py-12 text-center md:py-20 dark:bg-blue-700">
-                <div className="container mx-auto max-w-7xl px-4">
+            <section className="bg-brand px-4 py-12 text-center md:py-20 dark:bg-brand-hover">
+                <div className="container mx-auto max-w-site px-4">
                     <h1 className="mb-4 text-3xl leading-tight font-black text-white md:mb-6 md:text-5xl">
                         {dict.hero.title}
                     </h1>
-                    <p className="mx-auto max-w-2xl text-base text-blue-100 opacity-90 md:text-lg">
+                    <p className="mx-auto max-w-2xl text-base text-brand/20 opacity-90 md:text-lg">
                         {dict.hero.subtitle}
                     </p>
                 </div>
             </section>
 
             <section className="bg-background w-full py-12 md:py-20">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                     <div className="mb-10 text-center md:mb-16">
-                        <span className="text-[10px] font-black tracking-widest text-blue-600 uppercase md:text-sm dark:text-blue-400">
+                        <span className="text-[10px] font-black tracking-widest text-brand uppercase md:text-sm dark:text-brand-light">
                             {dict.forClients.label}
                         </span>
                         <h2 className="mt-2 text-2xl font-black text-gray-900 md:text-3xl dark:text-white">
@@ -64,7 +64,7 @@ export default async function ComoFuncionaPage({
                             const Icon = CLIENT_ICONS[i];
                             return (
                                 <div key={step.title} className="space-y-3 md:space-y-4">
-                                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 md:h-16 md:w-16 dark:bg-blue-900/20 dark:text-blue-400">
+                                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand/5 text-brand md:h-16 md:w-16 dark:bg-brand/10 dark:text-brand-light">
                                         <Icon size={28} className="md:h-8 md:w-8" />
                                     </div>
                                     <h3 className="text-lg font-bold text-gray-900 md:text-xl dark:text-white">
@@ -81,7 +81,7 @@ export default async function ComoFuncionaPage({
             </section>
 
             <section className="dark:bg-background w-full border-t border-gray-100 bg-gray-50 py-12 md:py-20 dark:border-gray-800">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                     <div className="mb-10 text-center md:mb-16">
                         <span className="text-[10px] font-black tracking-widest text-green-600 uppercase md:text-sm dark:text-green-400">
                             {dict.forProviders.label}

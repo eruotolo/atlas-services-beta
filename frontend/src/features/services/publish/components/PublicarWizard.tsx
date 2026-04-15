@@ -100,7 +100,7 @@ export default function PublicarWizard({ usuarioLogueado }: PublicarWizardProps)
 
     return (
         <div className="bg-background min-h-screen py-6 transition-colors duration-300 md:py-12">
-            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                 {/* Progress Steps */}
                 <div className="mb-8 md:mb-12">
                     <div className="flex items-center justify-between md:justify-center">
@@ -111,7 +111,7 @@ export default function PublicarWizard({ usuarioLogueado }: PublicarWizardProps)
                                         paso.completado
                                             ? 'bg-green-500 text-white'
                                             : paso.numero === pasoActual
-                                              ? 'bg-blue-600 text-white'
+                                              ? 'bg-brand text-white'
                                               : 'bg-gray-200 text-gray-500 dark:bg-gray-800 dark:text-gray-600'
                                     }`}
                                 >
@@ -123,7 +123,7 @@ export default function PublicarWizard({ usuarioLogueado }: PublicarWizardProps)
                                 </div>
                                 <div className="ml-2 hidden text-left leading-none md:block">
                                     <p
-                                        className={`text-[12px] font-black tracking-tighter whitespace-nowrap uppercase ${paso.numero === pasoActual ? 'text-blue-600 dark:text-blue-400' : 'text-gray-600 dark:text-gray-500'}`}
+                                        className={`text-[12px] font-black tracking-tighter whitespace-nowrap uppercase ${paso.numero === pasoActual ? 'text-brand dark:text-brand-light' : 'text-gray-600 dark:text-gray-500'}`}
                                     >
                                         Paso {paso.numero}
                                     </p>
@@ -144,7 +144,7 @@ export default function PublicarWizard({ usuarioLogueado }: PublicarWizardProps)
                     {/* Título de paso actual solo para móvil */}
                     {Number.isInteger(pasoActual) && pasos[pasoActual - 1] && (
                         <div className="mt-4 text-center md:hidden">
-                            <p className="text-xs font-black tracking-widest text-blue-600 uppercase dark:text-blue-400">
+                            <p className="text-xs font-black tracking-widest text-brand uppercase dark:text-brand-light">
                                 Paso {pasoActual}: {pasos[pasoActual - 1].titulo}
                             </p>
                         </div>

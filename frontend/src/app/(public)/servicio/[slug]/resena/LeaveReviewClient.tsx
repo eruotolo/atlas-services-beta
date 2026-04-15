@@ -122,11 +122,11 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                     Tu opinión ayuda a construir confianza en nuestra comunidad chilota.
                 </p>
                 {successMessage && (
-                    <div className="mx-auto mb-8 max-w-md rounded-xl bg-blue-50 p-4 text-sm font-bold text-blue-700 dark:bg-blue-900/20 dark:text-blue-400">
+                    <div className="mx-auto mb-8 max-w-md rounded-xl bg-brand/5 p-4 text-sm font-bold text-brand-hover dark:bg-brand/10 dark:text-brand-light">
                         {successMessage}
                     </div>
                 )}
-                <p className="animate-pulse text-sm font-bold tracking-widest text-blue-600 uppercase dark:text-blue-400">
+                <p className="animate-pulse text-sm font-bold tracking-widest text-brand uppercase dark:text-brand-light">
                     Volviendo al servicio...
                 </p>
             </div>
@@ -145,7 +145,7 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                 </button>
 
                 <div className="mb-10 text-center">
-                    <span className="mb-2 block text-[10px] font-black tracking-[0.2em] text-blue-600 uppercase dark:text-blue-400">
+                    <span className="mb-2 block text-[10px] font-black tracking-[0.2em] text-brand uppercase dark:text-brand-light">
                         Cuéntanos tu experiencia
                     </span>
                     <h1 className="text-3xl font-black text-gray-900 dark:text-white">
@@ -156,7 +156,7 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                     </p>
                 </div>
 
-                <div className="rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-2xl shadow-blue-900/5 md:p-12 dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
+                <div className="rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-2xl shadow-brand-marino/5 md:p-12 dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
                     <form onSubmit={handleSubmit}>
                         {/* Error Message */}
                         {error && (
@@ -177,7 +177,7 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                         {step === 1 && (
                             <div className="animate-in slide-in-from-right-8 space-y-6 duration-500">
                                 <div className="mb-4 flex items-center gap-4">
-                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/5 text-brand dark:bg-brand/10 dark:text-brand-light">
                                         <UserIcon size={24} />
                                     </div>
                                     <div>
@@ -190,12 +190,12 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                                     </div>
                                 </div>
 
-                                <div className="rounded-xl bg-blue-50 p-4 text-center dark:bg-blue-900/20">
-                                    <p className="text-sm text-blue-800 dark:text-blue-300">
+                                <div className="rounded-xl bg-brand/5 p-4 text-center dark:bg-brand/10">
+                                    <p className="text-sm text-brand-marino dark:text-brand-light">
                                         ¿Ya tienes cuenta?{' '}
                                         <a
                                             href={`/login?callbackUrl=/servicio/${service.slug}/resena`}
-                                            className="font-bold underline hover:text-blue-600 dark:hover:text-blue-200"
+                                            className="font-bold underline hover:text-brand dark:hover:text-brand-light"
                                         >
                                             Inicia sesión aquí
                                         </a>
@@ -218,7 +218,7 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                                             onChange={handleChange}
                                             type="text"
                                             placeholder="Ej: Pedro Chiguay"
-                                            className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-4 font-medium transition-all outline-none focus:border-blue-500 dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                                            className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-4 font-medium transition-all outline-none focus:border-brand dark:border-white/5 dark:bg-gray-800 dark:text-white"
                                         />
                                     </div>
                                     <div>
@@ -236,7 +236,7 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                                             onChange={handleChange}
                                             type="email"
                                             placeholder="pedro@correo.cl"
-                                            className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-4 font-medium transition-all outline-none focus:border-blue-500 dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                                            className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-4 font-medium transition-all outline-none focus:border-brand dark:border-white/5 dark:bg-gray-800 dark:text-white"
                                         />
                                     </div>
                                 </div>
@@ -245,7 +245,7 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                                     type="button"
                                     onClick={handleNext}
                                     disabled={!formData.name || !formData.email}
-                                    className="mt-8 flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-blue-600 py-4 font-bold text-white shadow-xl shadow-blue-900/10 transition-all hover:bg-blue-700 disabled:opacity-50 dark:shadow-none"
+                                    className="btn-primary mt-8 flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl py-4 disabled:opacity-50"
                                 >
                                     Continuar <ChevronRight size={20} />
                                 </button>
@@ -285,7 +285,7 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                                             </button>
                                         ))}
                                     </div>
-                                    <p className="mt-4 text-xs font-black tracking-widest text-blue-600 uppercase dark:text-blue-400">
+                                    <p className="mt-4 text-xs font-black tracking-widest text-brand uppercase dark:text-brand-light">
                                         {rating === 1
                                             ? 'Muy malo'
                                             : rating === 2
@@ -305,7 +305,7 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                                         htmlFor={`${id}-comment`}
                                         className="flex items-center gap-2 px-1 text-xs font-bold tracking-widest text-gray-400 uppercase dark:text-gray-500"
                                     >
-                                        <MessageSquare size={14} className="text-blue-500" />
+                                        <MessageSquare size={14} className="text-brand" />
                                         Tu comentario
                                     </label>
                                     <textarea
@@ -316,7 +316,7 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                                         onChange={handleChange}
                                         rows={5}
                                         placeholder="Cuéntanos cómo fue el trabajo, si llegó a la hora, etc..."
-                                        className="w-full resize-none rounded-2xl border-2 border-gray-100 bg-gray-50 p-4 leading-relaxed font-medium transition-all outline-none focus:border-blue-500 dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                                        className="w-full resize-none rounded-2xl border-2 border-gray-100 bg-gray-50 p-4 leading-relaxed font-medium transition-all outline-none focus:border-brand dark:border-white/5 dark:bg-gray-800 dark:text-white"
                                     />
                                 </div>
 
@@ -324,7 +324,7 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                                     <button
                                         type="submit"
                                         disabled={loading || rating === 0 || !formData.comment}
-                                        className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl bg-blue-600 py-5 text-lg font-black text-white shadow-2xl shadow-blue-900/20 transition-all hover:bg-blue-700 disabled:opacity-50 dark:shadow-none"
+                                        className="btn-primary flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl py-5 text-lg disabled:opacity-50"
                                     >
                                         {loading ? 'Enviando...' : 'Publicar mi reseña'}
                                     </button>
@@ -343,15 +343,15 @@ export default function LeaveReviewClient({ service, currentUser }: LeaveReviewC
                     </form>
                 </div>
 
-                <div className="mt-12 flex items-start gap-4 rounded-[2rem] border border-blue-100 bg-blue-50 p-6 dark:border-blue-900/30 dark:bg-blue-900/20">
-                    <div className="dark:bg-background shrink-0 rounded-xl bg-white p-2 text-blue-600 shadow-sm dark:text-blue-400">
+                <div className="mt-12 flex items-start gap-4 rounded-[2rem] border border-brand/20 bg-brand/5 p-6 dark:border-brand-marino/30 dark:bg-brand/10">
+                    <div className="dark:bg-background shrink-0 rounded-xl bg-white p-2 text-brand shadow-sm dark:text-brand-light">
                         <UserIcon size={20} />
                     </div>
                     <div>
-                        <h4 className="text-sm font-bold text-blue-900 dark:text-blue-300">
+                        <h4 className="text-sm font-bold text-brand-marino dark:text-brand-light">
                             Reseña Pública
                         </h4>
-                        <p className="mt-1 text-xs leading-relaxed text-blue-700 italic dark:text-blue-400">
+                        <p className="mt-1 text-xs leading-relaxed text-brand-hover italic dark:text-brand-light">
                             Al publicar, tu nombre y calificación serán visibles para todos.
                             Ayúdanos a mantener la comunidad respetuosa y honesta.
                         </p>

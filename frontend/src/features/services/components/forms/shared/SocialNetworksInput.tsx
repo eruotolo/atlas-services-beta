@@ -32,7 +32,7 @@ export default function SocialNetworksInput({
                 <button
                     type="button"
                     onClick={onAgregar}
-                    className={`flex items-center gap-1 rounded-lg bg-blue-50 px-${isAdmin ? '2' : '3'} py-${isAdmin ? '1' : '1.5'} text-${isAdmin ? '[10px]' : 'xs'} font-bold text-blue-600 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-400 dark:hover:bg-blue-900/40`}
+                    className={`flex items-center gap-1 rounded-lg bg-brand/5 px-${isAdmin ? '2' : '3'} py-${isAdmin ? '1' : '1.5'} text-${isAdmin ? '[10px]' : 'xs'} font-bold text-brand hover:bg-brand/10 dark:bg-brand/10 dark:text-brand-light dark:hover:bg-brand-marino/40`}
                 >
                     <Plus size={isAdmin ? 12 : 14} />
                     Agregar
@@ -66,7 +66,7 @@ export default function SocialNetworksInput({
                                 <select
                                     value={red.tipo}
                                     onChange={(e) => onActualizar(index, 'tipo', e.target.value)}
-                                    className={`rounded-${isAdmin ? 'lg' : 'xl'} border border-gray-200 bg-white px-${isAdmin ? '2' : '3'} py-${isAdmin ? '1.5' : '2'} text-${isAdmin ? 'xs' : 'sm'} text-gray-700 focus:border-blue-500 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white`}
+                                    className={`rounded-${isAdmin ? 'lg' : 'xl'} border border-gray-200 bg-white px-${isAdmin ? '2' : '3'} py-${isAdmin ? '1.5' : '2'} text-${isAdmin ? 'xs' : 'sm'} text-gray-700 focus:border-brand focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white`}
                                 >
                                     {TIPOS_RED_SOCIAL.map((t) => (
                                         <option key={t.value} value={t.value}>
@@ -79,7 +79,7 @@ export default function SocialNetworksInput({
                                     value={red.url}
                                     onChange={(e) => onActualizar(index, 'url', e.target.value)}
                                     placeholder="https://..."
-                                    className={`flex-1 rounded-${isAdmin ? 'lg' : 'xl'} border border-gray-200 px-${isAdmin ? '2' : '3'} py-${isAdmin ? '1.5' : '2'} text-${isAdmin ? 'xs' : 'sm'} text-gray-900 focus:border-blue-500 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white`}
+                                    className={`flex-1 rounded-${isAdmin ? 'lg' : 'xl'} border border-gray-200 px-${isAdmin ? '2' : '3'} py-${isAdmin ? '1.5' : '2'} text-${isAdmin ? 'xs' : 'sm'} text-gray-900 focus:border-brand focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white`}
                                 />
                                 <button
                                     type="button"

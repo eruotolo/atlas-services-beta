@@ -66,7 +66,7 @@ export default function DataTable<T extends { id: string }>({
                                 placeholder={searchPlaceholder}
                                 value={searchValue}
                                 onChange={(e) => onSearchChange(e.target.value)}
-                                className="w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-10 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/10 dark:bg-gray-900/40 dark:text-white"
+                                className="w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-10 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/10 dark:bg-gray-900/40 dark:text-white"
                             />
                             <svg
                                 className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 dark:text-gray-600"
