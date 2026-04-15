@@ -178,18 +178,18 @@ export function PaymentBrickMP({
                         <span className="font-bold text-gray-900 dark:text-white">
                             Total a pagar:
                         </span>
-                        <span className="text-2xl font-black text-blue-600 dark:text-blue-400">
+                        <span className="text-2xl font-black text-brand dark:text-brand-light">
                             ${precio.toLocaleString('es-CL')}
                         </span>
                     </div>
                 </div>
-                <div className="mb-6 rounded-xl bg-blue-50 p-4 dark:bg-blue-900/20">
+                <div className="mb-6 rounded-xl bg-brand/5 p-4 dark:bg-brand/10">
                     <div className="flex items-start gap-3">
                         <CheckCircle2
                             size={20}
-                            className="mt-0.5 shrink-0 text-blue-600 dark:text-blue-400"
+                            className="mt-0.5 shrink-0 text-brand dark:text-brand-light"
                         />
-                        <p className="text-sm font-medium text-blue-900 dark:text-blue-300">
+                        <p className="text-sm font-medium text-brand-marino dark:text-brand-light">
                             Tu servicio será destacado inmediatamente después del pago
                         </p>
                     </div>
@@ -198,7 +198,7 @@ export function PaymentBrickMP({
 
             <div className="mb-6 rounded-[2rem] border border-gray-200 bg-white p-8 dark:border-white/10 dark:bg-gray-900/40">
                 <div className="mb-4 flex items-center gap-2">
-                    <CreditCard size={24} className="text-blue-600 dark:text-blue-400" />
+                    <CreditCard size={24} className="text-brand dark:text-brand-light" />
                     <h3 className="text-lg font-black text-gray-900 dark:text-white">
                         Datos de Pago
                     </h3>
@@ -208,7 +208,7 @@ export function PaymentBrickMP({
                     <div className="flex items-center justify-center py-12">
                         <Loader2
                             size={32}
-                            className="animate-spin text-blue-600 dark:text-blue-400"
+                            className="animate-spin text-brand dark:text-brand-light"
                         />
                     </div>
                 )}
@@ -232,7 +232,7 @@ export function PaymentBrickMP({
                 )}
 
                 {loading && (
-                    <div className="mt-4 flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400">
+                    <div className="mt-4 flex items-center justify-center gap-2 text-brand dark:text-brand-light">
                         <Loader2 size={20} className="animate-spin" />
                         <span className="text-sm font-medium">Procesando pago...</span>
                     </div>

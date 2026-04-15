@@ -67,22 +67,22 @@ export default function Paso3NivelServicio({
                 </div>
 
                 {/* Plan PREMIUM */}
-                <div className="dark:to-background relative overflow-hidden rounded-[1.5rem] border-2 border-blue-500 bg-gradient-to-br from-blue-50/50 to-white p-6 shadow-xl shadow-blue-100 md:rounded-[2rem] md:p-8 dark:border-blue-600 dark:from-blue-900/20 dark:shadow-none">
+                <div className="dark:to-background relative overflow-hidden rounded-[1.5rem] border-2 border-brand bg-gradient-to-br from-brand/5/50 to-white p-6 shadow-xl shadow-brand/10 md:rounded-[2rem] md:p-8 dark:border-brand dark:from-brand-marino/20 dark:shadow-none">
                     <div className="absolute top-3 right-3">
-                        <span className="rounded-full bg-blue-500 px-2 py-0.5 text-[8px] font-black tracking-widest text-white uppercase">
+                        <span className="rounded-full bg-brand px-2 py-0.5 text-[8px] font-black tracking-widest text-white uppercase">
                             RECOMENDADO
                         </span>
                     </div>
 
                     <div className="mb-4 flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 md:h-12 md:w-12">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand md:h-12 md:w-12">
                             <Sparkles size={20} className="text-white" />
                         </div>
                         <div>
                             <h3 className="text-lg font-black tracking-tight text-gray-900 uppercase md:text-xl dark:text-white">
                                 Premium
                             </h3>
-                            <p className="text-xs font-bold text-blue-600 uppercase dark:text-blue-400">
+                            <p className="text-xs font-bold text-brand uppercase dark:text-brand-light">
                                 Aumenta tus clientes
                             </p>
                         </div>
@@ -90,15 +90,15 @@ export default function Paso3NivelServicio({
 
                     <ul className="mb-6 space-y-2.5">
                         <li className="flex items-start gap-2 text-sm text-gray-900 dark:text-white">
-                            <Check size={16} className="mt-0.5 shrink-0 text-blue-500" />
+                            <Check size={16} className="mt-0.5 shrink-0 text-brand" />
                             <span className="font-bold">Aparece destacado (Primer lugar)</span>
                         </li>
                         <li className="flex items-start gap-2 text-sm text-gray-900 dark:text-gray-300">
-                            <Check size={16} className="mt-0.5 shrink-0 text-blue-500" />
+                            <Check size={16} className="mt-0.5 shrink-0 text-brand" />
                             <span>Sello de confianza Pro</span>
                         </li>
                         <li className="flex items-start gap-2 text-sm text-gray-900 dark:text-gray-300">
-                            <Check size={16} className="mt-0.5 shrink-0 text-blue-500" />
+                            <Check size={16} className="mt-0.5 shrink-0 text-brand" />
                             <span>Prioridad máxima en búsquedas</span>
                         </li>
                     </ul>
@@ -106,7 +106,7 @@ export default function Paso3NivelServicio({
                     <button
                         type="button"
                         onClick={onSelectPremium}
-                        className="w-full cursor-pointer rounded-2xl bg-blue-600 px-6 py-4 text-sm font-black text-white shadow-lg shadow-blue-200 transition-colors hover:bg-blue-700 dark:shadow-none"
+                        className="btn-primary w-full cursor-pointer rounded-2xl px-6 py-4 text-sm"
                     >
                         Continuar con Premium ✨
                     </button>

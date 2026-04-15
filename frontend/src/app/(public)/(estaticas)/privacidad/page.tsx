@@ -96,7 +96,7 @@ export default function PrivacidadPage() {
                             <p>
                                 Puedes acceder, rectificar, cancelar o bloquear tus datos
                                 escribiendo a{' '}
-                                <span className="font-semibold text-blue-600 dark:text-blue-400">
+                                <span className="font-semibold text-brand dark:text-brand-light">
                                     privacidad@atlasservicios.com
                                 </span>{' '}
                                 o desde tu configuración de cuenta.
@@ -136,7 +136,7 @@ export default function PrivacidadPage() {
                                 Contacto
                             </h2>
                             <p>
-                                <span className="font-semibold text-blue-600 dark:text-blue-400">
+                                <span className="font-semibold text-brand dark:text-brand-light">
                                     privacidad@atlasservicios.com
                                 </span>
                             </p>

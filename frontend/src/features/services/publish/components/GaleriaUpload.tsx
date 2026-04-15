@@ -103,7 +103,7 @@ export default function GaleriaUpload({
                         accept="image/jpeg,image/jpg,image/png,image/webp"
                         onChange={handleFileChange}
                         disabled={imagenes.length >= maxImages}
-                        className="form-input pr-4 pl-12 file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-3 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100 disabled:cursor-not-allowed disabled:bg-gray-100 dark:file:bg-blue-900/30 dark:file:text-blue-400"
+                        className="form-input pr-4 pl-12 file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-3 file:text-sm file:font-semibold file:text-brand-hover hover:file:bg-brand/10 disabled:cursor-not-allowed disabled:bg-gray-100 dark:file:bg-brand-marino/30 dark:file:text-brand-light"
                     />
                 </div>
 

@@ -145,7 +145,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                     name="nombre"
                     defaultValue={usuario?.nombre}
                     required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
             </div>
 
@@ -162,7 +162,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                     name="email"
                     defaultValue={usuario?.email}
                     required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
             </div>
 
@@ -180,7 +180,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                         name="password"
                         required={!usuario}
                         placeholder={usuario ? 'Dejar vacío para no cambiar' : ''}
-                        className="w-full rounded-xl border border-gray-200 px-4 py-2.5 pr-12 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                        className="w-full rounded-xl border border-gray-200 px-4 py-2.5 pr-12 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                     />
                     <button
                         type="button"
@@ -204,7 +204,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                     id={`${id}-telefono`}
                     name="telefono"
                     defaultValue={usuario?.telefono || ''}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
             </div>
 
@@ -221,7 +221,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                                 value={role.id}
                                 checked={selectedRoles.includes(role.id)}
                                 onChange={() => handleRoleToggle(role.id)}
-                                className="h-4 w-4 rounded border-gray-300 text-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/10 dark:bg-gray-800"
+                                className="h-4 w-4 rounded border-gray-300 text-brand focus:ring-2 focus:ring-brand/20 dark:border-white/10 dark:bg-gray-800"
                             />
                             <span className="text-xs font-bold text-gray-700 dark:text-gray-400">
                                 {role.nombre}
@@ -243,7 +243,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                 <button
                     type="submit"
                     disabled={loading}
-                    className="cursor-pointer rounded-xl bg-blue-500 px-6 py-2.5 text-xs font-bold text-white transition-colors hover:bg-blue-600 disabled:opacity-50 dark:shadow-none"
+                    className="btn-primary cursor-pointer rounded-xl px-6 py-2.5 text-xs disabled:opacity-50"
                 >
                     {loading ? 'Guardando...' : usuario ? 'Actualizar' : 'Crear Usuario'}
                 </button>

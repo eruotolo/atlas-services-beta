@@ -213,7 +213,7 @@ const AyudaPage: React.FC = () => {
             pregunta: '¿Los profesionales en Atlas Services están verificados?',
             respuesta: (
                 <div className="space-y-3">
-                    <p className="font-bold text-blue-600 dark:text-blue-400">
+                    <p className="font-bold text-brand dark:text-brand-light">
                         Sí, todos los profesionales están verificados.
                     </p>
                     <p>Cada proveedor tiene:</p>
@@ -312,7 +312,7 @@ const AyudaPage: React.FC = () => {
                         <li>✓ Soldador</li>
                         <li>✓ Y más...</li>
                     </ul>
-                    <p className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                    <p className="text-sm font-bold text-brand dark:text-brand-light">
                         Total: 15+ categorías de servicios profesionales
                     </p>
                 </div>
@@ -373,7 +373,7 @@ const AyudaPage: React.FC = () => {
                         </ul>
                     </div>
                     <div>
-                        <p className="mb-2 font-bold text-blue-600 dark:text-blue-400">
+                        <p className="mb-2 font-bold text-brand dark:text-brand-light">
                             Servicios Premium ($9,990+/mes):
                         </p>
                         <ul className="list-disc space-y-1 pl-5 text-sm">
@@ -470,7 +470,7 @@ const AyudaPage: React.FC = () => {
                     </div>
 
                     {/* CTA */}
-                    <div className="mt-12 rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-indigo-50 p-8 text-center dark:border-blue-900/30 dark:from-blue-900/20 dark:to-indigo-900/20">
+                    <div className="mt-12 rounded-2xl border border-brand/20 bg-gradient-to-br from-brand/5 to-indigo-50 p-8 text-center dark:border-brand-marino/30 dark:from-brand-marino/20 dark:to-indigo-900/20">
                         <h3 className="mb-2 text-xl font-bold text-gray-900 md:text-2xl dark:text-white">
                             ¿No encontraste tu respuesta?
                         </h3>
@@ -479,7 +479,7 @@ const AyudaPage: React.FC = () => {
                         </p>
                         <a
                             href="/contacto"
-                            className="inline-block rounded-2xl bg-blue-600 px-8 py-4 text-sm font-bold text-white transition-all hover:bg-blue-700 md:text-base"
+                            className="btn-primary inline-block rounded-2xl px-8 py-4 text-sm md:text-base"
                         >
                             Contactar Soporte
                         </a>

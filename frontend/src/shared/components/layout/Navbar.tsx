@@ -24,7 +24,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
 
     return (
         <nav className="border-border bg-background/80 sticky top-0 z-50 border-b shadow-sm backdrop-blur-md">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                 <div className="flex h-20 items-center justify-between">
                     <div className="flex items-center">
                         <Link href={`/${country}`} className="group flex items-center">
@@ -35,7 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                     <div className="hidden items-center space-x-6 md:flex">
                         <Link
                             href={`/${country}/buscar`}
-                            className="flex items-center gap-2 font-medium text-gray-500 transition-colors hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
+                            className="flex items-center gap-2 font-medium text-gray-500 transition-colors hover:text-brand dark:text-gray-100 dark:hover:text-brand-light"
                         >
                             <Search size={18} />
                             <span>{dict.nav.search}</span>
@@ -43,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
 
                         <Link
                             href={`/${country}/publicar`}
-                            className="flex items-center gap-2 rounded-full bg-blue-600 px-6 py-2.5 text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 dark:shadow-none"
+                            className="btn-primary flex items-center gap-2 rounded-full px-6 py-2.5"
                         >
                             <PlusCircle size={18} />
                             <span className="font-semibold">{dict.nav.publish}</span>
@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                         {user?.role === 'admin' && (
                             <Link
                                 href={`/${country}/admin`}
-                                className="flex items-center gap-2 rounded-full bg-gray-900 px-6 py-2.5 text-white transition-all hover:bg-blue-600 dark:bg-gray-800 dark:hover:bg-blue-700"
+                                className="flex items-center gap-2 rounded-full bg-gray-900 px-6 py-2.5 text-white transition-all hover:bg-brand dark:bg-gray-800 dark:hover:bg-brand-hover"
                             >
                                 <LayoutDashboard size={18} />
                                 <span className="font-semibold">{dict.nav.adminPanel}</span>
@@ -64,7 +64,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                         {user ? (
                             <Link
                                 href={`/${country}/perfil`}
-                                className="bg-muted flex items-center gap-3 rounded-full border border-transparent px-3 py-1.5 text-gray-700 transition-colors hover:border-blue-100 hover:text-blue-600 dark:bg-gray-900 dark:text-gray-100 dark:hover:text-blue-400"
+                                className="bg-muted flex items-center gap-3 rounded-full border border-transparent px-3 py-1.5 text-gray-700 transition-colors hover:border-brand/20 hover:text-brand dark:bg-gray-900 dark:text-gray-100 dark:hover:text-brand-light"
                             >
                                 <div className="border-border bg-background flex h-8 w-8 items-center justify-center rounded-full border shadow-sm">
                                     <UserIcon
@@ -75,7 +75,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                                 <div className="flex flex-col items-start leading-none">
                                     <span className="text-sm font-bold">{user.name}</span>
                                     {user.subscription === SubscriptionLevel.PREMIUM && (
-                                        <span className="mt-0.5 text-[9px] font-black tracking-tighter text-blue-600 uppercase dark:text-blue-400">
+                                        <span className="mt-0.5 text-[9px] font-black tracking-tighter text-brand uppercase dark:text-brand-light">
                                             {dict.nav.memberPro}
                                         </span>
                                     )}
@@ -97,7 +97,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
                     <div className="flex items-center gap-2 md:hidden">
                         <Link
                             href={`/${country}/buscar`}
-                            className="flex items-center gap-1.5 p-2 text-gray-500 transition-colors hover:text-blue-600 dark:text-gray-100"
+                            className="flex items-center gap-1.5 p-2 text-gray-500 transition-colors hover:text-brand dark:text-gray-100"
                         >
                             <Search size={20} />
                             <span className="text-xs font-bold tracking-tight">{dict.nav.searchMobile}</span>
@@ -105,7 +105,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }) => {
 
                         <Link
                             href={`/${country}/publicar`}
-                            className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg shadow-blue-200 dark:shadow-none"
+                            className="btn-primary flex h-10 w-10 items-center justify-center rounded-full"
                         >
                             <PlusCircle size={20} />
                         </Link>
