@@ -108,6 +108,7 @@ export class ServicesService {
                 userName: s.user.name,
                 userAvatar: s.user.avatar,
                 categories: s.categories.map((c) => c.category),
+                isTopPro: Number(s.averageRating ?? 0) >= 4.5 && s.totalRatings >= 10,
                 user: undefined,
             })),
             meta: { total, page, limit, totalPages },
@@ -147,6 +148,8 @@ export class ServicesService {
                         id: true,
                         stars: true,
                         comment: true,
+                        ownerResponse: true,
+                        respondedAt: true,
                         createdAt: true,
                         user: { select: { name: true } },
                     },
@@ -164,6 +167,7 @@ export class ServicesService {
             userEmail: user.email,
             userPhone: user.phone,
             userAvatar: user.avatar,
+            isTopPro: Number(rest.averageRating ?? 0) >= 4.5 && rest.totalRatings >= 10,
             categories: categories.map((c) => c.category),
             socialNetworks: socialMedia.map((sm) => ({ id: sm.id, tipo: sm.type, url: sm.url })),
             reviews: ratings.map((r) => ({
@@ -171,6 +175,8 @@ export class ServicesService {
                 userName: r.user.name,
                 rating: r.stars,
                 comment: r.comment,
+                ownerResponse: r.ownerResponse,
+                respondedAt: r.respondedAt,
                 date: r.createdAt,
             })),
         };

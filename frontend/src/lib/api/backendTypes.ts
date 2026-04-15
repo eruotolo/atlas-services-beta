@@ -66,6 +66,7 @@ export interface BackendServiceDto {
     categories: BackendCategoryDto[];
     socialNetworks?: BackendSocialNetworkDto[];
     reviews?: BackendReviewDto[];
+    isTopPro?: boolean;
     createdAt: string;
     updatedAt: string;
 }
@@ -81,6 +82,8 @@ export interface BackendReviewDto {
     userName: string;
     rating: number;
     comment?: string | null;
+    ownerResponse?: string | null;
+    respondedAt?: string | null;
     date: string;
 }
 

@@ -36,6 +36,7 @@ function mapServiceDto(s: BackendServiceDto) {
         reviewsCount: s.totalRatings,
         image: s.mainImage ?? s.images[0] ?? PLACEHOLDER_IMAGE,
         isPremium: s.featured && s.level === 'PREMIUM',
+        isTopPro: s.isTopPro ?? false,
         updatedAt: s.updatedAt ? new Date(s.updatedAt) : undefined,
     };
 }
@@ -60,6 +61,8 @@ function mapServiceDetailDto(s: BackendServiceDto) {
             userName: r.userName,
             rating: r.rating,
             comment: r.comment,
+            ownerResponse: r.ownerResponse ?? null,
+            respondedAt: r.respondedAt ? new Date(r.respondedAt) : null,
             date: new Date(r.date),
         })),
     };

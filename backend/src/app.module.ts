@@ -7,6 +7,8 @@ import { ApiKeyGuard } from '@common/guards/api-key.guard';
 
 import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { ChatModule } from './modules/chat/chat.module';
+import { FavoritesModule } from './modules/favorites/favorites.module';
 import { GeoModule } from './modules/geo/geo.module';
 import { InteractionsModule } from './modules/interactions/interactions.module';
 import { PaymentsModule } from './modules/payments/payments.module';
@@ -40,6 +42,8 @@ import { PrismaModule } from './prisma/prisma.module';
         SponsorsModule,
         PricesModule,
         InteractionsModule,
+        FavoritesModule,
+        ChatModule,
     ],
     providers: [
         {

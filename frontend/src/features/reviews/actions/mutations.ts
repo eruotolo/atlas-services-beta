@@ -74,3 +74,28 @@ export async function eliminarCalificacion(id: string) {
         return { error: 'Error al eliminar la calificación' };
     }
 }
+
+export async function responderReview(serviceId: string, ratingId: string, respuesta: string) {
+    const token = await getAuthToken();
+    if (!token) return { error: 'Debes iniciar sesión para responder.' };
+
+    try {
+        await apiClient.patch(
+            `/services/${serviceId}/ratings/${ratingId}/reply`,
+            { respuesta },
+            { token },
+        );
+
+        revalidatePath('/servicio');
+        return { success: true };
+    } catch (error) {
+        if (error instanceof ApiError && error.status === 409) {
+            return { error: 'Ya se ha respondido a esta reseña.' };
+        }
+        if (error instanceof ApiError && error.status === 403) {
+            return { error: 'Solo el dueño del servicio puede responder reseñas.' };
+        }
+        console.error('Error respondiendo a reseña:', error);
+        return { error: 'Error al publicar la respuesta.' };
+    }
+}

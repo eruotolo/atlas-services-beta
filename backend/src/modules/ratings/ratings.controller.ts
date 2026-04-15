@@ -8,6 +8,7 @@ import { RolesGuard } from '@common/guards/roles.guard';
 
 import { CreateRatingDto } from './dto/create-rating.dto';
 import { QueryRatingsDto } from './dto/query-ratings.dto';
+import { ReplyRatingDto } from './dto/reply-rating.dto';
 import { UpdateRatingDto } from './dto/update-rating.dto';
 import { RatingsService } from './ratings.service';
 
@@ -58,5 +59,18 @@ export class RatingsController {
     @ApiOperation({ summary: 'Eliminar calificación propia o como admin' })
     remove(@Param('id') id: string, @CurrentUser() user: { id: string; roles: string[] }) {
         return this.service.delete(id, user.id, user.roles);
+    }
+
+    @Patch('services/:serviceId/ratings/:ratingId/reply')
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth('access-token')
+    @ApiOperation({ summary: 'Responder a una reseña (solo dueño del servicio)' })
+    reply(
+        @Param('serviceId') serviceId: string,
+        @Param('ratingId') ratingId: string,
+        @Body() dto: ReplyRatingDto,
+        @CurrentUser() user: { id: string },
+    ) {
+        return this.service.replyToRating(ratingId, serviceId, user.id, dto.respuesta);
     }
 }
