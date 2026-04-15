@@ -1,11 +1,11 @@
 {
-    "name": "Chiloé Servicios",
-    "short_name": "Chiloé",
-    "description": "Encuentra los mejores profesionales en Chiloé. Gasfitería, electricidad, carpintería, fletes y más.",
+    "name": "Atlas Servicios",
+    "short_name": "Atlas",
+    "description": "Encuentra los mejores profesionales cerca de ti. Gasfitería, electricidad, carpintería, fletes y más.",
     "start_url": "/",
     "display": "standalone",
     "background_color": "#FFFFFF",
-    "theme_color": "#3B82F6",
+    "theme_color": "#3B3DB6",
     "orientation": "portrait-primary",
     "icons": [
         {
@@ -13,6 +13,12 @@
             "sizes": "192x192",
             "type": "image/png",
             "purpose": "any maskable"
+        },
+        {
+            "src": "/icon-256.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "any"
         },
         {
             "src": "/icon-512.png",

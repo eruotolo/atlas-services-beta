@@ -87,7 +87,7 @@ function PaginationNav({
                                 onClick={() => onPageChange(page)}
                                 className={`flex h-10 w-10 cursor-pointer items-center justify-center rounded-lg border transition-colors ${
                                     currentPage === page
-                                        ? 'border-blue-600 bg-blue-600 font-bold text-white shadow-md dark:border-blue-500 dark:bg-blue-500'
+                                        ? 'border-brand bg-brand font-bold text-white shadow-md dark:border-brand dark:bg-brand'
                                         : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50 dark:border-white/10 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
                                 }`}
                             >
@@ -234,7 +234,7 @@ export default function SearchPageClient({
 
     return (
         <section className="bg-background min-h-screen py-10 pb-20 transition-colors duration-300">
-            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col gap-8 md:flex-row">
                     {/* Sidebar Filters */}
                     <aside
@@ -247,7 +247,7 @@ export default function SearchPageClient({
                             <button
                                 type="button"
                                 onClick={resetFilters}
-                                className="cursor-pointer text-xs font-bold text-blue-600 hover:underline dark:text-blue-400"
+                                className="cursor-pointer text-xs font-bold text-brand hover:underline dark:text-brand-light"
                             >
                                 Limpiar filtros
                             </button>
@@ -269,12 +269,12 @@ export default function SearchPageClient({
                                     <label className="group flex cursor-pointer items-center gap-3">
                                         <input
                                             type="checkbox"
-                                            className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-800 dark:checked:bg-blue-600"
+                                            className="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-500 dark:bg-gray-800 dark:checked:bg-brand"
                                             checked={selectedCategories.includes('Todos')}
                                             onChange={() => handleCategoryChange('Todos')}
                                         />
                                         <span
-                                            className={`text-sm ${selectedCategories.includes('Todos') ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-200'}`}
+                                            className={`text-sm ${selectedCategories.includes('Todos') ? 'font-bold text-brand dark:text-brand-light' : 'text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-200'}`}
                                         >
                                             Todos
                                         </span>
@@ -286,7 +286,7 @@ export default function SearchPageClient({
                                         >
                                             <input
                                                 type="checkbox"
-                                                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-800 dark:checked:bg-blue-600"
+                                                className="h-4 w-4 rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-500 dark:bg-gray-800 dark:checked:bg-brand"
                                                 checked={
                                                     selectedCategories.includes(cat.id) ||
                                                     selectedCategories.includes(cat.nombre)
@@ -294,7 +294,7 @@ export default function SearchPageClient({
                                                 onChange={() => handleCategoryChange(cat.id)}
                                             />
                                             <span
-                                                className={`text-sm ${selectedCategories.includes(cat.id) || selectedCategories.includes(cat.nombre) ? 'font-bold text-blue-600 dark:text-blue-400' : 'text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-200'}`}
+                                                className={`text-sm ${selectedCategories.includes(cat.id) || selectedCategories.includes(cat.nombre) ? 'font-bold text-brand dark:text-brand-light' : 'text-gray-500 group-hover:text-gray-700 dark:text-gray-400 dark:group-hover:text-gray-200'}`}
                                             >
                                                 {cat.nombre}
                                             </span>
@@ -320,7 +320,7 @@ export default function SearchPageClient({
                                         Región
                                     </h3>
                                     <select
-                                        className="w-full rounded-xl border border-gray-200 bg-white p-2.5 text-sm font-medium outline-none focus:ring-2 focus:ring-blue-500 dark:border-white/10 dark:bg-gray-900 dark:text-white"
+                                        className="w-full rounded-xl border border-gray-200 bg-white p-2.5 text-sm font-medium outline-none focus:ring-2 focus:ring-brand dark:border-white/10 dark:bg-gray-900 dark:text-white"
                                         value={selectedRegion}
                                         onChange={(e) => handleRegionChange(e.target.value)}
                                     >
@@ -346,7 +346,7 @@ export default function SearchPageClient({
                                         Ciudad
                                     </h3>
                                     <select
-                                        className="w-full rounded-xl border border-gray-200 bg-white p-2.5 text-sm font-medium outline-none focus:ring-2 focus:ring-blue-500 dark:border-white/10 dark:bg-gray-900 dark:text-white"
+                                        className="w-full rounded-xl border border-gray-200 bg-white p-2.5 text-sm font-medium outline-none focus:ring-2 focus:ring-brand dark:border-white/10 dark:bg-gray-900 dark:text-white"
                                         value={selectedLocality}
                                         onChange={(e) => handleLocalityChange(e.target.value)}
                                     >
@@ -374,7 +374,7 @@ export default function SearchPageClient({
                             <button
                                 type="button"
                                 onClick={() => setShowFilters(false)}
-                                className="mt-8 w-full cursor-pointer rounded-xl bg-blue-600 py-3 font-bold text-white shadow-lg"
+                                className="btn-primary mt-8 w-full cursor-pointer rounded-xl py-3"
                             >
                                 Ver {totalCount} resultados
                             </button>
@@ -387,7 +387,7 @@ export default function SearchPageClient({
                         <div className="mb-8">
                             <form
                                 onSubmit={handleSearch}
-                                className="flex flex-col items-stretch overflow-hidden rounded-2xl border border-gray-100 bg-white p-2 shadow-xl shadow-blue-900/5 md:flex-row md:items-center dark:border-white/10 dark:bg-gray-900/40 dark:backdrop-blur-xl"
+                                className="flex flex-col items-stretch overflow-hidden rounded-2xl border border-gray-100 bg-white p-2 shadow-xl shadow-brand-marino/5 md:flex-row md:items-center dark:border-white/10 dark:bg-gray-900/40 dark:backdrop-blur-xl"
                             >
                                 <div className="flex flex-grow items-center gap-3 px-4 py-3">
                                     <Search className="text-gray-500" size={20} />
@@ -403,7 +403,7 @@ export default function SearchPageClient({
                                 {regions.length > 0 && (
                                     <div className="flex items-center gap-2 border-t border-gray-100 px-4 py-3 md:border-t-0 md:border-l dark:border-white/10">
                                         <MapPin
-                                            className="text-blue-600 dark:text-blue-400"
+                                            className="text-brand dark:text-brand-light"
                                             size={18}
                                         />
                                         <select
@@ -457,7 +457,7 @@ export default function SearchPageClient({
 
                                 <button
                                     type="submit"
-                                    className="m-1 cursor-pointer rounded-xl bg-blue-600 px-8 py-3 font-bold text-white transition-all hover:bg-blue-700 dark:shadow-none"
+                                    className="btn-primary m-1 cursor-pointer rounded-xl px-8 py-3"
                                 >
                                     Buscar
                                 </button>
@@ -510,7 +510,7 @@ export default function SearchPageClient({
                                 <button
                                     type="button"
                                     onClick={resetFilters}
-                                    className="mt-6 cursor-pointer font-bold text-blue-600 hover:underline dark:text-blue-400"
+                                    className="mt-6 cursor-pointer font-bold text-brand hover:underline dark:text-brand-light"
                                 >
                                     Limpiar todos los filtros
                                 </button>

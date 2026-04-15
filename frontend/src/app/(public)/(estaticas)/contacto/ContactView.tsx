@@ -118,12 +118,12 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
 
     return (
         <section className="bg-background w-full py-10 md:py-20">
-            <div className="container mx-auto max-w-7xl px-4">
+            <div className="container mx-auto max-w-site px-4">
                 <div className="grid grid-cols-1 gap-10 md:gap-20 lg:grid-cols-2">
                     <div>
                         <h1 className="mb-4 text-3xl leading-tight font-black text-gray-900 italic md:mb-6 md:text-5xl dark:text-white">
                             {tr.title}{' '}
-                            <span className="text-blue-600 dark:text-blue-400">{tr.titleHighlight}</span>
+                            <span className="text-brand dark:text-brand-light">{tr.titleHighlight}</span>
                         </h1>
                         <p className="mb-8 text-base text-gray-500 md:mb-12 md:text-lg dark:text-gray-400">
                             {tr.subtitle}
@@ -131,7 +131,7 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
 
                         <div className="space-y-6 md:space-y-8">
                             <div className="group flex items-center gap-4 md:gap-6">
-                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 transition-transform group-hover:scale-110 md:h-14 md:w-14 dark:bg-blue-900/20 dark:text-blue-400">
+                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-brand/5 text-brand transition-transform group-hover:scale-110 md:h-14 md:w-14 dark:bg-brand/10 dark:text-brand-light">
                                     <Mail size={20} className="md:h-6 md:w-6" />
                                 </div>
                                 <div>
@@ -177,7 +177,7 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
                         </div>
                     </div>
 
-                    <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-2xl shadow-blue-900/5 md:rounded-[2.5rem] md:p-10 dark:border-white/10 dark:bg-gray-900/40 dark:backdrop-blur-xl">
+                    <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-2xl shadow-brand-marino/5 md:rounded-[2.5rem] md:p-10 dark:border-white/10 dark:bg-gray-900/40 dark:backdrop-blur-xl">
                         <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div className="space-y-1.5 md:space-y-2">
@@ -195,7 +195,7 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
                                         onChange={handleChange}
                                         placeholder={tr.form.namePlaceholder}
                                         required
-                                        className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-blue-500 md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
+                                        className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-brand md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-brand"
                                     />
                                 </div>
                                 <div className="space-y-1.5 md:space-y-2">
@@ -213,7 +213,7 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
                                         onChange={handleChange}
                                         placeholder={tr.form.emailPlaceholder}
                                         required
-                                        className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-blue-500 md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
+                                        className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-brand md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-brand"
                                     />
                                 </div>
                             </div>
@@ -232,7 +232,7 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
                                     onChange={handleChange}
                                     placeholder={tr.form.phonePlaceholder}
                                     required
-                                    className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-blue-500 md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
+                                    className="w-full rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-brand md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-brand"
                                 />
                             </div>
                             <div className="space-y-1.5 md:space-y-2">
@@ -248,7 +248,7 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
                                     value={formData.asunto}
                                     onChange={handleChange}
                                     required
-                                    className="w-full appearance-none rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-blue-500 md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
+                                    className="w-full appearance-none rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-brand md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-brand"
                                 >
                                     {tr.form.subjectOptions.map((option) => (
                                         <option key={option} className="dark:bg-gray-900">
@@ -272,7 +272,7 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
                                     rows={4}
                                     placeholder={tr.form.messagePlaceholder}
                                     required
-                                    className="w-full resize-none rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-blue-500 md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
+                                    className="w-full resize-none rounded-2xl border-2 border-gray-100 bg-gray-50 p-3.5 text-sm transition-all outline-none focus:border-brand md:p-4 md:text-base dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:border-brand"
                                 />
                             </div>
 
@@ -293,7 +293,7 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
                             <button
                                 type="submit"
                                 disabled={estado === 'loading'}
-                                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-blue-600 py-4 text-base font-bold text-white shadow-xl shadow-blue-900/10 transition-all hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 md:text-lg dark:shadow-none"
+                                className="btn-primary flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl py-4 text-base disabled:cursor-not-allowed disabled:opacity-50 md:text-lg"
                             >
                                 {estado === 'loading' ? (
                                     <>

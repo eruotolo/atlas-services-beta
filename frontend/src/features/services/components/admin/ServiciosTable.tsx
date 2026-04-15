@@ -223,7 +223,7 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
                     <button
                         type="button"
                         onClick={() => handleEdit(servicio)}
-                        className="cursor-pointer rounded-xl p-2 text-blue-600 transition-colors hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand-marino/30"
                         title="Editar"
                     >
                         <Edit2 size={18} />
@@ -260,7 +260,7 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
                     <button
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="flex cursor-pointer items-center gap-2 rounded-2xl bg-blue-500 px-4 py-3 font-bold text-white transition-all hover:bg-blue-600 dark:shadow-none"
+                        className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-4 py-3"
                     >
                         <Plus size={20} />
                         <span className="hidden sm:inline">Nuevo Servicio</span>

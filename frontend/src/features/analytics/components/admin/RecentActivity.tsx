@@ -29,7 +29,7 @@ function getIcon(tipo: string) {
     switch (tipo) {
         case 'VER_TELEFONO':
         case 'VIEW_PHONE':
-            return <Phone size={16} className="text-blue-500" />;
+            return <Phone size={16} className="text-brand" />;
         case 'VER_EMAIL':
         case 'VIEW_EMAIL':
             return <Mail size={16} className="text-purple-500" />;
@@ -65,7 +65,7 @@ function getBg(tipo: string) {
     switch (tipo) {
         case 'VER_TELEFONO':
         case 'VIEW_PHONE':
-            return 'bg-blue-50 dark:bg-blue-500/10';
+            return 'bg-brand/5 dark:bg-brand/10';
         case 'VER_EMAIL':
         case 'VIEW_EMAIL':
             return 'bg-purple-50 dark:bg-purple-500/10';

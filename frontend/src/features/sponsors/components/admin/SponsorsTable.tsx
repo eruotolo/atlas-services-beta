@@ -110,7 +110,7 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
                     href={sponsor.linkExterno}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-blue-600 hover:underline dark:text-blue-400"
+                    className="text-brand hover:underline dark:text-brand-light"
                 >
                     Ver sitio
                 </a>
@@ -119,7 +119,7 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
         {
             header: 'Nivel',
             cell: (sponsor) => (
-                <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-bold text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                <span className="rounded-full bg-brand/10 px-2 py-1 text-xs font-bold text-brand-marino dark:bg-brand-marino/30 dark:text-brand-light">
                     {sponsor.nivel}
                 </span>
             ),
@@ -170,7 +170,7 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
                     <button
                         type="button"
                         onClick={() => handleEdit(sponsor)}
-                        className="cursor-pointer rounded-xl p-2 text-blue-600 transition-colors hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand-marino/30"
                         title="Editar"
                     >
                         <Edit2 size={18} />
@@ -207,7 +207,7 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
                     <button
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="flex cursor-pointer items-center gap-2 rounded-2xl bg-blue-500 px-4 py-3 font-bold text-white transition-all hover:bg-blue-600 dark:shadow-none"
+                        className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-4 py-3"
                     >
                         <Plus size={20} />
                         <span className="hidden sm:inline">Nuevo Sponsor</span>

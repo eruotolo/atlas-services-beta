@@ -119,7 +119,7 @@ export default function TerminosPage() {
                             </h2>
                             <p>
                                 Estos términos se rigen por las leyes de Chile. Para consultas:{' '}
-                                <span className="font-semibold text-blue-600 dark:text-blue-400">
+                                <span className="font-semibold text-brand dark:text-brand-light">
                                     legal@atlasservicios.com
                                 </span>
                             </p>

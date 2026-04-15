@@ -64,7 +64,7 @@ export default function SponsorSlider({
     return (
         <div className="relative w-full">
             {variant === 'senior' ? (
-                <div className="overflow-hidden rounded-[2.5rem] shadow-xl shadow-blue-900/10">
+                <div className="overflow-hidden rounded-[2.5rem] shadow-xl shadow-brand-marino/10">
                     <Link
                         href={sponsors[currentIndex].linkExterno}
                         target="_blank"
@@ -86,7 +86,7 @@ export default function SponsorSlider({
                     {visibleSponsors.map((sponsor) => (
                         <div
                             key={sponsor.id}
-                            className="group overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white p-2 shadow-xl shadow-blue-900/5 transition-all hover:shadow-2xl hover:shadow-blue-900/10"
+                            className="group overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white p-2 shadow-xl shadow-brand-marino/5 transition-all hover:shadow-2xl hover:shadow-brand-marino/10"
                         >
                             <div className="flex flex-col items-center sm:flex-row">
                                 {/* Imagen */}
@@ -101,7 +101,7 @@ export default function SponsorSlider({
 
                                 {/* Contenido */}
                                 <div className="flex flex-grow flex-col justify-center p-4">
-                                    <span className="mb-2 inline-block w-fit rounded bg-blue-50 px-2 py-0.5 text-[10px] font-black text-blue-600">
+                                    <span className="mb-2 inline-block w-fit rounded bg-brand/5 px-2 py-0.5 text-[10px] font-black text-brand">
                                         SPONSORED
                                     </span>
                                     <h3 className="mb-1 line-clamp-1 text-base font-black text-gray-900">
@@ -116,7 +116,7 @@ export default function SponsorSlider({
                                         href={sponsor.linkExterno}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-xs font-bold text-blue-600 hover:underline"
+                                        className="flex items-center gap-2 text-xs font-bold text-brand hover:underline"
                                     >
                                         Visitar sitio <ExternalLink size={12} />
                                     </Link>
@@ -139,7 +139,7 @@ export default function SponsorSlider({
                                 onClick={() => goToSlide(index)}
                                 className={`h-2 cursor-pointer rounded-full transition-all ${
                                     index === currentIndex
-                                        ? 'w-10 bg-blue-600'
+                                        ? 'w-10 bg-brand'
                                         : 'w-2 bg-gray-300 hover:bg-gray-400'
                                 }`}
                                 aria-label={`Ir a página ${index + 1}`}

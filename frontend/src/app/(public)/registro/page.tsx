@@ -76,7 +76,7 @@ export default function RegistroPage() {
                         autoCapitalize={name === 'email' ? 'none' : undefined}
                         autoCorrect={name === 'email' ? 'off' : undefined}
                         spellCheck={name === 'email' ? false : undefined}
-                        className={`w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600 ${
+                        className={`w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600 ${
                             hasError
                                 ? 'border-red-500 dark:border-red-500'
                                 : 'border-gray-200 dark:border-white/5'
@@ -120,14 +120,14 @@ export default function RegistroPage() {
                     <div className="mb-4">
                         <Link
                             href="/"
-                            className="inline-flex items-center gap-2 text-sm font-bold text-gray-500 transition-colors hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400"
+                            className="inline-flex items-center gap-2 text-sm font-bold text-gray-500 transition-colors hover:text-brand dark:text-gray-400 dark:hover:text-brand-light"
                         >
                             <ArrowLeft size={16} />
                             Volver al Inicio
                         </Link>
                     </div>
 
-                    <div className="animate-in fade-in slide-in-from-bottom-4 rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-2xl shadow-blue-900/5 duration-500 md:p-10 dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
+                    <div className="animate-in fade-in slide-in-from-bottom-4 rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-2xl shadow-brand-marino/5 duration-500 md:p-10 dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
                         <form action={formAction} className="space-y-6">
                             {errors.general && (
                                 <div className="rounded-2xl bg-red-50 p-4 text-sm font-bold text-red-600 dark:bg-red-900/20 dark:text-red-400">
@@ -172,7 +172,7 @@ export default function RegistroPage() {
                                     id={ids.terminos}
                                     name="terminos"
                                     required
-                                    className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800"
+                                    className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-700 dark:bg-gray-800"
                                 />
                                 <label
                                     htmlFor={ids.terminos}
@@ -182,7 +182,7 @@ export default function RegistroPage() {
                                     <Link
                                         href={`/${country}/terminos`}
                                         target="_blank"
-                                        className="font-bold text-blue-600 hover:underline dark:text-blue-400"
+                                        className="font-bold text-brand hover:underline dark:text-brand-light"
                                     >
                                         Términos y Condiciones
                                     </Link>{' '}
@@ -190,7 +190,7 @@ export default function RegistroPage() {
                                     <Link
                                         href={`/${country}/privacidad`}
                                         target="_blank"
-                                        className="font-bold text-blue-600 hover:underline dark:text-blue-400"
+                                        className="font-bold text-brand hover:underline dark:text-brand-light"
                                     >
                                         Política de Privacidad
                                     </Link>
@@ -201,7 +201,7 @@ export default function RegistroPage() {
                             <button
                                 type="submit"
                                 disabled={isPending}
-                                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-blue-600 py-4 text-lg font-bold text-white shadow-xl shadow-blue-900/10 transition-all hover:bg-blue-700 disabled:opacity-50 dark:shadow-none"
+                                className="btn-primary flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl py-4 text-lg disabled:opacity-50"
                             >
                                 {isPending ? (
                                     'Creando cuenta...'
@@ -218,7 +218,7 @@ export default function RegistroPage() {
                         ¿Ya tienes cuenta?{' '}
                         <Link
                             href={`/${country}/login`}
-                            className="font-bold text-blue-600 hover:underline dark:text-blue-400"
+                            className="font-bold text-brand hover:underline dark:text-brand-light"
                         >
                             Inicia sesión
                         </Link>
