@@ -164,7 +164,7 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                     </div>
                     <Link
                         href={link('/publicar')}
-                        className="flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-8 py-3 font-bold text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 dark:shadow-none"
+                        className="btn-primary flex items-center justify-center gap-2 rounded-2xl px-8 py-3"
                     >
                         <Plus size={18} /> Publicar Nuevo
                     </Link>
@@ -181,13 +181,13 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                             className="relative overflow-hidden rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:hover:border-white/20"
                         >
                             {servicio.destacado && (
-                                <div className="absolute top-0 bottom-0 left-0 w-1.5 bg-blue-600" />
+                                <div className="absolute top-0 bottom-0 left-0 w-1.5 bg-brand" />
                             )}
 
                             <div className="flex flex-col gap-6 md:flex-row">
                                 <div className="flex-grow space-y-3">
                                     <div className="flex flex-wrap items-center justify-between gap-2">
-                                        <span className="text-[10px] font-black tracking-widest text-blue-600 uppercase dark:text-blue-400">
+                                        <span className="text-[10px] font-black tracking-widest text-brand uppercase dark:text-brand-light">
                                             {servicio.categories && servicio.categories.length > 0
                                                 ? servicio.categories
                                                       .map((c) => c.nombre)
@@ -205,7 +205,7 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                                                 </span>
                                             )}
                                             {servicio.destacado && (
-                                                <span className="rounded-full bg-blue-600 px-3 py-1 text-[9px] font-black text-white uppercase">
+                                                <span className="rounded-full bg-brand px-3 py-1 text-[9px] font-black text-white uppercase">
                                                     Destacado
                                                 </span>
                                             )}
@@ -273,7 +273,7 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                                     <button
                                         type="button"
                                         onClick={() => handleEdit(servicio)}
-                                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-blue-100 py-2.5 text-xs font-bold text-blue-600 transition-all hover:bg-blue-50 dark:border-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/20"
+                                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-brand/20 py-2.5 text-xs font-bold text-brand transition-all hover:bg-brand/5 dark:border-brand-marino/30 dark:text-brand-light dark:hover:bg-brand/10"
                                     >
                                         <Edit2 size={14} /> Editar
                                     </button>
@@ -312,7 +312,7 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                     </p>
                     <Link
                         href={link('/publicar')}
-                        className="inline-flex items-center gap-2 rounded-2xl bg-blue-600 px-10 py-4 font-bold text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 dark:shadow-none"
+                        className="btn-primary inline-flex items-center gap-2 rounded-2xl px-10 py-4"
                     >
                         <Zap size={20} /> Crear mi primer aviso
                     </Link>

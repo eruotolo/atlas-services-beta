@@ -101,7 +101,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                     defaultValue={categoria?.nombre}
                     required
                     placeholder="Ej: Gasfitería"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
             </div>
 
@@ -113,13 +113,13 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                     <button
                         type="button"
                         onClick={() => setShowIconPicker(!showIconPicker)}
-                        className="flex w-full cursor-pointer items-center justify-between rounded-xl border border-gray-200 px-4 py-2.5 text-left text-gray-900 transition-all hover:bg-gray-50 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+                        className="flex w-full cursor-pointer items-center justify-between rounded-xl border border-gray-200 px-4 py-2.5 text-left text-gray-900 transition-all hover:bg-gray-50 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                     >
                         <span className="flex items-center gap-3">
                             {selectedIcon ? (
                                 <CategoryIcon
                                     name={selectedIcon}
-                                    className="text-blue-600 dark:text-blue-400"
+                                    className="text-brand dark:text-brand-light"
                                     size={20}
                                 />
                             ) : (
@@ -131,7 +131,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                                 {selectedIcon || 'Sin icono'}
                             </span>
                         </span>
-                        <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                        <span className="text-xs font-bold text-brand dark:text-brand-light">
                             Cambiar
                         </span>
                     </button>
@@ -178,7 +178,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                                         }}
                                         className={`flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl p-2 transition-all ${
                                             isSelected
-                                                ? 'bg-blue-50 text-blue-600 ring-2 ring-blue-500 ring-offset-1 dark:bg-blue-900/30 dark:text-blue-400 dark:ring-blue-600 dark:ring-offset-gray-900'
+                                                ? 'bg-brand/5 text-brand ring-2 ring-brand ring-offset-1 dark:bg-brand-marino/30 dark:text-brand-light dark:ring-brand dark:ring-offset-gray-900'
                                                 : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200'
                                         }`}
                                         title={iconName}
@@ -219,7 +219,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                     name="orden"
                     defaultValue={categoria?.orden || 0}
                     required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
                 <p className="mt-1 text-[10px] tracking-tight text-gray-400 uppercase">
                     Menor número aparece primero.
@@ -238,7 +238,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                 <button
                     type="submit"
                     disabled={loading}
-                    className="cursor-pointer rounded-xl bg-blue-500 px-6 py-2.5 text-xs font-bold text-white transition-colors hover:bg-blue-600 disabled:opacity-50 dark:shadow-none"
+                    className="btn-primary cursor-pointer rounded-xl px-6 py-2.5 text-xs disabled:opacity-50"
                 >
                     {loading ? 'Guardando...' : categoria ? 'Actualizar' : 'Crear'}
                 </button>

@@ -15,8 +15,8 @@ const STAT_CONFIG: Record<
     VIEW_PHONE: {
         label: 'Vieron teléfono',
         icon: Phone,
-        color: 'text-blue-600 dark:text-blue-400',
-        bgColor: 'bg-blue-500',
+        color: 'text-brand dark:text-brand-light',
+        bgColor: 'bg-brand',
     },
     VIEW_PROFILE: {
         label: 'Visitas al perfil',
@@ -91,7 +91,7 @@ export default function ProviderStatsCard({ servicioTitulo, stats }: ProviderSta
             {/* Header */}
             <div className="mb-5 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-brand/5 text-brand dark:bg-brand/10 dark:text-brand-light">
                         <BarChart3 size={16} />
                     </div>
                     <h4 className="max-w-[180px] truncate text-sm font-bold text-gray-900 dark:text-white">

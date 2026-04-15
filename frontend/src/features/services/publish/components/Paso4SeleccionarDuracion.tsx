@@ -91,7 +91,7 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
                             type="button"
                             className={`relative w-full cursor-pointer rounded-[1.5rem] border-2 bg-white p-6 text-left shadow-sm transition-all md:hover:shadow-xl dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl ${
                                 esRecomendado
-                                    ? 'border-blue-600 shadow-blue-200 dark:border-blue-600'
+                                    ? 'border-brand shadow-brand/30 dark:border-brand'
                                     : 'border-gray-100 dark:border-white/10'
                             }`}
                             onClick={() => onSelect(precio.duracionMeses, precio.precio)}
@@ -99,7 +99,7 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
                         >
                             {esRecomendado && (
                                 <div className="absolute -top-3 left-1/2 z-10 -translate-x-1/2">
-                                    <span className="rounded-full bg-blue-600 px-3 py-0.5 text-[8px] font-black tracking-widest text-white uppercase shadow-lg">
+                                    <span className="rounded-full bg-brand px-3 py-0.5 text-[8px] font-black tracking-widest text-white uppercase shadow-lg">
                                         RECOMENDADO
                                     </span>
                                 </div>
@@ -123,7 +123,7 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
                             </div>
 
                             <div className="mb-4">
-                                <p className="text-2xl font-black text-blue-600 md:text-3xl dark:text-blue-400">
+                                <p className="text-2xl font-black text-brand md:text-3xl dark:text-brand-light">
                                     ${precio.precio.toLocaleString('es-CL')}
                                 </p>
                                 <p className="text-xs font-bold tracking-tighter text-gray-400 uppercase dark:text-gray-500">
@@ -135,14 +135,14 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
                                 <li className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-400">
                                     <Check
                                         size={14}
-                                        className="mt-0.5 shrink-0 text-blue-500 dark:text-blue-400"
+                                        className="mt-0.5 shrink-0 text-brand dark:text-brand-light"
                                     />
                                     <span>Servicio destacado</span>
                                 </li>
                                 <li className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-400">
                                     <Check
                                         size={14}
-                                        className="mt-0.5 shrink-0 text-blue-500 dark:text-blue-400"
+                                        className="mt-0.5 shrink-0 text-brand dark:text-brand-light"
                                     />
                                     <span>Badge Premium Chiloé</span>
                                 </li>
@@ -151,7 +151,7 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
                             <div
                                 className={`w-full rounded-xl px-4 py-3 text-center text-sm font-black tracking-widest uppercase transition-colors ${
                                     esRecomendado
-                                        ? 'bg-blue-600 text-white'
+                                        ? 'bg-brand text-white'
                                         : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700'
                                 }`}
                             >

@@ -1,10 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
+
+import Logo from '@/shared/components/layout/Logo';
 
 interface AdminHeaderProps {
     user: {
@@ -32,28 +35,33 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
 
     return (
         <header className="mb-12 flex items-center justify-between transition-colors duration-300">
-            <div>
-                <h1 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
-                    {titles[pathname] || 'Panel Admin'}
-                </h1>
-                <p className="mt-1 text-sm font-medium text-gray-500 italic dark:text-gray-400">
-                    Administra tu plataforma de servicios desde un solo lugar.
-                </p>
+            <div className="flex items-center gap-6">
+                <Link href={`/${country}`} className="shrink-0 lg:hidden">
+                    <Logo className="h-9 w-auto" />
+                </Link>
+                <div>
+                    <h1 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
+                        {titles[pathname] || 'Panel Admin'}
+                    </h1>
+                    <p className="mt-1 text-sm font-medium text-gray-500 italic dark:text-gray-400">
+                        Administra tu plataforma de servicios desde un solo lugar.
+                    </p>
+                </div>
             </div>
             <div className="flex items-center gap-4">
                 <div className="hidden text-right sm:block">
                     <p className="text-sm font-bold text-gray-900 dark:text-white">
                         {user?.name || 'Admin Local'}
                     </p>
-                    <p className="text-[10px] font-black tracking-widest text-blue-600 uppercase dark:text-blue-400">
+                    <p className="text-[10px] font-black tracking-widest text-brand uppercase dark:text-brand-light">
                         Control Maestro
                     </p>
                 </div>
-                <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border-2 border-white bg-blue-100 shadow-sm dark:border-white/10 dark:bg-gray-800">
+                <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border-2 border-white bg-brand/10 shadow-sm dark:border-white/10 dark:bg-gray-800">
                     {user?.image ? (
                         <Image src={user.image} alt="Admin" fill className="object-cover" />
                     ) : (
-                        <span className="text-lg font-black text-blue-600 dark:text-blue-400">
+                        <span className="text-lg font-black text-brand dark:text-brand-light">
                             {user?.name?.charAt(0).toUpperCase() || 'A'}
                         </span>
                     )}

@@ -351,7 +351,7 @@ export default function ServicioFormBase({
                             id={usarDatosUsuarioId}
                             checked={usarDatosUsuario}
                             onChange={(e) => setUsarDatosUsuario(e.target.checked)}
-                            className="h-4 w-4 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
+                            className="h-4 w-4 cursor-pointer rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-600 dark:bg-gray-700"
                         />
                         <label
                             htmlFor={usarDatosUsuarioId}
@@ -446,7 +446,7 @@ export default function ServicioFormBase({
                             type="file"
                             accept="image/jpeg,image/jpg,image/png,image/webp"
                             onChange={imagenPrincipal.handleFileChange}
-                            className="form-input-with-icon file:mr-4 file:rounded-full file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-xs file:font-bold file:text-blue-700 hover:file:bg-blue-100 dark:file:bg-blue-900/20 dark:file:text-blue-400"
+                            className="form-input-with-icon file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-2 file:text-xs file:font-bold file:text-brand-hover hover:file:bg-brand/10 dark:file:bg-brand/10 dark:file:text-brand-light"
                         />
                     </div>
                     {imagenPrincipal.preview && (
@@ -523,7 +523,7 @@ export default function ServicioFormBase({
                 <button
                     type="submit"
                     disabled={loading}
-                    className="flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-8 py-3 font-bold text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 disabled:opacity-50 dark:shadow-none"
+                    className="btn-primary flex items-center justify-center gap-2 rounded-2xl px-8 py-3 disabled:opacity-50"
                 >
                     {loading ? (
                         <>

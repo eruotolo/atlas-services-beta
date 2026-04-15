@@ -76,7 +76,7 @@ export function PaymentBrickStripe({
                 </div>
             </div>
 
-            <p className="mb-5 text-center text-3xl font-black text-blue-600 dark:text-blue-400">
+            <p className="mb-5 text-center text-3xl font-black text-brand dark:text-brand-light">
                 {formattedAmount}
             </p>
 

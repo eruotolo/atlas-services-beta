@@ -59,7 +59,7 @@ export default async function TerminosPage({
                                 ) : isContactSection(section.title) && section.content ? (
                                     <p>
                                         {splitContactContent(section.content).label}{' '}
-                                        <span className="font-semibold text-blue-600 dark:text-blue-400">
+                                        <span className="font-semibold text-brand dark:text-brand-light">
                                             {splitContactContent(section.content).value}
                                         </span>
                                     </p>

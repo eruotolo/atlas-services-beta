@@ -10,7 +10,7 @@ export default async function AdminPage({ params }: Props) {
     return (
         <>
             <div className="mb-6">
-                <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-bold text-blue-700 dark:bg-blue-900/30 dark:text-blue-400">
+                <span className="inline-flex items-center rounded-full bg-brand/5 px-3 py-1 text-xs font-bold text-brand-hover dark:bg-brand-marino/30 dark:text-brand-light">
                     País: {countryName}
                 </span>
             </div>

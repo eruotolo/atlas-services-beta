@@ -55,7 +55,7 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
             <div className="mb-8 rounded-2xl bg-gray-50 px-8 py-4 dark:bg-gray-800">
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                     Serás redirigido a tu servicio en{' '}
-                    <span className="font-black text-blue-600 dark:text-blue-400">
+                    <span className="font-black text-brand dark:text-brand-light">
                         {countdown} segundos
                     </span>
                 </p>
@@ -74,7 +74,7 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
 
                 <button
                     onClick={() => router.push(`/servicio/${slug}`)}
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-2xl bg-blue-600 px-6 py-4 font-bold text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 hover:shadow-xl active:scale-95 dark:shadow-none"
+                    className="btn-primary flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-2xl px-6 py-4"
                     type="button"
                 >
                     <Eye size={20} />

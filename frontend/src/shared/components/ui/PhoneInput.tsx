@@ -177,7 +177,7 @@ export default function PhoneInput({
                                 placeholder="Buscar país..."
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}
-                                className="w-full rounded-xl bg-gray-50 py-2 pr-3 pl-9 text-xs outline-none focus:ring-2 focus:ring-blue-500/20 dark:bg-gray-800 dark:text-white"
+                                className="w-full rounded-xl bg-gray-50 py-2 pr-3 pl-9 text-xs outline-none focus:ring-2 focus:ring-brand/20 dark:bg-gray-800 dark:text-white"
                             />
                         </div>
                     </div>
@@ -187,9 +187,9 @@ export default function PhoneInput({
                                 <button
                                     type="button"
                                     onClick={() => handleCountryChange(country)}
-                                    className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm transition-colors hover:bg-blue-50 dark:hover:bg-blue-900/20 ${
+                                    className={`flex w-full items-center justify-between rounded-xl px-3 py-2 text-left text-sm transition-colors hover:bg-brand/5 dark:hover:bg-brand/10 ${
                                         selectedCountry.code === country.code
-                                            ? 'bg-blue-50 dark:bg-blue-900/10'
+                                            ? 'bg-brand/5 dark:bg-brand-marino/10'
                                             : ''
                                     }`}
                                 >
@@ -204,7 +204,7 @@ export default function PhoneInput({
                                             {country.dial}
                                         </span>
                                         {selectedCountry.code === country.code && (
-                                            <Check size={14} className="text-blue-600" />
+                                            <Check size={14} className="text-brand" />
                                         )}
                                     </div>
                                 </button>

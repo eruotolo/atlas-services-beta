@@ -24,9 +24,9 @@ export default async function SuscripcionProCountryPage({ params }: Props) {
 
     return (
         <section className="bg-background min-h-screen py-12 md:py-16">
-            <div className="container mx-auto max-w-7xl px-4">
+            <div className="container mx-auto max-w-site px-4">
                 <div className="mb-12 text-center md:mb-16">
-                    <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-1.5 text-xs font-bold tracking-widest text-white uppercase md:mb-6 md:text-sm">
+                    <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-brand px-4 py-1.5 text-xs font-bold tracking-widest text-white uppercase md:mb-6 md:text-sm">
                         <Crown size={16} /> Hazte Premium
                     </div>
                     <h1 className="mb-4 text-3xl leading-tight font-black text-gray-900 md:text-5xl dark:text-white">
@@ -49,12 +49,12 @@ export default async function SuscripcionProCountryPage({ params }: Props) {
                                     key={plan.id}
                                     className={`relative rounded-[2rem] bg-white p-8 shadow-xl transition-all md:rounded-3xl dark:bg-gray-900/40 dark:backdrop-blur-xl ${
                                         esRecomendado
-                                            ? 'z-10 ring-4 ring-blue-500 md:scale-105 dark:ring-blue-600'
+                                            ? 'z-10 ring-4 ring-brand md:scale-105 dark:ring-brand'
                                             : 'border border-gray-100 dark:border-white/10'
                                     }`}
                                 >
                                     {esRecomendado && (
-                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-blue-600 px-4 py-1 text-[10px] font-black tracking-widest text-white uppercase shadow-lg">
+                                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-brand px-4 py-1 text-[10px] font-black tracking-widest text-white uppercase shadow-lg">
                                             Más Popular
                                         </div>
                                     )}
@@ -64,7 +64,7 @@ export default async function SuscripcionProCountryPage({ params }: Props) {
                                     </h3>
                                     <div className="mb-6">
                                         <div className="flex items-baseline gap-1">
-                                            <span className="text-3xl font-black text-blue-600 md:text-4xl dark:text-blue-400">
+                                            <span className="text-3xl font-black text-brand md:text-4xl dark:text-brand-light">
                                                 {formatPrice(plan.precio, country)}
                                             </span>
                                             <span className="text-xs font-bold text-gray-400 uppercase md:text-sm">
@@ -72,7 +72,7 @@ export default async function SuscripcionProCountryPage({ params }: Props) {
                                             </span>
                                         </div>
                                         {plan.duracionMeses > 1 && (
-                                            <p className="mt-1 text-xs font-medium tracking-tight text-blue-400 uppercase dark:text-blue-500">
+                                            <p className="mt-1 text-xs font-medium tracking-tight text-brand-light uppercase dark:text-brand">
                                                 Solo {formatPrice(precioMensual, country)} al mes
                                             </p>
                                         )}
@@ -100,10 +100,10 @@ export default async function SuscripcionProCountryPage({ params }: Props) {
                                             <span>Soporte prioritario 24/7</span>
                                         </li>
                                         {plan.duracionMeses >= 6 && (
-                                            <li className="flex items-start gap-2 text-sm font-bold text-blue-600 dark:text-blue-400">
+                                            <li className="flex items-start gap-2 text-sm font-bold text-brand dark:text-brand-light">
                                                 <CheckCircle
                                                     size={18}
-                                                    className="mt-0.5 shrink-0 text-blue-500 dark:text-blue-400"
+                                                    className="mt-0.5 shrink-0 text-brand dark:text-brand-light"
                                                 />
                                                 <span>Ahorro máximo incluido</span>
                                             </li>
@@ -113,7 +113,7 @@ export default async function SuscripcionProCountryPage({ params }: Props) {
                                         href={`/${country}/publicar`}
                                         className={`block w-full rounded-2xl py-4 text-center text-sm font-black tracking-widest uppercase transition-all ${
                                             esRecomendado
-                                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-200 hover:bg-blue-700 dark:shadow-none'
+                                                ? 'btn-primary'
                                                 : 'bg-gray-50 text-gray-700 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700'
                                         }`}
                                     >
@@ -129,8 +129,8 @@ export default async function SuscripcionProCountryPage({ params }: Props) {
                     )}
                 </div>
 
-                <div className="mt-12 rounded-[2rem] border border-blue-50 bg-white p-8 text-center shadow-sm md:mt-16 md:rounded-3xl md:p-10 dark:border-white/10 dark:bg-gray-900/40">
-                    <Zap size={40} className="mx-auto mb-4 text-blue-600 dark:text-blue-400" />
+                <div className="mt-12 rounded-[2rem] border border-brand/5 bg-white p-8 text-center shadow-sm md:mt-16 md:rounded-3xl md:p-10 dark:border-white/10 dark:bg-gray-900/40">
+                    <Zap size={40} className="mx-auto mb-4 text-brand dark:text-brand-light" />
                     <h3 className="mb-2 text-xl font-black text-gray-900 md:text-2xl dark:text-white">
                         ¿Tienes dudas sobre los planes?
                     </h3>
@@ -140,7 +140,7 @@ export default async function SuscripcionProCountryPage({ params }: Props) {
                     </p>
                     <Link
                         href={`/${country}/contacto`}
-                        className="inline-block w-full rounded-2xl bg-gray-900 px-10 py-4 text-sm font-black tracking-widest text-white uppercase shadow-xl transition-all hover:bg-blue-600 md:w-auto dark:bg-blue-600 dark:hover:bg-blue-700"
+                        className="inline-block w-full rounded-2xl bg-gray-900 px-10 py-4 text-sm font-black tracking-widest text-white uppercase shadow-xl transition-all hover:bg-brand md:w-auto dark:bg-brand dark:hover:bg-brand-hover"
                     >
                         Hablar con Soporte
                     </Link>

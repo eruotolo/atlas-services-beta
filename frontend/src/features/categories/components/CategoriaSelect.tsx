@@ -65,7 +65,7 @@ export default function CategoriaSelect({
                     type="button"
                     onClick={() => !disabled && setIsOpen(!isOpen)}
                     disabled={disabled}
-                    className="w-full cursor-pointer appearance-none rounded-2xl border border-gray-200 bg-white py-3 pr-12 pl-12 text-left text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:cursor-wait disabled:bg-gray-100 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:disabled:bg-gray-900"
+                    className="w-full cursor-pointer appearance-none rounded-2xl border border-gray-200 bg-white py-3 pr-12 pl-12 text-left text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none disabled:cursor-wait disabled:bg-gray-100 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:disabled:bg-gray-900"
                 >
                     {selectedCategoria ? selectedCategoria.nombre : 'Selecciona una categoría'}
                 </button>
@@ -103,7 +103,7 @@ export default function CategoriaSelect({
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 placeholder="Buscar categoría..."
-                                className="w-full rounded-xl border border-gray-200 py-2 pr-3 pl-10 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                                className="w-full rounded-xl border border-gray-200 py-2 pr-3 pl-10 text-sm focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                             />
                         </div>
                     </div>
@@ -116,9 +116,9 @@ export default function CategoriaSelect({
                                     key={cat.id}
                                     type="button"
                                     onClick={() => handleSelect(cat.id)}
-                                    className={`w-full cursor-pointer px-4 py-3 text-left text-sm transition-colors hover:bg-blue-50 dark:hover:bg-blue-900/20 ${
+                                    className={`w-full cursor-pointer px-4 py-3 text-left text-sm transition-colors hover:bg-brand/5 dark:hover:bg-brand/10 ${
                                         cat.id === value
-                                            ? 'bg-blue-50 font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-400'
+                                            ? 'bg-brand/5 font-semibold text-brand-hover dark:bg-brand-marino/40 dark:text-brand-light'
                                             : 'text-gray-900 dark:text-gray-300'
                                     }`}
                                 >

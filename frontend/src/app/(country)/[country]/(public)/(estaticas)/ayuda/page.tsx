@@ -47,7 +47,7 @@ function renderParagraph(block: FaqBlock, i: number): React.ReactElement {
             );
         case 'p-bold-blue':
             return (
-                <p key={i} className="font-bold text-blue-600 dark:text-blue-400">
+                <p key={i} className="font-bold text-brand dark:text-brand-light">
                     {block.text}
                 </p>
             );
@@ -161,7 +161,7 @@ export default async function AyudaPage({
                     ))}
                 </div>
 
-                <div className="mt-12 rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-indigo-50 p-8 text-center dark:border-blue-900/30 dark:from-blue-900/20 dark:to-indigo-900/20">
+                <div className="mt-12 rounded-2xl border border-brand/20 bg-gradient-to-br from-brand/5 to-indigo-50 p-8 text-center dark:border-brand-marino/30 dark:from-brand-marino/20 dark:to-indigo-900/20">
                     <h3 className="mb-2 text-xl font-bold text-gray-900 md:text-2xl dark:text-white">
                         {dict.cta.title}
                     </h3>
@@ -170,7 +170,7 @@ export default async function AyudaPage({
                     </p>
                     <a
                         href={`/${country}/contacto`}
-                        className="inline-block rounded-2xl bg-blue-600 px-8 py-4 text-sm font-bold text-white transition-all hover:bg-blue-700 md:text-base"
+                        className="btn-primary inline-block rounded-2xl px-8 py-4 text-sm md:text-base"
                     >
                         {dict.cta.button}
                     </a>

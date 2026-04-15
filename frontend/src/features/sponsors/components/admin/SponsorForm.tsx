@@ -150,7 +150,7 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                     name="nombre"
                     defaultValue={sponsor?.nombre}
                     required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
             </div>
 
@@ -214,7 +214,7 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                     defaultValue={sponsor?.linkExterno}
                     required
                     placeholder="https://ejemplo.com"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
             </div>
 
@@ -235,7 +235,7 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                     rows={3}
                     maxLength={170}
                     placeholder="Breve descripción del sponsor..."
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                     onChange={(e) => setCharCount(e.target.value.length)}
                 />
                 <div className="mt-1 text-right">
@@ -259,7 +259,7 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                         name="fechaInicio"
                         defaultValue={formatDateForInput(sponsor?.fechaInicio || new Date())}
                         required
-                        className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                        className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                     />
                 </div>
 
@@ -276,7 +276,7 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                         name="fechaFin"
                         defaultValue={formatDateForInput(sponsor?.fechaFin || null)}
                         required
-                        className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                        className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                     />
                 </div>
             </div>
@@ -293,7 +293,7 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                     name="nivel"
                     value={selectedLevel}
                     onChange={(e) => setSelectedLevel(e.target.value as CategoriaSponsor)}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 >
                     <option value="STANDARD" className="dark:bg-gray-900">
                         Standard
@@ -319,7 +319,7 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                 <button
                     type="submit"
                     disabled={loading}
-                    className="cursor-pointer rounded-xl bg-blue-500 px-6 py-2.5 text-xs font-bold text-white transition-colors hover:bg-blue-600 disabled:opacity-50 dark:shadow-none"
+                    className="btn-primary cursor-pointer rounded-xl px-6 py-2.5 text-xs disabled:opacity-50"
                 >
                     {loading ? 'Guardando...' : sponsor ? 'Actualizar' : 'Crear Sponsor'}
                 </button>

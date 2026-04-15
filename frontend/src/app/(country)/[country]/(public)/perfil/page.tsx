@@ -53,12 +53,12 @@ export default async function ProfilePage({ params }: Props) {
 
     return (
         <section className="bg-background min-h-screen py-12 transition-colors duration-300">
-            <div className="container mx-auto max-w-7xl px-4">
+            <div className="container mx-auto max-w-site px-4">
                 <div className="flex flex-col gap-8 md:flex-row">
                     {/* Left Side: Profile Info */}
                     <aside className="space-y-6 md:w-80 md:shrink-0">
                         <div className="rounded-3xl border border-gray-100 bg-white p-8 text-center shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
-                            <div className="relative mx-auto mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-blue-600 text-3xl font-bold text-white shadow-lg dark:border-gray-800">
+                            <div className="relative mx-auto mb-4 flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border-4 border-white bg-brand text-3xl font-bold text-white shadow-lg dark:border-gray-800">
                                 {usuario.avatar ? (
                                     <Image
                                         src={usuario.avatar}
@@ -82,7 +82,7 @@ export default async function ProfilePage({ params }: Props) {
                                     {usuario.phone}
                                 </p>
                             )}
-                            <div className="mt-4 inline-block rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-[10px] font-bold tracking-wider text-blue-700 uppercase dark:border-blue-800/50 dark:bg-blue-900/30 dark:text-blue-400">
+                            <div className="mt-4 inline-block rounded-full border border-brand/20 bg-brand/5 px-3 py-1 text-[10px] font-bold tracking-wider text-brand-hover uppercase dark:border-brand/30 dark:bg-brand-marino/30 dark:text-brand-light">
                                 {tienePremium ? 'Proveedor Premium' : 'Proveedor Verificado'}
                             </div>
                         </div>
@@ -97,7 +97,7 @@ export default async function ProfilePage({ params }: Props) {
                                     <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
                                         Servicios publicados
                                     </span>
-                                    <span className="min-w-[3rem] rounded-xl bg-blue-50 px-3 py-1 text-center text-sm font-black text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                                    <span className="min-w-[3rem] rounded-xl bg-brand/5 px-3 py-1 text-center text-sm font-black text-brand dark:bg-brand-marino/30 dark:text-brand-light">
                                         {usuario.stats.totalServicios}
                                     </span>
                                 </div>
@@ -105,7 +105,7 @@ export default async function ProfilePage({ params }: Props) {
                                     <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
                                         Reseñas recibidas
                                     </span>
-                                    <span className="min-w-[3rem] rounded-xl bg-blue-50 px-3 py-1 text-center text-sm font-black text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                                    <span className="min-w-[3rem] rounded-xl bg-brand/5 px-3 py-1 text-center text-sm font-black text-brand dark:bg-brand-marino/30 dark:text-brand-light">
                                         {usuario.stats.totalCalificaciones}
                                     </span>
                                 </div>
@@ -189,7 +189,7 @@ export default async function ProfilePage({ params }: Props) {
                         )}
 
                         {!tienePremium && (
-                            <div className="relative overflow-hidden rounded-[2.5rem] bg-blue-600 p-10 text-white shadow-2xl shadow-blue-900/20 dark:shadow-none">
+                            <div className="relative overflow-hidden rounded-[2.5rem] bg-brand p-10 text-white shadow-2xl shadow-brand-marino/20 dark:shadow-none">
                                 <div className="absolute top-0 right-0 p-10 opacity-10">
                                     <Zap size={140} />
                                 </div>
@@ -214,7 +214,7 @@ export default async function ProfilePage({ params }: Props) {
                                     </ul>
                                     <Link
                                         href={`/${country}/suscripcion-pro`}
-                                        className="inline-block rounded-xl bg-white px-8 py-3 font-bold text-blue-600 shadow-lg transition-all hover:bg-blue-50 dark:bg-gray-100 dark:text-blue-800"
+                                        className="inline-block rounded-xl border border-white/40 bg-white/15 px-8 py-3 font-bold text-white backdrop-blur-sm transition-all duration-300 hover:bg-white hover:text-brand-marino active:opacity-90"
                                     >
                                         Ver planes Premium
                                     </Link>

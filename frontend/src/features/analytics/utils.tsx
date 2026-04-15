@@ -5,7 +5,7 @@ import { Eye, Mail, MessageSquare, Phone } from 'lucide-react';
 export const getInteraccionIcon = (tipo: string): React.ReactNode => {
     switch (tipo) {
         case 'VER_TELEFONO':
-            return <Phone size={16} className="text-blue-500" />;
+            return <Phone size={16} className="text-brand" />;
         case 'VER_EMAIL':
             return <Mail size={16} className="text-purple-500" />;
         case 'LLAMAR':
