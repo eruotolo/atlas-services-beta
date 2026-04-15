@@ -100,10 +100,10 @@ export default function DashboardCharts({ porTipo, topServicios }: DashboardChar
         return (
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                 <div className="flex h-[320px] items-center justify-center rounded-[2rem] border border-gray-100 bg-white dark:border-white/10 dark:bg-gray-900/40">
-                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-blue-500" />
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-brand" />
                 </div>
                 <div className="flex h-[320px] items-center justify-center rounded-[2rem] border border-gray-100 bg-white dark:border-white/10 dark:bg-gray-900/40">
-                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-blue-500" />
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-brand" />
                 </div>
             </div>
         );

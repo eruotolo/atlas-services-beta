@@ -95,7 +95,7 @@ export default function ProviderContactInfo({
                 Sobre el Proveedor
             </h3>
             <div className="flex items-center gap-4">
-                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-blue-100 md:h-16 md:w-16 dark:bg-blue-900/30">
+                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-full bg-brand/10 md:h-16 md:w-16 dark:bg-brand-marino/30">
                     {userAvatar ? (
                         <Image
                             src={userAvatar}
@@ -105,7 +105,7 @@ export default function ProviderContactInfo({
                             className="object-cover"
                         />
                     ) : (
-                        <span className="text-xl font-black text-blue-600 md:text-2xl dark:text-blue-400">
+                        <span className="text-xl font-black text-brand md:text-2xl dark:text-brand-light">
                             {userName.charAt(0).toUpperCase()}
                         </span>
                     )}
@@ -124,14 +124,14 @@ export default function ProviderContactInfo({
                 {userPhone && (
                     <div className="flex items-center justify-between gap-3 text-xs font-medium text-gray-600 md:text-sm dark:text-gray-300">
                         <div className="flex items-center gap-3">
-                            <Phone size={14} className="text-blue-500 md:h-4 md:w-4" />
+                            <Phone size={14} className="text-brand md:h-4 md:w-4" />
                             <span>{showPhone ? userPhone : maskPhone(userPhone)}</span>
                         </div>
                         {!showPhone && (
                             <button
                                 type="button"
                                 onClick={handleShowPhone}
-                                className="cursor-pointer rounded-full p-1 text-blue-600 transition-colors hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20"
+                                className="cursor-pointer rounded-full p-1 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand/10"
                                 title="Ver número completo"
                             >
                                 <Eye size={16} />
@@ -142,14 +142,14 @@ export default function ProviderContactInfo({
                 {userEmail && (
                     <div className="flex items-center justify-between gap-3 text-xs font-medium text-gray-600 md:text-sm dark:text-gray-300">
                         <div className="flex items-center gap-3">
-                            <Mail size={14} className="text-blue-500 md:h-4 md:w-4" />
+                            <Mail size={14} className="text-brand md:h-4 md:w-4" />
                             <span>{showEmail ? userEmail : maskEmail(userEmail)}</span>
                         </div>
                         {!showEmail && (
                             <button
                                 type="button"
                                 onClick={handleShowEmail}
-                                className="cursor-pointer rounded-full p-1 text-blue-600 transition-colors hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20"
+                                className="cursor-pointer rounded-full p-1 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand/10"
                                 title="Ver email completo"
                             >
                                 <Eye size={16} />
@@ -166,7 +166,7 @@ export default function ProviderContactInfo({
                                 href={red.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-center rounded-full bg-white p-2 text-gray-500 shadow-sm transition-colors hover:bg-blue-50 hover:text-blue-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-blue-900/30 dark:hover:text-blue-400"
+                                className="flex items-center justify-center rounded-full bg-white p-2 text-gray-500 shadow-sm transition-colors hover:bg-brand/5 hover:text-brand dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-brand-marino/30 dark:hover:text-brand-light"
                                 title={red.tipo}
                             >
                                 {getSocialIcon(red.tipo)}

@@ -62,7 +62,7 @@ export function LocalitySelect({
                     aria-label={regionLabel}
                     value={selectedRegion}
                     onChange={(e) => void handleRegionChange(e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-white p-2.5 text-sm font-medium outline-none focus:ring-2 focus:ring-blue-500 dark:border-white/10 dark:bg-gray-900 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 bg-white p-2.5 text-sm font-medium outline-none focus:ring-2 focus:ring-brand dark:border-white/10 dark:bg-gray-900 dark:text-white"
                 >
                     <option value="">Selecciona {regionLabel.toLowerCase()}</option>
                     {regions.map((r) => (
@@ -85,7 +85,7 @@ export function LocalitySelect({
                         id={localityId}
                         aria-label={localityLabel}
                         onChange={(e) => handleLocalityChange(e.target.value)}
-                        className="w-full rounded-xl border border-gray-200 bg-white p-2.5 text-sm font-medium outline-none focus:ring-2 focus:ring-blue-500 dark:border-white/10 dark:bg-gray-900 dark:text-white"
+                        className="w-full rounded-xl border border-gray-200 bg-white p-2.5 text-sm font-medium outline-none focus:ring-2 focus:ring-brand dark:border-white/10 dark:bg-gray-900 dark:text-white"
                     >
                         <option value="">Selecciona {localityLabel.toLowerCase()}</option>
                         {localities.map((l) => (

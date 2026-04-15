@@ -57,26 +57,26 @@ export default async function CountryHomePage({
 
             {sponsorsSenior.length > 0 ? (
                 <section className="dark:bg-background w-full bg-white py-10">
-                    <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                         <SponsorSlider sponsors={sponsorsSenior} showDots variant="senior" />
                     </div>
                 </section>
             ) : (
                 <section className="dark:bg-background w-full bg-white py-10">
-                    <div className="container mx-auto max-w-7xl px-4">
-                        <div className="group flex cursor-pointer flex-col items-center justify-center rounded-[2.5rem] border-2 border-dashed border-blue-100 bg-blue-50/40 px-6 py-[120px] transition-colors hover:bg-blue-50 dark:border-blue-900/20 dark:bg-blue-950/10">
+                    <div className="container mx-auto max-w-site px-4">
+                        <div className="group flex cursor-pointer flex-col items-center justify-center rounded-[2.5rem] border-2 border-dashed border-brand/20 bg-brand/5/40 px-6 py-[120px] transition-colors hover:bg-brand/5 dark:border-brand-marino/20 dark:bg-brand-marino/10">
                             <Megaphone
                                 size={24}
-                                className="mb-2 text-blue-400 transition-transform group-hover:scale-110 dark:text-blue-500"
+                                className="mb-2 text-brand-light transition-transform group-hover:scale-110 dark:text-brand"
                             />
                             <Link href="contacto" className="text-center">
-                                <h2 className="mb-1 text-[10px] font-black tracking-[0.2em] text-blue-800 uppercase dark:text-blue-300">
+                                <h2 className="mb-1 text-[10px] font-black tracking-[0.2em] text-brand-marino uppercase dark:text-brand-light">
                                     {dict.home.adSpaceTitle}
                                 </h2>
-                                <p className="text-xs font-medium text-blue-400 dark:text-blue-500">
+                                <p className="text-xs font-medium text-brand-light dark:text-brand">
                                     {dict.home.adSpaceSubtitle}
                                 </p>
-                                <p className="mt-4 text-[9px] font-black tracking-widest text-blue-600 uppercase underline dark:text-blue-400">
+                                <p className="mt-4 text-[9px] font-black tracking-widest text-brand uppercase underline dark:text-brand-light">
                                     {dict.home.learnMore}
                                 </p>
                             </Link>
@@ -86,10 +86,10 @@ export default async function CountryHomePage({
             )}
 
             <section className="dark:bg-background w-full bg-white py-12 md:py-20">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                     <div className="mb-8 flex flex-col justify-between gap-4 md:mb-12 md:flex-row md:items-end">
                         <div>
-                            <span className="mb-2 block text-[10px] font-black tracking-[0.2em] text-blue-600 uppercase dark:text-blue-400">
+                            <span className="mb-2 block text-[10px] font-black tracking-[0.2em] text-brand uppercase dark:text-brand-light">
                                 {dict.home.featuredLabel}
                             </span>
                             <h2 className="text-2xl leading-tight font-black text-gray-900 md:text-3xl dark:text-white">
@@ -98,7 +98,7 @@ export default async function CountryHomePage({
                         </div>
                         <Link
                             href="buscar"
-                            className="flex items-center gap-1 text-sm font-bold text-blue-600 hover:underline dark:text-blue-400"
+                            className="flex items-center gap-1 text-sm font-bold text-brand hover:underline dark:text-brand-light"
                         >
                             {dict.home.viewAll} <span className="text-lg">→</span>
                         </Link>
@@ -117,8 +117,8 @@ export default async function CountryHomePage({
             </section>
 
             <section className="dark:bg-background w-full bg-white py-6 md:py-10">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-blue-600 to-blue-800 p-6 text-white shadow-2xl shadow-blue-900/20 md:rounded-[3rem] md:p-12 dark:from-blue-700 dark:to-blue-950">
+                <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
+                    <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-r from-brand to-brand-hover p-6 text-white shadow-2xl shadow-brand-marino/20 md:rounded-[3rem] md:p-12 dark:from-brand-hover dark:to-brand-marino">
                         <div className="absolute top-0 right-0 hidden translate-x-10 -translate-y-10 -rotate-12 p-12 opacity-10 md:block">
                             <Crown size={240} />
                         </div>
@@ -130,14 +130,14 @@ export default async function CountryHomePage({
                                 <h2 className="mb-4 text-2xl leading-tight font-black md:text-4xl">
                                     {dict.home.proCtaTitle}
                                 </h2>
-                                <p className="text-base leading-relaxed font-medium text-blue-100 opacity-90 md:text-lg">
+                                <p className="text-base leading-relaxed font-medium text-brand/20 opacity-90 md:text-lg">
                                     {dict.home.proCtaDescription}
                                 </p>
                             </div>
                             <div className="w-full shrink-0 md:w-auto">
                                 <Link
                                     href="suscripcion-pro"
-                                    className="flex items-center justify-center gap-3 rounded-2xl bg-white px-8 py-4 text-base font-black text-blue-700 shadow-xl transition-all hover:bg-blue-50 md:rounded-[2rem] md:px-10 md:py-5 md:text-lg dark:bg-gray-100 dark:text-blue-800"
+                                    className="flex items-center justify-center gap-3 rounded-2xl border border-white/40 bg-white/15 px-8 py-4 text-base font-black text-white backdrop-blur-sm transition-all duration-300 hover:bg-white hover:text-brand-marino active:opacity-90 md:rounded-[2rem] md:px-10 md:py-5 md:text-lg"
                                 >
                                     {dict.home.proCtaButton} <ArrowRight size={20} />
                                 </Link>
@@ -148,9 +148,9 @@ export default async function CountryHomePage({
             </section>
 
             <section className="dark:bg-background border-y border-gray-100 bg-gray-50 py-12 md:py-20 dark:border-gray-800">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                     <div className="mb-8 flex items-center gap-2 md:mb-10">
-                        <Megaphone className="text-blue-600 dark:text-blue-400" size={20} />
+                        <Megaphone className="text-brand dark:text-brand-light" size={20} />
                         <h2 className="text-[10px] font-black tracking-[0.25em] text-gray-400 uppercase dark:text-gray-500">
                             {dict.home.communityAdsTitle}
                         </h2>
@@ -168,20 +168,20 @@ export default async function CountryHomePage({
                                 <div
                                     // biome-ignore lint/suspicious/noArrayIndexKey: Array estático de placeholders
                                     key={i}
-                                    className="group flex cursor-pointer flex-col items-center justify-center rounded-[2.5rem] border-2 border-dashed border-blue-100 bg-blue-50/40 px-6 py-12 transition-colors hover:bg-blue-50 dark:border-blue-900/20 dark:bg-blue-950/10"
+                                    className="group flex cursor-pointer flex-col items-center justify-center rounded-[2.5rem] border-2 border-dashed border-brand/20 bg-brand/5/40 px-6 py-12 transition-colors hover:bg-brand/5 dark:border-brand-marino/20 dark:bg-brand-marino/10"
                                 >
                                     <Megaphone
                                         size={24}
-                                        className="mb-2 text-blue-400 transition-transform group-hover:scale-110 dark:text-blue-500"
+                                        className="mb-2 text-brand-light transition-transform group-hover:scale-110 dark:text-brand"
                                     />
                                     <Link href="contacto" className="text-center">
-                                        <h3 className="mb-1 text-[10px] font-black tracking-[0.2em] text-blue-800 uppercase dark:text-blue-300">
+                                        <h3 className="mb-1 text-[10px] font-black tracking-[0.2em] text-brand-marino uppercase dark:text-brand-light">
                                             {dict.home.adSpaceTitle}
                                         </h3>
-                                        <p className="text-xs font-medium text-blue-400 dark:text-blue-500">
+                                        <p className="text-xs font-medium text-brand-light dark:text-brand">
                                             {dict.home.adSpaceSubtitle}
                                         </p>
-                                        <p className="mt-4 text-[9px] font-black tracking-widest text-blue-600 uppercase underline dark:text-blue-400">
+                                        <p className="mt-4 text-[9px] font-black tracking-widest text-brand uppercase underline dark:text-brand-light">
                                             {dict.home.learnMore}
                                         </p>
                                     </Link>
@@ -193,7 +193,7 @@ export default async function CountryHomePage({
                     <div className="mt-12 text-center">
                         <Link
                             href="contacto"
-                            className="inline-block rounded-2xl bg-blue-600 px-8 py-4 text-sm font-bold text-white shadow-xl transition-all hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600"
+                            className="btn-primary inline-block rounded-2xl px-8 py-4 text-sm"
                         >
                             {dict.home.contactCta}
                         </Link>

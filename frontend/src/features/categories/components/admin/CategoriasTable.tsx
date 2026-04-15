@@ -128,7 +128,7 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
                     onClick={() => handleToggleActivo(categoria.id)}
                     className={`cursor-pointer rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 ${
                         categoria.activo
-                            ? 'bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-400'
+                            ? 'bg-brand/5 text-brand hover:bg-brand/10 dark:bg-brand-marino/30 dark:text-brand-light'
                             : 'bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-500'
                     }`}
                     title={categoria.activo ? 'Click para desactivar' : 'Click para activar'}
@@ -145,7 +145,7 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
                     <button
                         type="button"
                         onClick={() => handleEdit(categoria)}
-                        className="cursor-pointer rounded-xl p-2 text-blue-600 transition-colors hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand-marino/30"
                         title="Editar"
                     >
                         <Edit2 size={18} />
@@ -182,7 +182,7 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
                     <button
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="flex cursor-pointer items-center gap-2 rounded-2xl bg-blue-500 px-4 py-3 font-bold text-white transition-colors hover:bg-blue-600 dark:shadow-none"
+                        className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-4 py-3"
                     >
                         <Plus size={20} />
                         <span className="hidden sm:inline">Nueva Categoría</span>

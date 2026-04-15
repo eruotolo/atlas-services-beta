@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
 
     return (
         <footer className="border-border bg-background border-t pt-16 pb-8">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                 <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-4">
                     <div className="col-span-1 md:col-span-1">
                         <div className="mb-6 opacity-80 transition-opacity hover:opacity-100">
@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
                         <div className="mt-6 flex gap-4">
                             <a
                                 href="https://www.instagram.com/atlasservicios/"
-                                className="text-gray-400 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                                className="text-gray-400 transition-colors hover:text-brand dark:hover:text-brand-light"
                                 target="_blank"
                                 rel="noopener"
                             >
@@ -80,14 +80,14 @@ const Footer: React.FC = () => {
                     </div>
 
                     <div>
-                        <h4 className="mb-6 text-xs font-bold tracking-widest text-blue-600 text-gray-900 uppercase dark:text-gray-100">
+                        <h4 className="mb-6 text-xs font-bold tracking-widest text-brand text-gray-900 uppercase dark:text-gray-100">
                             {dict.footer.platform}
                         </h4>
                         <ul className="space-y-4 text-sm text-gray-600 dark:text-gray-500">
                             <li>
                                 <Link
                                     href={`/${country}/quienes-somos`}
-                                    className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
                                 >
                                     {dict.footer.aboutUs}
                                 </Link>
@@ -95,7 +95,7 @@ const Footer: React.FC = () => {
                             <li>
                                 <Link
                                     href={`/${country}/como-funciona`}
-                                    className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
                                 >
                                     {dict.footer.howItWorks}
                                 </Link>
@@ -103,7 +103,7 @@ const Footer: React.FC = () => {
                             <li>
                                 <Link
                                     href={`/${country}/publicar`}
-                                    className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
                                 >
                                     {dict.footer.publishService}
                                 </Link>
@@ -111,7 +111,7 @@ const Footer: React.FC = () => {
                             <li>
                                 <Link
                                     href={`/${country}/suscripcion-pro`}
-                                    className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
                                 >
                                     {dict.footer.proSubscriptions}
                                 </Link>
@@ -120,14 +120,14 @@ const Footer: React.FC = () => {
                     </div>
 
                     <div>
-                        <h4 className="mb-6 text-xs font-bold tracking-widest text-blue-600 text-gray-900 uppercase dark:text-gray-100">
+                        <h4 className="mb-6 text-xs font-bold tracking-widest text-brand text-gray-900 uppercase dark:text-gray-100">
                             {dict.footer.support}
                         </h4>
                         <ul className="space-y-4 text-sm text-gray-600 dark:text-gray-500">
                             <li>
                                 <Link
                                     href={`/${country}/ayuda`}
-                                    className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
                                 >
                                     {dict.footer.helpCenter}
                                 </Link>
@@ -135,7 +135,7 @@ const Footer: React.FC = () => {
                             <li>
                                 <Link
                                     href={`/${country}/terminos`}
-                                    className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
                                 >
                                     {dict.footer.terms}
                                 </Link>
@@ -143,7 +143,7 @@ const Footer: React.FC = () => {
                             <li>
                                 <Link
                                     href={`/${country}/privacidad`}
-                                    className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
                                 >
                                     {dict.footer.privacy}
                                 </Link>
@@ -151,7 +151,7 @@ const Footer: React.FC = () => {
                             <li>
                                 <Link
                                     href={`/${country}/contacto`}
-                                    className="font-medium transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
                                 >
                                     {dict.footer.contact}
                                 </Link>
@@ -160,15 +160,15 @@ const Footer: React.FC = () => {
                     </div>
 
                     <div className="border-border bg-muted rounded-[2rem] border p-6">
-                        <h4 className="mb-4 text-sm font-bold text-blue-900 italic dark:text-blue-300">
+                        <h4 className="mb-4 text-sm font-bold text-brand-marino italic dark:text-brand-light">
                             {dict.footer.proCalloutTitle}
                         </h4>
-                        <p className="mb-4 text-xs leading-relaxed text-blue-700 dark:text-blue-400">
+                        <p className="mb-4 text-xs leading-relaxed text-brand-hover dark:text-brand-light">
                             {dict.footer.proCalloutDesc}
                         </p>
                         <Link
                             href={`/${country}/publicar`}
-                            className="text-[10px] font-black tracking-tighter text-blue-600 uppercase hover:underline dark:text-blue-400"
+                            className="text-[10px] font-black tracking-tighter text-brand uppercase hover:underline dark:text-brand-light"
                         >
                             {dict.footer.proCalloutCta}
                         </Link>
@@ -182,7 +182,7 @@ const Footer: React.FC = () => {
                             href="https://crowadvance.com/"
                             target="_blank"
                             rel="noopener"
-                            className="hover:text-blue-600 dark:hover:text-blue-400"
+                            className="hover:text-brand dark:hover:text-brand-light"
                         >
                             Crow Advance
                         </a>
@@ -193,7 +193,7 @@ const Footer: React.FC = () => {
                         <button
                             type="button"
                             onClick={() => setShowCountryMenu((prev) => !prev)}
-                            className="flex items-center gap-1.5 rounded-lg px-2 py-1 transition-colors hover:text-blue-600 dark:hover:text-blue-400"
+                            className="flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1 transition-colors hover:text-brand dark:hover:text-brand-light"
                             aria-label={dict.footer.changeCountry}
                         >
                             <span>{currentCountry.flag}</span>
@@ -208,9 +208,9 @@ const Footer: React.FC = () => {
                                         <button
                                             type="button"
                                             onClick={() => handleCountryChange(opt.code)}
-                                            className={`flex w-full items-center gap-2 px-3 py-2 text-left text-xs normal-case tracking-normal transition-colors hover:bg-blue-50 dark:hover:bg-gray-800 ${
+                                            className={`flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-left text-xs normal-case tracking-normal transition-colors hover:bg-brand/5 dark:hover:bg-gray-800 ${
                                                 opt.code === country
-                                                    ? 'font-black text-blue-600 dark:text-blue-400'
+                                                    ? 'font-black text-brand dark:text-brand-light'
                                                     : 'font-medium text-gray-700 dark:text-gray-300'
                                             }`}
                                         >
