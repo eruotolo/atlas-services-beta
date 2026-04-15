@@ -105,12 +105,13 @@ export default async function CountryHomePage({
                     </div>
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                         {featuredServices.map((service) => (
-                            <ServiceCard
-                                key={service.id}
-                                service={service}
-                                labels={serviceLabels}
-                                locale={countryLocale}
-                            />
+                            <div key={service.id} className="stagger-item">
+                                <ServiceCard
+                                    service={service}
+                                    labels={serviceLabels}
+                                    locale={countryLocale}
+                                />
+                            </div>
                         ))}
                     </div>
                 </div>
