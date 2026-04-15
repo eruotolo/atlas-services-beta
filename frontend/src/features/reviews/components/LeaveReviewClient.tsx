@@ -99,7 +99,7 @@ export default function LeaveReviewClient({
                 </h1>
                 <p className="text-gray-500 dark:text-gray-400">
                     ¿Cómo fue tu experiencia con{' '}
-                    <span className="font-bold text-blue-600 dark:text-blue-400">
+                    <span className="font-bold text-brand dark:text-brand-light">
                         {servicioTitulo}
                     </span>
                     ?
@@ -170,7 +170,7 @@ export default function LeaveReviewClient({
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                         placeholder="Comparte los detalles de tu experiencia..."
-                        className="w-full rounded-2xl border border-gray-200 p-4 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
+                        className="w-full rounded-2xl border border-gray-200 p-4 text-sm text-gray-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
                     />
                 </div>
 
@@ -191,7 +191,7 @@ export default function LeaveReviewClient({
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="Ej: Juan Pérez"
-                                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
+                                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
                             />
                         </div>
                         <div className="space-y-2">
@@ -208,11 +208,11 @@ export default function LeaveReviewClient({
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="juan@email.com"
-                                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
+                                className="w-full rounded-2xl border border-gray-200 px-4 py-3 text-sm text-gray-900 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
                             />
                         </div>
-                        <div className="rounded-xl bg-blue-50 p-4 sm:col-span-2 dark:bg-blue-950/20">
-                            <p className="text-[11px] leading-relaxed text-blue-700 dark:text-blue-400">
+                        <div className="rounded-xl bg-brand/5 p-4 sm:col-span-2 dark:bg-brand-marino/20">
+                            <p className="text-[11px] leading-relaxed text-brand-hover dark:text-brand-light">
                                 <span className="font-bold">Nota:</span> Al enviar tu reseña,
                                 crearemos una cuenta gratuita para ti. Te enviaremos una contraseña
                                 temporal a tu correo para que puedas gestionar tus reseñas en el
@@ -226,7 +226,7 @@ export default function LeaveReviewClient({
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="inline-flex cursor-pointer items-center justify-center gap-3 rounded-2xl bg-blue-600 px-12 py-4 font-black text-white shadow-lg shadow-blue-200 transition-all hover:scale-105 hover:bg-blue-700 active:scale-95 disabled:opacity-50 dark:shadow-none"
+                        className="btn-primary inline-flex cursor-pointer items-center justify-center gap-3 rounded-2xl px-12 py-4 hover:scale-105 active:scale-95 disabled:opacity-50"
                     >
                         {isSubmitting ? (
                             <>

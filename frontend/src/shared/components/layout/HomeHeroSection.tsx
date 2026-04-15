@@ -36,7 +36,7 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
 
     return (
         <section className="bg-background w-full pt-[50px] pb-[100px]">
-            <div className="container mx-auto max-w-7xl px-4">
+            <div className="container mx-auto max-w-site px-4">
                 <div className="w-full">
                     <div className="relative flex min-h-[540px] flex-col items-center justify-center gap-8 overflow-hidden rounded-[2rem] p-8 shadow-2xl transition-transform">
                         <Image
@@ -54,7 +54,7 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
                             <h1 className="text-4xl leading-[1.1] font-black tracking-tight text-white drop-shadow-lg md:text-6xl">
                                 {dict.home.heroTitle}
                             </h1>
-                            <p className="text-base leading-relaxed font-medium text-blue-50 opacity-90 md:text-xl">
+                            <p className="text-base leading-relaxed font-medium text-white/90 opacity-90 md:text-xl">
                                 {t(dict.home.heroSubtitle, { countryName })}
                             </p>
                         </div>
@@ -76,7 +76,7 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
                                 </div>
 
                                 <div className="flex items-center gap-2 border-t border-gray-100 px-4 py-3 md:border-t-0 md:border-l dark:border-white/10">
-                                    <MapPin className="text-blue-600" size={18} />
+                                    <MapPin className="text-brand" size={18} />
                                     <select
                                         aria-label={dict.home.heroAriaRegion}
                                         value={selectedRegion}
@@ -100,7 +100,7 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
 
                                 <button
                                     type="submit"
-                                    className="m-1 cursor-pointer rounded-xl bg-blue-600 px-8 py-3 font-bold text-white transition-all hover:bg-blue-700"
+                                    className="btn-primary m-1 cursor-pointer rounded-xl px-8 py-3"
                                 >
                                     {dict.home.searchButton}
                                 </button>

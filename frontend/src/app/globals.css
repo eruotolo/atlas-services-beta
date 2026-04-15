@@ -6,6 +6,18 @@
     --color-foreground: var(--foreground);
     --color-muted: var(--muted);
     --color-card: var(--card);
+    --color-brand: var(--brand);
+    --color-brand-hover: var(--brand-hover);
+    --color-brand-light: var(--brand-light);
+    --color-brand-dark: var(--brand-dark);
+    --color-brand-cyan: var(--brand-cyan);
+    --color-brand-cobalto: var(--brand-cobalto);
+    --color-brand-purpura: var(--brand-purpura);
+    --color-brand-magenta: var(--brand-magenta);
+    --color-brand-marino: var(--brand-marino);
+    --color-brand-gris: var(--brand-gris);
+    --font-inter: var(--font-inter);
+    --breakpoint-3xl: 1440px;
 }
 
 /* Configuración de variante Dark para Tailwind v4 basada en clase */
@@ -17,6 +29,21 @@
     --border: #f3f4f6;
     --muted: #f9fafb;
     --card: #ffffff;
+
+    /* Paleta corporativa Atlas Service */
+    --brand-cyan: #00CFFF;
+    --brand-cobalto: #3B3DB6;
+    --brand-purpura: #6033FF;
+    --brand-magenta: #A033FF;
+    --brand-marino: #0A204C;
+    --brand-gris: #C4C4C4;
+
+    /* Semánticos */
+    --brand: #3B3DB6;
+    --brand-hover: #6033FF;
+    --brand-light: #00CFFF;
+    --brand-dark: #0A204C;
+
     --font-inter:
         'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
         sans-serif;
@@ -28,6 +55,11 @@
     --border: #18181b;
     --muted: #111827;
     --card: #09090b;
+
+    --brand: #6033FF;
+    --brand-hover: #A033FF;
+    --brand-light: #00CFFF;
+    --brand-dark: #f9fafb;
 }
 
 @layer base {
@@ -51,17 +83,17 @@
     --tw-prose-body: #d1d5db;
     --tw-prose-headings: #f9fafb;
     --tw-prose-bold: #f9fafb;
-    --tw-prose-links: #3b82f6;
+    --tw-prose-links: #6033FF;
 }
 
 @layer components {
     .form-input {
-        @apply w-full rounded-2xl border border-gray-200 py-3 text-gray-900 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
+        @apply w-full rounded-2xl border border-gray-200 py-3 text-gray-900 transition-all outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
     }
 
     /* Input con icono izquierdo */
     .form-input-with-icon {
-        @apply w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
+        @apply w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 transition-all outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
     }
 
     /* Label estándar */
@@ -71,7 +103,52 @@
 
     /* Select con icono */
     .form-select-with-icon {
-        @apply w-full appearance-none rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 transition-all outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
+        @apply w-full appearance-none rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 transition-all outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
+    }
+}
+
+/* Boton primario con gradiente de marca (cobalto → purpura, paleta del logo) */
+.btn-primary {
+    background-image: linear-gradient(to right, var(--brand-cobalto), var(--brand-purpura));
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 10px 15px -3px rgb(59 61 182 / 0.25);
+    transition: all 300ms ease-out;
+}
+.btn-primary:hover {
+    background-image: linear-gradient(to right, var(--brand-purpura), var(--brand-magenta));
+    box-shadow: 0 20px 25px -5px rgb(96 51 255 / 0.3);
+    transform: scale(1.02);
+}
+.btn-primary:active {
+    transform: scale(0.98);
+}
+.btn-primary:disabled {
+    opacity: 0.5;
+}
+.btn-primary:disabled:hover {
+    transform: scale(1);
+    box-shadow: 0 10px 15px -3px rgb(59 61 182 / 0.25);
+    background-image: linear-gradient(to right, var(--brand-cobalto), var(--brand-purpura));
+}
+.dark .btn-primary {
+    background-image: linear-gradient(to right, var(--brand-purpura), var(--brand-magenta));
+    box-shadow: none;
+}
+.dark .btn-primary:hover {
+    background-image: linear-gradient(to right, var(--brand-magenta), var(--brand-cyan));
+    box-shadow: none;
+}
+
+/* Container principal del sitio — 1280px, sube a 1400px en pantallas ≥ 1440px */
+@layer utilities {
+    .max-w-site {
+        max-width: 80rem;
+    }
+    @media (min-width: 1440px) {
+        .max-w-site {
+            max-width: 87.5rem;
+        }
     }
 }
 

@@ -45,7 +45,7 @@ export default function ContactButtons({ servicioId, userPhone }: ContactButtons
             <button
                 type="button"
                 onClick={handleShowPhone}
-                className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl bg-blue-600 py-4 text-lg font-bold text-white shadow-xl shadow-blue-900/10 transition-all hover:bg-blue-700"
+                className="btn-primary flex w-full cursor-pointer items-center justify-center gap-3 rounded-2xl py-4 text-lg"
             >
                 <Phone size={20} />
                 {showPhone && userPhone ? userPhone : 'Ver Teléfono'}

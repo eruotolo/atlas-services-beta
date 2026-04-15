@@ -59,7 +59,7 @@ export default function AdminServicioForm({
                     id={`${id}-usuarioId`}
                     name="usuarioId"
                     required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 pl-12 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 pl-12 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 >
                     <option value="" className="dark:bg-gray-900">
                         Seleccionar usuario...

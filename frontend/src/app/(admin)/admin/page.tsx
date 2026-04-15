@@ -76,8 +76,8 @@ export default async function AdminOverviewPage() {
             label: 'Servicios Publicados',
             value: stats.servicios,
             icon: Hammer,
-            color: 'text-blue-600',
-            bg: 'bg-blue-50',
+            color: 'text-brand',
+            bg: 'bg-brand/5',
         },
         {
             label: 'Usuarios Registrados',

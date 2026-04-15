@@ -85,7 +85,7 @@ export default function CategoriaMultiSelect({
                             setIsOpen(!isOpen);
                         }
                     }}
-                    className={`w-full cursor-pointer appearance-none rounded-2xl border border-gray-200 bg-white py-3 pr-12 pl-12 text-left focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none ${
+                    className={`w-full cursor-pointer appearance-none rounded-2xl border border-gray-200 bg-white py-3 pr-12 pl-12 text-left focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none ${
                         disabled
                             ? 'cursor-wait bg-gray-100 dark:bg-gray-900'
                             : 'dark:border-white/5 dark:bg-gray-800'
@@ -96,7 +96,7 @@ export default function CategoriaMultiSelect({
                             {selectedCategorias.map((cat) => (
                                 <span
                                     key={cat.id}
-                                    className="inline-flex items-center gap-1 rounded-lg bg-blue-100 px-2 py-1 text-xs font-medium text-blue-700 dark:bg-blue-900/30 dark:text-blue-400"
+                                    className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1 text-xs font-medium text-brand-hover dark:bg-brand-marino/30 dark:text-brand-light"
                                 >
                                     {cat.nombre}
                                     <button
@@ -105,7 +105,7 @@ export default function CategoriaMultiSelect({
                                             e.stopPropagation();
                                             handleRemove(cat.id);
                                         }}
-                                        className="hover:text-blue-900 dark:hover:text-blue-200"
+                                        className="hover:text-brand-marino dark:hover:text-brand-light"
                                         aria-label={`Eliminar ${cat.nombre}`}
                                     >
                                         <X size={12} />
@@ -156,7 +156,7 @@ export default function CategoriaMultiSelect({
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 placeholder="Buscar categoría..."
-                                className="w-full rounded-xl border border-gray-200 py-2 pr-3 pl-10 text-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                                className="w-full rounded-xl border border-gray-200 py-2 pr-3 pl-10 text-sm focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                             />
                         </div>
                         {values.length > 0 && (
@@ -179,9 +179,9 @@ export default function CategoriaMultiSelect({
                                         type="button"
                                         onClick={() => !isDisabled && handleToggle(cat.id)}
                                         disabled={isDisabled}
-                                        className={`flex w-full cursor-pointer items-center justify-between px-4 py-3 text-left text-sm transition-colors hover:bg-blue-50 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-blue-900/20 ${
+                                        className={`flex w-full cursor-pointer items-center justify-between px-4 py-3 text-left text-sm transition-colors hover:bg-brand/5 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-brand/10 ${
                                             isSelected
-                                                ? 'bg-blue-50 font-semibold text-blue-700 dark:bg-blue-900/40 dark:text-blue-400'
+                                                ? 'bg-brand/5 font-semibold text-brand-hover dark:bg-brand-marino/40 dark:text-brand-light'
                                                 : 'text-gray-900 dark:text-gray-300'
                                         }`}
                                     >
@@ -189,7 +189,7 @@ export default function CategoriaMultiSelect({
                                         {isSelected && (
                                             <Check
                                                 size={16}
-                                                className="text-blue-700 dark:text-blue-400"
+                                                className="text-brand-hover dark:text-brand-light"
                                             />
                                         )}
                                     </button>

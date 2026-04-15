@@ -27,7 +27,7 @@ export function CountrySwitcher() {
             aria-label="Seleccionar país"
             value={country.code}
             onChange={(e) => handleChange(e.target.value)}
-            className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium outline-none focus:ring-2 focus:ring-blue-500 dark:border-white/10 dark:bg-gray-900 dark:text-white"
+            className="cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium outline-none focus:ring-2 focus:ring-brand dark:border-white/10 dark:bg-gray-900 dark:text-white"
         >
             {COUNTRY_OPTIONS.map((opt) => (
                 <option key={opt.code} value={opt.code}>
