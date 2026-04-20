@@ -6,6 +6,8 @@ import { headers } from 'next/headers';
 
 import Footer from '@/shared/components/layout/Footer';
 import Navbar from '@/shared/components/layout/Navbar';
+import ScrollToTop from '@/shared/components/ui/ScrollToTop';
+import { ToastProvider } from '@/shared/components/ui/ToastProvider';
 import { SubscriptionLevel } from '@/shared/types/common';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -122,7 +124,7 @@ export default async function RootLayout({
               id: session.user.id,
               email: session.user.email || '',
               name: session.user.name || '',
-              role: session.user.roles.includes('SuperAdministrador')
+              role: session.user.roles?.includes('SuperAdministrador')
                   ? ('admin' as const)
                   : ('usuario' as const),
               subscription:
@@ -217,11 +219,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
                 />
                 <Providers>
-                    <div className="flex min-h-screen flex-col">
-                        <Navbar user={currentUser} />
-                        <main className="flex-grow">{children}</main>
-                        <Footer />
-                    </div>
+                    <ToastProvider>
+                        <div className="flex min-h-screen flex-col">
+                            <Navbar user={currentUser} />
+                            <main className="page-fade-in flex-grow">{children}</main>
+                            <Footer />
+                        </div>
+                        <ScrollToTop />
+                    </ToastProvider>
                 </Providers>
             </body>
         </html>

@@ -27,7 +27,7 @@ export default function ServiceCard({ service, labels = DEFAULT_LABELS, locale =
     return (
         <Link
             href={`/servicio/${service.slug}`}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all duration-300 hover:shadow-xl hover:shadow-brand-marino/5 dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-brand/50 dark:hover:shadow-brand-marino/20"
+            className="card-hover group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all duration-300 dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-brand/50"
         >
             <div className="relative h-48 w-full overflow-hidden">
                 <Image
