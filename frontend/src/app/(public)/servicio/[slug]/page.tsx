@@ -1,10 +1,18 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { Award, Edit3, Heart, MapPin, ShieldCheck, Star } from 'lucide-react';
+import { Award, Edit3, Heart, MapPin, MessageCircleReply, ShieldCheck, Star } from 'lucide-react';
 import type { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
 
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { checkIsFavorito } from '@/features/favorites/actions/queries';
+import { toggleFavorito } from '@/features/favorites/actions/mutations';
 import { getServicioBySlug } from '@/features/services/actions';
+import FavoriteButton from '@/features/favorites/components/FavoriteButton';
+import SendDirectMessageButton from '@/features/chat/components/SendDirectMessageButton';
+import OwnerReplyForm from '@/features/reviews/components/OwnerReplyForm';
+import TopProBadge from '@/shared/components/ui/TopProBadge';
 
 import ShareButton from '@/shared/components/ui/ShareButton';
 
@@ -208,6 +216,14 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     const contactEmail = service.emailContacto || service.userEmail;
     const contactPhone = service.telefonoContacto || service.userPhone;
 
+    // Detectar si el usuario logueado es dueño del servicio
+    const session = await getServerSession(authOptions);
+    const currentUserId = (session?.user as { id?: string } | undefined)?.id;
+    const isOwner = !!currentUserId && currentUserId === service.userId;
+
+    // Check favorito status
+    const isFavorite = currentUserId ? await checkIsFavorito(service.id) : false;
+
     // Crear objeto de servicio con datos de contacto correctos para schemas
     const serviceWithContact = {
         ...service,
@@ -349,7 +365,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                                 </div>
 
                                 <h1 className="mb-4 text-2xl leading-tight font-black text-gray-900 capitalize md:mb-6 md:text-4xl dark:text-white">
-                                    {service.title}
+                                    <span className="mr-2">{service.title}</span>
+                                    <TopProBadge isTopPro={service.isTopPro} />
                                 </h1>
 
                                 <div className="prose prose-blue max-w-none text-base leading-relaxed text-gray-600 md:text-lg dark:text-gray-300">
@@ -445,6 +462,29 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                                                 <p className="text-sm text-gray-600 italic md:text-base dark:text-gray-300">
                                                     &quot;{review.comment}&quot;
                                                 </p>
+                                                {/* Respuesta del profesional */}
+                                                {review.ownerResponse && (
+                                                    <div className="mt-3 rounded-xl border-l-2 border-brand/30 bg-brand/5 px-4 py-3 dark:border-brand-light/30 dark:bg-brand/10">
+                                                        <div className="mb-1 flex items-center gap-1.5">
+                                                            <MessageCircleReply size={12} className="text-brand dark:text-brand-light" />
+                                                            <span className="text-[10px] font-bold text-brand dark:text-brand-light">
+                                                                Respuesta del Profesional
+                                                            </span>
+                                                            {review.respondedAt && (
+                                                                <span className="text-[9px] text-gray-400 dark:text-gray-500">
+                                                                    {new Date(review.respondedAt).toLocaleDateString('es-CL', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <p className="text-xs leading-relaxed text-gray-600 md:text-sm dark:text-gray-300">
+                                                            {review.ownerResponse}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                                {/* Formulario de respuesta (solo dueño) */}
+                                                {isOwner && !review.ownerResponse && (
+                                                    <OwnerReplyForm serviceId={service.id} ratingId={review.id} />
+                                                )}
                                             </div>
                                         ))}
                                     </div>
@@ -474,6 +514,10 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
                                 <ContactButtons servicioId={service.id} userPhone={contactPhone} />
 
+                                {!isOwner && (
+                                    <SendDirectMessageButton serviceId={service.id} />
+                                )}
+
                                 <div className="space-y-4 border-t border-gray-50 pt-6 dark:border-white/5">
                                     <div className="flex items-center gap-3 text-xs font-medium text-gray-500 md:text-sm dark:text-gray-400">
                                         <ShieldCheck
@@ -494,13 +538,11 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                                 </div>
 
                                 <div className="mt-8 flex justify-center gap-4">
-                                    <Link
-                                        href={`/servicio/${service.slug}/resena`}
-                                        className="rounded-full border border-gray-100 p-2.5 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500 md:p-3 dark:border-red-500/20 dark:bg-red-500/5 dark:text-red-400 dark:hover:bg-red-500/20 dark:hover:text-red-300"
-                                        title="Dejar Reseña"
-                                    >
-                                        <Heart size={16} className="md:h-[18px] md:w-[18px]" />
-                                    </Link>
+                                    <FavoriteButton
+                                        serviceId={service.id}
+                                        initialIsFavorite={isFavorite}
+                                        onToggle={toggleFavorito}
+                                    />
                                     <ShareButton
                                         title={service.title}
                                         text={service.description}

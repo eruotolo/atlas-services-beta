@@ -9,6 +9,7 @@ import { MapPin, Search } from 'lucide-react';
 
 import { t } from '@/lib/i18n/interpolate';
 import { useDictionary } from '@/lib/i18n/useDictionary';
+import { useRotatingText } from '@/shared/hooks/useRotatingText';
 
 import type { GeoRegion } from '@/features/geo/types/geoTypes';
 
@@ -25,6 +26,9 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
     const dict = useDictionary();
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRegion, setSelectedRegion] = useState('');
+
+    const rotatingWords = ['electricista', 'gasfíter', 'carpintero', 'pintor', 'maestro'];
+    const { currentWord, className: wordClass } = useRotatingText(rotatingWords, 2800);
 
     const handleSearch = (e: React.FormEvent) => {
         e.preventDefault();
@@ -52,7 +56,12 @@ export default function HomeHeroSection({ country, countryName, regions }: HomeH
 
                         <div className="relative z-10 flex max-w-3xl flex-col gap-4 text-center">
                             <h1 className="text-4xl leading-[1.1] font-black tracking-tight text-white drop-shadow-lg md:text-6xl">
-                                {dict.home.heroTitle}
+                                Encuentra tu{' '}
+                                <span key={currentWord} className={`inline-block text-brand-cyan ${wordClass}`}>
+                                    {currentWord}
+                                </span>
+                                <br />
+                                ideal
                             </h1>
                             <p className="text-base leading-relaxed font-medium text-white/90 opacity-90 md:text-xl">
                                 {t(dict.home.heroSubtitle, { countryName })}
