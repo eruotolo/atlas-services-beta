@@ -9,23 +9,23 @@ export default function QuienesSomosPage() {
             {/* Hero Section */}
             <section className="relative overflow-hidden px-4 py-24">
                 {/* Abstract Background Elements */}
-                <div className="absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-50 opacity-50 blur-3xl dark:bg-blue-950/30" />
-                <div className="absolute bottom-0 left-0 h-72 w-72 -translate-x-1/3 translate-y-1/3 rounded-full bg-blue-50 opacity-50 blur-3xl dark:bg-blue-950/30" />
+                <div className="absolute top-0 right-0 h-96 w-96 translate-x-1/2 -translate-y-1/2 rounded-full bg-brand/5 opacity-50 blur-3xl dark:bg-brand-marino/30" />
+                <div className="absolute bottom-0 left-0 h-72 w-72 -translate-x-1/3 translate-y-1/3 rounded-full bg-brand/5 opacity-50 blur-3xl dark:bg-brand-marino/30" />
 
                 <div className="relative z-10 mx-auto max-w-4xl text-center">
-                    <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-4 py-1.5 text-[10px] font-black tracking-widest text-blue-700 uppercase dark:border-blue-900/50 dark:bg-blue-950/50 dark:text-blue-400">
-                        <Anchor size={14} /> Desde el Archipiélago
+                    <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-brand/20 bg-brand/5 px-4 py-1.5 text-[10px] font-black tracking-widest text-brand-hover uppercase dark:border-brand-marino/50 dark:bg-brand-marino/50 dark:text-brand-light">
+                        <Anchor size={14} /> Conectando Profesionales
                     </div>
                     <h1 className="mb-8 text-4xl leading-tight font-black tracking-tight text-gray-900 md:text-6xl dark:text-white">
                         Conectando el talento local de{' '}
-                        <span className="relative text-blue-600 italic dark:text-blue-400">
-                            Chiloé
+                        <span className="relative text-brand italic dark:text-brand-light">
+                            Latinoamérica
                             <svg
-                                className="absolute -bottom-1 left-0 -z-10 h-3 w-full text-blue-200 dark:text-blue-900/50"
+                                className="absolute -bottom-1 left-0 -z-10 h-3 w-full text-brand-light/60 dark:text-brand-marino/50"
                                 viewBox="0 0 100 10"
                                 preserveAspectRatio="none"
                             >
-                                <title>Chiloé</title>
+                                <title>Latinoamérica</title>
                                 <path
                                     d="M0 5 Q 50 10 100 5"
                                     stroke="currentColor"
@@ -36,18 +36,19 @@ export default function QuienesSomosPage() {
                         </span>
                     </h1>
                     <p className="mx-auto max-w-2xl text-xl leading-relaxed font-medium text-gray-500 dark:text-gray-400">
-                        Nacimos con una misión clara: usar la tecnología para fortalecer los lazos
-                        vecinales y potenciar la economía de nuestra isla, un servicio a la vez.
+                        Nacimos con una misión clara: usar la tecnología para conectar a
+                        profesionales con quienes necesitan sus servicios, fortaleciendo la
+                        economía local en cada país donde operamos.
                     </p>
                 </div>
             </section>
 
             {/* Image / Story Split */}
-            <section className="mx-auto mb-24 max-w-7xl px-4 sm:px-6 lg:px-8">
+            <section className="mx-auto mb-24 max-w-site px-4 sm:px-6 lg:px-8">
                 <div className="relative aspect-[16/9] overflow-hidden rounded-[2.5rem] shadow-2xl md:aspect-[21/9] dark:shadow-black/20">
                     <Image
                         src="/about.png"
-                        alt="Paisaje de Chiloé"
+                        alt="Atlas Services - Profesionales verificados"
                         fill
                         className="object-cover transition-transform duration-1000 hover:scale-105"
                         sizes="(max-width: 768px) 100vw, 1200px"
@@ -57,16 +58,16 @@ export default function QuienesSomosPage() {
 
                     <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/90 via-black/30 to-transparent p-8 md:p-16">
                         <div className="max-w-2xl text-white">
-                            <span className="mb-4 block text-xs font-black tracking-[0.2em] text-blue-400 uppercase">
+                            <span className="mb-4 block text-xs font-black tracking-[0.2em] text-brand-light uppercase">
                                 Nuestra Historia
                             </span>
                             <h3 className="mb-6 text-3xl font-black md:text-5xl">
                                 Más que una Aplicación
                             </h3>
                             <p className="text-base leading-relaxed font-medium text-gray-200 opacity-90 md:text-xl">
-                                Chiloé Servicios no es una multinacional. Somos un equipo de
-                                emprendedores chilotes que entendió que la mejor forma de ayudarnos
-                                es sabiendo quién hace qué en nuestra propia comunidad.
+                                Atlas Services no es una multinacional. Somos un equipo de
+                                emprendedores que entendió que la mejor forma de crecer
+                                es conectando a profesionales con quienes los necesitan.
                             </p>
                         </div>
                     </div>
@@ -74,7 +75,7 @@ export default function QuienesSomosPage() {
             </section>
 
             {/* Values Grid */}
-            <section className="mx-auto mb-24 max-w-7xl px-4 sm:px-6 lg:px-8">
+            <section className="mx-auto mb-24 max-w-site px-4 sm:px-6 lg:px-8">
                 <div className="mb-16 text-center">
                     <h2 className="text-3xl font-black text-gray-900 dark:text-white">
                         Nuestros Valores
@@ -89,9 +90,9 @@ export default function QuienesSomosPage() {
                         {
                             icon: MapPin,
                             title: 'Identidad Local',
-                            desc: 'Entendemos la realidad de la isla. Sabemos lo que cuesta un flete a Quellón o conseguir un eléctrico en Curaco.',
-                            color: 'text-blue-600 dark:text-blue-400',
-                            bg: 'bg-blue-50 dark:bg-blue-950/30',
+                            desc: 'Entendemos la realidad de cada país. Adaptamos la plataforma a las necesidades locales de cada mercado.',
+                            color: 'text-brand dark:text-brand-light',
+                            bg: 'bg-brand/5 dark:bg-brand-marino/30',
                         },
                         {
                             icon: ShieldCheck,
@@ -103,14 +104,14 @@ export default function QuienesSomosPage() {
                         {
                             icon: Heart,
                             title: 'Comunidad',
-                            desc: 'Cada peso pagado por un servicio se queda en la isla. Apoyamos el emprendimiento local y el oficio tradicional.',
+                            desc: 'Cada peso pagado por un servicio se queda en la comunidad local. Apoyamos el emprendimiento y el oficio tradicional.',
                             color: 'text-red-500 dark:text-red-400',
                             bg: 'bg-red-50 dark:bg-red-950/30',
                         },
                     ].map((val) => (
                         <div
                             key={val.title}
-                            className="group dark:bg-card rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-sm transition-all hover:shadow-xl hover:shadow-blue-900/5 dark:border-white/10 dark:hover:shadow-black/20"
+                            className="group dark:bg-card rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-sm transition-all hover:shadow-xl hover:shadow-brand-marino/5 dark:border-white/10 dark:hover:shadow-black/20"
                         >
                             <div
                                 className={`mb-6 flex h-16 w-16 items-center justify-center rounded-2xl transition-transform group-hover:scale-110 ${val.bg} ${val.color}`}
@@ -129,7 +130,7 @@ export default function QuienesSomosPage() {
             </section>
 
             {/* Team / Stats Section */}
-            <section className="mx-auto mb-24 max-w-7xl px-4 sm:px-6 lg:px-8">
+            <section className="mx-auto mb-24 max-w-site px-4 sm:px-6 lg:px-8">
                 <div className="relative overflow-hidden rounded-[3rem] bg-gray-900 py-24 text-white dark:border dark:border-white/10 dark:bg-gray-950">
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10">
                         <TrendingUp size={400} strokeWidth={1} />
@@ -137,7 +138,7 @@ export default function QuienesSomosPage() {
 
                     <div className="relative z-10 mx-auto flex max-w-full flex-col items-center justify-between gap-12 px-4 md:flex-row md:px-12">
                         <div className="max-w-xl">
-                            <span className="mb-4 block text-xs font-black tracking-[0.2em] text-blue-400 uppercase">
+                            <span className="mb-4 block text-xs font-black tracking-[0.2em] text-brand-light uppercase">
                                 Impacto Real
                             </span>
                             <h2 className="mb-6 text-4xl font-black">
@@ -172,17 +173,17 @@ export default function QuienesSomosPage() {
 
                         <div className="max-w-sm rounded-3xl border border-white/10 bg-white/10 p-8 backdrop-blur-md">
                             <div className="mb-4 flex items-center gap-4">
-                                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-xl font-bold text-white">
+                                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-xl font-bold text-white">
                                     E
                                 </div>
                                 <div>
-                                    <p className="font-bold text-white">Equipo ChiloeServicios</p>
-                                    <p className="text-xs text-blue-200">Fundadores</p>
+                                    <p className="font-bold text-white">Equipo Atlas Services</p>
+                                    <p className="text-xs text-brand-light/60">Fundadores</p>
                                 </div>
                             </div>
                             <p className="text-sm text-gray-300 italic">
-                                "Creamos esta plataforma porque nos cansamos de ver avisos perdidos
-                                en Facebook. Chiloé necesitaba algo ordenado, moderno y nuestro."
+                                "Creamos esta plataforma porque vimos la necesidad de un
+                                directorio profesional moderno, ordenado y confiable para Latinoamérica."
                             </p>
                         </div>
                     </div>
@@ -190,9 +191,9 @@ export default function QuienesSomosPage() {
             </section>
 
             {/* CTA */}
-            <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <section className="mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                 <div className="container mx-auto">
-                    <div className="rounded-[2rem] border border-blue-50 bg-white p-8 text-center shadow-sm md:rounded-3xl md:px-10 md:py-[120px] dark:border-white/10 dark:bg-gray-900/40">
+                    <div className="rounded-[2rem] border border-brand/5 bg-white p-8 text-center shadow-sm md:rounded-3xl md:px-10 md:py-[120px] dark:border-white/10 dark:bg-gray-900/40">
                         <h2 className="mb-8 text-3xl font-black text-gray-900 dark:text-white">
                             ¿Listo para ser parte de la red?
                         </h2>
@@ -205,7 +206,7 @@ export default function QuienesSomosPage() {
                             </Link>
                             <Link
                                 href="/publicar"
-                                className="flex items-center justify-center gap-2 rounded-2xl bg-blue-600 px-8 py-4 font-bold text-white shadow-xl shadow-blue-900/20 transition-all hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
+                                className="btn-primary flex items-center justify-center gap-2 rounded-2xl px-8 py-4"
                             >
                                 Unirme como Proveedor <ArrowRight size={20} />
                             </Link>

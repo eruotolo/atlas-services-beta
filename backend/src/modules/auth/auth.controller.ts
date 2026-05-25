@@ -25,8 +25,11 @@ export class AuthController {
     @Throttle({ short: { limit: 5, ttl: 60000 } })
     @UseGuards(AuthGuard('local'))
     @ApiOperation({ summary: 'Iniciar sesión — retorna JWT' })
-    login(@CurrentUser() user: { id: string; email: string; roles: string[] }) {
-        return this.authService.login(user.id, user.email, user.roles);
+    login(
+        @CurrentUser()
+        user: { id: string; email: string; roles: string[]; adminCountries: string[] },
+    ) {
+        return this.authService.login(user.id, user.email, user.roles, user.adminCountries);
     }
 
     @Post('refresh')
@@ -34,5 +37,13 @@ export class AuthController {
     @ApiOperation({ summary: 'Renovar access token con refresh token' })
     refresh(@Body('refreshToken') refreshToken: string) {
         return this.authService.refresh(refreshToken);
+    }
+
+    @Post('google')
+    @HttpCode(HttpStatus.OK)
+    @Throttle({ short: { limit: 5, ttl: 60000 } })
+    @ApiOperation({ summary: 'Login con Google — recibe idToken, retorna JWT' })
+    googleLogin(@Body('idToken') idToken: string) {
+        return this.authService.googleLogin(idToken);
     }
 }

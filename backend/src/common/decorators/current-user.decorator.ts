@@ -5,6 +5,7 @@ export type JwtPayload = {
     sub: string;
     email: string;
     roles: string[];
+    adminCountries: string[];
 };
 
 export type RequestWithUser = {

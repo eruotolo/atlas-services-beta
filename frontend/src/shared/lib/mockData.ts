@@ -1,16 +1,16 @@
-import { Comuna, type Service, SubscriptionLevel, type User } from '@/shared/types/common';
+import { type Service, SubscriptionLevel, type User } from '@/shared/types/common';
 
 export const mockUsers: User[] = [
     {
         id: 'u1',
-        email: 'juan@chiloe.cl',
+        email: 'juan@atlas-services.com',
         name: 'Juan Perez',
         role: 'proveedor',
         subscription: SubscriptionLevel.BASICO,
     },
     {
         id: 'u2',
-        email: 'maria@chiloe.cl',
+        email: 'maria@atlas-services.com',
         name: 'Maria Soto',
         role: 'usuario',
         subscription: SubscriptionLevel.BASICO,
@@ -29,7 +29,7 @@ export const mockServices: Service[] = [
         description:
             'Reparación de filtraciones, mantención de calefont y destapes. Atiendo en todo Castro y alrededores.',
         price: 25000,
-        comuna: Comuna.CASTRO,
+        comuna: 'Castro',
         rating: 4.8,
         reviewsCount: 15,
         image: 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=800',
@@ -43,9 +43,9 @@ export const mockServices: Service[] = [
         title: 'Maestro Carpintero - Muebles de Cocina',
         category: 'Carpintero',
         categoryId: 'carpinteria',
-        description: 'Especialista en maderas nativas y diseños modernos para tu cocina chilota.',
+        description: 'Especialista en maderas nativas y diseños modernos para tu cocina.',
         price: 45000,
-        comuna: Comuna.ANCUD,
+        comuna: 'Ancud',
         rating: 4.5,
         reviewsCount: 8,
         image: 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&q=80&w=800',
@@ -62,7 +62,7 @@ export const mockServices: Service[] = [
         description:
             'Servicio de flete rápido con camión de 2 toneladas. Carga y descarga incluida.',
         price: 35000,
-        comuna: Comuna.CHONCHI,
+        comuna: 'Chonchi',
         rating: 5.0,
         reviewsCount: 5,
         image: 'https://images.unsplash.com/photo-1580674285054-bed31e145f59?auto=format&fit=crop&q=80&w=800',
@@ -78,7 +78,7 @@ export const mockServices: Service[] = [
         categoryId: 'electricista',
         description: 'Aumento de capacidad, tableros y cableado nuevo. Trabajo garantizado.',
         price: 20000,
-        comuna: Comuna.DALCAHUE,
+        comuna: 'Dalcahue',
         rating: 4.2,
         reviewsCount: 10,
         image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&q=80&w=800',
@@ -89,7 +89,7 @@ export const mockServices: Service[] = [
 export const mockSponsors = [
     {
         id: 'ms1',
-        nombre: 'Constructora Chiloé',
+        nombre: 'Constructora Atlas',
         imagenUrl:
             'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1000',
         linkExterno: '#',
@@ -102,7 +102,7 @@ export const mockSponsors = [
         imagenUrl:
             'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&q=80&w=1000',
         linkExterno: '#',
-        descripcion: 'Navega por los canales y descubre la magia de Chiloé.',
+        descripcion: 'Navega por los canales y descubre la magia del sur.',
         nivel: 'SENIOR',
     },
     {

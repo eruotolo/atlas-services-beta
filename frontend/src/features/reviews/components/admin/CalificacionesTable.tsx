@@ -195,7 +195,7 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
                         type="button"
                         onClick={() => handleEdit(calificacion)}
                         disabled={!!isProcessing}
-                        className="cursor-pointer rounded-xl p-2 text-blue-600 transition-colors hover:bg-blue-50 disabled:opacity-50 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 disabled:opacity-50 dark:text-brand-light dark:hover:bg-brand-marino/30"
                         title="Editar"
                     >
                         <Edit2 size={18} />

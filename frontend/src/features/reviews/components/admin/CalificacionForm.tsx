@@ -120,7 +120,7 @@ export default function CalificacionForm({
                                 key={est}
                                 className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-bold transition-colors ${
                                     estado === est
-                                        ? 'bg-blue-600 text-white'
+                                        ? 'bg-brand text-white'
                                         : 'bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700'
                                 }`}
                             >
@@ -168,7 +168,7 @@ export default function CalificacionForm({
                         rows={4}
                         value={comentario}
                         onChange={(e) => setComentario(e.target.value)}
-                        className="w-full rounded-2xl border border-gray-200 p-4 outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                        className="w-full rounded-2xl border border-gray-200 p-4 outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/5 dark:bg-gray-800 dark:text-white"
                         placeholder="Escribe el comentario..."
                     />
                 </div>
@@ -185,7 +185,7 @@ export default function CalificacionForm({
                     <button
                         type="submit"
                         disabled={isLoading || isDeletingService}
-                        className="flex-1 cursor-pointer rounded-2xl bg-blue-600 py-4 font-bold text-white transition-all hover:bg-blue-700 disabled:opacity-50 dark:shadow-none"
+                        className="btn-primary flex-1 cursor-pointer rounded-2xl py-4 disabled:opacity-50"
                     >
                         {isLoading ? 'Guardando...' : 'Guardar Cambios'}
                     </button>

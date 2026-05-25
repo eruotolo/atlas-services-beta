@@ -17,12 +17,15 @@ function mapCategoryDto(c: BackendCategoryDto) {
     };
 }
 
-export const getCategorias = cache(async (_onlyWithServices = false) => {
+export const getCategorias = cache(async (countryCode = 'cl') => {
     try {
-        const response = await apiClient.get<BackendCategoryDto[]>('/categories', {
-            revalidate: 300,
-            tags: ['categorias'],
-        });
+        const response = await apiClient.get<BackendCategoryDto[]>(
+            `/categories?countryCode=${countryCode}`,
+            {
+                revalidate: 300,
+                tags: [`categorias-${countryCode}`],
+            },
+        );
         return (Array.isArray(response) ? response : []).map(mapCategoryDto);
     } catch (error) {
         console.error('Error fetching categories:', error);
@@ -61,12 +64,15 @@ export const getAdminCategorias = cache(async (page = 1, limit = 12, search?: st
     }
 });
 
-export const getTopCategories = cache(async () => {
+export const getTopCategories = cache(async (countryCode = 'cl') => {
     try {
-        const response = await apiClient.get<BackendCategoryDto[]>('/categories', {
-            revalidate: 120,
-            tags: ['categorias-top'],
-        });
+        const response = await apiClient.get<BackendCategoryDto[]>(
+            `/categories?countryCode=${countryCode}`,
+            {
+                revalidate: 120,
+                tags: [`categorias-top-${countryCode}`],
+            },
+        );
         return (Array.isArray(response) ? response.slice(0, 4) : []).map(mapCategoryDto);
     } catch (error) {
         console.error('Error fetching top categories:', error);

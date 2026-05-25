@@ -47,4 +47,19 @@ export class QueryServicesDto {
     @Min(1)
     @Max(100)
     limit?: number = 20;
+
+    @ApiPropertyOptional({ description: 'Filtrar por código de país', example: 'cl' })
+    @IsOptional()
+    @IsString()
+    countryCode?: string;
+
+    @ApiPropertyOptional({ description: 'Filtrar por código de región', example: 'LL' })
+    @IsOptional()
+    @IsString()
+    regionCode?: string;
+
+    @ApiPropertyOptional({ description: 'Filtrar por slug de localidad', example: 'castro' })
+    @IsOptional()
+    @IsString()
+    localitySlug?: string;
 }

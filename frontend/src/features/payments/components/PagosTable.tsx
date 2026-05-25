@@ -121,7 +121,7 @@ export default function PagosTable({ pagos }: PagosTableProps) {
                 </div>
 
                 <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/5 text-brand dark:bg-brand/10 dark:text-brand-light">
                         <TrendingUp size={24} />
                     </div>
                     <p className="text-xs font-black tracking-widest text-gray-400 uppercase dark:text-gray-500">

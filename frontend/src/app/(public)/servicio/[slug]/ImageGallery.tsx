@@ -47,7 +47,7 @@ export default function ImageGallery({
     // Si no hay imágenes, mostrar placeholder
     if (allImages.length === 0) {
         return (
-            <div className="relative aspect-video overflow-hidden rounded-3xl bg-gray-100 shadow-2xl shadow-blue-900/5 md:aspect-[16/9] dark:bg-gray-800 dark:shadow-none">
+            <div className="relative aspect-video overflow-hidden rounded-3xl bg-gray-100 shadow-2xl shadow-brand-marino/5 md:aspect-[16/9] dark:bg-gray-800 dark:shadow-none">
                 <div className="flex h-full items-center justify-center">
                     <p className="text-gray-400 dark:text-gray-500">Sin imagen disponible</p>
                 </div>
@@ -67,7 +67,7 @@ export default function ImageGallery({
             {/* Main Image */}
             <button
                 type="button"
-                className="relative block aspect-video w-full cursor-pointer overflow-hidden rounded-3xl border-none p-0 shadow-2xl shadow-blue-900/5 md:aspect-[16/9] dark:border dark:border-white/5 dark:shadow-none"
+                className="relative block aspect-video w-full cursor-pointer overflow-hidden rounded-3xl border-none p-0 shadow-2xl shadow-brand-marino/5 md:aspect-[16/9] dark:border dark:border-white/5 dark:shadow-none"
                 onClick={() => openLightbox(0)}
                 onKeyDown={(e) => handleKeyDown(e, 0)}
             >
@@ -79,7 +79,7 @@ export default function ImageGallery({
                     className="object-cover transition-transform hover:scale-105"
                 />
                 {isPremium && (
-                    <div className="absolute top-4 left-4 flex items-center gap-1 rounded-xl bg-blue-600 px-3 py-1.5 text-xs font-bold tracking-wider text-white uppercase shadow-lg">
+                    <div className="absolute top-4 left-4 flex items-center gap-1 rounded-xl bg-brand px-3 py-1.5 text-xs font-bold tracking-wider text-white uppercase shadow-lg">
                         <CheckCircle size={14} />
                         Destacado
                     </div>

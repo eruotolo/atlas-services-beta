@@ -78,7 +78,7 @@ export default function PrecioPremiumForm({
                     defaultValue={precioPremium?.duracionMeses}
                     required
                     disabled={!!precioPremium}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none disabled:bg-gray-50 disabled:opacity-60 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:disabled:bg-gray-950"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none disabled:bg-gray-50 disabled:opacity-60 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:disabled:bg-gray-950"
                 >
                     <option value="" className="dark:bg-gray-900">
                         Seleccionar duración
@@ -122,7 +122,7 @@ export default function PrecioPremiumForm({
                     min="0"
                     step="1"
                     placeholder="9990"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
             </div>
 
@@ -139,7 +139,7 @@ export default function PrecioPremiumForm({
                     name="descripcion"
                     defaultValue={precioPremium?.descripcion || ''}
                     placeholder="Ej: 1 mes de servicio premium"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
             </div>
 
@@ -155,7 +155,7 @@ export default function PrecioPremiumForm({
                 <button
                     type="submit"
                     disabled={loading}
-                    className="cursor-pointer rounded-xl bg-blue-500 px-6 py-2.5 text-xs font-bold text-white transition-colors hover:bg-blue-600 disabled:opacity-50 dark:shadow-none"
+                    className="btn-primary cursor-pointer rounded-xl px-6 py-2.5 text-xs disabled:opacity-50"
                 >
                     {loading ? 'Guardando...' : precioPremium ? 'Actualizar' : 'Crear'}
                 </button>

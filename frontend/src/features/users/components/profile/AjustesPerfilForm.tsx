@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 import { ArrowLeft, Camera, Key, Loader2, Save, User } from 'lucide-react';
 
 import { actualizarPassword, actualizarPerfil } from '@/features/users/actions';
+import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
 
 interface AjustesPerfilFormProps {
     usuario: {
@@ -22,6 +23,7 @@ interface AjustesPerfilFormProps {
 
 export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
     const router = useRouter();
+    const link = useCountryLink();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     // States for Profile Info
@@ -148,8 +150,8 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
             <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
                 <div className="flex items-center gap-4">
                     <Link
-                        href="/perfil"
-                        className="rounded-xl border border-gray-100 bg-white p-2.5 text-gray-400 shadow-sm transition-all hover:border-blue-100 hover:text-blue-600 dark:border-white/10 dark:bg-gray-900 dark:text-gray-500 dark:hover:text-blue-400"
+                        href={link('/perfil')}
+                        className="rounded-xl border border-gray-100 bg-white p-2.5 text-gray-400 shadow-sm transition-all hover:border-brand/20 hover:text-brand dark:border-white/10 dark:bg-gray-900 dark:text-gray-500 dark:hover:text-brand-light"
                     >
                         <ArrowLeft size={18} />
                     </Link>
@@ -173,7 +175,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
                     >
                         <input type="hidden" name="userId" value={usuario.id} />
                         <div className="flex items-center gap-3 border-b border-gray-50 pb-6 dark:border-white/5">
-                            <div className="rounded-lg bg-blue-50 p-2 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+                            <div className="rounded-lg bg-brand/5 p-2 text-brand dark:bg-brand/10 dark:text-brand-light">
                                 <User size={20} />
                             </div>
                             <h2 className="text-lg font-black text-gray-900 dark:text-white">
@@ -215,7 +217,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
                                     <button
                                         type="button"
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="absolute -right-1 -bottom-1 cursor-pointer rounded-xl bg-blue-600 p-3 text-white shadow-xl transition-all group-hover:scale-110 hover:bg-blue-700 active:scale-95 dark:shadow-none"
+                                        className="btn-primary absolute -right-1 -bottom-1 cursor-pointer rounded-xl p-3 group-hover:scale-110 active:scale-95"
                                     >
                                         <Camera size={18} />
                                     </button>
@@ -244,7 +246,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
                                         name="nombre"
                                         defaultValue={usuario.nombre}
                                         required
-                                        className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
+                                        className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
                                     />
                                 </div>
                                 <div>
@@ -267,7 +269,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
                                         name="telefono"
                                         defaultValue={usuario.telefono || ''}
                                         placeholder="+56 9 ..."
-                                        className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
+                                        className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
                                     />
                                 </div>
                             </div>
@@ -277,7 +279,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
                             <button
                                 type="submit"
                                 disabled={loadingInfo}
-                                className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-blue-600 px-8 py-3.5 text-sm font-black text-white shadow-lg transition-all hover:bg-blue-700 active:scale-95 disabled:opacity-50 md:w-auto dark:shadow-none"
+                                className="btn-primary flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl px-8 py-3.5 text-sm active:scale-95 disabled:opacity-50 md:w-auto"
                             >
                                 {loadingInfo ? (
                                     <Loader2 className="animate-spin" size={18} />
@@ -325,7 +327,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
                                     type="password"
                                     name="currentPassword"
                                     required
-                                    className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
+                                    className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
                                 />
                             </div>
                             <div className="border-t border-gray-50 pt-2 dark:border-white/5">
@@ -336,7 +338,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
                                     type="password"
                                     name="newPassword"
                                     required
-                                    className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
+                                    className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
                                 />
                             </div>
                             <div>
@@ -347,7 +349,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
                                     type="password"
                                     name="confirmPassword"
                                     required
-                                    className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-500/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
+                                    className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
                                 />
                             </div>
                         </div>

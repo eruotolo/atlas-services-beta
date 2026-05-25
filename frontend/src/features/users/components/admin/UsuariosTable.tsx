@@ -111,7 +111,7 @@ export default function UsuariosTable({ result, roles }: UsuariosTableProps) {
                     {usuario.roles.map((ur) => (
                         <span
                             key={ur.id}
-                            className="rounded-full bg-blue-50 px-2 py-1 text-xs font-bold text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+                            className="rounded-full bg-brand/5 px-2 py-1 text-xs font-bold text-brand dark:bg-brand-marino/30 dark:text-brand-light"
                         >
                             {ur.role.nombre}
                         </span>
@@ -133,7 +133,7 @@ export default function UsuariosTable({ result, roles }: UsuariosTableProps) {
                     <button
                         type="button"
                         onClick={() => handleEdit(usuario)}
-                        className="cursor-pointer rounded-xl p-2 text-blue-600 transition-colors hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand-marino/30"
                         title="Editar"
                     >
                         <Edit2 size={18} />
@@ -170,7 +170,7 @@ export default function UsuariosTable({ result, roles }: UsuariosTableProps) {
                     <button
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="flex cursor-pointer items-center gap-2 rounded-2xl bg-blue-500 px-4 py-3 font-bold text-white transition-colors hover:bg-blue-600 dark:shadow-none"
+                        className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-4 py-3"
                     >
                         <Plus size={20} />
                         <span className="hidden sm:inline">Nuevo Usuario</span>

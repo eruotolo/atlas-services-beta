@@ -43,7 +43,70 @@ enum SocialMediaType {
     OTHER
 }
 
+enum PaymentGateway {
+    MERCADOPAGO
+    STRIPE
+}
+
 // ─── Models ───────────────────────────────────────────────────────────────────
+
+model Country {
+    id            String         @id @default(uuid())
+    code          String         @unique
+    name          String
+    currency      String
+    locale        String
+    timezone      String
+    gateway       PaymentGateway
+    regionLabel   String
+    localityLabel String
+    active        Boolean        @default(true)
+    createdAt     DateTime       @default(now())
+    updatedAt     DateTime       @updatedAt
+
+    regions       GeoRegion[]
+    services      Service[]
+    premiumPrices PremiumPrice[]
+    sponsors      Sponsor[]
+    userRoles     UserRole[]
+
+    @@map("countries")
+}
+
+model GeoRegion {
+    id        String   @id @default(uuid())
+    countryId String
+    name      String
+    code      String
+    active    Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    country    Country       @relation(fields: [countryId], references: [id])
+    localities GeoLocality[]
+    services   Service[]
+
+    @@unique([countryId, code])
+    @@index([countryId])
+    @@map("geo_regions")
+}
+
+model GeoLocality {
+    id        String   @id @default(uuid())
+    regionId  String
+    name      String
+    slug      String
+    active    Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    region   GeoRegion @relation(fields: [regionId], references: [id])
+    services Service[]
+
+    @@unique([regionId, slug])
+    @@index([regionId])
+    @@map("geo_localities")
+}
 
 model User {
     id        String   @id @default(uuid())
@@ -55,10 +118,13 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    services     Service[]
-    ratings      Rating[]
-    roles        UserRole[]
-    interactions Interaction[]
+    services              Service[]
+    ratings               Rating[]
+    roles                 UserRole[]
+    interactions          Interaction[]
+    favorites             Favorite[]
+    clientConversations   Conversation[] @relation("clientConversations")
+    providerConversations Conversation[] @relation("providerConversations")
 
     @@map("users")
 }
@@ -79,29 +145,34 @@ model UserRole {
     id        String   @id @default(uuid())
     userId    String
     roleId    String
+    countryId String?
     createdAt DateTime @default(now())
 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-    role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+    user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    role    Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+    country Country? @relation(fields: [countryId], references: [id], onDelete: SetNull)
 
-    @@unique([userId, roleId])
+    @@unique([userId, roleId, countryId])
     @@index([userId])
     @@index([roleId])
+    @@index([countryId])
     @@map("user_roles")
 }
 
 model ServiceCategory {
-    id        String   @id @default(uuid())
-    name      String   @unique
-    slug      String   @unique
-    icon      String?
-    order     Int      @default(0)
-    active    Boolean  @default(true)
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id          String   @id @default(uuid())
+    name        String
+    slug        String
+    icon        String?
+    order       Int      @default(0)
+    active      Boolean  @default(true)
+    countryCode String?
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 
     services ServiceCategoryMap[]
 
+    @@unique([slug, countryCode])
     @@map("service_categories")
 }
 
@@ -121,52 +192,66 @@ model ServiceCategoryMap {
 }
 
 model Service {
-    id           String       @id @default(uuid())
-    userId       String
-    title        String
-    slug         String       @unique
-    description  String       @db.Text
-    price        Decimal      @db.Decimal(10, 2)
-    commune      String
-    contactName  String?
-    contactEmail String?
-    contactPhone String?
-    mainImage    String?
-    images       String[]
-    averageRating Decimal?    @db.Decimal(2, 1)
-    totalRatings  Int         @default(0)
-    featured     Boolean      @default(false)
-    active       Boolean      @default(true)
-    level        ServiceLevel @default(BASIC)
-    startDate    DateTime     @default(now())
-    endDate      DateTime
-    createdAt    DateTime     @default(now())
-    updatedAt    DateTime     @updatedAt
+    id            String       @id @default(uuid())
+    userId        String
+    countryId     String
+    regionId      String?
+    localityId    String?
+    commune       String
+    title         String
+    slug          String       @unique
+    description   String       @db.Text
+    price         Decimal      @db.Decimal(10, 2)
+    contactName   String?
+    contactEmail  String?
+    contactPhone  String?
+    mainImage     String?
+    images        String[]
+    averageRating Decimal?     @db.Decimal(2, 1)
+    totalRatings  Int          @default(0)
+    featured      Boolean      @default(false)
+    active        Boolean      @default(true)
+    level         ServiceLevel @default(BASIC)
+    startDate     DateTime     @default(now())
+    endDate       DateTime
+    createdAt     DateTime     @default(now())
+    updatedAt     DateTime     @updatedAt
 
-    user         User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
-    categories   ServiceCategoryMap[]
-    ratings      Rating[]
-    subscription Subscription?
-    interactions Interaction[]
-    socialMedia  SocialMedia[]
+    user          User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    country       Country              @relation(fields: [countryId], references: [id])
+    region        GeoRegion?           @relation(fields: [regionId], references: [id])
+    locality      GeoLocality?         @relation(fields: [localityId], references: [id])
+    categories    ServiceCategoryMap[]
+    ratings       Rating[]
+    subscription  Subscription?
+    interactions  Interaction[]
+    socialMedia   SocialMedia[]
+    favorites     Favorite[]
+    conversations Conversation[]
 
+    @@index([countryId])
+    @@index([regionId])
+    @@index([localityId])
     @@index([commune])
     @@index([userId])
     @@index([averageRating])
     @@index([level])
     @@index([endDate])
+    @@index([countryId, level, featured, endDate])
     @@map("services")
 }
 
 model Rating {
-    id        String        @id @default(uuid())
-    serviceId String
-    userId    String
-    stars     Int
-    comment   String?       @db.Text
-    status    CommentStatus @default(ACTIVE)
-    createdAt DateTime      @default(now())
-    updatedAt DateTime      @updatedAt
+    id            String        @id @default(uuid())
+    serviceId     String
+    userId        String
+    stars         Int
+    comment       String?       @db.Text
+    status        CommentStatus @default(ACTIVE)
+    ownerResponse String?       @db.Text
+    respondedAt   DateTime?
+    createdAt     DateTime      @default(now())
+    updatedAt     DateTime      @updatedAt
 
     service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
     user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -178,18 +263,20 @@ model Rating {
 }
 
 model Subscription {
-    id             String   @id @default(uuid())
-    serviceId      String   @unique
+    id             String         @id @default(uuid())
+    serviceId      String         @unique
     durationMonths Int
-    amount         Decimal  @db.Decimal(10, 2)
+    amount         Decimal        @db.Decimal(10, 2)
+    currency       String         @default("CLP")
+    paymentGateway PaymentGateway @default(MERCADOPAGO)
     paymentMethod  String?
-    paymentStatus  String   @default("pending")
+    paymentStatus  String         @default("pending")
     transactionId  String?
-    startDate      DateTime @default(now())
+    startDate      DateTime       @default(now())
     endDate        DateTime
-    active         Boolean  @default(true)
-    createdAt      DateTime @default(now())
-    updatedAt      DateTime @updatedAt
+    active         Boolean        @default(true)
+    createdAt      DateTime       @default(now())
+    updatedAt      DateTime       @updatedAt
 
     service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
 
@@ -201,6 +288,7 @@ model Subscription {
 
 model Sponsor {
     id           String          @id @default(uuid())
+    countryId    String?
     name         String
     level        SponsorCategory
     imageUrl     String
@@ -212,6 +300,9 @@ model Sponsor {
     createdAt    DateTime        @default(now())
     updatedAt    DateTime        @updatedAt
 
+    country Country? @relation(fields: [countryId], references: [id], onDelete: SetNull)
+
+    @@index([countryId])
     @@index([level])
     @@index([active])
     @@map("sponsors")
@@ -219,15 +310,20 @@ model Sponsor {
 
 model PremiumPrice {
     id             String   @id @default(uuid())
-    durationMonths Int      @unique
+    countryId      String
+    durationMonths Int
     price          Decimal  @db.Decimal(10, 2)
+    currency       String
     description    String?
     active         Boolean  @default(true)
     createdAt      DateTime @default(now())
     updatedAt      DateTime @updatedAt
 
+    country Country @relation(fields: [countryId], references: [id])
+
+    @@unique([countryId, durationMonths])
+    @@index([countryId])
     @@index([active])
-    @@index([durationMonths])
     @@map("premium_prices")
 }
 
@@ -260,4 +356,63 @@ model SocialMedia {
 
     @@index([serviceId])
     @@map("social_media")
+}
+
+// ─── Fase 2: Confianza y Comunicación ─────────────────────────────────────────
+
+model Favorite {
+    id        String   @id @default(uuid())
+    userId    String
+    serviceId String
+    createdAt DateTime @default(now())
+
+    user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+    service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, serviceId])
+    @@index([userId])
+    @@index([serviceId])
+    @@map("favorites")
+}
+
+enum MessageSender {
+    CLIENT
+    PROVIDER
+}
+
+model Conversation {
+    id            String   @id @default(uuid())
+    serviceId     String
+    clientId      String
+    providerId    String
+    lastMessageAt DateTime @default(now())
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+
+    service  Service   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+    client   User      @relation("clientConversations", fields: [clientId], references: [id], onDelete: Cascade)
+    provider User      @relation("providerConversations", fields: [providerId], references: [id], onDelete: Cascade)
+    messages Message[]
+
+    @@unique([serviceId, clientId])
+    @@index([clientId])
+    @@index([providerId])
+    @@index([lastMessageAt])
+    @@map("conversations")
+}
+
+model Message {
+    id             String        @id @default(uuid())
+    conversationId String
+    senderId       String
+    senderType     MessageSender
+    text           String        @db.Text
+    read           Boolean       @default(false)
+    createdAt      DateTime      @default(now())
+
+    conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+    @@index([conversationId])
+    @@index([createdAt])
+    @@map("messages")
 }
