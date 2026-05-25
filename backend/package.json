@@ -10,11 +10,11 @@
         "lint": "biome check src/",
         "format": "prettier --write \"src/**/*.{ts,json}\"",
         "format:check": "prettier --check \"src/**/*.{ts,json}\"",
-        "db:generate": "dotenv -e .env.local -- prisma generate",
-        "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
-        "db:migrate:deploy": "dotenv -e .env.local -- prisma migrate deploy",
-        "db:studio": "dotenv -e .env.local -- prisma studio",
-        "db:seed": "dotenv -e .env.local -- ts-node -r tsconfig-paths/register prisma/seed/index.ts"
+        "db:generate": "prisma generate",
+        "db:migrate": "prisma migrate dev",
+        "db:migrate:deploy": "prisma migrate deploy",
+        "db:studio": "prisma studio",
+        "db:seed": "ts-node -r tsconfig-paths/register prisma/seed/index.ts"
     },
     "dependencies": {
         "@nestjs/common": "^10.4.15",
@@ -24,8 +24,10 @@
         "@nestjs/mapped-types": "^2.0.6",
         "@nestjs/passport": "^10.0.3",
         "@nestjs/platform-express": "^10.4.15",
+        "@nestjs/platform-socket.io": "^10.4.22",
         "@nestjs/swagger": "^7.4.2",
         "@nestjs/throttler": "^6.3.0",
+        "@nestjs/websockets": "^10.4.22",
         "@prisma/adapter-pg": "^7.5.0",
         "@prisma/client": "^7.5.0",
         "bcrypt": "^5.1.1",
@@ -37,7 +39,9 @@
         "passport-local": "^1.0.0",
         "pg": "^8.20.0",
         "reflect-metadata": "^0.2.2",
-        "rxjs": "^7.8.1"
+        "rxjs": "^7.8.1",
+        "socket.io": "^4.8.3",
+        "stripe": "^20.4.1"
     },
     "devDependencies": {
         "@nestjs/cli": "^10.4.9",
@@ -50,7 +54,6 @@
         "@types/passport-local": "^1.0.38",
         "@types/pg": "^8.18.0",
         "dotenv": "^17.3.1",
-        "dotenv-cli": "^11.0.0",
         "prettier": "^3.8.1",
         "prisma": "^7.5.0",
         "ts-node": "^10.9.2",

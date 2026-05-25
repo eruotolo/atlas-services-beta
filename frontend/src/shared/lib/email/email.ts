@@ -67,7 +67,7 @@ function generarPlantillaConfirmacionPago(datos: DatosEmailConfirmacionPago): st
         <body>
             <div class="container">
                 <div class="header">
-                    <h1 style="margin:0;">¡Gracias por elegir Chiloé Pro!</h1>
+                    <h1 style="margin:0;">¡Gracias por elegir Atlas Pro!</h1>
                 </div>
                 <div class="content">
                     <p>Hola <strong>${datos.nombre}</strong>,</p>
@@ -76,19 +76,19 @@ function generarPlantillaConfirmacionPago(datos: DatosEmailConfirmacionPago): st
                     <div class="details">
                         <h3 style="margin-top:0; color:#1E40AF;">Detalles de tu suscripción:</h3>
                         <ul style="list-style:none; padding:0; margin:0;">
-                            <li><strong>Plan:</strong> Chiloé Pro ${datos.duracion}</li>
+                            <li><strong>Plan:</strong> Atlas Pro ${datos.duracion}</li>
                             <li><strong>Monto pagado:</strong> $${datos.monto} CLP</li>
                             <li><strong>Fecha de inicio:</strong> ${datos.fechaInicio}</li>
                             <li><strong>Fecha de vencimiento:</strong> ${datos.fechaFin}</li>
                         </ul>
                     </div>
 
-                    <p><strong>Beneficios activados:</strong> Prioridad máxima en búsquedas, sello "Pro", soporte prioritario y hasta 5x más visibilidad en Castro, Ancud, Quellón y toda la isla.</p>
+                    <p><strong>Beneficios activados:</strong> Prioridad máxima en búsquedas, sello "Pro", soporte prioritario y hasta 5x más visibilidad en tu zona.</p>
 
                     <p>Tu perfil ya está destacado en la plataforma. Puedes entrar ahora a gestionar tu servicio:</p>
                     
                     <div style="text-align: center;">
-                        <a href="${process.env.AUTH_URL || 'https://www.chiloeservicios.cl'}/perfil" class="button" style="color:white !important;">Ir a mi Perfil</a>
+                        <a href="${process.env.AUTH_URL || 'https://www.atlasservicios.com'}/perfil" class="button" style="color:white !important;">Ir a mi Perfil</a>
                     </div>
 
                     <p style="margin-top:30px;">Desde ahí podrás:</p>
@@ -100,15 +100,15 @@ function generarPlantillaConfirmacionPago(datos: DatosEmailConfirmacionPago): st
 
                     <p style="font-size: 0.9em; color: #64748B; font-style: italic;">Recuerda: somos un directorio local, no cobramos comisiones por trabajos ni garantizamos clientes – solo te damos más visibilidad para que llegues a más vecinos que necesitan tu oficio.</p>
 
-                    <p>Si tienes dudas, problemas o feedback, escríbenos directo a <a href="mailto:info@chiloeservicios.cl">info@chiloeservicios.cl</a> o por WhatsApp al <strong>+56 9 2954 0906</strong>. Estamos para ayudarte.</p>
+                    <p>Si tienes dudas, problemas o feedback, escríbenos directo a <a href="mailto:info@atlasservicios.com">info@atlasservicios.com</a>. Estamos para ayudarte.</p>
 
-                    <p>¡Éxito con tu servicio, vecino! Que te lleguen muchos clientes de la isla. 💪🔧</p>
+                    <p>¡Éxito con tu servicio! Que te lleguen muchos clientes. 💪🔧</p>
 
-                    <p>Un abrazo desde Castro,<br><strong>Chiloé Servicios</strong></p>
+                    <p>Saludos cordiales,<br><strong>Atlas Services</strong></p>
                 </div>
                 <div class="footer">
-                    <p>© 2026 Chiloé Servicios | Castro, Chiloé, Chile</p>
-                    <p>www.chiloeservicios.cl</p>
+                    <p>© 2026 Atlas Services</p>
+                    <p>www.atlasservicios.com</p>
                 </div>
             </div>
         </body>
@@ -135,11 +135,11 @@ function generarPlantillaCredencialesProveedor(datos: DatosEmailCredencialesProv
         <body>
             <div class="container">
                 <div class="header">
-                    <h1>¡Bienvenido a Chiloé Servicios!</h1>
+                    <h1>¡Bienvenido a Atlas Services!</h1>
                 </div>
                 <div class="content">
                     <p>Hola <strong>${datos.nombre}</strong>,</p>
-                    <p>Tu cuenta de proveedor ha sido creada exitosamente en Chiloé Servicios.</p>
+                    <p>Tu cuenta de proveedor ha sido creada exitosamente en Atlas Services.</p>
                     <p>Hemos generado una contraseña temporal para tu cuenta:</p>
 
                     <div class="credentials">
@@ -156,7 +156,7 @@ function generarPlantillaCredencialesProveedor(datos: DatosEmailCredencialesProv
 
                     <p>Ya puedes iniciar sesión en <a href="${process.env.AUTH_URL || 'http://localhost:3000'}/login">tu cuenta</a> y gestionar tus servicios publicados.</p>
 
-                    <p>Saludos,<br>El equipo de Chiloé Servicios</p>
+                    <p>Saludos,<br>El equipo de Atlas Services</p>
                 </div>
                 <div class="footer">
                     <p>Este es un email automático. Por favor no respondas a este mensaje.</p>
@@ -190,7 +190,7 @@ function generarPlantillaCredencialesInvitado(datos: DatosEmailCredencialesInvit
                 </div>
                 <div class="content">
                     <p>Hola <strong>${datos.nombre}</strong>,</p>
-                    <p>Gracias por dejar una reseña en Chiloé Servicios${datos.servicioTitulo ? ` para <strong>${datos.servicioTitulo}</strong>` : ''}.</p>
+                    <p>Gracias por dejar una reseña en Atlas Services${datos.servicioTitulo ? ` para <strong>${datos.servicioTitulo}</strong>` : ''}.</p>
                     <p>Hemos creado automáticamente una cuenta para ti con las siguientes credenciales:</p>
 
                     <div class="credentials">
@@ -208,7 +208,7 @@ function generarPlantillaCredencialesInvitado(datos: DatosEmailCredencialesInvit
 
                     <p>Puedes iniciar sesión en <a href="${process.env.AUTH_URL || 'http://localhost:3000'}/login">cualquier momento</a>.</p>
 
-                    <p>Saludos,<br>El equipo de Chiloé Servicios</p>
+                    <p>Saludos,<br>El equipo de Atlas Services</p>
                 </div>
                 <div class="footer">
                     <p>Este es un email automático. Por favor no respondas a este mensaje.</p>
@@ -234,7 +234,7 @@ export async function enviarEmail(
         sendSmtpEmail.sender = {
             // biome-ignore lint/style/noNonNullAssertion: Variable de entorno validada previamente
             email: process.env.BREVO_SENDER_EMAIL!,
-            name: process.env.BREVO_SENDER_NAME || 'Chiloé Servicios',
+            name: process.env.BREVO_SENDER_NAME || 'Atlas Services',
         };
         sendSmtpEmail.to = [{ email: destinatario.email, name: destinatario.nombre }];
 
@@ -268,7 +268,7 @@ export async function enviarEmailConfirmacionPago(
 
     return await enviarEmail(
         { email: datos.email, nombre: datos.nombre },
-        '¡Confirmado! Tu suscripción Chiloé Pro ya está activa',
+        '¡Confirmado! Tu suscripción Atlas Pro ya está activa',
         contenidoHtml,
     );
 }
@@ -280,7 +280,7 @@ export async function enviarEmailCredencialesProveedor(
 
     return await enviarEmail(
         { email: datos.email, nombre: datos.nombre },
-        'Bienvenido a Chiloé Servicios - Tus Credenciales de Acceso',
+        'Bienvenido a Atlas Services - Tus Credenciales de Acceso',
         contenidoHtml,
     );
 }

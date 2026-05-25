@@ -18,7 +18,7 @@ export default function UnauthorizedPage() {
                     </p>
                     <Link
                         href="/"
-                        className="inline-block rounded-2xl bg-blue-600 px-8 py-3 font-bold text-white transition-all hover:bg-blue-700"
+                        className="btn-primary inline-block rounded-2xl px-8 py-3"
                     >
                         Volver al Inicio
                     </Link>

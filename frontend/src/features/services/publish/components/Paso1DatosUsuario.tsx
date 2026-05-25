@@ -122,7 +122,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                             name="nombre"
                             required
                             placeholder="Juan Pérez"
-                            className="w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
+                            className="w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
                         />
                     </div>
                 </div>
@@ -148,7 +148,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                             autoCapitalize="none"
                             autoCorrect="off"
                             spellCheck={false}
-                            className="w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
+                            className="w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
                         />
                     </div>
                     <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
@@ -165,7 +165,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                         id={`${id}-terminos`}
                         name="terminos"
                         required
-                        className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800"
+                        className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-700 dark:bg-gray-800"
                     />
                     <label
                         htmlFor={`${id}-terminos`}
@@ -175,7 +175,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                         <Link
                             href="/terminos"
                             target="_blank"
-                            className="font-bold text-blue-600 hover:underline dark:text-blue-400"
+                            className="font-bold text-brand hover:underline dark:text-brand-light"
                         >
                             Términos y Condiciones
                         </Link>{' '}
@@ -183,7 +183,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                         <Link
                             href="/privacidad"
                             target="_blank"
-                            className="font-bold text-blue-600 hover:underline dark:text-blue-400"
+                            className="font-bold text-brand hover:underline dark:text-brand-light"
                         >
                             Política de Privacidad
                         </Link>
@@ -194,7 +194,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full cursor-pointer rounded-2xl bg-blue-600 px-6 py-4 font-bold text-white shadow-lg shadow-blue-200 transition-colors hover:bg-blue-700 disabled:opacity-50 dark:shadow-none"
+                    className="btn-primary w-full cursor-pointer rounded-2xl px-6 py-4 disabled:opacity-50"
                 >
                     {loading ? 'Verificando...' : 'Continuar al Siguiente Paso'}
                 </button>

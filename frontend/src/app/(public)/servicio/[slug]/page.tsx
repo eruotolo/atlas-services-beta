@@ -1,10 +1,18 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { Award, Edit3, Heart, MapPin, ShieldCheck, Star } from 'lucide-react';
+import { Award, Edit3, Heart, MapPin, MessageCircleReply, ShieldCheck, Star } from 'lucide-react';
 import type { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
 
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { checkIsFavorito } from '@/features/favorites/actions/queries';
+import { toggleFavorito } from '@/features/favorites/actions/mutations';
 import { getServicioBySlug } from '@/features/services/actions';
+import FavoriteButton from '@/features/favorites/components/FavoriteButton';
+import SendDirectMessageButton from '@/features/chat/components/SendDirectMessageButton';
+import OwnerReplyForm from '@/features/reviews/components/OwnerReplyForm';
+import TopProBadge from '@/shared/components/ui/TopProBadge';
 
 import ShareButton from '@/shared/components/ui/ShareButton';
 
@@ -12,7 +20,7 @@ import ContactButtons from './ContactButtons';
 import ImageGallery from './ImageGallery';
 import ProviderContactInfo from './ProviderContactInfo';
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://chiloeservicios.cl';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.atlasservicios.com';
 
 export async function generateMetadata({
     params,
@@ -35,7 +43,7 @@ export async function generateMetadata({
             ? `${service.description.substring(0, 152)}...`
             : service.description;
 
-    const ogImage = service.imagenPrincipal || `${baseUrl}/bg-chiloe-01.png`;
+    const ogImage = service.imagenPrincipal || `${baseUrl}/bg-chiloe-01.png`; // TODO: rename to atlas-og.png
 
     return {
         title,
@@ -45,9 +53,9 @@ export async function generateMetadata({
             service.comuna,
             service.title,
             `${service.category} en ${service.comuna}`,
-            `${service.category} Chiloé`,
             'servicios profesionales',
-            'Isla de Chiloé',
+            'Atlas Services',
+            'profesionales verificados',
         ],
         openGraph: {
             title,
@@ -63,7 +71,7 @@ export async function generateMetadata({
                 },
             ],
             locale: 'es_CL',
-            siteName: 'Chiloé Servicios',
+            siteName: 'Atlas Services',
         },
         twitter: {
             card: 'summary_large_image',
@@ -208,6 +216,14 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
     const contactEmail = service.emailContacto || service.userEmail;
     const contactPhone = service.telefonoContacto || service.userPhone;
 
+    // Detectar si el usuario logueado es dueño del servicio
+    const session = await getServerSession(authOptions);
+    const currentUserId = (session?.user as { id?: string } | undefined)?.id;
+    const isOwner = !!currentUserId && currentUserId === service.userId;
+
+    // Check favorito status
+    const isFavorite = currentUserId ? await checkIsFavorito(service.id) : false;
+
     // Crear objeto de servicio con datos de contacto correctos para schemas
     const serviceWithContact = {
         ...service,
@@ -261,16 +277,16 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                     />
                 ))}
             <section className="bg-background min-h-screen py-6 md:py-10">
-                <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
                     {/* Breadcrumbs */}
                     <nav className="mb-6 flex flex-wrap items-center gap-2 text-[10px] font-bold tracking-widest text-gray-400 uppercase md:mb-8 md:text-xs dark:text-gray-500">
-                        <Link href="/" className="hover:text-blue-600 dark:hover:text-blue-400">
+                        <Link href="/" className="hover:text-brand dark:hover:text-brand-light">
                             Inicio
                         </Link>
                         <span>/</span>
                         <Link
                             href="/buscar"
-                            className="hover:text-blue-600 dark:hover:text-blue-400"
+                            className="hover:text-brand dark:hover:text-brand-light"
                         >
                             Servicios
                         </Link>
@@ -297,13 +313,13 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                                         service.categories.map((cat) => (
                                             <span
                                                 key={cat.id}
-                                                className="rounded bg-blue-100 px-2 py-1 text-[9px] font-bold tracking-wider text-blue-700 uppercase md:text-[10px] dark:bg-blue-900/30 dark:text-blue-400"
+                                                className="rounded bg-brand/10 px-2 py-1 text-[9px] font-bold tracking-wider text-brand-hover uppercase md:text-[10px] dark:bg-brand-marino/30 dark:text-brand-light"
                                             >
                                                 {cat.nombre}
                                             </span>
                                         ))
                                     ) : (
-                                        <span className="rounded bg-blue-100 px-2 py-1 text-[9px] font-bold tracking-wider text-blue-700 uppercase md:text-[10px] dark:bg-blue-900/30 dark:text-blue-400">
+                                        <span className="rounded bg-brand/10 px-2 py-1 text-[9px] font-bold tracking-wider text-brand-hover uppercase md:text-[10px] dark:bg-brand-marino/30 dark:text-brand-light">
                                             {service.category}
                                         </span>
                                     )}
@@ -343,13 +359,14 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-1 text-xs text-gray-500 md:text-sm dark:text-gray-400">
-                                        <MapPin size={14} className="text-blue-500 md:h-4 md:w-4" />
+                                        <MapPin size={14} className="text-brand md:h-4 md:w-4" />
                                         <span>{service.comuna}</span>
                                     </div>
                                 </div>
 
                                 <h1 className="mb-4 text-2xl leading-tight font-black text-gray-900 capitalize md:mb-6 md:text-4xl dark:text-white">
-                                    {service.title}
+                                    <span className="mr-2">{service.title}</span>
+                                    <TopProBadge isTopPro={service.isTopPro} />
                                 </h1>
 
                                 <div className="prose prose-blue max-w-none text-base leading-relaxed text-gray-600 md:text-lg dark:text-gray-300">
@@ -375,7 +392,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                                     </h3>
                                     <Link
                                         href={`/servicio/${service.slug}/resena`}
-                                        className="flex items-center gap-2 rounded-xl bg-blue-50 px-3 py-2 text-[10px] font-bold text-blue-600 transition-colors hover:bg-blue-100 md:px-4 md:text-xs dark:border dark:border-blue-500/20 dark:bg-blue-600/20 dark:text-blue-400 dark:hover:border-blue-500/40 dark:hover:bg-blue-600/30"
+                                        className="flex items-center gap-2 rounded-xl bg-brand/5 px-3 py-2 text-[10px] font-bold text-brand transition-colors hover:bg-brand/10 md:px-4 md:text-xs dark:border dark:border-brand/20 dark:bg-brand/20 dark:text-brand-light dark:hover:border-brand/40 dark:hover:bg-brand/30"
                                     >
                                         <Edit3 size={12} className="md:h-3.5 md:w-3.5" /> Dejar una
                                         reseña
@@ -400,7 +417,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                                             >
                                                 <div className="mb-3 flex items-center justify-between">
                                                     <div className="flex items-center gap-3">
-                                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 text-xs font-bold text-blue-600 md:h-10 md:w-10 md:text-base dark:bg-blue-900/30 dark:text-blue-400">
+                                                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-brand/10 text-xs font-bold text-brand md:h-10 md:w-10 md:text-base dark:bg-brand-marino/30 dark:text-brand-light">
                                                             {review.userName
                                                                 .charAt(0)
                                                                 .toUpperCase()}
@@ -445,6 +462,29 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                                                 <p className="text-sm text-gray-600 italic md:text-base dark:text-gray-300">
                                                     &quot;{review.comment}&quot;
                                                 </p>
+                                                {/* Respuesta del profesional */}
+                                                {review.ownerResponse && (
+                                                    <div className="mt-3 rounded-xl border-l-2 border-brand/30 bg-brand/5 px-4 py-3 dark:border-brand-light/30 dark:bg-brand/10">
+                                                        <div className="mb-1 flex items-center gap-1.5">
+                                                            <MessageCircleReply size={12} className="text-brand dark:text-brand-light" />
+                                                            <span className="text-[10px] font-bold text-brand dark:text-brand-light">
+                                                                Respuesta del Profesional
+                                                            </span>
+                                                            {review.respondedAt && (
+                                                                <span className="text-[9px] text-gray-400 dark:text-gray-500">
+                                                                    {new Date(review.respondedAt).toLocaleDateString('es-CL', { day: 'numeric', month: 'short', year: 'numeric' })}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                        <p className="text-xs leading-relaxed text-gray-600 md:text-sm dark:text-gray-300">
+                                                            {review.ownerResponse}
+                                                        </p>
+                                                    </div>
+                                                )}
+                                                {/* Formulario de respuesta (solo dueño) */}
+                                                {isOwner && !review.ownerResponse && (
+                                                    <OwnerReplyForm serviceId={service.id} ratingId={review.id} />
+                                                )}
                                             </div>
                                         ))}
                                     </div>
@@ -454,19 +494,19 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
                         {/* Sticky Sidebar */}
                         <aside className="space-y-6">
-                            <div className="sticky top-24 rounded-[2rem] border border-gray-100 bg-white p-6 shadow-xl shadow-blue-900/5 md:rounded-3xl md:p-8 dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
+                            <div className="sticky top-24 rounded-[2rem] border border-gray-100 bg-white p-6 shadow-xl shadow-brand-marino/5 md:rounded-3xl md:p-8 dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
                                 <div className="mb-6">
                                     {service.price > 0 ? (
                                         <>
                                             <p className="mb-1 text-xs font-bold tracking-widest text-gray-400 uppercase md:text-sm dark:text-gray-500">
                                                 Precio Referencial
                                             </p>
-                                            <h4 className="text-3xl font-extrabold text-blue-600 md:text-4xl dark:text-blue-400">
+                                            <h4 className="text-3xl font-extrabold text-brand md:text-4xl dark:text-brand-light">
                                                 ${service.price.toLocaleString('es-CL')}
                                             </h4>
                                         </>
                                     ) : (
-                                        <h4 className="text-2xl font-extrabold text-blue-600 md:text-3xl dark:text-blue-400">
+                                        <h4 className="text-2xl font-extrabold text-brand md:text-3xl dark:text-brand-light">
                                             Solicitar Cotización
                                         </h4>
                                     )}
@@ -474,11 +514,15 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
                                 <ContactButtons servicioId={service.id} userPhone={contactPhone} />
 
+                                {!isOwner && (
+                                    <SendDirectMessageButton serviceId={service.id} />
+                                )}
+
                                 <div className="space-y-4 border-t border-gray-50 pt-6 dark:border-white/5">
                                     <div className="flex items-center gap-3 text-xs font-medium text-gray-500 md:text-sm dark:text-gray-400">
                                         <ShieldCheck
                                             size={16}
-                                            className="text-blue-500 md:h-[18px] md:w-[18px]"
+                                            className="text-brand md:h-[18px] md:w-[18px]"
                                         />
                                         <span>Identidad Verificada</span>
                                     </div>
@@ -494,13 +538,11 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                                 </div>
 
                                 <div className="mt-8 flex justify-center gap-4">
-                                    <Link
-                                        href={`/servicio/${service.slug}/resena`}
-                                        className="rounded-full border border-gray-100 p-2.5 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500 md:p-3 dark:border-red-500/20 dark:bg-red-500/5 dark:text-red-400 dark:hover:bg-red-500/20 dark:hover:text-red-300"
-                                        title="Dejar Reseña"
-                                    >
-                                        <Heart size={16} className="md:h-[18px] md:w-[18px]" />
-                                    </Link>
+                                    <FavoriteButton
+                                        serviceId={service.id}
+                                        initialIsFavorite={isFavorite}
+                                        onToggle={toggleFavorito}
+                                    />
                                     <ShareButton
                                         title={service.title}
                                         text={service.description}
@@ -510,17 +552,17 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                             </div>
 
                             {/* Sidebar Ad Banner */}
-                            <div className="rounded-[2rem] border border-blue-100 bg-gradient-to-br from-blue-50 to-indigo-50 p-6 text-center md:rounded-3xl dark:border-blue-900/30 dark:from-blue-900/20 dark:to-indigo-900/20">
-                                <h5 className="mb-2 text-sm font-bold text-blue-900 md:text-base dark:text-blue-200">
-                                    Garantía Chilota
+                            <div className="rounded-[2rem] border border-brand/20 bg-gradient-to-br from-brand/5 to-indigo-50 p-6 text-center md:rounded-3xl dark:border-brand-marino/30 dark:from-brand-marino/20 dark:to-indigo-900/20">
+                                <h5 className="mb-2 text-sm font-bold text-brand-marino md:text-base dark:text-brand-light/60">
+                                    Garantía Atlas
                                 </h5>
-                                <p className="text-[10px] leading-relaxed text-blue-700 md:text-xs dark:text-blue-400">
+                                <p className="text-[10px] leading-relaxed text-brand-hover md:text-xs dark:text-brand-light">
                                     Contrata tranquilo. Si el trabajo no es lo que esperabas,
                                     nosotros te apoyamos con la mediación.
                                 </p>
                                 <button
                                     type="button"
-                                    className="mt-4 text-[10px] font-bold text-blue-600 hover:underline md:text-xs dark:text-blue-400"
+                                    className="mt-4 text-[10px] font-bold text-brand hover:underline md:text-xs dark:text-brand-light"
                                 >
                                     Saber más sobre garantías
                                 </button>

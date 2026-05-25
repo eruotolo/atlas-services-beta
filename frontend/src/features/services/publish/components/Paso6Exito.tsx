@@ -34,7 +34,7 @@ export default function Paso6Exito() {
                 ¡Pago Exitoso!
             </h2>
 
-            <div className="mb-8 flex items-center justify-center gap-2 text-xl font-medium text-blue-600 dark:text-blue-400">
+            <div className="mb-8 flex items-center justify-center gap-2 text-xl font-medium text-brand dark:text-brand-light">
                 <PartyPopper size={24} />
                 <span>Tu servicio ya es Premium y está destacado</span>
             </div>
@@ -47,7 +47,7 @@ export default function Paso6Exito() {
             <div className="mb-8 rounded-2xl bg-gray-50 px-8 py-4 dark:bg-gray-800">
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
                     Serás redirigido a tu perfil en{' '}
-                    <span className="font-black text-blue-600 dark:text-blue-400">
+                    <span className="font-black text-brand dark:text-brand-light">
                         {countdown} segundos
                     </span>
                 </p>
@@ -56,7 +56,7 @@ export default function Paso6Exito() {
             <button
                 type="button"
                 onClick={() => router.push('/perfil')}
-                className="flex cursor-pointer items-center gap-2 rounded-2xl bg-blue-600 px-8 py-4 font-bold text-white shadow-lg shadow-blue-200 transition-all hover:bg-blue-700 hover:shadow-xl active:scale-95 dark:shadow-none"
+                className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-8 py-4"
             >
                 Ir a mi Perfil ahora
                 <ArrowRight size={20} />

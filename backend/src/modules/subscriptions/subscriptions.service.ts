@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 
 import { PrismaService } from '../../prisma/prisma.service';
+import { PaymentsService } from '../payments/payments.service';
 import { PricesService } from '../prices/prices.service';
 import { ServicesService } from '../services/services.service';
 
@@ -15,6 +16,8 @@ const SUBSCRIPTION_SELECT = {
     id: true,
     durationMonths: true,
     amount: true,
+    currency: true,
+    paymentGateway: true,
     paymentMethod: true,
     paymentStatus: true,
     transactionId: true,
@@ -30,6 +33,7 @@ export class SubscriptionsService {
         private readonly prisma: PrismaService,
         private readonly servicesService: ServicesService,
         private readonly pricesService: PricesService,
+        private readonly paymentsService: PaymentsService,
     ) {}
 
     async findById(id: string, requesterId: string, requesterRoles: string[]) {
@@ -60,17 +64,28 @@ export class SubscriptionsService {
         });
         if (existing?.active) throw new ConflictException('Este servicio ya tiene una suscripción activa');
 
-        const price = await this.pricesService.findByDuracion(dto.durationMonths);
-        if (!price) throw new NotFoundException(`No hay precio configurado para ${dto.durationMonths} meses`);
+        const country = await this.prisma.country.findUnique({
+            where: { code: dto.countryCode.toLowerCase() },
+            select: { id: true },
+        });
+        if (!country) throw new NotFoundException(`País no encontrado: ${dto.countryCode}`);
+
+        const price = await this.pricesService.findByCountryAndDuration(country.id, dto.durationMonths);
+        if (!price) throw new NotFoundException(`No hay precio configurado para ${dto.durationMonths} meses en ${dto.countryCode}`);
 
         const startDate = new Date();
         const endDate = new Date(startDate);
         endDate.setMonth(endDate.getMonth() + dto.durationMonths);
 
+        // Determinar gateway según país
+        const gatewayName = this.paymentsService.resolveGatewayName(dto.countryCode);
+
         return this.prisma.subscription.create({
             data: {
                 durationMonths: dto.durationMonths,
                 amount: price.price,
+                currency: price.currency ?? 'CLP',
+                paymentGateway: gatewayName,
                 paymentMethod: dto.paymentMethod,
                 paymentStatus: 'pending',
                 endDate,

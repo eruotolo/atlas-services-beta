@@ -40,7 +40,7 @@ export class AuthService {
             select: { id: true, email: true, name: true, createdAt: true },
         });
 
-        return this.buildTokens(user.id, user.email, []);
+        return this.buildTokens(user.id, user.email, [], []);
     }
 
     async validateCredentials(email: string, password: string) {
@@ -51,7 +51,12 @@ export class AuthService {
                 email: true,
                 name: true,
                 password: true,
-                roles: { select: { role: { select: { name: true } } } },
+                roles: {
+                    select: {
+                        role: { select: { name: true } },
+                        country: { select: { code: true } },
+                    },
+                },
             },
         });
 
@@ -61,18 +66,20 @@ export class AuthService {
         if (!valid) return null;
 
         const roles = user.roles.map((r) => r.role.name);
-        return { id: user.id, email: user.email, nombre: user.name, roles };
+        const adminCountries = user.roles
+            .filter((r) => r.country !== null)
+            .map((r) => r.country!.code);
+        return { id: user.id, email: user.email, nombre: user.name, roles, adminCountries };
     }
 
-    async login(userId: string, email: string, roles: string[]) {
-        // Incluir datos del usuario en la respuesta para el frontend
+    async login(userId: string, email: string, roles: string[], adminCountries: string[]) {
         const user = await this.prisma.user.findUnique({
             where: { id: userId },
             select: { id: true, email: true, name: true, phone: true },
         });
         if (!user) throw new UnauthorizedException('Usuario no encontrado');
-        const tokens = this.buildTokens(userId, email, roles);
-        return { ...tokens, user: { ...user, roles } };
+        const tokens = this.buildTokens(userId, email, roles, adminCountries);
+        return { ...tokens, user: { ...user, roles, adminCountries } };
     }
 
     async refresh(refreshToken: string) {
@@ -87,21 +94,95 @@ export class AuthService {
                 select: {
                     id: true,
                     email: true,
-                    roles: { select: { role: { select: { name: true } } } },
+                    roles: {
+                        select: {
+                            role: { select: { name: true } },
+                            country: { select: { code: true } },
+                        },
+                    },
                 },
             });
 
             if (!user) throw new UnauthorizedException();
 
             const roles = user.roles.map((r) => r.role.name);
-            return this.buildTokens(user.id, user.email, roles);
+            const adminCountries = user.roles
+                .filter((r) => r.country !== null)
+                .map((r) => r.country!.code);
+            return this.buildTokens(user.id, user.email, roles, adminCountries);
         } catch {
             throw new UnauthorizedException('Refresh token inválido o expirado');
         }
     }
 
-    private buildTokens(sub: string, email: string, roles: string[]) {
-        const payload = { sub, email, roles };
+    async googleLogin(idToken: string) {
+        // Validate token with Google
+        const googleRes = await fetch(
+            `https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`,
+        );
+
+        if (!googleRes.ok) {
+            throw new UnauthorizedException('Token de Google inválido');
+        }
+
+        const googleUser = (await googleRes.json()) as {
+            sub: string;
+            email: string;
+            name: string;
+            picture?: string;
+        };
+
+        if (!googleUser.email) {
+            throw new UnauthorizedException('No se pudo obtener el email de Google');
+        }
+
+        // Upsert: create user if doesn't exist, otherwise update name/avatar
+        const user = await this.prisma.user.upsert({
+            where: { email: googleUser.email },
+            update: {
+                name: googleUser.name || undefined,
+                avatar: googleUser.picture || undefined,
+            },
+            create: {
+                email: googleUser.email,
+                name: googleUser.name || 'Usuario Google',
+                avatar: googleUser.picture || null,
+                password: '', // No password for Google users
+                roles: {
+                    create: {
+                        role: {
+                            connect: {
+                                name: 'Usuario'
+                            }
+                        }
+                    }
+                }
+            },
+            select: {
+                id: true,
+                email: true,
+                name: true,
+                phone: true,
+                roles: {
+                    select: {
+                        role: { select: { name: true } },
+                        country: { select: { code: true } },
+                    },
+                },
+            },
+        });
+
+        const roles = user.roles.map((r) => r.role.name);
+        const adminCountries = user.roles
+            .filter((r) => r.country !== null)
+            .map((r) => r.country!.code);
+
+        const tokens = this.buildTokens(user.id, user.email, roles, adminCountries);
+        return { ...tokens, user: { ...user, roles, adminCountries } };
+    }
+
+    private buildTokens(sub: string, email: string, roles: string[], adminCountries: string[]) {
+        const payload = { sub, email, roles, adminCountries };
 
         const accessToken = this.jwt.sign(payload, {
             secret: this.config.getOrThrow<string>('JWT_SECRET'),

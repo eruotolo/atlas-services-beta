@@ -15,14 +15,16 @@ export class SponsorsController {
     constructor(private readonly service: SponsorsService) {}
 
     @Get()
-    @ApiOperation({ summary: 'Listar sponsors paginados' })
+    @ApiOperation({ summary: 'Listar sponsors activos (globales + los del país si se pasa countryCode)' })
     @ApiQuery({ name: 'page', required: false, type: Number })
     @ApiQuery({ name: 'limit', required: false, type: Number })
     @ApiQuery({ name: 'query', required: false, type: String })
+    @ApiQuery({ name: 'countryCode', required: false, type: String, example: 'cl' })
     findAll(
         @Query('page') page?: string,
         @Query('limit') limit?: string,
         @Query('query') query?: string,
+        @Query('countryCode') countryCode?: string,
     ) {
         // If query parameters for pagination exist, return paginated results
         if (page || limit || query) {
@@ -32,8 +34,8 @@ export class SponsorsController {
                 query
             );
         }
-        // Otherwise return the flat list (e.g. for the landing page)
-        return this.service.findAll();
+        // Otherwise return the flat list filtered by country (e.g. for the landing page)
+        return this.service.findAll(countryCode);
     }
 
     @Post()

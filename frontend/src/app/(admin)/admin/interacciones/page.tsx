@@ -47,7 +47,7 @@ export default async function InteraccionesPage({ searchParams }: PageProps) {
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-gray-900/40">
                     <div className="flex items-center gap-4">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand/5 text-brand dark:bg-brand/10 dark:text-brand-light">
                             <Eye size={24} />
                         </div>
                         <div>
@@ -120,7 +120,7 @@ export default async function InteraccionesPage({ searchParams }: PageProps) {
                 <div className="rounded-[2rem] border border-gray-100 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-gray-900/40">
                     <div className="mb-6 flex items-center justify-between">
                         <h2 className="flex items-center gap-2 text-xl font-bold text-gray-900 dark:text-white">
-                            <BarChart3 className="text-blue-500" /> Rendimiento por Servicio
+                            <BarChart3 className="text-brand" /> Rendimiento por Servicio
                         </h2>
                         <span className="text-xs font-bold tracking-widest text-gray-400 uppercase">
                             Top 10
@@ -132,7 +132,7 @@ export default async function InteraccionesPage({ searchParams }: PageProps) {
                                 key={item.servicioId}
                                 className="group relative flex items-center gap-4 rounded-2xl p-2 transition-colors hover:bg-gray-50 dark:hover:bg-white/5"
                             >
-                                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 font-black text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
+                                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/5 font-black text-brand dark:bg-brand/10 dark:text-brand-light">
                                     #{index + 1}
                                 </span>
                                 <div className="flex-1 overflow-hidden">
@@ -140,7 +140,7 @@ export default async function InteraccionesPage({ searchParams }: PageProps) {
                                         <h4 className="truncate text-sm font-black text-gray-900 dark:text-white">
                                             {item.titulo}
                                         </h4>
-                                        <span className="text-sm font-black text-blue-600 dark:text-blue-400">
+                                        <span className="text-sm font-black text-brand dark:text-brand-light">
                                             {item.total}{' '}
                                             <span className="text-[10px] font-bold tracking-tight text-gray-400 uppercase">
                                                 clicks
@@ -152,7 +152,7 @@ export default async function InteraccionesPage({ searchParams }: PageProps) {
                                     </p>
                                     <div className="mt-2 h-1.5 w-full rounded-full bg-gray-100 dark:bg-gray-800">
                                         <div
-                                            className="h-1.5 rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"
+                                            className="h-1.5 rounded-full bg-gradient-to-r from-brand/50 to-indigo-500"
                                             style={{
                                                 width: `${(item.total / (topServicios[0]?.total || 1)) * 100}%`,
                                             }}

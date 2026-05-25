@@ -56,11 +56,11 @@ export const getTodasSponsors = cache(async (page = 1, limit = 10, search?: stri
     }
 });
 
-export const getSponsorsSenior = cache(async () => {
+export const getSponsorsSenior = cache(async (countryCode = 'cl') => {
     try {
         const response = await apiClient.get<BackendPaginatedResponse<BackendSponsorDto>>(
-            '/sponsors?level=SENIOR&active=true&limit=3',
-            { revalidate: 120, tags: ['sponsors-senior'] },
+            `/sponsors?level=SENIOR&active=true&limit=3&countryCode=${countryCode}`,
+            { revalidate: 120, tags: [`sponsors-senior-${countryCode}`] },
         );
         return (response.data ?? []).map(mapSponsorPublico);
     } catch (error) {
@@ -69,11 +69,11 @@ export const getSponsorsSenior = cache(async () => {
     }
 });
 
-export const getSponsorsPremium = cache(async () => {
+export const getSponsorsPremium = cache(async (countryCode = 'cl') => {
     try {
         const response = await apiClient.get<BackendPaginatedResponse<BackendSponsorDto>>(
-            '/sponsors?level=PREMIUM&active=true&limit=6',
-            { revalidate: 120, tags: ['sponsors-premium'] },
+            `/sponsors?level=PREMIUM&active=true&limit=6&countryCode=${countryCode}`,
+            { revalidate: 120, tags: [`sponsors-premium-${countryCode}`] },
         );
         return (response.data ?? []).map(mapSponsorPublico);
     } catch (error) {

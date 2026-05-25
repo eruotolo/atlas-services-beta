@@ -5,15 +5,29 @@ import { CheckCircle, MapPin, Star } from 'lucide-react';
 
 import type { Service } from '@/shared/types/common';
 
-interface ServiceCardProps {
-    service: Service;
+interface ServiceCardLabels {
+    featured: string;
+    from: string;
+    requestQuote: string;
 }
 
-export default function ServiceCard({ service }: ServiceCardProps) {
+interface ServiceCardProps {
+    service: Service;
+    labels?: ServiceCardLabels;
+    locale?: string;
+}
+
+const DEFAULT_LABELS: ServiceCardLabels = {
+    featured: 'Destacado',
+    from: 'Desde',
+    requestQuote: 'Solicitar Cotización',
+};
+
+export default function ServiceCard({ service, labels = DEFAULT_LABELS, locale = 'es-CL' }: ServiceCardProps) {
     return (
         <Link
             href={`/servicio/${service.slug}`}
-            className="group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all duration-300 hover:shadow-xl hover:shadow-blue-900/5 dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-blue-500/50 dark:hover:shadow-blue-900/20"
+            className="card-hover group flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all duration-300 dark:border-gray-800 dark:bg-gray-900/50 dark:hover:border-brand/50"
         >
             <div className="relative h-48 w-full overflow-hidden">
                 <Image
@@ -25,9 +39,9 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                     quality={80}
                 />
                 {service.isPremium && (
-                    <div className="absolute top-3 left-3 flex items-center gap-1 rounded bg-blue-600 px-2 py-1 text-[10px] font-bold tracking-wider text-white uppercase shadow-lg">
+                    <div className="absolute top-3 left-3 flex items-center gap-1 rounded bg-brand px-2 py-1 text-[10px] font-bold tracking-wider text-white uppercase shadow-lg">
                         <CheckCircle size={10} />
-                        Destacado
+                        {labels.featured}
                     </div>
                 )}
             </div>
@@ -76,7 +90,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                     </div>
                 </div>
 
-                <h3 className="mb-2 line-clamp-1 text-lg font-bold text-gray-900 capitalize transition-colors group-hover:text-blue-600 dark:text-gray-100 dark:group-hover:text-blue-400">
+                <h3 className="mb-2 line-clamp-1 text-lg font-bold text-gray-900 capitalize transition-colors group-hover:text-brand dark:text-gray-100 dark:group-hover:text-brand-light">
                     {service.title}
                 </h3>
 
@@ -95,15 +109,15 @@ export default function ServiceCard({ service }: ServiceCardProps) {
                         {service.price > 0 ? (
                             <>
                                 <p className="text-[10px] font-medium text-gray-500 uppercase dark:text-gray-500">
-                                    Desde
+                                    {labels.from}
                                 </p>
-                                <p className="text-lg font-bold text-blue-600 dark:text-blue-400">
-                                    ${service.price.toLocaleString('es-CL')}
+                                <p className="text-lg font-bold text-brand dark:text-brand-light">
+                                    ${service.price.toLocaleString(locale)}
                                 </p>
                             </>
                         ) : (
-                            <p className="text-sm font-bold text-blue-600 dark:text-blue-400">
-                                Solicitar Cotización
+                            <p className="text-sm font-bold text-brand dark:text-brand-light">
+                                {labels.requestQuote}
                             </p>
                         )}
                     </div>

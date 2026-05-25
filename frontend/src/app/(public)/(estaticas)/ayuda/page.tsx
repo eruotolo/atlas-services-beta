@@ -6,20 +6,20 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Centro de Ayuda - Preguntas Frecuentes',
     description:
-        'Respuestas a las preguntas más comunes sobre Chiloé Servicios. Cómo encontrar profesionales, cómo publicar servicios, precios, verificación, comunas cubiertas y más.',
+        'Respuestas a las preguntas más comunes sobre Atlas Services. Cómo encontrar profesionales, cómo publicar servicios, precios, verificación y más.',
     keywords: [
-        'ayuda Chiloé Servicios',
+        'ayuda Atlas Services',
         'preguntas frecuentes',
-        'FAQ servicios Chiloé',
+        'FAQ servicios profesionales',
         'cómo funciona',
         'dudas plataforma',
         'ayuda usuarios',
         'soporte',
     ],
     openGraph: {
-        title: 'Centro de Ayuda - Chiloé Servicios',
+        title: 'Centro de Ayuda - Atlas Services',
         description:
-            'Todo lo que necesitas saber sobre cómo encontrar y publicar servicios profesionales en Chiloé.',
+            'Todo lo que necesitas saber sobre cómo encontrar y publicar servicios profesionales.',
         type: 'website',
     },
     alternates: {
@@ -38,12 +38,12 @@ const AyudaPage: React.FC = () => {
                 name: '¿Cómo encuentro un gasfíter en Castro?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Para encontrar un gasfíter en Castro: 1) Ve a chiloeservicios.cl/buscar, 2) Selecciona la categoría "Gasfíter", 3) Filtra por comuna "Castro", 4) Verás perfiles verificados con calificaciones, precios y contacto directo. Puedes contactar por WhatsApp o teléfono sin intermediación. Todos los gasfíter están verificados y tienen reseñas de usuarios.',
+                    text: 'Para encontrar un gasfíter cerca de ti: 1) Ve a atlasservicios.com/buscar, 2) Selecciona la categoría "Gasfíter", 3) Filtra por tu zona, 4) Verás perfiles verificados con calificaciones, precios y contacto directo. Puedes contactar por WhatsApp o teléfono sin intermediación.',
                 },
             },
             {
                 '@type': 'Question',
-                name: '¿Cuánto cuesta publicar un servicio en Chiloé Servicios?',
+                name: '¿Cuánto cuesta publicar un servicio en Atlas Services?',
                 acceptedAnswer: {
                     '@type': 'Answer',
                     text: 'Publicar un servicio es completamente GRATIS para empezar. Solo necesitas crear una cuenta y llenar el formulario con tu oficio. Los planes Premium opcionales van desde $9,990/mes (1 mes) hasta $52,990 (12 meses con descuento). El plan Premium te da prioridad en búsquedas, sello de verificación Pro y soporte 24/7.',
@@ -51,18 +51,18 @@ const AyudaPage: React.FC = () => {
             },
             {
                 '@type': 'Question',
-                name: '¿Los profesionales en Chiloé Servicios están verificados?',
+                name: '¿Los profesionales en Atlas Services están verificados?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Sí. Todos los profesionales tienen: 1) Identidad verificada mediante documentación, 2) Sistema de calificaciones públicas (estrellas y reseñas), 3) Historial de trabajos visible, 4) Sello "Pro" para proveedores Premium. Las reseñas son públicas y no pueden ser eliminadas. Además, contamos con la Garantía Chilota que ofrece mediación en caso de conflictos.',
+                    text: 'Sí. Todos los profesionales tienen: 1) Identidad verificada mediante documentación, 2) Sistema de calificaciones públicas (estrellas y reseñas), 3) Historial de trabajos visible, 4) Sello "Pro" para proveedores Premium. Las reseñas son públicas y no pueden ser eliminadas. Además, contamos con la Garantía Atlas que ofrece mediación en caso de conflictos.',
                 },
             },
             {
                 '@type': 'Question',
-                name: '¿En qué comunas de Chiloé operan?',
+                name: '¿En qué países opera Atlas Services?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Chiloé Servicios opera en TODAS las comunas de la Isla de Chiloé: Castro (capital), Ancud, Quellón, Dalcahue, Chonchi, Achao, Queilen, Quemchi, Curaco de Vélez y Puqueldón. Puedes filtrar servicios por cualquiera de estas comunas en el buscador.',
+                    text: 'Atlas Services opera en 5 países: Chile (CL), Argentina (AR), Uruguay (UY), España (ES) y Estados Unidos (US). En cada país puedes filtrar servicios por región y localidad en el buscador.',
                 },
             },
             {
@@ -70,20 +70,20 @@ const AyudaPage: React.FC = () => {
                 name: '¿Necesito un electricista urgente en Ancud, cómo lo contacto?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Para emergencias eléctricas en Ancud: 1) Busca "electricista" en chiloeservicios.cl, 2) Filtra por "Ancud", 3) Verás teléfonos y WhatsApp directos, 4) Contacta directamente sin intermediarios. Muchos electricistas ofrecen servicio de emergencia 24/7. Los perfiles Premium suelen responder más rápido. También puedes llamar a varios proveedores en paralelo para encontrar disponibilidad inmediata.',
+                    text: 'Para emergencias: 1) Busca el tipo de profesional en atlasservicios.com, 2) Filtra por tu zona, 3) Verás teléfonos y WhatsApp directos, 4) Contacta directamente sin intermediarios. Muchos profesionales ofrecen servicio de emergencia 24/7. Los perfiles Premium suelen responder más rápido.',
                 },
             },
             {
                 '@type': 'Question',
-                name: '¿Hay servicios de flete y mudanza dentro de Chiloé?',
+                name: '¿Hay servicios de flete y mudanza?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Sí, hay múltiples proveedores de fletes y mudanzas en Chiloé Servicios. Ofrecen: Transporte de muebles dentro de la isla, mudanzas completas entre comunas (Castro-Ancud, Castro-Quellón, etc.), fletes de materiales de construcción, y traslados desde el puerto. Puedes comparar precios y ver calificaciones antes de contratar. La mayoría cubre toda la isla.',
+                    text: 'Sí, hay múltiples proveedores de fletes y mudanzas en Atlas Services. Ofrecen: Transporte de muebles, mudanzas completas, fletes de materiales de construcción, y más. Puedes comparar precios y ver calificaciones antes de contratar.',
                 },
             },
             {
                 '@type': 'Question',
-                name: '¿Qué oficios puedo encontrar en Chiloé Servicios?',
+                name: '¿Qué oficios puedo encontrar en Atlas Services?',
                 acceptedAnswer: {
                     '@type': 'Answer',
                     text: 'Oficios disponibles: Gasfíter (reparación calefont, destapes, instalaciones), Electricista (instalaciones SEC, emergencias), Carpintero (muebles, construcciones), Maestro Constructor (ampliaciones, reparaciones), Pintor (casas, estructuras), Flete y Mudanza (transporte isla), Jardinero (corte pasto, paisajismo), Técnico Refrigeración (aires, refrigeradores), Mecánico (reparaciones a domicilio), Soldador, y más. Total: 15+ categorías de servicios.',
@@ -91,18 +91,18 @@ const AyudaPage: React.FC = () => {
             },
             {
                 '@type': 'Question',
-                name: '¿Cómo funciona el pago en Chiloé Servicios?',
+                name: '¿Cómo funciona el pago en Atlas Services?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Chiloé Servicios NO cobra comisiones ni intermedia pagos. El pago se acuerda directamente entre el cliente y el proveedor. Nosotros solo conectamos ambas partes. Puedes: 1) Solicitar cotización gratis, 2) Acordar precio y forma de pago (efectivo, transferencia, etc.), 3) Pagar directamente al proveedor después del trabajo. Recomendamos pagar después de verificar la calidad del servicio.',
+                    text: 'Atlas Services NO cobra comisiones ni intermedia pagos. El pago se acuerda directamente entre el cliente y el proveedor. Nosotros solo conectamos ambas partes. Puedes: 1) Solicitar cotización gratis, 2) Acordar precio y forma de pago (efectivo, transferencia, etc.), 3) Pagar directamente al proveedor después del trabajo.',
                 },
             },
             {
                 '@type': 'Question',
-                name: '¿Qué es la Garantía Chilota?',
+                name: '¿Qué es la Garantía Atlas?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'La Garantía Chilota es nuestro compromiso de mediación. Si el servicio no cumple lo acordado: 1) Contacta a soporte (info@chiloeservicios.cl o WhatsApp +56929540906), 2) Nuestro equipo media entre ambas partes, 3) Buscamos una solución justa (reembolso, trabajo adicional, etc.), 4) El proveedor puede ser suspendido si no responde. Esta garantía aplica para todos los servicios contratados a través de la plataforma.',
+                    text: 'La Garantía Atlas es nuestro compromiso de mediación. Si el servicio no cumple lo acordado: 1) Contacta a soporte (info@atlasservicios.com), 2) Nuestro equipo media entre ambas partes, 3) Buscamos una solución justa (reembolso, trabajo adicional, etc.), 4) El proveedor puede ser suspendido si no responde. Esta garantía aplica para todos los servicios contratados a través de la plataforma.',
                 },
             },
             {
@@ -171,7 +171,7 @@ const AyudaPage: React.FC = () => {
                 <div className="space-y-3">
                     <p>Para encontrar un gasfíter en Castro:</p>
                     <ol className="list-decimal space-y-2 pl-5">
-                        <li>Ve a chiloeservicios.cl/buscar</li>
+                        <li>Ve a atlasservicios.com/buscar</li>
                         <li>Selecciona la categoría &quot;Gasfíter&quot;</li>
                         <li>Filtra por comuna &quot;Castro&quot;</li>
                         <li>
@@ -187,7 +187,7 @@ const AyudaPage: React.FC = () => {
             ),
         },
         {
-            pregunta: '¿Cuánto cuesta publicar un servicio en Chiloé Servicios?',
+            pregunta: '¿Cuánto cuesta publicar un servicio en Atlas Services?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold text-green-600 dark:text-green-400">
@@ -210,10 +210,10 @@ const AyudaPage: React.FC = () => {
             ),
         },
         {
-            pregunta: '¿Los profesionales en Chiloé Servicios están verificados?',
+            pregunta: '¿Los profesionales en Atlas Services están verificados?',
             respuesta: (
                 <div className="space-y-3">
-                    <p className="font-bold text-blue-600 dark:text-blue-400">
+                    <p className="font-bold text-brand dark:text-brand-light">
                         Sí, todos los profesionales están verificados.
                     </p>
                     <p>Cada proveedor tiene:</p>
@@ -225,32 +225,27 @@ const AyudaPage: React.FC = () => {
                     </ul>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                         Las reseñas son públicas y no pueden ser eliminadas. Además, contamos con la
-                        Garantía Chilota que ofrece mediación en caso de conflictos.
+                        Garantía Atlas que ofrece mediación en caso de conflictos.
                     </p>
                 </div>
             ),
         },
         {
-            pregunta: '¿En qué comunas de Chiloé operan?',
+            pregunta: '¿En qué países opera Atlas Services?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold">
-                        Chiloé Servicios opera en TODAS las comunas de la Isla de Chiloé:
+                        Atlas Services opera en 5 países:
                     </p>
                     <ul className="grid grid-cols-2 gap-2">
-                        <li>✓ Castro (capital)</li>
-                        <li>✓ Ancud</li>
-                        <li>✓ Quellón</li>
-                        <li>✓ Dalcahue</li>
-                        <li>✓ Chonchi</li>
-                        <li>✓ Achao</li>
-                        <li>✓ Queilen</li>
-                        <li>✓ Quemchi</li>
-                        <li>✓ Curaco de Vélez</li>
-                        <li>✓ Puqueldón</li>
+                        <li>✓ Chile</li>
+                        <li>✓ Argentina</li>
+                        <li>✓ Uruguay</li>
+                        <li>✓ España</li>
+                        <li>✓ Estados Unidos</li>
                     </ul>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Puedes filtrar servicios por cualquiera de estas comunas en el buscador.
+                        Puedes filtrar servicios por región y localidad en el buscador de cada país.
                     </p>
                 </div>
             ),
@@ -263,7 +258,7 @@ const AyudaPage: React.FC = () => {
                         Para emergencias eléctricas en Ancud:
                     </p>
                     <ol className="list-decimal space-y-2 pl-5">
-                        <li>Busca &quot;electricista&quot; en chiloeservicios.cl</li>
+                        <li>Busca el profesional en atlasservicios.com</li>
                         <li>Filtra por &quot;Ancud&quot;</li>
                         <li>Verás teléfonos y WhatsApp directos</li>
                         <li>Contacta directamente sin intermediarios</li>
@@ -281,7 +276,7 @@ const AyudaPage: React.FC = () => {
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold">
-                        Sí, hay múltiples proveedores de fletes y mudanzas en Chiloé Servicios.
+                        Sí, hay múltiples proveedores de fletes y mudanzas en Atlas Services.
                     </p>
                     <p>Ofrecen:</p>
                     <ul className="list-disc space-y-1 pl-5">
@@ -300,7 +295,7 @@ const AyudaPage: React.FC = () => {
             ),
         },
         {
-            pregunta: '¿Qué oficios puedo encontrar en Chiloé Servicios?',
+            pregunta: '¿Qué oficios puedo encontrar en Atlas Services?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold">Oficios disponibles:</p>
@@ -317,18 +312,18 @@ const AyudaPage: React.FC = () => {
                         <li>✓ Soldador</li>
                         <li>✓ Y más...</li>
                     </ul>
-                    <p className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                    <p className="text-sm font-bold text-brand dark:text-brand-light">
                         Total: 15+ categorías de servicios profesionales
                     </p>
                 </div>
             ),
         },
         {
-            pregunta: '¿Cómo funciona el pago en Chiloé Servicios?',
+            pregunta: '¿Cómo funciona el pago en Atlas Services?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold text-green-600 dark:text-green-400">
-                        Chiloé Servicios NO cobra comisiones ni intermedia pagos.
+                        Atlas Services NO cobra comisiones ni intermedia pagos.
                     </p>
                     <p>El pago se acuerda directamente entre el cliente y el proveedor:</p>
                     <ol className="list-decimal space-y-2 pl-5">
@@ -343,16 +338,16 @@ const AyudaPage: React.FC = () => {
             ),
         },
         {
-            pregunta: '¿Qué es la Garantía Chilota?',
+            pregunta: '¿Qué es la Garantía Atlas?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold">
-                        La Garantía Chilota es nuestro compromiso de mediación.
+                        La Garantía Atlas es nuestro compromiso de mediación.
                     </p>
                     <p>Si el servicio no cumple lo acordado:</p>
                     <ol className="list-decimal space-y-2 pl-5">
                         <li>
-                            Contacta a soporte (info@chiloeservicios.cl o WhatsApp +56929540906)
+                            Contacta a soporte (info@atlasservicios.com)
                         </li>
                         <li>Nuestro equipo media entre ambas partes</li>
                         <li>Buscamos una solución justa (reembolso, trabajo adicional, etc.)</li>
@@ -378,7 +373,7 @@ const AyudaPage: React.FC = () => {
                         </ul>
                     </div>
                     <div>
-                        <p className="mb-2 font-bold text-blue-600 dark:text-blue-400">
+                        <p className="mb-2 font-bold text-brand dark:text-brand-light">
                             Servicios Premium ($9,990+/mes):
                         </p>
                         <ul className="list-disc space-y-1 pl-5 text-sm">
@@ -449,7 +444,7 @@ const AyudaPage: React.FC = () => {
                         </h1>
                         <p className="mx-auto max-w-2xl text-base text-gray-600 md:text-lg dark:text-gray-400">
                             Todo lo que necesitas saber sobre cómo encontrar y publicar servicios
-                            profesionales en Chiloé
+                            profesionales
                         </p>
                     </div>
 
@@ -475,7 +470,7 @@ const AyudaPage: React.FC = () => {
                     </div>
 
                     {/* CTA */}
-                    <div className="mt-12 rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 to-indigo-50 p-8 text-center dark:border-blue-900/30 dark:from-blue-900/20 dark:to-indigo-900/20">
+                    <div className="mt-12 rounded-2xl border border-brand/20 bg-gradient-to-br from-brand/5 to-indigo-50 p-8 text-center dark:border-brand-marino/30 dark:from-brand-marino/20 dark:to-indigo-900/20">
                         <h3 className="mb-2 text-xl font-bold text-gray-900 md:text-2xl dark:text-white">
                             ¿No encontraste tu respuesta?
                         </h3>
@@ -484,7 +479,7 @@ const AyudaPage: React.FC = () => {
                         </p>
                         <a
                             href="/contacto"
-                            className="inline-block rounded-2xl bg-blue-600 px-8 py-4 text-sm font-bold text-white transition-all hover:bg-blue-700 md:text-base"
+                            className="btn-primary inline-block rounded-2xl px-8 py-4 text-sm md:text-base"
                         >
                             Contactar Soporte
                         </a>

@@ -8,7 +8,7 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 export const metadata: Metadata = {
     title: 'Publicar Servicio',
     description:
-        'Publica tu servicio profesional en Chiloé. Llega a miles de clientes potenciales en Castro, Ancud, Quellón y toda la isla. Gratis para empezar.',
+        'Publica tu servicio profesional y llega a miles de clientes potenciales en tu zona. Gratis para empezar.',
     robots: {
         index: true,
         follow: true,

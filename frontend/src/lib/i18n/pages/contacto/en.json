@@ -1,0 +1,25 @@
+{
+    "title": "Let's talk about",
+    "titleHighlight": "your next opportunity",
+    "subtitle": "We're here to help you resolve your questions or hear your suggestions.",
+    "email": "Email",
+    "whatsapp": "WhatsApp Support",
+    "office": "Office",
+    "officeValue": "100% Remote Operation",
+    "form": {
+        "name": "Your Name",
+        "namePlaceholder": "Ex: John Smith",
+        "email": "Your Email",
+        "emailPlaceholder": "example@email.com",
+        "phone": "Your Phone",
+        "phonePlaceholder": "+1 555 123 4567",
+        "subject": "Subject",
+        "subjectOptions": ["Pro Subscription", "I want to advertise", "Report a User", "Technical Support", "Other"],
+        "message": "Message",
+        "messagePlaceholder": "How can we help you?",
+        "submit": "Send Message",
+        "sending": "Sending...",
+        "success": "Message sent successfully! We will respond shortly.",
+        "defaultSubject": "Pro Subscription"
+    }
+}
