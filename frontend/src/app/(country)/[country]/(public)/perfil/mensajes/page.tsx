@@ -5,7 +5,7 @@ import { getConversaciones } from '@/features/chat/actions/queries';
 import ConversationList from '@/features/chat/components/ConversationList';
 
 export const metadata: Metadata = {
-    title: 'Mis Mensajes — Atlas Services',
+    title: 'Mis Mensajes — Hireeo',
     description: 'Tus conversaciones con profesionales.',
 };
 

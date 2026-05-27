@@ -97,7 +97,7 @@ export default function PrivacidadPage() {
                                 Puedes acceder, rectificar, cancelar o bloquear tus datos
                                 escribiendo a{' '}
                                 <span className="font-semibold text-brand dark:text-brand-light">
-                                    privacidad@atlasservicios.com
+                                    privacidad@hireeo.app
                                 </span>{' '}
                                 o desde tu configuración de cuenta.
                             </p>
@@ -137,7 +137,7 @@ export default function PrivacidadPage() {
                             </h2>
                             <p>
                                 <span className="font-semibold text-brand dark:text-brand-light">
-                                    privacidad@atlasservicios.com
+                                    privacidad@hireeo.app
                                 </span>
                             </p>
                         </section>

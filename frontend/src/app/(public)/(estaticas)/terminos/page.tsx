@@ -120,7 +120,7 @@ export default function TerminosPage() {
                             <p>
                                 Estos términos se rigen por las leyes de Chile. Para consultas:{' '}
                                 <span className="font-semibold text-brand dark:text-brand-light">
-                                    legal@atlasservicios.com
+                                    legal@hireeo.app
                                 </span>
                             </p>
                         </section>

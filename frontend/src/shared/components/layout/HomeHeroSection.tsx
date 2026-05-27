@@ -13,7 +13,7 @@ import { useRotatingText } from '@/shared/hooks/useRotatingText';
 
 import type { GeoRegion } from '@/features/geo/types/geoTypes';
 
-const bgHeroHome = '/bg-chiloe-01.png'; // TODO(F1.1): rename image file to atlas-hero.png
+const bgHeroHome = '/bg-chiloe-01.png'; // TODO(F1.1): rename image file to hireeo-hero.png
 
 interface HomeHeroSectionProps {
     country: string;

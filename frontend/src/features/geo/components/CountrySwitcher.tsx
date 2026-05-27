@@ -18,7 +18,7 @@ export function CountrySwitcher() {
 
     function handleChange(newCountry: string) {
         // biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API no disponible en todos los navegadores
-        document.cookie = `atlas_country=${newCountry}; path=/; max-age=31536000; SameSite=Lax`;
+        document.cookie = `hireeo_country=${newCountry}; path=/; max-age=31536000; SameSite=Lax`;
         router.push(`/${newCountry}`);
     }
 

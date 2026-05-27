@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 
 import { getAllPublicServices } from '@/features/services/actions';
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.atlasservicios.com';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.hireeo.app';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Rutas estáticas principales

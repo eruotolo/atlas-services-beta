@@ -8,7 +8,7 @@
     "story": {
         "label": "Nuestra Historia",
         "title": "Más que una Aplicación",
-        "description": "Atlas Services no es una multinacional. Somos un equipo de emprendedores que entendió que la mejor forma de crecer es conectando a profesionales con quienes los necesitan."
+        "description": "Hireeo no es una multinacional. Somos un equipo de emprendedores que entendió que la mejor forma de crecer es conectando a profesionales con quienes los necesitan."
     },
     "values": {
         "title": "Nuestros Valores",
@@ -29,7 +29,7 @@
             { "value": "98%", "label": "Clientes Felices" }
         ],
         "quote": "Creamos esta plataforma porque vimos la necesidad de un directorio profesional moderno, ordenado y confiable para Latinoamérica.",
-        "quoteAuthor": "Equipo Atlas Services",
+        "quoteAuthor": "Equipo Hireeo",
         "quoteRole": "Fundadores"
     },
     "cta": {

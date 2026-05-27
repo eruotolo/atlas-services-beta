@@ -1,7 +1,7 @@
 {
     "meta": {
         "title": "Centro de Ayuda - Preguntas Frecuentes",
-        "description": "Respuestas a las preguntas más comunes sobre Atlas Services. Cómo encontrar profesionales, cómo publicar servicios, precios, verificación y más."
+        "description": "Respuestas a las preguntas más comunes sobre Hireeo. Cómo encontrar profesionales, cómo publicar servicios, precios, verificación y más."
     },
     "header": {
         "title": "Centro de Ayuda",
@@ -18,7 +18,7 @@
             "a": [
                 { "type": "p", "text": "Para encontrar un profesional cerca de ti:" },
                 { "type": "ol", "items": [
-                    "Ve a atlasservicios.com/buscar",
+                    "Ve a hireeo.app/buscar",
                     "Selecciona la categoría que necesitas",
                     "Filtra por tu zona",
                     "Verás perfiles verificados con calificaciones, precios y contacto directo"
@@ -27,7 +27,7 @@
             ]
         },
         {
-            "q": "¿Cuánto cuesta publicar un servicio en Atlas Services?",
+            "q": "¿Cuánto cuesta publicar un servicio en Hireeo?",
             "a": [
                 { "type": "p-bold-green", "text": "Publicar un servicio es completamente GRATIS para empezar." },
                 { "type": "p", "text": "Solo necesitas crear una cuenta y llenar el formulario con tu oficio. Los planes Premium opcionales van desde:" },
@@ -40,7 +40,7 @@
             ]
         },
         {
-            "q": "¿Los profesionales en Atlas Services están verificados?",
+            "q": "¿Los profesionales en Hireeo están verificados?",
             "a": [
                 { "type": "p-bold-blue", "text": "Sí, todos los profesionales están verificados." },
                 { "type": "p", "text": "Cada proveedor tiene:" },
@@ -50,13 +50,13 @@
                     "Historial de trabajos visible",
                     "Sello \"Pro\" para proveedores Premium"
                 ]},
-                { "type": "note", "text": "Las reseñas son públicas y no pueden ser eliminadas. Además, contamos con la Garantía Atlas que ofrece mediación en caso de conflictos." }
+                { "type": "note", "text": "Las reseñas son públicas y no pueden ser eliminadas. Además, contamos con la Garantía Hireeo que ofrece mediación en caso de conflictos." }
             ]
         },
         {
-            "q": "¿En qué países opera Atlas Services?",
+            "q": "¿En qué países opera Hireeo?",
             "a": [
-                { "type": "p-bold", "text": "Atlas Services opera en 5 países:" },
+                { "type": "p-bold", "text": "Hireeo opera en 5 países:" },
                 { "type": "ul-grid", "items": ["✓ Chile", "✓ Argentina", "✓ Uruguay", "✓ España", "✓ Estados Unidos"] },
                 { "type": "note", "text": "Puedes filtrar servicios por región y localidad en el buscador de cada país." }
             ]
@@ -66,7 +66,7 @@
             "a": [
                 { "type": "p-bold-red", "text": "Para emergencias:" },
                 { "type": "ol", "items": [
-                    "Busca el tipo de profesional en atlasservicios.com",
+                    "Busca el tipo de profesional en hireeo.app",
                     "Filtra por tu zona",
                     "Verás teléfonos y WhatsApp directos",
                     "Contacta directamente sin intermediarios"
@@ -77,7 +77,7 @@
         {
             "q": "¿Hay servicios de flete y mudanza?",
             "a": [
-                { "type": "p-bold", "text": "Sí, hay múltiples proveedores de fletes y mudanzas en Atlas Services." },
+                { "type": "p-bold", "text": "Sí, hay múltiples proveedores de fletes y mudanzas en Hireeo." },
                 { "type": "p", "text": "Ofrecen:" },
                 { "type": "ul", "items": [
                     "Transporte de muebles",
@@ -89,7 +89,7 @@
             ]
         },
         {
-            "q": "¿Qué oficios puedo encontrar en Atlas Services?",
+            "q": "¿Qué oficios puedo encontrar en Hireeo?",
             "a": [
                 { "type": "p-bold", "text": "Oficios disponibles:" },
                 { "type": "ul-grid", "items": [
@@ -109,9 +109,9 @@
             ]
         },
         {
-            "q": "¿Cómo funciona el pago en Atlas Services?",
+            "q": "¿Cómo funciona el pago en Hireeo?",
             "a": [
-                { "type": "p-bold-green", "text": "Atlas Services NO cobra comisiones ni intermedia pagos." },
+                { "type": "p-bold-green", "text": "Hireeo NO cobra comisiones ni intermedia pagos." },
                 { "type": "p", "text": "El pago se acuerda directamente entre el cliente y el proveedor:" },
                 { "type": "ol", "items": [
                     "Solicita cotización gratis",
@@ -122,12 +122,12 @@
             ]
         },
         {
-            "q": "¿Qué es la Garantía Atlas?",
+            "q": "¿Qué es la Garantía Hireeo?",
             "a": [
-                { "type": "p-bold", "text": "La Garantía Atlas es nuestro compromiso de mediación." },
+                { "type": "p-bold", "text": "La Garantía Hireeo es nuestro compromiso de mediación." },
                 { "type": "p", "text": "Si el servicio no cumple lo acordado:" },
                 { "type": "ol", "items": [
-                    "Contacta a soporte (info@atlasservicios.com)",
+                    "Contacta a soporte (info@hireeo.app)",
                     "Nuestro equipo media entre ambas partes",
                     "Buscamos una solución justa (reembolso, trabajo adicional, etc.)",
                     "El proveedor puede ser suspendido si no responde"

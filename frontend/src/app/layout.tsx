@@ -24,14 +24,14 @@ const inter = Inter({
 
 // Configuración global del sitio
 const siteConfig = {
-    name: 'Atlas Servicios',
+    name: 'Hireeo',
     description:
         'Encuentra electricistas, carpinteros, gasfíter, fletes y más profesionales verificados cerca de ti.',
-    url: process.env.NEXT_PUBLIC_APP_URL || 'https://www.atlasservicios.cl',
-    ogImage: '/atlas-og.png',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'https://hireeo.app',
+    ogImage: '/hireeo-og.png',
     links: {
-        twitter: 'https://twitter.com/atlasservicios',
-        github: 'https://github.com/atlasservicios',
+        twitter: 'https://twitter.com/hireeo',
+        github: 'https://github.com/hireeo',
     },
 };
 
@@ -43,13 +43,13 @@ export const metadata: Metadata = {
     },
     description: siteConfig.description,
     other: {
-        'DC.title': 'Atlas Servicios - Directorio de Profesionales',
+        'DC.title': 'Hireeo - Directorio de Profesionales',
         'DC.description':
             'Plataforma que conecta usuarios con proveedores de servicios profesionales. Gasfíter, electricista, carpintero, fletes y más.',
         'DC.subject': 'Directorio servicios, Profesionales, Servicios hogar, Oficios manuales',
     },
     keywords: [
-        'Atlas Servicios',
+        'Hireeo',
         'Directorio de servicios',
         'Gasfíter',
         'Electricista',
@@ -60,8 +60,8 @@ export const metadata: Metadata = {
         'Servicios a domicilio',
         'Presupuestos gratis',
     ],
-    authors: [{ name: 'Atlas Servicios', url: siteConfig.url }],
-    creator: 'Atlas Servicios',
+    authors: [{ name: 'Hireeo', url: siteConfig.url }],
+    creator: 'Hireeo',
     openGraph: {
         type: 'website',
         locale: 'es_CL',
@@ -74,7 +74,7 @@ export const metadata: Metadata = {
                 url: siteConfig.ogImage,
                 width: 1200,
                 height: 630,
-                alt: 'Atlas Servicios - Directorio de Profesionales',
+                alt: 'Hireeo - Directorio de Profesionales',
             },
         ],
     },
@@ -83,7 +83,7 @@ export const metadata: Metadata = {
         title: siteConfig.name,
         description: siteConfig.description,
         images: [siteConfig.ogImage],
-        creator: '@atlasservicios',
+        creator: '@hireeo',
     },
     icons: {
         icon: [
@@ -117,7 +117,7 @@ export default async function RootLayout({
         getServerSession(authOptions),
         headers(),
     ]);
-    const lang = headersList.get('x-atlas-lang') ?? 'es';
+    const lang = headersList.get('x-hireeo-lang') ?? 'es';
 
     const currentUser = session?.user
         ? {
@@ -161,7 +161,7 @@ export default async function RootLayout({
             height: 800,
         },
         description: siteConfig.description,
-        email: 'info@atlasservicios.cl',
+        email: 'info@hireeo.app',
         foundingDate: '2025',
         sameAs: [siteConfig.links.twitter, siteConfig.links.github],
     };

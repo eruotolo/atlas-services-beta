@@ -6,7 +6,7 @@ import type { Metadata } from 'next';
 import { getMisFavoritos } from '@/features/favorites/actions/queries';
 
 export const metadata: Metadata = {
-    title: 'Mis Favoritos — Atlas Services',
+    title: 'Mis Favoritos — Hireeo',
     description: 'Servicios que has guardado como favoritos.',
 };
 

@@ -1,6 +1,6 @@
 {
-    "name": "atlas-services",
-    "version": "0.1.0",
+    "name": "hireeo",
+    "version": "1.1.9",
     "private": true,
     "scripts": {
         "dev": "concurrently --names \"backend,frontend\" --prefix-colors \"blue,green\" \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",

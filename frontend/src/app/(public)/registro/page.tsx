@@ -113,7 +113,7 @@ export default function RegistroPage() {
                             Crear Cuenta
                         </h2>
                         <p className="mt-2 font-medium text-gray-500 dark:text-gray-400">
-                            Crea tu cuenta en Atlas Servicios
+                            Crea tu cuenta en Hireeo
                         </p>
                     </div>
 

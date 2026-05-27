@@ -1,4 +1,7 @@
-# Atlas Services — Plataforma Multi-País de Servicios (Beta)
+# Hireeo — Plataforma Multi-País de Servicios (Beta)
+
+**Dominio oficial:** [hireeo.app](https://hireeo.app)
+
 
 Plataforma que conecta usuarios con proveedores de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas). Soporta múltiples países con routing, moneda y pasarela de pago por país.
 
@@ -45,7 +48,7 @@ Toda la aplicación vive bajo el prefijo `/{country}/`. Ejemplos:
 En cada visita, `proxy.ts` ejecuta esta cascada de prioridad:
 
 ```
-1. Cookie `atlas_country` (preferencia guardada del usuario)
+1. Cookie `hireeo_country` (preferencia guardada del usuario)
 2. Header `CF-IPCountry` (Cloudflare)
 3. Header `x-vercel-ip-country` (Vercel)
 4. Header `Accept-Language` (navegador)

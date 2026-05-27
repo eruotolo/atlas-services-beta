@@ -37,7 +37,7 @@ export async function generateDynamicKeywords(countryCode = 'cl'): Promise<strin
 
         // 1. Keywords base (siempre presentes)
         const baseKeywords = [
-            'Atlas Services',
+            'Hireeo',
             `Directorio de servicios ${config.name}`,
             `Profesionales en ${config.name}`,
             `Servicios hogar ${config.name}`,
@@ -102,7 +102,7 @@ export async function generateDynamicKeywords(countryCode = 'cl'): Promise<strin
 
         // Fallback a keywords estáticas básicas en caso de error
         return [
-            'Atlas Services',
+            'Hireeo',
             'Directorio de servicios profesionales',
             'Profesionales verificados',
             'Gasfíter',
@@ -129,7 +129,7 @@ export function generateServiceKeywords(
         `${categoryName} profesional`,
         `${categoryName} ${comuna}`,
         'servicios profesionales',
-        'Atlas Services',
+        'Hireeo',
         `${categoryName} a domicilio`,
         `${categoryName} verificado`,
     ];

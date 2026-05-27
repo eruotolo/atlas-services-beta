@@ -4,7 +4,7 @@ import { getServicioBySlug } from '@/features/services/actions';
 
 import ServiceDetailPageContent from '@/app/(public)/servicio/[slug]/page';
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.atlasservicios.com';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.hireeo.app';
 
 export async function generateMetadata({
     params,
@@ -27,7 +27,7 @@ export async function generateMetadata({
             ? `${service.description.substring(0, 152)}...`
             : service.description;
 
-    const ogImage = service.imagenPrincipal || `${baseUrl}/bg-chiloe-01.png`; // TODO: rename to atlas-og.png
+    const ogImage = service.imagenPrincipal || `${baseUrl}/bg-chiloe-01.png`; // TODO: rename to hireeo-og.png
 
     return {
         title,

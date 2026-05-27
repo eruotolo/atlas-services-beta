@@ -5,7 +5,7 @@ export const esAR: DeepPartial<Dictionary> = {
         popularItems: 'Electricista, Plomero, Carpintero',
         proCtaTitle: '¿Querés que tu servicio aparezca primero?',
         proCtaDescription:
-            'Unite a Atlas Pro y destacate sobre la competencia. Atraé hasta 5x más clientes.',
+            'Unite a Hireeo Pro y destacate sobre la competencia. Atraé hasta 5x más clientes.',
         proCtaButton: 'Hacete Premium',
     },
     service: {

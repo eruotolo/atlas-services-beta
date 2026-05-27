@@ -6,9 +6,9 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Centro de Ayuda - Preguntas Frecuentes',
     description:
-        'Respuestas a las preguntas más comunes sobre Atlas Services. Cómo encontrar profesionales, cómo publicar servicios, precios, verificación y más.',
+        'Respuestas a las preguntas más comunes sobre Hireeo. Cómo encontrar profesionales, cómo publicar servicios, precios, verificación y más.',
     keywords: [
-        'ayuda Atlas Services',
+        'ayuda Hireeo',
         'preguntas frecuentes',
         'FAQ servicios profesionales',
         'cómo funciona',
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
         'soporte',
     ],
     openGraph: {
-        title: 'Centro de Ayuda - Atlas Services',
+        title: 'Centro de Ayuda - Hireeo',
         description:
             'Todo lo que necesitas saber sobre cómo encontrar y publicar servicios profesionales.',
         type: 'website',
@@ -38,12 +38,12 @@ const AyudaPage: React.FC = () => {
                 name: '¿Cómo encuentro un gasfíter en Castro?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Para encontrar un gasfíter cerca de ti: 1) Ve a atlasservicios.com/buscar, 2) Selecciona la categoría "Gasfíter", 3) Filtra por tu zona, 4) Verás perfiles verificados con calificaciones, precios y contacto directo. Puedes contactar por WhatsApp o teléfono sin intermediación.',
+                    text: 'Para encontrar un gasfíter cerca de ti: 1) Ve a hireeo.app/buscar, 2) Selecciona la categoría "Gasfíter", 3) Filtra por tu zona, 4) Verás perfiles verificados con calificaciones, precios y contacto directo. Puedes contactar por WhatsApp o teléfono sin intermediación.',
                 },
             },
             {
                 '@type': 'Question',
-                name: '¿Cuánto cuesta publicar un servicio en Atlas Services?',
+                name: '¿Cuánto cuesta publicar un servicio en Hireeo?',
                 acceptedAnswer: {
                     '@type': 'Answer',
                     text: 'Publicar un servicio es completamente GRATIS para empezar. Solo necesitas crear una cuenta y llenar el formulario con tu oficio. Los planes Premium opcionales van desde $9,990/mes (1 mes) hasta $52,990 (12 meses con descuento). El plan Premium te da prioridad en búsquedas, sello de verificación Pro y soporte 24/7.',
@@ -51,18 +51,18 @@ const AyudaPage: React.FC = () => {
             },
             {
                 '@type': 'Question',
-                name: '¿Los profesionales en Atlas Services están verificados?',
+                name: '¿Los profesionales en Hireeo están verificados?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Sí. Todos los profesionales tienen: 1) Identidad verificada mediante documentación, 2) Sistema de calificaciones públicas (estrellas y reseñas), 3) Historial de trabajos visible, 4) Sello "Pro" para proveedores Premium. Las reseñas son públicas y no pueden ser eliminadas. Además, contamos con la Garantía Atlas que ofrece mediación en caso de conflictos.',
+                    text: 'Sí. Todos los profesionales tienen: 1) Identidad verificada mediante documentación, 2) Sistema de calificaciones públicas (estrellas y reseñas), 3) Historial de trabajos visible, 4) Sello "Pro" para proveedores Premium. Las reseñas son públicas y no pueden ser eliminadas. Además, contamos con la Garantía Hireeo que ofrece mediación en caso de conflictos.',
                 },
             },
             {
                 '@type': 'Question',
-                name: '¿En qué países opera Atlas Services?',
+                name: '¿En qué países opera Hireeo?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Atlas Services opera en 5 países: Chile (CL), Argentina (AR), Uruguay (UY), España (ES) y Estados Unidos (US). En cada país puedes filtrar servicios por región y localidad en el buscador.',
+                    text: 'Hireeo opera en 5 países: Chile (CL), Argentina (AR), Uruguay (UY), España (ES) y Estados Unidos (US). En cada país puedes filtrar servicios por región y localidad en el buscador.',
                 },
             },
             {
@@ -70,7 +70,7 @@ const AyudaPage: React.FC = () => {
                 name: '¿Necesito un electricista urgente en Ancud, cómo lo contacto?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Para emergencias: 1) Busca el tipo de profesional en atlasservicios.com, 2) Filtra por tu zona, 3) Verás teléfonos y WhatsApp directos, 4) Contacta directamente sin intermediarios. Muchos profesionales ofrecen servicio de emergencia 24/7. Los perfiles Premium suelen responder más rápido.',
+                    text: 'Para emergencias: 1) Busca el tipo de profesional en hireeo.app, 2) Filtra por tu zona, 3) Verás teléfonos y WhatsApp directos, 4) Contacta directamente sin intermediarios. Muchos profesionales ofrecen servicio de emergencia 24/7. Los perfiles Premium suelen responder más rápido.',
                 },
             },
             {
@@ -78,12 +78,12 @@ const AyudaPage: React.FC = () => {
                 name: '¿Hay servicios de flete y mudanza?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Sí, hay múltiples proveedores de fletes y mudanzas en Atlas Services. Ofrecen: Transporte de muebles, mudanzas completas, fletes de materiales de construcción, y más. Puedes comparar precios y ver calificaciones antes de contratar.',
+                    text: 'Sí, hay múltiples proveedores de fletes y mudanzas en Hireeo. Ofrecen: Transporte de muebles, mudanzas completas, fletes de materiales de construcción, y más. Puedes comparar precios y ver calificaciones antes de contratar.',
                 },
             },
             {
                 '@type': 'Question',
-                name: '¿Qué oficios puedo encontrar en Atlas Services?',
+                name: '¿Qué oficios puedo encontrar en Hireeo?',
                 acceptedAnswer: {
                     '@type': 'Answer',
                     text: 'Oficios disponibles: Gasfíter (reparación calefont, destapes, instalaciones), Electricista (instalaciones SEC, emergencias), Carpintero (muebles, construcciones), Maestro Constructor (ampliaciones, reparaciones), Pintor (casas, estructuras), Flete y Mudanza (transporte isla), Jardinero (corte pasto, paisajismo), Técnico Refrigeración (aires, refrigeradores), Mecánico (reparaciones a domicilio), Soldador, y más. Total: 15+ categorías de servicios.',
@@ -91,18 +91,18 @@ const AyudaPage: React.FC = () => {
             },
             {
                 '@type': 'Question',
-                name: '¿Cómo funciona el pago en Atlas Services?',
+                name: '¿Cómo funciona el pago en Hireeo?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'Atlas Services NO cobra comisiones ni intermedia pagos. El pago se acuerda directamente entre el cliente y el proveedor. Nosotros solo conectamos ambas partes. Puedes: 1) Solicitar cotización gratis, 2) Acordar precio y forma de pago (efectivo, transferencia, etc.), 3) Pagar directamente al proveedor después del trabajo.',
+                    text: 'Hireeo NO cobra comisiones ni intermedia pagos. El pago se acuerda directamente entre el cliente y el proveedor. Nosotros solo conectamos ambas partes. Puedes: 1) Solicitar cotización gratis, 2) Acordar precio y forma de pago (efectivo, transferencia, etc.), 3) Pagar directamente al proveedor después del trabajo.',
                 },
             },
             {
                 '@type': 'Question',
-                name: '¿Qué es la Garantía Atlas?',
+                name: '¿Qué es la Garantía Hireeo?',
                 acceptedAnswer: {
                     '@type': 'Answer',
-                    text: 'La Garantía Atlas es nuestro compromiso de mediación. Si el servicio no cumple lo acordado: 1) Contacta a soporte (info@atlasservicios.com), 2) Nuestro equipo media entre ambas partes, 3) Buscamos una solución justa (reembolso, trabajo adicional, etc.), 4) El proveedor puede ser suspendido si no responde. Esta garantía aplica para todos los servicios contratados a través de la plataforma.',
+                    text: 'La Garantía Hireeo es nuestro compromiso de mediación. Si el servicio no cumple lo acordado: 1) Contacta a soporte (info@hireeo.app), 2) Nuestro equipo media entre ambas partes, 3) Buscamos una solución justa (reembolso, trabajo adicional, etc.), 4) El proveedor puede ser suspendido si no responde. Esta garantía aplica para todos los servicios contratados a través de la plataforma.',
                 },
             },
             {
@@ -171,7 +171,7 @@ const AyudaPage: React.FC = () => {
                 <div className="space-y-3">
                     <p>Para encontrar un gasfíter en Castro:</p>
                     <ol className="list-decimal space-y-2 pl-5">
-                        <li>Ve a atlasservicios.com/buscar</li>
+                        <li>Ve a hireeo.app/buscar</li>
                         <li>Selecciona la categoría &quot;Gasfíter&quot;</li>
                         <li>Filtra por comuna &quot;Castro&quot;</li>
                         <li>
@@ -187,7 +187,7 @@ const AyudaPage: React.FC = () => {
             ),
         },
         {
-            pregunta: '¿Cuánto cuesta publicar un servicio en Atlas Services?',
+            pregunta: '¿Cuánto cuesta publicar un servicio en Hireeo?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold text-green-600 dark:text-green-400">
@@ -210,7 +210,7 @@ const AyudaPage: React.FC = () => {
             ),
         },
         {
-            pregunta: '¿Los profesionales en Atlas Services están verificados?',
+            pregunta: '¿Los profesionales en Hireeo están verificados?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold text-brand dark:text-brand-light">
@@ -225,17 +225,17 @@ const AyudaPage: React.FC = () => {
                     </ul>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                         Las reseñas son públicas y no pueden ser eliminadas. Además, contamos con la
-                        Garantía Atlas que ofrece mediación en caso de conflictos.
+                        Garantía Hireeo que ofrece mediación en caso de conflictos.
                     </p>
                 </div>
             ),
         },
         {
-            pregunta: '¿En qué países opera Atlas Services?',
+            pregunta: '¿En qué países opera Hireeo?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold">
-                        Atlas Services opera en 5 países:
+                        Hireeo opera en 5 países:
                     </p>
                     <ul className="grid grid-cols-2 gap-2">
                         <li>✓ Chile</li>
@@ -258,7 +258,7 @@ const AyudaPage: React.FC = () => {
                         Para emergencias eléctricas en Ancud:
                     </p>
                     <ol className="list-decimal space-y-2 pl-5">
-                        <li>Busca el profesional en atlasservicios.com</li>
+                        <li>Busca el profesional en hireeo.app</li>
                         <li>Filtra por &quot;Ancud&quot;</li>
                         <li>Verás teléfonos y WhatsApp directos</li>
                         <li>Contacta directamente sin intermediarios</li>
@@ -276,7 +276,7 @@ const AyudaPage: React.FC = () => {
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold">
-                        Sí, hay múltiples proveedores de fletes y mudanzas en Atlas Services.
+                        Sí, hay múltiples proveedores de fletes y mudanzas en Hireeo.
                     </p>
                     <p>Ofrecen:</p>
                     <ul className="list-disc space-y-1 pl-5">
@@ -295,7 +295,7 @@ const AyudaPage: React.FC = () => {
             ),
         },
         {
-            pregunta: '¿Qué oficios puedo encontrar en Atlas Services?',
+            pregunta: '¿Qué oficios puedo encontrar en Hireeo?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold">Oficios disponibles:</p>
@@ -319,11 +319,11 @@ const AyudaPage: React.FC = () => {
             ),
         },
         {
-            pregunta: '¿Cómo funciona el pago en Atlas Services?',
+            pregunta: '¿Cómo funciona el pago en Hireeo?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold text-green-600 dark:text-green-400">
-                        Atlas Services NO cobra comisiones ni intermedia pagos.
+                        Hireeo NO cobra comisiones ni intermedia pagos.
                     </p>
                     <p>El pago se acuerda directamente entre el cliente y el proveedor:</p>
                     <ol className="list-decimal space-y-2 pl-5">
@@ -338,16 +338,16 @@ const AyudaPage: React.FC = () => {
             ),
         },
         {
-            pregunta: '¿Qué es la Garantía Atlas?',
+            pregunta: '¿Qué es la Garantía Hireeo?',
             respuesta: (
                 <div className="space-y-3">
                     <p className="font-bold">
-                        La Garantía Atlas es nuestro compromiso de mediación.
+                        La Garantía Hireeo es nuestro compromiso de mediación.
                     </p>
                     <p>Si el servicio no cumple lo acordado:</p>
                     <ol className="list-decimal space-y-2 pl-5">
                         <li>
-                            Contacta a soporte (info@atlasservicios.com)
+                            Contacta a soporte (info@hireeo.app)
                         </li>
                         <li>Nuestro equipo media entre ambas partes</li>
                         <li>Buscamos una solución justa (reembolso, trabajo adicional, etc.)</li>

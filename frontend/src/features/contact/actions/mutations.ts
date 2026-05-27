@@ -10,10 +10,10 @@ export async function enviarFormularioContacto(data: ContactInput) {
 
     try {
         const contenidoHtml = generarPlantillaContacto(validated);
-        const emailDestino = process.env.CONTACT_EMAIL || 'info@atlasservicios.com';
+        const emailDestino = process.env.CONTACT_EMAIL || 'info@hireeo.app';
 
         const resultado = await enviarEmail(
-            { email: emailDestino, nombre: 'Atlas Services' },
+            { email: emailDestino, nombre: 'Hireeo' },
             `Contacto: ${validated.asunto} - ${validated.nombre}`,
             contenidoHtml,
         );
@@ -73,7 +73,7 @@ function generarPlantillaContacto(datos: ContactInput): string {
                     </div>
                 </div>
                 <div class="footer">
-                    <p>Este mensaje fue enviado desde el formulario de contacto de Atlas Services</p>
+                    <p>Este mensaje fue enviado desde el formulario de contacto de Hireeo</p>
                 </div>
             </div>
         </body>
