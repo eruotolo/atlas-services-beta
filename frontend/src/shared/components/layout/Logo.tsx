@@ -13,7 +13,7 @@ const Logo: React.FC<LogoProps> = ({ className }) => {
         <>
             <Image
                 src="/logo.png"
-                alt="Atlas Services"
+                alt="Hireeo"
                 width={2371}
                 height={938}
                 className={`block dark:hidden ${sizeClass}`}
@@ -21,7 +21,7 @@ const Logo: React.FC<LogoProps> = ({ className }) => {
             />
             <Image
                 src="/logo-white.png"
-                alt="Atlas Services"
+                alt="Hireeo"
                 width={2371}
                 height={938}
                 className={`hidden dark:block ${sizeClass}`}

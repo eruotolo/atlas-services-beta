@@ -25,7 +25,7 @@ export const es: Dictionary = {
         proCtaTag: 'Solo para proveedores',
         proCtaTitle: '¿Quieres que tu servicio aparezca primero?',
         proCtaDescription:
-            'Únete a Atlas Pro y destaca sobre la competencia. Atrae hasta 5x más clientes.',
+            'Únete a Hireeo Pro y destaca sobre la competencia. Atrae hasta 5x más clientes.',
         proCtaButton: 'Hazte Premium',
         communityAdsTitle: 'Avisos de la Comunidad / Publicidad',
         contactCta: '¿Quieres anunciar aquí? Contáctanos',

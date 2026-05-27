@@ -8,7 +8,7 @@
     "story": {
         "label": "Our Story",
         "title": "More than an App",
-        "description": "Atlas Services is not a multinational. We are a team of entrepreneurs who understood that the best way to grow is by connecting professionals with those who need them."
+        "description": "Hireeo is not a multinational. We are a team of entrepreneurs who understood that the best way to grow is by connecting professionals with those who need them."
     },
     "values": {
         "title": "Our Values",
@@ -29,7 +29,7 @@
             { "value": "98%", "label": "Happy Clients" }
         ],
         "quote": "We created this platform because we saw the need for a modern, organized and reliable professional directory for Latin America.",
-        "quoteAuthor": "Atlas Services Team",
+        "quoteAuthor": "Hireeo Team",
         "quoteRole": "Founders"
     },
     "cta": {

@@ -78,7 +78,7 @@ export default async function QuienesSomosPage({
                 <div className="relative aspect-[16/9] overflow-hidden rounded-[2.5rem] shadow-2xl md:aspect-[21/9] dark:shadow-black/20">
                     <Image
                         src="/about.png"
-                        alt="Atlas Services - Profesionales verificados"
+                        alt="Hireeo - Profesionales verificados"
                         fill
                         className="object-cover transition-transform duration-1000 hover:scale-105"
                         sizes="(max-width: 768px) 100vw, 1200px"

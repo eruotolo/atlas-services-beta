@@ -8,7 +8,7 @@ import { getConversaciones, getMensajes } from '@/features/chat/actions/queries'
 import ChatWindow from '@/features/chat/components/ChatWindow';
 
 export const metadata: Metadata = {
-    title: 'Chat — Atlas Services',
+    title: 'Chat — Hireeo',
     description: 'Conversación con un profesional.',
 };
 

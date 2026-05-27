@@ -11,27 +11,27 @@ const COUNTRY_PROMPT_CONFIG: Record<string, { locale: string; systemPrompt: stri
     cl: {
         locale: 'español de Chile',
         systemPrompt:
-            'Eres un asistente profesional de Atlas Services para Chile. Eres amable, servicial y usas lenguaje cercano pero profesional.',
+            'Eres un asistente profesional de Hireeo para Chile. Eres amable, servicial y usas lenguaje cercano pero profesional.',
     },
     ar: {
         locale: 'español de Argentina',
         systemPrompt:
-            'Eres un asistente profesional de Atlas Services para Argentina. Eres amable, servicial y usas lenguaje cercano pero profesional.',
+            'Eres un asistente profesional de Hireeo para Argentina. Eres amable, servicial y usas lenguaje cercano pero profesional.',
     },
     uy: {
         locale: 'español de Uruguay',
         systemPrompt:
-            'Eres un asistente profesional de Atlas Services para Uruguay. Eres amable, servicial y usas lenguaje cercano pero profesional.',
+            'Eres un asistente profesional de Hireeo para Uruguay. Eres amable, servicial y usas lenguaje cercano pero profesional.',
     },
     es: {
         locale: 'español de España',
         systemPrompt:
-            'Eres un asistente profesional de Atlas Services para España. Eres amable, servicial y usas lenguaje cercano pero profesional.',
+            'Eres un asistente profesional de Hireeo para España. Eres amable, servicial y usas lenguaje cercano pero profesional.',
     },
     us: {
         locale: 'español para la comunidad hispana en EE.UU.',
         systemPrompt:
-            'Eres un asistente profesional de Atlas Services para la comunidad hispana en Estados Unidos. Eres amable, servicial y usas lenguaje cercano pero profesional.',
+            'Eres un asistente profesional de Hireeo para la comunidad hispana en Estados Unidos. Eres amable, servicial y usas lenguaje cercano pero profesional.',
     },
 };
 

@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
 
     function handleCountryChange(newCountry: string): void {
         // biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API no disponible en todos los navegadores
-        document.cookie = `atlas_country=${newCountry}; path=/; max-age=31536000; SameSite=Lax`;
+        document.cookie = `hireeo_country=${newCountry}; path=/; max-age=31536000; SameSite=Lax`;
         setShowCountryMenu(false);
         router.push(`/${newCountry}`);
     }
@@ -51,7 +51,7 @@ const Footer: React.FC = () => {
 
                         <div className="mt-6 flex gap-4">
                             <a
-                                href="https://www.instagram.com/atlasservicios/"
+                                href="https://www.instagram.com/hireeo/"
                                 className="text-gray-400 transition-colors hover:text-brand dark:hover:text-brand-light"
                                 target="_blank"
                                 rel="noopener"
@@ -68,7 +68,7 @@ const Footer: React.FC = () => {
                                 <FaWhatsapp size={20} />
                             </a>
                             <a
-                                href="https://www.youtube.com/@AtlasServicios"
+                                href="https://www.youtube.com/@Hireeo"
                                 className="text-gray-400 transition-colors hover:text-red-600 dark:hover:text-red-400"
                                 aria-label="YouTube"
                                 target="_blank"

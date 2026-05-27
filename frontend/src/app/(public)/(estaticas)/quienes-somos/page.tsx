@@ -48,7 +48,7 @@ export default function QuienesSomosPage() {
                 <div className="relative aspect-[16/9] overflow-hidden rounded-[2.5rem] shadow-2xl md:aspect-[21/9] dark:shadow-black/20">
                     <Image
                         src="/about.png"
-                        alt="Atlas Services - Profesionales verificados"
+                        alt="Hireeo - Profesionales verificados"
                         fill
                         className="object-cover transition-transform duration-1000 hover:scale-105"
                         sizes="(max-width: 768px) 100vw, 1200px"
@@ -65,7 +65,7 @@ export default function QuienesSomosPage() {
                                 Más que una Aplicación
                             </h3>
                             <p className="text-base leading-relaxed font-medium text-gray-200 opacity-90 md:text-xl">
-                                Atlas Services no es una multinacional. Somos un equipo de
+                                Hireeo no es una multinacional. Somos un equipo de
                                 emprendedores que entendió que la mejor forma de crecer
                                 es conectando a profesionales con quienes los necesitan.
                             </p>
@@ -177,7 +177,7 @@ export default function QuienesSomosPage() {
                                     E
                                 </div>
                                 <div>
-                                    <p className="font-bold text-white">Equipo Atlas Services</p>
+                                    <p className="font-bold text-white">Equipo Hireeo</p>
                                     <p className="text-xs text-brand-light/60">Fundadores</p>
                                 </div>
                             </div>

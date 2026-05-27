@@ -4,7 +4,7 @@
     "sections": [
         {
             "title": "Data Controller",
-            "content": "Atlas Services is responsible for the processing of your personal data."
+            "content": "Hireeo is responsible for the processing of your personal data."
         },
         {
             "title": "Data collected",
@@ -37,7 +37,7 @@
         },
         {
             "title": "Your rights",
-            "content": "You can access, rectify, cancel or block your data by writing to privacy@atlasservices.com or from your account settings."
+            "content": "You can access, rectify, cancel or block your data by writing to privacy@hireeo.app or from your account settings."
         },
         {
             "title": "Security",
@@ -53,8 +53,8 @@
         },
         {
             "title": "Contact",
-            "content": "privacy@atlasservices.com"
+            "content": "privacy@hireeo.app"
         }
     ],
-    "footer": "Your trust is important to us. Thank you for using Atlas Services."
+    "footer": "Your trust is important to us. Thank you for using Hireeo."
 }

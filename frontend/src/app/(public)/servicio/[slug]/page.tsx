@@ -20,7 +20,7 @@ import ContactButtons from './ContactButtons';
 import ImageGallery from './ImageGallery';
 import ProviderContactInfo from './ProviderContactInfo';
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.atlasservicios.com';
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.hireeo.app';
 
 export async function generateMetadata({
     params,
@@ -43,7 +43,7 @@ export async function generateMetadata({
             ? `${service.description.substring(0, 152)}...`
             : service.description;
 
-    const ogImage = service.imagenPrincipal || `${baseUrl}/bg-chiloe-01.png`; // TODO: rename to atlas-og.png
+    const ogImage = service.imagenPrincipal || `${baseUrl}/bg-chiloe-01.png`; // TODO: rename to hireeo-og.png
 
     return {
         title,
@@ -54,7 +54,7 @@ export async function generateMetadata({
             service.title,
             `${service.category} en ${service.comuna}`,
             'servicios profesionales',
-            'Atlas Services',
+            'Hireeo',
             'profesionales verificados',
         ],
         openGraph: {
@@ -71,7 +71,7 @@ export async function generateMetadata({
                 },
             ],
             locale: 'es_CL',
-            siteName: 'Atlas Services',
+            siteName: 'Hireeo',
         },
         twitter: {
             card: 'summary_large_image',
@@ -554,7 +554,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                             {/* Sidebar Ad Banner */}
                             <div className="rounded-[2rem] border border-brand/20 bg-gradient-to-br from-brand/5 to-indigo-50 p-6 text-center md:rounded-3xl dark:border-brand-marino/30 dark:from-brand-marino/20 dark:to-indigo-900/20">
                                 <h5 className="mb-2 text-sm font-bold text-brand-marino md:text-base dark:text-brand-light/60">
-                                    Garantía Atlas
+                                    Garantía Hireeo
                                 </h5>
                                 <p className="text-[10px] leading-relaxed text-brand-hover md:text-xs dark:text-brand-light">
                                     Contrata tranquilo. Si el trabajo no es lo que esperabas,

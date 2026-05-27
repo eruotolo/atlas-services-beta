@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
                     price_data: {
                         currency: currency.toLowerCase(),
                         product_data: {
-                            name: `Atlas Pro — ${durationMonths} ${durationMonths === 1 ? 'mes' : 'meses'}`,
+                            name: `Hireeo Pro — ${durationMonths} ${durationMonths === 1 ? 'mes' : 'meses'}`,
                             description,
                         },
                         unit_amount: Math.round(amount * 100), // Stripe uses cents

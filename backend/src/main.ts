@@ -57,8 +57,8 @@ async function bootstrap() {
     // Swagger — solo en desarrollo
     if (nodeEnv !== 'production') {
         const config = new DocumentBuilder()
-            .setTitle('Atlas Services API')
-            .setDescription('API REST para la plataforma Chiloé Servicios')
+            .setTitle('Hireeo API')
+            .setDescription('API REST para la plataforma Hireeo')
             .setVersion('1.0')
             .addApiKey({ type: 'apiKey', in: 'header', name: 'X-API-Key' }, 'api-key')
             .addBearerAuth(

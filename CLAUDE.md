@@ -88,15 +88,15 @@ pnpm --filter backend db:seed   # Poblar DB (geo + roles + categorías + precios
 
 ## 5. Información del Proyecto
 
-> **Atlas Services (Beta)** — Marketplace multi-país de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas).
+> **Hireeo (Beta)** — Marketplace multi-país de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas).
 > Países: Chile (`cl`), Argentina (`ar`), Uruguay (`uy`), España (`es`), Estados Unidos (`us`).
-> **URL de producción:** No definida. El proyecto NO está desplegado.
+> **Dominio oficial:** `hireeo.app` (un solo dominio con subpaths por país: `/cl`, `/ar`, `/uy`, `/es`, `/us`). Producción aún no desplegada.
 
 ## 6. Arquitectura Multi-País
 
 ### Routing
 - Todas las rutas activas tienen prefijo `/{country}/` (ej: `/cl/buscar`, `/ar/perfil`)
-- `proxy.ts` detecta país: cookie `atlas_country` > CF header > Vercel header > Accept-Language > `cl`
+- `proxy.ts` detecta país: cookie `hireeo_country` > CF header > Vercel header > Accept-Language > `cl`
 - Las páginas en `(public)/` sin prefijo son **redirects de fallback** a `/cl/...`
 
 ### Navegación con país

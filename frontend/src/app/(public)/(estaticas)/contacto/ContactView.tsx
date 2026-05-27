@@ -139,7 +139,7 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
                                         {tr.email}
                                     </p>
                                     <p className="text-base font-bold break-all text-gray-900 md:text-lg md:break-normal dark:text-white">
-                                        info@atlasservicios.com
+                                        info@hireeo.app
                                     </p>
                                 </div>
                             </div>
