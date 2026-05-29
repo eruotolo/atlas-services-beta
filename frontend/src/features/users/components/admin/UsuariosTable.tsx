@@ -6,6 +6,7 @@ import { Edit2, Plus, Trash2 } from 'lucide-react';
 
 import { eliminarUsuario } from '@/features/users/actions';
 
+import { Avatar, Pill } from '@/shared/components/hireeo';
 import Modal from '@/shared/components/admin/Modal';
 import type { Column } from '@/shared/components/ui/data-table';
 import { DataTable } from '@/shared/components/ui/data-table';
@@ -95,13 +96,16 @@ export default function UsuariosTable({ result, roles }: UsuariosTableProps) {
         {
             header: 'Nombre',
             cell: (usuario) => (
-                <span className="font-bold text-gray-900 dark:text-white">{usuario.nombre}</span>
+                <div className="flex items-center gap-2.5">
+                    <Avatar name={usuario.nombre} size={30} />
+                    <span className="font-bold text-ink">{usuario.nombre}</span>
+                </div>
             ),
         },
         {
             header: 'Email',
             cell: (usuario) => (
-                <span className="text-gray-600 dark:text-gray-400">{usuario.email}</span>
+                <span className="text-sub">{usuario.email}</span>
             ),
         },
         {
@@ -109,12 +113,18 @@ export default function UsuariosTable({ result, roles }: UsuariosTableProps) {
             cell: (usuario) => (
                 <div className="flex gap-1">
                     {usuario.roles.map((ur) => (
-                        <span
+                        <Pill
                             key={ur.id}
-                            className="rounded-full bg-brand/5 px-2 py-1 text-xs font-bold text-brand dark:bg-brand-marino/30 dark:text-brand-light"
+                            tone={
+                                ur.role.nombre.includes('Admin')
+                                    ? 'ink'
+                                    : ur.role.nombre.includes('PRO')
+                                      ? 'accent'
+                                      : 'default'
+                            }
                         >
                             {ur.role.nombre}
-                        </span>
+                        </Pill>
                     ))}
                 </div>
             ),
@@ -122,7 +132,7 @@ export default function UsuariosTable({ result, roles }: UsuariosTableProps) {
         {
             header: 'Servicios',
             cell: (usuario) => (
-                <span className="text-gray-600 dark:text-gray-400">{usuario._count.servicios}</span>
+                <span className="text-sub">{usuario._count.servicios}</span>
             ),
         },
         {
@@ -133,7 +143,7 @@ export default function UsuariosTable({ result, roles }: UsuariosTableProps) {
                     <button
                         type="button"
                         onClick={() => handleEdit(usuario)}
-                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand-marino/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5"
                         title="Editar"
                     >
                         <Edit2 size={18} />
@@ -142,7 +152,7 @@ export default function UsuariosTable({ result, roles }: UsuariosTableProps) {
                         type="button"
                         onClick={() => handleDelete(usuario.id)}
                         disabled={isDeleting === usuario.id}
-                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
                         title="Eliminar"
                     >
                         <Trash2 size={18} />

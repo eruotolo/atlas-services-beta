@@ -13,7 +13,7 @@ export const getInteraccionIcon = (tipo: string): React.ReactNode => {
         case 'WHATSAPP':
             return <MessageSquare size={16} className="text-green-600" />;
         default:
-            return <Eye size={16} className="text-gray-500" />;
+            return <Eye size={16} className="text-muted" />;
     }
 };
 

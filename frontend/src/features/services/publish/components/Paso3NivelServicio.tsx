@@ -14,10 +14,10 @@ export default function Paso3NivelServicio({
     return (
         <div>
             <div className="mb-6 text-center md:mb-8">
-                <h2 className="mb-1 text-2xl font-black text-gray-900 md:text-3xl dark:text-white">
+                <h2 className="mb-1 text-2xl font-black text-ink md:text-3xl">
                     Elige el Nivel de tu Servicio
                 </h2>
-                <p className="px-2 text-sm text-gray-600 md:text-base dark:text-gray-400">
+                <p className="px-2 text-sm text-sub md:text-base">
                     ¿Deseas publicar tu servicio de manera básica o destacar sobre la competencia
                     con Premium?
                 </p>
@@ -25,33 +25,33 @@ export default function Paso3NivelServicio({
 
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
                 {/* Plan BASICO */}
-                <div className="rounded-[1.5rem] border-2 border-gray-100 bg-white p-6 transition-all hover:border-gray-200 md:rounded-[2rem] md:p-8 dark:border-white/10 dark:bg-gray-900/40 dark:hover:border-white/20">
+                <div className="rounded-[1.5rem] border-2 border-line bg-bg p-6 transition-all hover:border-line md:rounded-[2rem] md:p-8">
                     <div className="mb-4 flex items-center gap-3">
-                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-50 md:h-12 md:w-12 dark:bg-gray-800">
-                            <Star size={20} className="text-gray-400 dark:text-gray-500" />
+                        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-tint md:h-12 md:w-12">
+                            <Star size={20} className="text-muted" />
                         </div>
                         <div>
-                            <h3 className="text-lg font-black tracking-tight text-gray-900 uppercase md:text-xl dark:text-white">
+                            <h3 className="text-lg font-black tracking-tight text-ink uppercase md:text-xl">
                                 Básico
                             </h3>
-                            <p className="text-xs font-bold text-gray-400 dark:text-gray-500">
+                            <p className="text-xs font-bold text-muted">
                                 SIEMPRE GRATIS
                             </p>
                         </div>
                     </div>
 
                     <ul className="mb-6 space-y-2.5">
-                        <li className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        <li className="flex items-start gap-2 text-sm text-sub">
                             <Check
                                 size={16}
-                                className="mt-0.5 shrink-0 text-gray-300 dark:text-gray-600"
+                                className="mt-0.5 shrink-0 text-muted"
                             />
                             <span>Aparece en los listados normales</span>
                         </li>
-                        <li className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-400">
+                        <li className="flex items-start gap-2 text-sm text-sub">
                             <Check
                                 size={16}
-                                className="mt-0.5 shrink-0 text-gray-300 dark:text-gray-600"
+                                className="mt-0.5 shrink-0 text-muted"
                             />
                             <span>Contacto telefónico directo</span>
                         </li>
@@ -60,14 +60,14 @@ export default function Paso3NivelServicio({
                     <button
                         type="button"
                         onClick={onSelectBasico}
-                        className="w-full cursor-pointer rounded-2xl bg-gray-600 px-6 py-4 text-sm font-black text-white shadow-lg shadow-gray-200 transition-colors hover:bg-gray-700 dark:bg-gray-800 dark:shadow-none dark:hover:bg-gray-700"
+                        className="w-full cursor-pointer rounded-2xl bg-ink px-6 py-4 text-sm font-black text-bg transition-opacity hover:opacity-90"
                     >
                         Publicar Gratis
                     </button>
                 </div>
 
                 {/* Plan PREMIUM */}
-                <div className="dark:to-background relative overflow-hidden rounded-[1.5rem] border-2 border-brand bg-gradient-to-br from-brand/5/50 to-white p-6 shadow-xl shadow-brand/10 md:rounded-[2rem] md:p-8 dark:border-brand dark:from-brand-marino/20 dark:shadow-none">
+                <div className="dark:to-background relative overflow-hidden rounded-[1.5rem] border-2 border-brand bg-gradient-to-br from-brand/5/50 to-white p-6 shadow-xl shadow-brand/10 md:rounded-[2rem] md:p-8 dark:from-brand-marino/20">
                     <div className="absolute top-3 right-3">
                         <span className="rounded-full bg-brand px-2 py-0.5 text-[8px] font-black tracking-widest text-white uppercase">
                             RECOMENDADO
@@ -79,25 +79,25 @@ export default function Paso3NivelServicio({
                             <Sparkles size={20} className="text-white" />
                         </div>
                         <div>
-                            <h3 className="text-lg font-black tracking-tight text-gray-900 uppercase md:text-xl dark:text-white">
+                            <h3 className="text-lg font-black tracking-tight text-ink uppercase md:text-xl">
                                 Premium
                             </h3>
-                            <p className="text-xs font-bold text-brand uppercase dark:text-brand-light">
+                            <p className="text-xs font-bold text-brand uppercase">
                                 Aumenta tus clientes
                             </p>
                         </div>
                     </div>
 
                     <ul className="mb-6 space-y-2.5">
-                        <li className="flex items-start gap-2 text-sm text-gray-900 dark:text-white">
+                        <li className="flex items-start gap-2 text-sm text-ink">
                             <Check size={16} className="mt-0.5 shrink-0 text-brand" />
                             <span className="font-bold">Aparece destacado (Primer lugar)</span>
                         </li>
-                        <li className="flex items-start gap-2 text-sm text-gray-900 dark:text-gray-300">
+                        <li className="flex items-start gap-2 text-sm text-sub">
                             <Check size={16} className="mt-0.5 shrink-0 text-brand" />
                             <span>Sello de confianza Pro</span>
                         </li>
-                        <li className="flex items-start gap-2 text-sm text-gray-900 dark:text-gray-300">
+                        <li className="flex items-start gap-2 text-sm text-sub">
                             <Check size={16} className="mt-0.5 shrink-0 text-brand" />
                             <span>Prioridad máxima en búsquedas</span>
                         </li>
@@ -114,7 +114,7 @@ export default function Paso3NivelServicio({
             </div>
 
             <div className="mt-6 text-center">
-                <p className="text-[10px] tracking-widest text-gray-400 uppercase dark:text-gray-600">
+                <p className="text-[10px] tracking-widest text-muted uppercase">
                     Puedes cambiar de nivel cuando quieras
                 </p>
             </div>

@@ -68,23 +68,23 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
     return (
         <div>
             <div className="mb-8 text-center">
-                <h2 className="mb-2 text-3xl font-black text-gray-900 dark:text-white">
+                <h2 className="mb-2 text-3xl font-black text-ink">
                     Publica tu Servicio
                 </h2>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-sub">
                     Primero, necesitamos tus datos de contacto
                 </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
                 {error && (
-                    <div className="rounded-2xl border border-red-100 bg-red-50 p-4 dark:border-red-900/30 dark:bg-red-900/20">
+                    <div className="rounded-2xl border border-red-100 bg-red-50 p-4">
                         <div className="mb-3 flex items-start gap-3">
                             <AlertCircle
                                 size={20}
-                                className="mt-0.5 shrink-0 text-red-600 dark:text-red-400"
+                                className="mt-0.5 shrink-0 text-red-600"
                             />
-                            <span className="text-sm text-red-600 dark:text-red-400">{error}</span>
+                            <span className="text-sm text-red-600">{error}</span>
                         </div>
                         {debeIniciarSesion && (
                             <Link
@@ -98,7 +98,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                 )}
 
                 {mensaje && (
-                    <div className="flex items-start gap-3 rounded-2xl border border-green-100 bg-green-50 p-4 text-sm text-green-600 dark:border-green-900/30 dark:bg-green-900/20 dark:text-green-400">
+                    <div className="flex items-start gap-3 rounded-2xl border border-green-100 bg-green-50 p-4 text-sm text-green-600">
                         <CheckCircle size={20} className="mt-0.5 shrink-0" />
                         <span>{mensaje}</span>
                     </div>
@@ -107,14 +107,14 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                 <div>
                     <label
                         htmlFor={`${id}-nombre`}
-                        className="mb-2 block text-sm font-bold text-gray-700 dark:text-gray-300"
+                        className="mb-2 block text-sm font-bold text-sub"
                     >
                         Nombre Completo
                     </label>
                     <div className="relative">
                         <User
                             size={18}
-                            className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+                            className="absolute top-1/2 left-4 -translate-y-1/2 text-muted"
                         />
                         <input
                             type="text"
@@ -122,7 +122,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                             name="nombre"
                             required
                             placeholder="Juan Pérez"
-                            className="w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
+                            className="w-full rounded-2xl border border-line py-3 pr-4 pl-12 text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none"
                         />
                     </div>
                 </div>
@@ -130,14 +130,14 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                 <div>
                     <label
                         htmlFor={`${id}-email`}
-                        className="mb-2 block text-sm font-bold text-gray-700 dark:text-gray-300"
+                        className="mb-2 block text-sm font-bold text-sub"
                     >
                         Correo Electrónico
                     </label>
                     <div className="relative">
                         <Mail
                             size={18}
-                            className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+                            className="absolute top-1/2 left-4 -translate-y-1/2 text-muted"
                         />
                         <input
                             type="email"
@@ -148,10 +148,10 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                             autoCapitalize="none"
                             autoCorrect="off"
                             spellCheck={false}
-                            className="w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600"
+                            className="w-full rounded-2xl border border-line py-3 pr-4 pl-12 text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none"
                         />
                     </div>
-                    <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
+                    <p className="mt-2 text-xs text-muted">
                         Si no tienes cuenta, te crearemos una y enviaremos tu contraseña a este
                         email
                     </p>
@@ -165,17 +165,17 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                         id={`${id}-terminos`}
                         name="terminos"
                         required
-                        className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-700 dark:bg-gray-800"
+                        className="mt-1 h-4 w-4 cursor-pointer rounded border-line text-brand focus:ring-brand"
                     />
                     <label
                         htmlFor={`${id}-terminos`}
-                        className="text-sm text-gray-600 dark:text-gray-400"
+                        className="text-sm text-sub"
                     >
                         Acepto los{' '}
                         <Link
                             href="/terminos"
                             target="_blank"
-                            className="font-bold text-brand hover:underline dark:text-brand-light"
+                            className="font-bold text-brand hover:underline"
                         >
                             Términos y Condiciones
                         </Link>{' '}
@@ -183,7 +183,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                         <Link
                             href="/privacidad"
                             target="_blank"
-                            className="font-bold text-brand hover:underline dark:text-brand-light"
+                            className="font-bold text-brand hover:underline"
                         >
                             Política de Privacidad
                         </Link>
@@ -199,7 +199,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                     {loading ? 'Verificando...' : 'Continuar al Siguiente Paso'}
                 </button>
 
-                <p className="text-center text-xs text-gray-500 dark:text-gray-500">
+                <p className="text-center text-xs text-muted">
                     Al continuar, aceptas que crearemos una cuenta para ti si aún no tienes una
                 </p>
             </form>

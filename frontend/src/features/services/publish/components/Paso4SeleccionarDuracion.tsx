@@ -55,7 +55,7 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
     if (loading) {
         return (
             <div className="py-12 text-center">
-                <p className="text-gray-500">Cargando opciones de pago...</p>
+                <p className="text-muted">Cargando opciones de pago...</p>
             </div>
         );
     }
@@ -71,10 +71,10 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
     return (
         <div>
             <div className="mb-6 px-2 text-center md:mb-8">
-                <h2 className="mb-1 text-2xl font-black text-gray-900 md:text-3xl dark:text-white">
+                <h2 className="mb-1 text-2xl font-black text-ink md:text-3xl">
                     ¿Por Cuánto Tiempo?
                 </h2>
-                <p className="text-sm text-gray-600 md:text-base dark:text-gray-400">
+                <p className="text-sm text-sub md:text-base">
                     Ahorra más con planes largos y mantén tu servicio destacado
                 </p>
             </div>
@@ -89,10 +89,10 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
                         <button
                             key={precio.id}
                             type="button"
-                            className={`relative w-full cursor-pointer rounded-[1.5rem] border-2 bg-white p-6 text-left shadow-sm transition-all md:hover:shadow-xl dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl ${
+                            className={`relative w-full cursor-pointer rounded-[1.5rem] border-2 bg-bg p-6 text-left shadow-sm transition-all md:hover:shadow-xl ${
                                 esRecomendado
-                                    ? 'border-brand shadow-brand/30 dark:border-brand'
-                                    : 'border-gray-100 dark:border-white/10'
+                                    ? 'border-brand shadow-brand/30'
+                                    : 'border-line'
                             }`}
                             onClick={() => onSelect(precio.duracionMeses, precio.precio)}
                             onKeyDown={(e) => handleKeyDown(e, precio.duracionMeses, precio.precio)}
@@ -113,36 +113,36 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
                             )}
 
                             <div className="mb-4">
-                                <h3 className="text-xl font-black text-gray-900 md:text-2xl dark:text-white">
+                                <h3 className="text-xl font-black text-ink md:text-2xl">
                                     {precio.duracionMeses}{' '}
                                     {precio.duracionMeses === 1 ? 'Mes' : 'Meses'}
                                 </h3>
-                                <p className="text-xs text-gray-400 dark:text-gray-500">
+                                <p className="text-xs text-muted">
                                     {precio.descripcion}
                                 </p>
                             </div>
 
                             <div className="mb-4">
-                                <p className="text-2xl font-black text-brand md:text-3xl dark:text-brand-light">
+                                <p className="text-2xl font-black text-brand md:text-3xl">
                                     ${precio.precio.toLocaleString('es-CL')}
                                 </p>
-                                <p className="text-xs font-bold tracking-tighter text-gray-400 uppercase dark:text-gray-500">
+                                <p className="text-xs font-bold tracking-tighter text-muted uppercase">
                                     ${Math.round(precioPorMes).toLocaleString('es-CL')}/mes
                                 </p>
                             </div>
 
                             <ul className="mb-6 space-y-2">
-                                <li className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-400">
+                                <li className="flex items-start gap-2 text-xs text-sub">
                                     <Check
                                         size={14}
-                                        className="mt-0.5 shrink-0 text-brand dark:text-brand-light"
+                                        className="mt-0.5 shrink-0 text-brand"
                                     />
                                     <span>Servicio destacado</span>
                                 </li>
-                                <li className="flex items-start gap-2 text-xs text-gray-600 dark:text-gray-400">
+                                <li className="flex items-start gap-2 text-xs text-sub">
                                     <Check
                                         size={14}
-                                        className="mt-0.5 shrink-0 text-brand dark:text-brand-light"
+                                        className="mt-0.5 shrink-0 text-brand"
                                     />
                                     <span>Badge Premium Chiloé</span>
                                 </li>
@@ -152,7 +152,7 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
                                 className={`w-full rounded-xl px-4 py-3 text-center text-sm font-black tracking-widest uppercase transition-colors ${
                                     esRecomendado
                                         ? 'bg-brand text-white'
-                                        : 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700'
+                                        : 'bg-tint text-sub hover:bg-line'
                                 }`}
                             >
                                 Seleccionar
@@ -163,7 +163,7 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
             </div>
 
             {precios.length === 0 && (
-                <div className="py-12 text-center text-gray-500 dark:text-gray-500">
+                <div className="py-12 text-center text-muted">
                     No hay planes premium disponibles en este momento
                 </div>
             )}

@@ -113,13 +113,13 @@ export default function ChatWindow({
     return (
         <div className="flex h-full flex-col">
             {/* Header */}
-            <div className="flex items-center gap-3 border-b border-gray-100 px-4 py-3 md:px-6 dark:border-white/5">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand/10 text-sm font-bold text-brand dark:bg-brand-marino/30 dark:text-brand-light">
+            <div className="flex items-center gap-3 border-b border-line px-4 py-3 md:px-6">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand/10 text-sm font-bold text-brand">
                     {otherUserName.charAt(0).toUpperCase()}
                 </div>
                 <div>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">{otherUserName}</p>
-                    <p className="text-[10px] text-gray-400 dark:text-gray-500">
+                    <p className="text-sm font-bold text-ink">{otherUserName}</p>
+                    <p className="text-[10px] text-muted">
                         {isConnected ? '● En línea' : '○ Desconectado'}
                     </p>
                 </div>
@@ -129,7 +129,7 @@ export default function ChatWindow({
             <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4 md:px-6">
                 {messages.length === 0 ? (
                     <div className="flex h-full items-center justify-center">
-                        <p className="text-sm text-gray-400 dark:text-gray-500">
+                        <p className="text-sm text-muted">
                             Envía el primer mensaje a {otherUserName}
                         </p>
                     </div>
@@ -148,7 +148,7 @@ export default function ChatWindow({
             </div>
 
             {/* Input */}
-            <div className="border-t border-gray-100 px-4 py-3 md:px-6 dark:border-white/5">
+            <div className="border-t border-line px-4 py-3 md:px-6">
                 <div className="flex items-end gap-2">
                     <textarea
                         value={input}
@@ -156,13 +156,13 @@ export default function ChatWindow({
                         onKeyDown={handleKeyDown}
                         placeholder="Escribe un mensaje..."
                         rows={1}
-                        className="flex-1 resize-none rounded-xl border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-700 placeholder-gray-400 transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/10 dark:bg-gray-800 dark:text-gray-200 dark:placeholder-gray-500"
+                        className="flex-1 resize-none rounded-xl border border-line bg-bg px-4 py-2.5 text-sm text-sub placeholder-muted transition-colors focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none"
                     />
                     <button
                         type="button"
                         onClick={sendMessage}
                         disabled={!input.trim() || !isConnected}
-                        className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-white transition-colors hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-50 dark:bg-brand-light dark:text-gray-900"
+                        className="flex h-10 w-10 items-center justify-center rounded-xl bg-brand text-white transition-colors hover:bg-brand-hover disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <Send size={16} />
                     </button>

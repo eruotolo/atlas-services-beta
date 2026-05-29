@@ -44,13 +44,13 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
             />
 
             {/* Modal */}
-            <div className="relative z-10 mx-4 w-full max-w-4xl overflow-hidden rounded-3xl bg-white shadow-xl dark:border dark:border-white/10 dark:bg-gray-900">
+            <div className="relative z-10 mx-4 w-full max-w-4xl overflow-hidden rounded-2xl border border-line bg-bg shadow-xl">
                 <div className="flex items-center justify-between p-8 pb-4">
-                    <h2 className="text-2xl font-black text-gray-900 dark:text-white">{title}</h2>
+                    <h2 className="text-2xl font-black text-ink">{title}</h2>
                     <button
                         type="button"
                         onClick={onClose}
-                        className="cursor-pointer rounded-xl p-2 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-white"
+                        className="cursor-pointer rounded-xl p-2 text-muted transition-colors hover:bg-tint hover:text-ink"
                     >
                         <X size={24} />
                     </button>

@@ -8,6 +8,7 @@ import { Calendar, CreditCard, DollarSign, TrendingUp } from 'lucide-react';
 
 import type { Column } from '@/shared/components/ui/data-table';
 import { DataTable } from '@/shared/components/ui/data-table';
+import { Pill } from '@/shared/components/hireeo';
 import { calcularIngresoNeto } from '@/shared/lib/utils';
 
 import type { SuscripcionWithDetails } from '../../types/paymentTypes';
@@ -94,7 +95,7 @@ export default function PagosTable({ result }: PagosTableProps) {
         {
             header: 'Fecha',
             cell: (pago) => (
-                <div className="text-gray-500 dark:text-gray-500">
+                <div className="text-muted">
                     {new Date(pago.createdAt).toLocaleDateString()}
                     <br />
                     <span className="text-[10px]" suppressHydrationWarning>
@@ -107,10 +108,10 @@ export default function PagosTable({ result }: PagosTableProps) {
             header: 'Cliente / Servicio',
             cell: (pago) => (
                 <div>
-                    <p className="font-bold text-gray-900 dark:text-white">
+                    <p className="font-bold text-ink">
                         {pago.servicio.usuario.nombre}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-500">
+                    <p className="text-xs text-muted">
                         {pago.servicio.titulo}
                     </p>
                 </div>
@@ -119,7 +120,7 @@ export default function PagosTable({ result }: PagosTableProps) {
         {
             header: 'Plan',
             cell: (pago) => (
-                <span className="text-gray-600 dark:text-gray-400">
+                <span className="text-sub">
                     Premium {pago.duracionMeses}m
                 </span>
             ),
@@ -127,7 +128,7 @@ export default function PagosTable({ result }: PagosTableProps) {
         {
             header: 'Cobrado',
             cell: (pago) => (
-                <span className="font-medium text-gray-600 dark:text-gray-400">
+                <span className="font-medium text-sub">
                     {formatCurrency(Number(pago.monto))}
                 </span>
             ),
@@ -135,7 +136,7 @@ export default function PagosTable({ result }: PagosTableProps) {
         {
             header: 'Neto (Caja)',
             cell: (pago) => (
-                <span className="font-bold text-gray-900 dark:text-white">
+                <span className="font-bold text-ink">
                     {formatCurrency(calcularIngresoNeto(Number(pago.monto)))}
                 </span>
             ),
@@ -143,24 +144,24 @@ export default function PagosTable({ result }: PagosTableProps) {
         {
             header: 'Estado',
             cell: (pago) => (
-                <span
-                    className={`inline-flex rounded-full px-3 py-1 text-xs font-bold ${
+                <Pill
+                    tone={
                         pago.estadoPago === 'completado'
-                            ? 'bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-400'
+                            ? 'success'
                             : pago.estadoPago === 'pendiente'
-                              ? 'bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400'
-                              : 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400'
-                    }`}
+                              ? 'warning'
+                              : 'danger'
+                    }
                 >
                     {pago.estadoPago.charAt(0).toUpperCase() + pago.estadoPago.slice(1)}
-                </span>
+                </Pill>
             ),
         },
         {
             header: 'Método',
             className: 'text-right',
             cell: (pago) => (
-                <span className="text-gray-500 capitalize dark:text-gray-500">
+                <span className="text-muted capitalize">
                     {pago.metodoPago || '-'}
                 </span>
             ),
@@ -171,47 +172,47 @@ export default function PagosTable({ result }: PagosTableProps) {
         <div className="space-y-8 transition-colors duration-300">
             {/* Estadísticas */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400">
+                <div className="rounded-[2rem] border border-line bg-white p-6 shadow-sm">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-600">
                         <DollarSign size={24} />
                     </div>
-                    <p className="text-xs font-black tracking-widest text-gray-400 uppercase dark:text-gray-500">
+                    <p className="text-xs font-black tracking-widest text-muted uppercase">
                         Ingresos Reales (Caja)
                     </p>
-                    <h4 className="mt-1 text-2xl font-black text-gray-900 dark:text-white">
+                    <h4 className="mt-1 text-2xl font-black text-ink">
                         {formatCurrency(ingresosNetos)}
                     </h4>
-                    <p className="mt-2 text-xs font-medium text-green-600 dark:text-green-400">
+                    <p className="mt-2 text-xs font-medium text-green-600">
                         Cobrado: {formatCurrency(result.stats.ingresosBrutos)}
                     </p>
                 </div>
 
-                <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/5 text-brand dark:bg-brand/10 dark:text-brand-light">
+                <div className="rounded-[2rem] border border-line bg-white p-6 shadow-sm">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/5 text-brand">
                         <TrendingUp size={24} />
                     </div>
-                    <p className="text-xs font-black tracking-widest text-gray-400 uppercase dark:text-gray-500">
+                    <p className="text-xs font-black tracking-widest text-muted uppercase">
                         Transacciones
                     </p>
-                    <h4 className="mt-1 text-2xl font-black text-gray-900 dark:text-white">
+                    <h4 className="mt-1 text-2xl font-black text-ink">
                         {result.stats.total}
                     </h4>
-                    <p className="mt-2 text-xs font-medium text-gray-500 dark:text-gray-500">
+                    <p className="mt-2 text-xs font-medium text-muted">
                         En el periodo seleccionado
                     </p>
                 </div>
 
-                <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400">
+                <div className="rounded-[2rem] border border-line bg-white p-6 shadow-sm">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
                         <CreditCard size={24} />
                     </div>
-                    <p className="text-xs font-black tracking-widest text-gray-400 uppercase dark:text-gray-500">
+                    <p className="text-xs font-black tracking-widest text-muted uppercase">
                         Por Cobrar / Pendiente
                     </p>
-                    <h4 className="mt-1 text-2xl font-black text-gray-900 dark:text-white">
+                    <h4 className="mt-1 text-2xl font-black text-ink">
                         {formatCurrency(result.stats.montoPendiente)}
                     </h4>
-                    <p className="mt-2 text-xs font-medium text-amber-600 dark:text-amber-400">
+                    <p className="mt-2 text-xs font-medium text-amber-600">
                         {result.stats.pendientes} pagos pendientes
                     </p>
                 </div>
@@ -220,24 +221,24 @@ export default function PagosTable({ result }: PagosTableProps) {
             {/* Tabla con filtros de fecha */}
             <div>
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <h2 className="text-2xl font-black text-gray-900 dark:text-white">
+                    <h2 className="text-2xl font-black text-ink">
                         Detalle de Movimientos
                     </h2>
                     <div className="flex flex-wrap gap-4">
-                        <div className="flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-4 py-2 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                            <Calendar size={16} className="text-gray-400 dark:text-gray-600" />
+                        <div className="flex items-center gap-2 rounded-2xl border border-line bg-white px-4 py-2 shadow-sm">
+                            <Calendar size={16} className="text-muted" />
                             <input
                                 type="date"
                                 value={startDate}
                                 onChange={(e) => handleDateChange('startDate', e.target.value)}
-                                className="bg-transparent text-sm font-medium text-gray-600 outline-none dark:text-gray-300"
+                                className="bg-transparent text-sm font-medium text-sub outline-none"
                             />
-                            <span className="text-gray-300 dark:text-gray-700">→</span>
+                            <span className="text-line">→</span>
                             <input
                                 type="date"
                                 value={endDate}
                                 onChange={(e) => handleDateChange('endDate', e.target.value)}
-                                className="bg-transparent text-sm font-medium text-gray-600 outline-none dark:text-gray-300"
+                                className="bg-transparent text-sm font-medium text-sub outline-none"
                             />
                         </div>
                     </div>

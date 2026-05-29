@@ -86,7 +86,7 @@ export default function SponsorSlider({
                     {visibleSponsors.map((sponsor) => (
                         <div
                             key={sponsor.id}
-                            className="group overflow-hidden rounded-[2.5rem] border border-gray-100 bg-white p-2 shadow-xl shadow-brand-marino/5 transition-all hover:shadow-2xl hover:shadow-brand-marino/10"
+                            className="group overflow-hidden rounded-[2.5rem] border border-line bg-bg p-2 shadow-xl shadow-brand-marino/5 transition-all hover:shadow-2xl hover:shadow-brand-marino/10"
                         >
                             <div className="flex flex-col items-center sm:flex-row">
                                 {/* Imagen */}
@@ -104,11 +104,11 @@ export default function SponsorSlider({
                                     <span className="mb-2 inline-block w-fit rounded bg-brand/5 px-2 py-0.5 text-[10px] font-black text-brand">
                                         SPONSORED
                                     </span>
-                                    <h3 className="mb-1 line-clamp-1 text-base font-black text-gray-900">
+                                    <h3 className="mb-1 line-clamp-1 text-base font-black text-ink">
                                         {sponsor.nombre}
                                     </h3>
                                     {sponsor.descripcion && (
-                                        <p className="mb-3 line-clamp-2 text-[11px] leading-relaxed text-gray-500">
+                                        <p className="mb-3 line-clamp-2 text-[11px] leading-relaxed text-muted">
                                             {sponsor.descripcion}
                                         </p>
                                     )}
@@ -140,7 +140,7 @@ export default function SponsorSlider({
                                 className={`h-2 cursor-pointer rounded-full transition-all ${
                                     index === currentIndex
                                         ? 'w-10 bg-brand'
-                                        : 'w-2 bg-gray-300 hover:bg-gray-400'
+                                        : 'w-2 bg-line hover:bg-muted'
                                 }`}
                                 aria-label={`Ir a página ${index + 1}`}
                             />

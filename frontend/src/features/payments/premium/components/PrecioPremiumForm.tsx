@@ -1,6 +1,8 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useState } from 'react';
+
+import { Btn, Field, Input, Select } from '@/shared/components/hireeo';
 
 import type { PrecioPremium } from '../../types/paymentTypes';
 import { actualizarPrecioPremium, crearPrecioPremium } from '../actions';
@@ -16,7 +18,6 @@ export default function PrecioPremiumForm({
     onSuccess,
     onCancel,
 }: PrecioPremiumFormProps) {
-    const id = useId();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -60,105 +61,65 @@ export default function PrecioPremiumForm({
             )}
 
             {error && (
-                <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
+                <div
+                    className="rounded-xl border p-4 text-sm"
+                    style={{
+                        borderColor: 'var(--danger)',
+                        background: 'var(--danger-soft)',
+                        color: 'var(--danger)',
+                    }}
+                >
                     {error}
                 </div>
             )}
 
-            <div>
-                <label
-                    htmlFor={`${id}-duracionMeses`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Duración (meses)
-                </label>
-                <select
-                    id={`${id}-duracionMeses`}
+            <Field
+                label="Duración (meses)"
+                hint={precioPremium ? 'La duración no puede ser modificada' : undefined}
+            >
+                <Select
                     name="duracionMeses"
-                    defaultValue={precioPremium?.duracionMeses}
+                    defaultValue={precioPremium?.duracionMeses ?? ''}
                     required
                     disabled={!!precioPremium}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none disabled:bg-gray-50 disabled:opacity-60 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:disabled:bg-gray-950"
                 >
-                    <option value="" className="dark:bg-gray-900">
-                        Seleccionar duración
-                    </option>
-                    <option value="1" className="dark:bg-gray-900">
-                        1 mes
-                    </option>
-                    <option value="3" className="dark:bg-gray-900">
-                        3 meses
-                    </option>
-                    <option value="6" className="dark:bg-gray-900">
-                        6 meses
-                    </option>
-                    <option value="9" className="dark:bg-gray-900">
-                        9 meses
-                    </option>
-                    <option value="12" className="dark:bg-gray-900">
-                        12 meses
-                    </option>
-                </select>
-                {precioPremium && (
-                    <p className="mt-1 text-[10px] font-bold text-gray-500 uppercase dark:text-gray-600">
-                        La duración no puede ser modificada
-                    </p>
-                )}
-            </div>
+                    <option value="">Seleccionar duración</option>
+                    <option value="1">1 mes</option>
+                    <option value="3">3 meses</option>
+                    <option value="6">6 meses</option>
+                    <option value="9">9 meses</option>
+                    <option value="12">12 meses</option>
+                </Select>
+            </Field>
 
-            <div>
-                <label
-                    htmlFor={`${id}-precio`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Precio (CLP)
-                </label>
-                <input
+            <Field label="Precio (CLP)">
+                <Input
                     type="number"
-                    id={`${id}-precio`}
                     name="precio"
                     defaultValue={precioPremium?.precio ? Number(precioPremium.precio) : undefined}
                     required
                     min="0"
                     step="1"
                     placeholder="9990"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
-            </div>
+            </Field>
 
-            <div>
-                <label
-                    htmlFor={`${id}-descripcion`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Descripción (opcional)
-                </label>
-                <input
+            <Field label="Descripción" optional>
+                <Input
                     type="text"
-                    id={`${id}-descripcion`}
                     name="descripcion"
                     defaultValue={precioPremium?.descripcion || ''}
                     placeholder="Ej: 1 mes de servicio premium"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
-            </div>
+            </Field>
 
-            <div className="flex justify-end gap-3 border-t pt-4 dark:border-white/5">
-                <button
-                    type="button"
-                    onClick={onCancel}
-                    disabled={loading}
-                    className="cursor-pointer rounded-xl border border-gray-200 px-6 py-2.5 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:text-gray-400 dark:hover:bg-gray-800"
-                >
+            <div className="flex justify-end gap-3 border-t border-line pt-4">
+                <Btn type="button" variant="secondary" onClick={onCancel} disabled={loading}>
                     Cancelar
-                </button>
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-primary cursor-pointer rounded-xl px-6 py-2.5 text-xs disabled:opacity-50"
-                >
+                </Btn>
+                <Btn type="submit" variant="accent" disabled={loading}>
                     {loading ? 'Guardando...' : precioPremium ? 'Actualizar' : 'Crear'}
-                </button>
+                </Btn>
             </div>
         </form>
     );
