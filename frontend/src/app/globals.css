@@ -1,22 +1,45 @@
 @import 'tailwindcss';
 
 @theme {
-    --color-border: var(--border);
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
+    /* Neutros */
+    --color-ink: var(--ink);
+    --color-sub: var(--sub);
     --color-muted: var(--muted);
-    --color-card: var(--card);
-    --color-brand: var(--brand);
-    --color-brand-hover: var(--brand-hover);
-    --color-brand-light: var(--brand-light);
-    --color-brand-dark: var(--brand-dark);
-    --color-brand-cyan: var(--brand-cyan);
-    --color-brand-cobalto: var(--brand-cobalto);
-    --color-brand-purpura: var(--brand-purpura);
-    --color-brand-magenta: var(--brand-magenta);
-    --color-brand-marino: var(--brand-marino);
-    --color-brand-gris: var(--brand-gris);
-    --font-inter: var(--font-inter);
+    --color-line: var(--line);
+    --color-hairline: var(--hairline);
+    --color-bg: var(--bg);
+    --color-tint: var(--tint);
+    --color-tint-warm: var(--tint-warm);
+
+    /* Marca */
+    --color-accent: var(--accent);
+    --color-accent-bright: var(--accent-bright);
+    --color-accent-soft: var(--accent-soft);
+
+    /* Estados */
+    --color-success: var(--success);
+    --color-success-soft: var(--success-soft);
+    --color-warning: var(--warning);
+    --color-warning-soft: var(--warning-soft);
+    --color-danger: var(--danger);
+    --color-danger-soft: var(--danger-soft);
+    --color-amber: var(--amber);
+
+    /* Compatibilidad con código existente */
+    --color-border: var(--line);
+    --color-background: var(--bg);
+    --color-foreground: var(--ink);
+    --color-card: var(--bg);
+    --color-brand: var(--accent);
+    --color-brand-hover: var(--accent-bright);
+    --color-brand-light: var(--accent-soft);
+    --color-brand-dark: var(--ink);
+
+    /* Fuentes */
+    --font-sans: var(--font-geist);
+    --font-mono: var(--font-geist-mono);
+    --font-serif: var(--font-instrument-serif);
+
     --breakpoint-3xl: 1440px;
 }
 
@@ -24,57 +47,58 @@
 @variant dark (&:where(.dark, .dark *));
 
 :root {
-    --background: #ffffff;
-    --foreground: #111827;
-    --border: #f3f4f6;
-    --muted: #f9fafb;
-    --card: #ffffff;
+    /* Neutros */
+    --ink: #0a0a0a;
+    --sub: #5b5b5b;
+    --muted: #8e8e8e;
+    --line: #ebebeb;
+    --hairline: #f1f1f1;
+    --bg: #ffffff;
+    --tint: #f7f8fa;
+    --tint-warm: #fafaf8;
 
-    /* Paleta corporativa Hireeo */
-    --brand-cyan: #00CFFF;
-    --brand-cobalto: #3B3DB6;
-    --brand-purpura: #6033FF;
-    --brand-magenta: #A033FF;
-    --brand-marino: #0A204C;
-    --brand-gris: #C4C4C4;
+    /* Marca */
+    --accent: #2d4e8f;
+    --accent-bright: #5b8fd4;
+    --accent-soft: #e6eefa;
 
-    /* Semánticos */
-    --brand: #3B3DB6;
-    --brand-hover: #6033FF;
-    --brand-light: #00CFFF;
-    --brand-dark: #0A204C;
-
-    --font-inter:
-        'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-        sans-serif;
+    /* Estados */
+    --success: #16a34a;
+    --success-soft: #e6f8ee;
+    --warning: #e0a82e;
+    --warning-soft: #fdf4e1;
+    --danger: #d04545;
+    --danger-soft: #fce9e9;
+    --amber: #f5b400;
 }
 
 .dark {
-    --background: #09090b;
-    --foreground: #f9fafb;
-    --border: #18181b;
-    --muted: #111827;
-    --card: #09090b;
+    --ink: #f5f5f5;
+    --sub: #a0a0a0;
+    --muted: #6e6e6e;
+    --line: #1f1f23;
+    --hairline: #18181b;
+    --bg: #0a0a0a;
+    --tint: #131316;
+    --tint-warm: #16161a;
 
-    --brand: #6033FF;
-    --brand-hover: #A033FF;
-    --brand-light: #00CFFF;
-    --brand-dark: #f9fafb;
+    --accent: #5b8fd4;
+    --accent-bright: #8fb6e3;
+    --accent-soft: #1a2d4d;
 }
 
 @layer base {
     body {
-        background-color: var(--background);
-        color: var(--foreground);
+        background-color: var(--bg);
+        color: var(--ink);
         transition:
             background-color 0.3s ease,
             color 0.3s ease;
-        font-family: var(--font-inter);
+        font-family: var(--font-geist), system-ui, sans-serif;
     }
 
-    /* Asegurar que SVG use la fuente Inter */
     svg text {
-        font-family: var(--font-inter);
+        font-family: var(--font-geist), system-ui, sans-serif;
     }
 }
 
@@ -83,71 +107,35 @@
     --tw-prose-body: #d1d5db;
     --tw-prose-headings: #f9fafb;
     --tw-prose-bold: #f9fafb;
-    --tw-prose-links: #6033FF;
+    --tw-prose-links: var(--accent-bright);
 }
 
 @layer components {
     .form-input {
-        @apply w-full rounded-2xl border border-gray-200 py-3 text-gray-900 transition-all outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
+        @apply w-full rounded-2xl border border-line bg-bg py-3 text-ink transition-all outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20;
     }
 
-    /* Input con icono izquierdo */
     .form-input-with-icon {
-        @apply w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 transition-all outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
+        @apply w-full rounded-2xl border border-line bg-bg py-3 pr-4 pl-12 text-ink transition-all outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20;
     }
 
-    /* Label estándar */
     .form-label {
-        @apply mb-2 block text-sm font-bold text-gray-700 dark:text-gray-300;
+        @apply mb-2 block text-sm font-bold text-sub;
     }
 
-    /* Select con icono */
     .form-select-with-icon {
-        @apply w-full appearance-none rounded-2xl border border-gray-200 py-3 pr-4 pl-12 text-gray-900 transition-all outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-600;
+        @apply w-full appearance-none rounded-2xl border border-line bg-bg py-3 pr-4 pl-12 text-ink transition-all outline-none placeholder:text-muted focus:border-accent focus:ring-2 focus:ring-accent/20;
     }
 }
 
-/* Boton primario con gradiente de marca (cobalto → purpura, paleta del logo) */
-.btn-primary {
-    background-image: linear-gradient(to right, var(--brand-cobalto), var(--brand-purpura));
-    color: white;
-    font-weight: 700;
-    box-shadow: 0 10px 15px -3px rgb(59 61 182 / 0.25);
-    transition: all 300ms ease-out;
-}
-.btn-primary:hover {
-    background-image: linear-gradient(to right, var(--brand-purpura), var(--brand-magenta));
-    box-shadow: 0 20px 25px -5px rgb(96 51 255 / 0.3);
-    transform: scale(1.02);
-}
-.btn-primary:active {
-    transform: scale(0.98);
-}
-.btn-primary:disabled {
-    opacity: 0.5;
-}
-.btn-primary:disabled:hover {
-    transform: scale(1);
-    box-shadow: 0 10px 15px -3px rgb(59 61 182 / 0.25);
-    background-image: linear-gradient(to right, var(--brand-cobalto), var(--brand-purpura));
-}
-.dark .btn-primary {
-    background-image: linear-gradient(to right, var(--brand-purpura), var(--brand-magenta));
-    box-shadow: none;
-}
-.dark .btn-primary:hover {
-    background-image: linear-gradient(to right, var(--brand-magenta), var(--brand-cyan));
-    box-shadow: none;
-}
-
-/* Container principal del sitio — 1280px, sube a 1400px en pantallas ≥ 1440px */
+/* Container principal del sitio — fiel al prototipo Hireeo 2.0 (1280px), sube a 1366px en monitores ≥ 1920px */
 @layer utilities {
     .max-w-site {
         max-width: 80rem;
     }
-    @media (min-width: 1440px) {
+    @media (min-width: 1920px) {
         .max-w-site {
-            max-width: 87.5rem;
+            max-width: 85.375rem;
         }
     }
 }
@@ -175,7 +163,6 @@
     }
 }
 
-/* Aplicar scrollbar fino a todo el sitio por defecto */
 * {
     scrollbar-width: thin;
     scrollbar-color: #e5e7eb transparent;
@@ -189,7 +176,6 @@
    HIREEO UX — Animaciones y Transiciones Visuales
    ═══════════════════════════════════════════════════════════════ */
 
-/* ── Keyframes ───────────────────────────────────────────────── */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(24px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -250,12 +236,10 @@
     40% { transform: scale(1); }
 }
 
-/* ── Page Fade-In ────────────────────────────────────────────── */
 .page-fade-in {
     animation: fadeIn 0.35s ease-out;
 }
 
-/* ── Stagger Animation para Cards ────────────────────────────── */
 .stagger-item {
     opacity: 0;
     animation: slideUp 0.5s ease-out forwards;
@@ -273,7 +257,6 @@
 .stagger-item:nth-child(11) { animation-delay: 0.44s; }
 .stagger-item:nth-child(12) { animation-delay: 0.48s; }
 
-/* ── Enhanced Card Hover ─────────────────────────────────────── */
 .card-hover {
     transform: translateY(0);
     transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
@@ -283,16 +266,15 @@
 .card-hover:hover {
     transform: translateY(-6px);
     box-shadow:
-        0 20px 40px rgba(10, 32, 76, 0.08),
-        0 8px 16px rgba(10, 32, 76, 0.04);
+        0 20px 40px rgba(10, 10, 10, 0.06),
+        0 8px 16px rgba(10, 10, 10, 0.04);
 }
 .dark .card-hover:hover {
     box-shadow:
-        0 20px 40px rgba(0, 207, 255, 0.06),
-        0 8px 16px rgba(96, 51, 255, 0.08);
+        0 20px 40px rgba(91, 143, 212, 0.08),
+        0 8px 16px rgba(91, 143, 212, 0.06);
 }
 
-/* ── Skeleton Shimmer ────────────────────────────────────────── */
 .skeleton {
     background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
     background-size: 200% 100%;
@@ -304,7 +286,6 @@
     background-size: 200% 100%;
 }
 
-/* ── Scroll-to-Top FAB ───────────────────────────────────────── */
 .scroll-top-fab {
     position: fixed;
     bottom: 24px;
@@ -312,27 +293,26 @@
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: var(--brand);
-    color: white;
+    background: var(--ink);
+    color: var(--bg);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     border: none;
-    box-shadow: 0 4px 14px rgba(59, 61, 182, 0.35);
+    box-shadow: 0 4px 14px rgba(10, 10, 10, 0.2);
     animation: fabEnter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     z-index: 40;
 }
 .scroll-top-fab:hover {
     transform: scale(1.12);
-    box-shadow: 0 6px 20px rgba(59, 61, 182, 0.45);
+    box-shadow: 0 6px 20px rgba(10, 10, 10, 0.28);
 }
 .scroll-top-fab.exiting {
     animation: fabExit 0.25s ease-in forwards;
 }
 
-/* ── Toast Notifications ─────────────────────────────────────── */
 .toast-container {
     position: fixed;
     bottom: 24px;
@@ -357,22 +337,21 @@
     gap: 10px;
     font-size: 14px;
     font-weight: 600;
-    color: #1f2937;
+    color: var(--ink);
     max-width: 360px;
 }
 .dark .toast {
-    background: rgba(17, 24, 39, 0.92);
+    background: rgba(19, 19, 22, 0.92);
     border-color: rgba(255, 255, 255, 0.06);
-    color: #f9fafb;
+    color: var(--ink);
 }
 .toast.exiting {
     animation: toastOut 0.3s ease-in forwards;
 }
-.toast-success { border-left: 4px solid #10b981; }
-.toast-error   { border-left: 4px solid #ef4444; }
-.toast-info    { border-left: 4px solid var(--brand); }
+.toast-success { border-left: 4px solid var(--success); }
+.toast-error   { border-left: 4px solid var(--danger); }
+.toast-info    { border-left: 4px solid var(--accent); }
 
-/* ── Bottom Sheet (Mobile Filters) ───────────────────────────── */
 .bottom-sheet-backdrop {
     position: fixed;
     inset: 0;
@@ -388,7 +367,7 @@
     right: 0;
     max-height: 85vh;
     border-radius: 24px 24px 0 0;
-    background: white;
+    background: var(--bg);
     z-index: 51;
     overflow-y: auto;
     animation: sheetUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
@@ -396,7 +375,7 @@
     box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.12);
 }
 .dark .bottom-sheet {
-    background: #111827;
+    background: var(--tint);
     box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.4);
 }
 .bottom-sheet::before {
@@ -412,7 +391,6 @@
     background: #374151;
 }
 
-/* ── Hero Rotating Text ──────────────────────────────────────── */
 .hero-word-enter {
     animation: heroWordIn 0.45s ease-out forwards;
 }
@@ -420,20 +398,18 @@
     animation: heroWordOut 0.35s ease-in forwards;
 }
 
-/* ── Loading Dots ────────────────────────────────────────────── */
 .loading-dots span {
     display: inline-block;
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: var(--brand);
+    background: var(--accent);
     animation: pulse-dot 1.4s ease-in-out infinite both;
 }
 .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
 .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
 .loading-dots span:nth-child(3) { animation-delay: 0s; }
 
-/* ── Reduce Motion ───────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
     .stagger-item,
     .page-fade-in,

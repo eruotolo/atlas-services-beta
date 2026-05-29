@@ -31,7 +31,7 @@ const ICONS: Record<ToastVariant, typeof CheckCircle> = {
 const ICON_COLORS: Record<ToastVariant, string> = {
     success: 'text-emerald-500',
     error: 'text-red-500',
-    info: 'text-brand dark:text-brand-light',
+    info: 'text-brand',
     warning: 'text-amber-500',
 };
 
@@ -72,7 +72,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                             <button
                                 type="button"
                                 onClick={() => removeToast(t.id)}
-                                className="shrink-0 text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-gray-300"
+                                className="shrink-0 text-muted transition-colors hover:text-sub"
                             >
                                 <X size={14} />
                             </button>

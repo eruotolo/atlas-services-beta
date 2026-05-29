@@ -10,6 +10,8 @@ type EstadoComentario = 'PENDIENTE' | 'ACTIVO' | 'ELIMINADO';
 
 import { actualizarCalificacion, eliminarCalificacion } from '@/features/reviews/actions';
 
+import { Pill, Stars } from '@/shared/components/hireeo';
+
 import Modal from '@/shared/components/admin/Modal';
 import type { Column } from '@/shared/components/ui/data-table';
 import { DataTable } from '@/shared/components/ui/data-table';
@@ -98,16 +100,16 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
         router.refresh();
     }
 
-    function getStatusBadge(estado: string) {
+    function getStatusTone(estado: string): 'success' | 'warning' | 'danger' | 'default' {
         switch (estado) {
             case 'ACTIVO':
-                return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400';
+                return 'success';
             case 'PENDIENTE':
-                return 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400';
+                return 'warning';
             case 'ELIMINADO':
-                return 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400';
+                return 'danger';
             default:
-                return 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400';
+                return 'default';
         }
     }
 
@@ -117,7 +119,7 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
             header: 'Servicio',
             cell: (calificacion) => (
                 <div
-                    className="line-clamp-1 max-w-[150px] font-bold text-gray-900 dark:text-white"
+                    className="line-clamp-1 max-w-[150px] font-bold text-ink"
                     title={calificacion.servicio.titulo}
                 >
                     {calificacion.servicio.titulo}
@@ -128,10 +130,10 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
             header: 'Usuario',
             cell: (calificacion) => (
                 <div>
-                    <div className="font-bold text-gray-900 dark:text-white">
+                    <div className="font-bold text-ink">
                         {calificacion.usuario.nombre}
                     </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-500">
+                    <div className="text-xs text-muted">
                         {calificacion.usuario.email}
                     </div>
                 </div>
@@ -140,23 +142,18 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
         {
             header: 'Calificación',
             cell: (calificacion) => (
-                <div className="flex text-yellow-400">
-                    {'★'.repeat(calificacion.estrellas)}
-                    <span className="text-gray-200 dark:text-gray-700">
-                        {'★'.repeat(5 - calificacion.estrellas)}
-                    </span>
-                </div>
+                <Stars rating={calificacion.estrellas} size={14} />
             ),
         },
         {
             header: 'Comentario',
             cell: (calificacion) => (
                 <div
-                    className="line-clamp-2 max-w-[250px] text-gray-600 dark:text-gray-400"
+                    className="line-clamp-2 max-w-[250px] text-sub"
                     title={calificacion.comentario || ''}
                 >
                     {calificacion.comentario || (
-                        <span className="text-gray-400 italic dark:text-gray-600">
+                        <span className="text-muted italic">
                             Sin comentario
                         </span>
                     )}
@@ -166,13 +163,9 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
         {
             header: 'Estado',
             cell: (calificacion) => (
-                <span
-                    className={`rounded-full px-2 py-1 text-xs font-bold ${getStatusBadge(
-                        calificacion.estado,
-                    )}`}
-                >
+                <Pill tone={getStatusTone(calificacion.estado)}>
                     {calificacion.estado}
-                </span>
+                </Pill>
             ),
         },
         {
@@ -185,7 +178,7 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
                             type="button"
                             onClick={() => handleApprove(calificacion.id)}
                             disabled={!!isProcessing}
-                            className="cursor-pointer rounded-xl p-2 text-green-600 transition-colors hover:bg-green-50 disabled:opacity-50 dark:text-green-400 dark:hover:bg-green-900/30"
+                            className="cursor-pointer rounded-xl p-2 text-green-600 transition-colors hover:bg-green-50 disabled:opacity-50"
                             title="Aprobar"
                         >
                             <Check size={18} />
@@ -195,7 +188,7 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
                         type="button"
                         onClick={() => handleEdit(calificacion)}
                         disabled={!!isProcessing}
-                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 disabled:opacity-50 dark:text-brand-light dark:hover:bg-brand-marino/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 disabled:opacity-50"
                         title="Editar"
                     >
                         <Edit2 size={18} />
@@ -204,7 +197,7 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
                         type="button"
                         onClick={() => handleDelete(calificacion.id)}
                         disabled={!!isProcessing}
-                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
                         title="Eliminar"
                     >
                         <Trash2 size={18} />

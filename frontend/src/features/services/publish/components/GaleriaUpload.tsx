@@ -86,7 +86,7 @@ export default function GaleriaUpload({
         <div>
             <label
                 htmlFor={inputId}
-                className="mb-2 block text-sm font-bold text-gray-700 dark:text-gray-300"
+                className="mb-2 block text-sm font-bold text-sub"
             >
                 {label}
             </label>
@@ -94,7 +94,7 @@ export default function GaleriaUpload({
                 <div className="relative">
                     <ImageIcon
                         size={18}
-                        className="pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+                        className="pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-muted"
                     />
                     <input
                         type="file"
@@ -103,12 +103,12 @@ export default function GaleriaUpload({
                         accept="image/jpeg,image/jpg,image/png,image/webp"
                         onChange={handleFileChange}
                         disabled={imagenes.length >= maxImages}
-                        className="form-input pr-4 pl-12 file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-3 file:text-sm file:font-semibold file:text-brand-hover hover:file:bg-brand/10 disabled:cursor-not-allowed disabled:bg-gray-100 dark:file:bg-brand-marino/30 dark:file:text-brand-light"
+                        className="form-input pr-4 pl-12 file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-3 file:text-sm file:font-semibold file:text-brand-hover hover:file:bg-brand/10 disabled:cursor-not-allowed disabled:bg-tint"
                     />
                 </div>
 
                 {error && (
-                    <div className="flex items-start gap-2 text-sm text-red-600 dark:text-red-400">
+                    <div className="flex items-start gap-2 text-sm text-red-600">
                         <span>{error}</span>
                     </div>
                 )}
@@ -122,7 +122,7 @@ export default function GaleriaUpload({
                                     alt={`Preview ${idx + 1}`}
                                     width={300}
                                     height={128}
-                                    className="h-32 w-full rounded-xl border border-gray-200 object-cover dark:border-white/10"
+                                    className="h-32 w-full rounded-xl border border-line object-cover"
                                 />
                                 <button
                                     type="button"
@@ -137,7 +137,7 @@ export default function GaleriaUpload({
                     </div>
                 )}
 
-                <p className="text-xs text-gray-500 dark:text-gray-500">
+                <p className="text-xs text-muted">
                     {imagenes.length}/{maxImages} imágenes | Máximo {maxSizeMB}MB cada una
                     {description && ` | ${description}`}
                 </p>
