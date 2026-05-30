@@ -172,7 +172,7 @@ export default function PagosTable({ result }: PagosTableProps) {
         <div className="space-y-8 transition-colors duration-300">
             {/* Estadísticas */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                <div className="rounded-[2rem] border border-line bg-white p-6 shadow-sm">
+                <div className="rounded-xl border border-line bg-bg p-6 shadow-sm">
                     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-600">
                         <DollarSign size={24} />
                     </div>
@@ -187,7 +187,7 @@ export default function PagosTable({ result }: PagosTableProps) {
                     </p>
                 </div>
 
-                <div className="rounded-[2rem] border border-line bg-white p-6 shadow-sm">
+                <div className="rounded-xl border border-line bg-bg p-6 shadow-sm">
                     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/5 text-brand">
                         <TrendingUp size={24} />
                     </div>
@@ -202,7 +202,7 @@ export default function PagosTable({ result }: PagosTableProps) {
                     </p>
                 </div>
 
-                <div className="rounded-[2rem] border border-line bg-white p-6 shadow-sm">
+                <div className="rounded-xl border border-line bg-bg p-6 shadow-sm">
                     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
                         <CreditCard size={24} />
                     </div>
@@ -225,7 +225,7 @@ export default function PagosTable({ result }: PagosTableProps) {
                         Detalle de Movimientos
                     </h2>
                     <div className="flex flex-wrap gap-4">
-                        <div className="flex items-center gap-2 rounded-2xl border border-line bg-white px-4 py-2 shadow-sm">
+                        <div className="flex items-center gap-2 rounded-2xl border border-line bg-bg px-4 py-2 shadow-sm">
                             <Calendar size={16} className="text-muted" />
                             <input
                                 type="date"
