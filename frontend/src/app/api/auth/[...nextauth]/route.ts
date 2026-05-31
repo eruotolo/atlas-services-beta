@@ -8,10 +8,30 @@ import {
     validateUserCredentials,
 } from '@/features/auth/lib/auth.service';
 
-// Access token dura 15 minutos; refrescamos con 1 minuto de margen
+// Refrescamos el access token con 1 minuto de margen antes de su expiración real
 const BACKEND_TOKEN_REFRESH_MARGIN_MS = 60 * 1000;
-// Duración del accessToken del backend (15 min en ms)
+// Fallback si el JWT del backend no trae claim `exp` legible (15 min en ms)
 const BACKEND_ACCESS_TOKEN_TTL_MS = 15 * 60 * 1000;
+
+/**
+ * Lee la expiración real (claim `exp`) del access token del backend, en ms.
+ * Decodifica solo el payload del JWT (sin verificar firma) para no depender de
+ * un TTL hardcodeado que pueda desalinearse con la config del backend.
+ */
+function getBackendTokenExpiry(accessToken: string): number {
+    try {
+        const payload = accessToken.split('.')[1];
+        const decoded = JSON.parse(Buffer.from(payload, 'base64url').toString()) as {
+            exp?: number;
+        };
+        if (typeof decoded.exp === 'number') {
+            return decoded.exp * 1000;
+        }
+    } catch {
+        // payload ilegible: usar fallback
+    }
+    return Date.now() + BACKEND_ACCESS_TOKEN_TTL_MS;
+}
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -48,7 +68,8 @@ export const authOptions: NextAuthOptions = {
                     token.telefono = (user as any).telefono ?? null;
                     token.backendToken = (user as any).backendToken ?? '';
                     token.backendRefreshToken = (user as any).backendRefreshToken ?? '';
-                    token.backendTokenExpires = Date.now() + BACKEND_ACCESS_TOKEN_TTL_MS;
+                    token.backendTokenExpires = getBackendTokenExpiry(token.backendToken);
+                    token.error = undefined;
                     return token;
                 }
 
@@ -61,7 +82,8 @@ export const authOptions: NextAuthOptions = {
                         token.telefono = backendUser.telefono ?? null;
                         token.backendToken = backendUser.backendToken ?? '';
                         token.backendRefreshToken = backendUser.backendRefreshToken ?? '';
-                        token.backendTokenExpires = Date.now() + BACKEND_ACCESS_TOKEN_TTL_MS;
+                        token.backendTokenExpires = getBackendTokenExpiry(token.backendToken);
+                        token.error = undefined;
                     } else {
                         // Si falla la validación en backend, marcamos error
                         token.error = 'GoogleBackendError';
@@ -78,21 +100,29 @@ export const authOptions: NextAuthOptions = {
 
             // Token próximo a vencer: intentar refrescar
             const refreshed = await refreshBackendToken(token.backendRefreshToken as string);
-            if (!refreshed) {
-                // Forzar re-login eliminando el token del backend
+
+            if (refreshed.status === 'ok') {
                 return {
                     ...token,
-                    backendToken: '',
-                    backendRefreshToken: '',
-                    error: 'RefreshTokenExpired',
+                    backendToken: refreshed.accessToken,
+                    backendRefreshToken: refreshed.refreshToken,
+                    backendTokenExpires: getBackendTokenExpiry(refreshed.accessToken),
+                    error: undefined,
                 };
             }
 
+            // Fallo transitorio (red/timeout/5xx): conservar el token actual y reintentar
+            // en la próxima request. NUNCA invalidar la sesión por un error pasajero.
+            if (refreshed.status === 'transient') {
+                return token;
+            }
+
+            // status === 'invalid': refresh token expirado o inválido → forzar re-login
             return {
                 ...token,
-                backendToken: refreshed.accessToken,
-                backendRefreshToken: refreshed.refreshToken,
-                backendTokenExpires: Date.now() + BACKEND_ACCESS_TOKEN_TTL_MS,
+                backendToken: '',
+                backendRefreshToken: '',
+                error: 'RefreshTokenExpired',
             };
         },
         async session({ session, token }) {
@@ -102,6 +132,10 @@ export const authOptions: NextAuthOptions = {
                 session.user.telefono = token.telefono as string | null | undefined;
                 session.user.backendToken = token.backendToken as string;
                 session.user.backendRefreshToken = token.backendRefreshToken as string;
+            }
+            // Propagar el error al cliente para que pueda hacer signOut automático
+            if (token.error) {
+                session.error = token.error as 'RefreshTokenExpired' | 'GoogleBackendError';
             }
             return session;
         },

@@ -1,5 +1,6 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
+import { CommentStatus } from '@prisma/client';
+import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
 
 export class UpdateRatingDto {
     @ApiPropertyOptional({ example: 4, minimum: 1, maximum: 5 })
@@ -13,4 +14,9 @@ export class UpdateRatingDto {
     @IsOptional()
     @IsString()
     comentario?: string;
+
+    @ApiPropertyOptional({ enum: CommentStatus })
+    @IsOptional()
+    @IsEnum(CommentStatus)
+    estado?: CommentStatus;
 }

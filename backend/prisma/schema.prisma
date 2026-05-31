@@ -247,7 +247,7 @@ model Rating {
     userId        String
     stars         Int
     comment       String?       @db.Text
-    status        CommentStatus @default(ACTIVE)
+    status        CommentStatus @default(PENDING)
     ownerResponse String?       @db.Text
     respondedAt   DateTime?
     createdAt     DateTime      @default(now())

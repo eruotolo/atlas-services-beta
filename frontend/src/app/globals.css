@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+﻿@import 'tailwindcss';
 
 @theme {
     /* Neutros */
@@ -50,7 +50,7 @@
     /* Neutros */
     --ink: #0a0a0a;
     --sub: #5b5b5b;
-    --muted: #8e8e8e;
+    --muted: #767676;
     --line: #ebebeb;
     --hairline: #f1f1f1;
     --bg: #ffffff;
@@ -75,10 +75,10 @@
 .dark {
     --ink: #f5f5f5;
     --sub: #a0a0a0;
-    --muted: #6e6e6e;
+    --muted: #8a8a8a;
     --line: #1f1f23;
     --hairline: #18181b;
-    --bg: #0a0a0a;
+    --bg: #0c0c0e;
     --tint: #131316;
     --tint-warm: #16161a;
 

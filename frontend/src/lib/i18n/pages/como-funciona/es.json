@@ -1,28 +1,46 @@
 {
     "meta": {
         "title": "¿Cómo funciona Hireeo?",
-        "description": "Descubre cómo conectar con profesionales locales. Simple, rápido y confiable. Para clientes: busca, contacta y califica. Para proveedores: publica, destácate y gana."
+        "description": "Hireeo es una capa de coordinación entre vos y los profesionales que arreglan, instalan, pintan y trasladan. La explicación, paso por paso."
     },
     "hero": {
-        "title": "¿Cómo funciona Hireeo?",
-        "subtitle": "La plataforma más simple para conectar el talento local con quienes necesitan una solución rápida y confiable."
+        "eyebrow": "— CÓMO FUNCIONA",
+        "titleBefore": "Resolver lo cotidiano,",
+        "titleAfter": "sin la fricción de siempre.",
+        "subtitle": "Hireeo es una capa de coordinación entre vos y los profesionales que arreglan, instalan, pintan y trasladan. La explicación, paso por paso."
     },
-    "forClients": {
-        "label": "Para Clientes",
-        "title": "Encuentra al experto ideal",
-        "steps": [
-            { "title": "1. Busca", "desc": "Filtra por categoría y zona. ¡Estamos en todos lados!" },
-            { "title": "2. Contacta", "desc": "Revisa su perfil y contáctalo directamente por WhatsApp o teléfono." },
-            { "title": "3. Califica", "desc": "Después del trabajo, deja tu reseña para ayudar a otros." }
-        ]
-    },
-    "forProviders": {
-        "label": "Para Proveedores",
-        "title": "Haz crecer tu oficio",
-        "steps": [
-            { "title": "1. Publica", "desc": "Crea tu perfil en minutos. Es fácil, rápido y gratis empezar." },
-            { "title": "2. Destácate con Premium", "desc": "Activa un plan Premium para aparecer primero en las búsquedas y obtener el sello de verificación." },
-            { "title": "3. Gana", "desc": "Recibe llamadas de nuevos clientes todos los días directamente." }
+    "steps": [
+        {
+            "n": "01",
+            "title": "Contás lo que necesitás",
+            "desc": "En lenguaje natural — como se lo dirías a un amigo. Ej: \"se rompió la cañería del baño chico, La Reina, hoy si es posible\".",
+            "meta": "Sin formularios. La IA detecta categoría, zona y urgencia.",
+            "shot": "chat"
+        },
+        {
+            "n": "02",
+            "title": "Recibís tres propuestas",
+            "desc": "Curamos profesionales por reputación, disponibilidad y proximidad. Cada uno trae foto, calificación real y precio referencial.",
+            "meta": "Respuesta promedio: 12 minutos.",
+            "shot": "list"
+        },
+        {
+            "n": "03",
+            "title": "Acordás y resolvés",
+            "desc": "Conversás directo por chat, confirmás precio y horario. Pagás con la pasarela local de tu país. Calificás al terminar.",
+            "meta": "MercadoPago en CL/AR/UY · Stripe en ES/US.",
+            "shot": "pay"
+        }
+    ],
+    "faq": {
+        "eyebrow": "— PREGUNTAS",
+        "title": "Antes de empezar.",
+        "items": [
+            ["¿Cobran comisión por trabajo?", "No. Hireeo nunca toca el dinero del trabajo. El pago se hace directo al profesional vía pasarela local."],
+            ["¿Qué es un profesional verificado?", "Validamos identidad oficial (RUT, DNI o ID local), referencias y antecedentes. La insignia aparece junto al perfil."],
+            ["¿Funciona en mi país?", "Sí en Chile, Argentina, Uruguay, España y Estados Unidos. Pronto sumamos Perú y Colombia."],
+            ["¿Y si no aparece nadie?", "En 24h tu solicitud queda visible para todos los pros de la zona. Si nadie matchea, te avisamos y la cerramos."],
+            ["¿Cómo califico un servicio?", "Al cerrar el trabajo recibís un email con el link de calificación. Foto obligatoria del trabajo terminado."]
         ]
     }
 }

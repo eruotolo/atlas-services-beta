@@ -1,8 +1,8 @@
-import type React from 'react';
-import { ChevronDown } from 'lucide-react';
 import type { Metadata } from 'next';
+import type { ReactElement } from 'react';
 
 import { getPageDictionary } from '@/lib/i18n/getPageDictionary';
+import { Btn, Icon, Mono, SectionLabel } from '@/shared/components/hireeo';
 
 interface FaqBlock {
     type:
@@ -31,80 +31,64 @@ interface AyudaDict {
     faqs: FaqItem[];
 }
 
-function renderParagraph(block: FaqBlock, i: number): React.ReactElement {
-    switch (block.type) {
-        case 'p-bold':
-            return (
-                <p key={i} className="font-bold">
-                    {block.text}
-                </p>
-            );
-        case 'p-bold-green':
-            return (
-                <p key={i} className="font-bold text-green-600 dark:text-green-400">
-                    {block.text}
-                </p>
-            );
-        case 'p-bold-blue':
-            return (
-                <p key={i} className="font-bold text-brand dark:text-brand-light">
-                    {block.text}
-                </p>
-            );
-        case 'p-bold-red':
-            return (
-                <p key={i} className="font-bold text-red-600 dark:text-red-400">
-                    {block.text}
-                </p>
-            );
-        default:
-            return <p key={i}>{block.text}</p>;
-    }
-}
-
-function renderList(block: FaqBlock, i: number): React.ReactElement {
-    if (block.type === 'ul-grid') {
-        return (
-            <ul key={i} className="grid grid-cols-2 gap-2">
-                {block.items?.map((item, j) => (
-                    // biome-ignore lint/suspicious/noArrayIndexKey: List items may be non-unique strings
-                    <li key={j}>{item}</li>
-                ))}
-            </ul>
-        );
-    }
+function renderBlock(block: FaqBlock, i: number): ReactElement {
+    const key = `${block.type}-${i}`;
     if (block.type === 'ol') {
         return (
-            <ol key={i} className="list-decimal space-y-2 pl-5">
-                {block.items?.map((item, j) => (
-                    // biome-ignore lint/suspicious/noArrayIndexKey: List items may be non-unique strings
-                    <li key={j}>{item}</li>
+            <ol
+                key={key}
+                className="m-0 list-decimal space-y-1 pl-5 text-[14px]"
+                style={{ color: 'var(--sub)' }}
+            >
+                {(block.items ?? []).map((item) => (
+                    <li key={item}>{item}</li>
                 ))}
             </ol>
         );
     }
-    return (
-        <ul key={i} className="list-disc space-y-1 pl-5">
-            {block.items?.map((item, j) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: List items may be non-unique strings
-                <li key={j}>{item}</li>
-            ))}
-        </ul>
-    );
-}
-
-function renderBlock(block: FaqBlock, i: number): React.ReactElement {
+    if (block.type === 'ul' || block.type === 'ul-grid') {
+        const gridClass = block.type === 'ul-grid' ? 'grid grid-cols-2 gap-1.5' : 'space-y-1';
+        return (
+            <ul
+                key={key}
+                className={`m-0 list-disc pl-5 text-[14px] ${gridClass}`}
+                style={{ color: 'var(--sub)' }}
+            >
+                {(block.items ?? []).map((item) => (
+                    <li key={item}>{item}</li>
+                ))}
+            </ul>
+        );
+    }
     if (block.type === 'note') {
         return (
-            <p key={i} className="text-sm text-gray-600 dark:text-gray-400">
+            <p
+                key={key}
+                className="m-0 text-[12.5px] italic"
+                style={{ color: 'var(--muted)' }}
+            >
                 {block.text}
             </p>
         );
     }
-    if (block.type === 'ol' || block.type === 'ul' || block.type === 'ul-grid') {
-        return renderList(block, i);
-    }
-    return renderParagraph(block, i);
+    const isStrong = block.type.startsWith('p-bold');
+    const color =
+        block.type === 'p-bold-green'
+            ? 'var(--success)'
+            : block.type === 'p-bold-red'
+              ? 'var(--danger)'
+              : block.type === 'p-bold-blue'
+                ? 'var(--accent)'
+                : 'var(--sub)';
+    return (
+        <p
+            key={key}
+            className="m-0 text-[14px] leading-[1.55]"
+            style={{ color, fontWeight: isStrong ? 600 : 400 }}
+        >
+            {block.text}
+        </p>
+    );
 }
 
 export async function generateMetadata({
@@ -125,57 +109,136 @@ export default async function AyudaPage({
     params,
 }: {
     params: Promise<{ country: string }>;
-}): Promise<React.ReactElement> {
+}): Promise<ReactElement> {
     const { country } = await params;
     const dict = getPageDictionary<AyudaDict>('ayuda', country);
 
     return (
-        <section className="bg-background min-h-screen py-12 md:py-20">
-            <div className="container mx-auto max-w-4xl px-4">
-                <div className="mb-12 text-center">
-                    <h1 className="mb-4 text-3xl leading-tight font-black text-gray-900 md:text-5xl dark:text-white">
+        <div style={{ background: 'var(--bg)', color: 'var(--ink)' }}>
+            <section
+                className="border-b text-center"
+                style={{ borderColor: 'var(--line)' }}
+            >
+                <div className="mx-auto max-w-[1100px] px-6 pt-20 pb-12 sm:px-10 lg:px-14">
+                    <SectionLabel>— CENTRO DE AYUDA</SectionLabel>
+                    <h1
+                        className="m-0 mt-3.5 mb-4"
+                        style={{
+                            fontSize: 'clamp(34px, 5vw, 52px)',
+                            fontWeight: 500,
+                            letterSpacing: '-0.04em',
+                            lineHeight: 1,
+                            color: 'var(--ink)',
+                        }}
+                    >
                         {dict.header.title}
                     </h1>
-                    <p className="mx-auto max-w-2xl text-base text-gray-600 md:text-lg dark:text-gray-400">
+                    <p
+                        className="m-0 mx-auto mb-8 max-w-[540px] text-[16px]"
+                        style={{ color: 'var(--sub)' }}
+                    >
                         {dict.header.subtitle}
                     </p>
+
+                    <div
+                        className="mx-auto flex max-w-[580px] items-center gap-2 rounded-[11px] border bg-bg p-1.5"
+                        style={{
+                            borderColor: 'var(--line)',
+                            boxShadow: '0 8px 24px rgba(10,10,10,0.04)',
+                        }}
+                    >
+                        <div className="flex flex-1 items-center gap-2.5 px-3.5 py-1.5">
+                            <Icon name="search" size={16} stroke="var(--sub)" />
+                            <input
+                                placeholder="Buscar en el centro de ayuda…"
+                                className="flex-1 border-none bg-transparent py-1.5 text-[14px] outline-none"
+                                style={{ color: 'var(--ink)' }}
+                            />
+                        </div>
+                        <Btn variant="primary">Buscar</Btn>
+                    </div>
+                </div>
+            </section>
+
+            <section className="mx-auto max-w-[1100px] px-6 py-14 sm:px-10 lg:px-14">
+                <div className="mb-6 flex items-end justify-between">
+                    <SectionLabel>— ARTÍCULOS</SectionLabel>
+                    <Mono className="text-[12.5px]" style={{ color: 'var(--sub)' }}>
+                        {dict.faqs.length} resultados
+                    </Mono>
                 </div>
 
-                <div className="space-y-4">
-                    {dict.faqs.map((faq) => (
+                <div style={{ borderTop: '1px solid var(--line)' }}>
+                    {dict.faqs.map((faq, i) => (
                         <details
                             key={faq.q}
-                            className="group rounded-2xl border border-gray-100 bg-white p-6 transition-all hover:shadow-md dark:border-white/10 dark:bg-gray-900/40"
+                            className="group"
+                            style={{ borderBottom: '1px solid var(--line)' }}
                         >
-                            <summary className="flex cursor-pointer items-center justify-between text-left text-base font-bold text-gray-900 md:text-lg dark:text-white">
-                                <span>{faq.q}</span>
-                                <ChevronDown
-                                    size={20}
-                                    className="shrink-0 transition-transform group-open:rotate-180"
-                                />
+                            <summary
+                                className="grid cursor-pointer list-none items-center gap-4 py-5"
+                                style={{ gridTemplateColumns: '32px minmax(0, 1fr) 24px' }}
+                            >
+                                <Mono
+                                    className="text-[13px] font-semibold"
+                                    style={{ color: 'var(--sub)' }}
+                                >
+                                    {String(i + 1).padStart(2, '0')}
+                                </Mono>
+                                <span
+                                    className="text-[15px] font-medium"
+                                    style={{ color: 'var(--ink)' }}
+                                >
+                                    {faq.q}
+                                </span>
+                                <span
+                                    className="inline-flex items-center justify-center transition-transform group-open:rotate-180"
+                                    style={{ color: 'var(--muted)' }}
+                                >
+                                    <Icon name="chevronDown" size={16} />
+                                </span>
                             </summary>
-                            <div className="mt-4 space-y-3 text-sm text-gray-600 md:text-base dark:text-gray-400">
-                                {faq.a.map((block, i) => renderBlock(block, i))}
+                            <div className="grid items-start gap-4 pb-6" style={{ gridTemplateColumns: '32px minmax(0, 1fr) 24px' }}>
+                                <span />
+                                <div className="flex flex-col gap-2.5">
+                                    {faq.a.map((block, j) => renderBlock(block, j))}
+                                </div>
+                                <span />
                             </div>
                         </details>
                     ))}
                 </div>
+            </section>
 
-                <div className="mt-12 rounded-2xl border border-brand/20 bg-gradient-to-br from-brand/5 to-indigo-50 p-8 text-center dark:border-brand-marino/30 dark:from-brand-marino/20 dark:to-indigo-900/20">
-                    <h3 className="mb-2 text-xl font-bold text-gray-900 md:text-2xl dark:text-white">
+            <section
+                className="border-t"
+                style={{ borderColor: 'var(--line)', background: 'var(--tint)' }}
+            >
+                <div className="mx-auto max-w-[900px] px-6 py-16 text-center sm:px-10 lg:px-14">
+                    <h3
+                        className="m-0 mb-3"
+                        style={{
+                            fontSize: 28,
+                            fontWeight: 500,
+                            letterSpacing: '-0.025em',
+                            color: 'var(--ink)',
+                        }}
+                    >
                         {dict.cta.title}
                     </h3>
-                    <p className="mb-6 text-sm text-gray-600 md:text-base dark:text-gray-400">
+                    <p
+                        className="m-0 mb-7 text-[15px]"
+                        style={{ color: 'var(--sub)' }}
+                    >
                         {dict.cta.subtitle}
                     </p>
-                    <a
-                        href={`/${country}/contacto`}
-                        className="btn-primary inline-block rounded-2xl px-8 py-4 text-sm md:text-base"
-                    >
-                        {dict.cta.button}
+                    <a href={`/${country}/contacto`}>
+                        <Btn variant="primary" size="lg" iconRight="arrow">
+                            {dict.cta.button}
+                        </Btn>
                     </a>
                 </div>
-            </div>
-        </section>
+            </section>
+        </div>
     );
 }

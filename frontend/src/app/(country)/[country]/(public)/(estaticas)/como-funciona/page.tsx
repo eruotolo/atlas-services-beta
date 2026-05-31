@@ -1,14 +1,16 @@
-import type React from 'react';
-import { Award, CheckCircle, MessageSquare, PlusCircle, Search, Star } from 'lucide-react';
 import type { Metadata } from 'next';
+import type { ReactElement } from 'react';
 
 import { getPageDictionary } from '@/lib/i18n/getPageDictionary';
+import { Avatar, Icon, Mono, Pill, SectionLabel } from '@/shared/components/hireeo';
+
+type StepShot = 'chat' | 'list' | 'pay';
 
 interface ComoFuncionaDict {
     meta: { title: string; description: string };
-    hero: { title: string; subtitle: string };
-    forClients: { label: string; title: string; steps: Array<{ title: string; desc: string }> };
-    forProviders: { label: string; title: string; steps: Array<{ title: string; desc: string }> };
+    hero: { eyebrow: string; titleBefore: string; titleAfter: string; subtitle: string };
+    steps: Array<{ n: string; title: string; desc: string; meta: string; shot: StepShot }>;
+    faq: { eyebrow: string; title: string; items: [string, string][] };
 }
 
 export async function generateMetadata({
@@ -25,89 +27,227 @@ export async function generateMetadata({
     };
 }
 
-const CLIENT_ICONS = [Search, MessageSquare, Star];
-const PROVIDER_ICONS = [PlusCircle, Award, CheckCircle];
+function ChatMock(): ReactElement {
+    return (
+        <div className="flex flex-col gap-2">
+            <div
+                className="self-end max-w-[75%] rounded-[12px_12px_4px_12px] px-3 py-2 text-[12px]"
+                style={{ background: 'var(--ink)', color: 'var(--bg)' }}
+            >
+                Se trabó el portón eléctrico, necesito sacar el auto antes de las 8
+            </div>
+            <div
+                className="self-start max-w-[85%] rounded-[12px_12px_12px_4px] border bg-bg px-3 py-2 text-[12px]"
+                style={{ borderColor: 'var(--line)', color: 'var(--ink)' }}
+            >
+                Entendido — es{' '}
+                <Pill tone="accent" style={{ fontSize: 9 }}>
+                    cerrajería · urgente
+                </Pill>{' '}
+                en{' '}
+                <Pill tone="accent" style={{ fontSize: 9 }}>
+                    Las Condes
+                </Pill>
+                . Te conecto con 2 pros disponibles ahora.
+            </div>
+        </div>
+    );
+}
+
+function ListMock(): ReactElement {
+    const rows: [string, string, string][] = [
+        ['Carlos M.', '15 min', '4.9'],
+        ['Luis F.', '22 min', '4.8'],
+        ['Daniel R.', '40 min', '4.9'],
+    ];
+    return (
+        <div className="flex flex-col gap-1.5">
+            {rows.map(([name, eta, rating]) => (
+                <div
+                    key={name}
+                    className="flex items-center gap-2 rounded-[7px] border bg-bg p-2 text-[12px]"
+                    style={{ borderColor: 'var(--line)' }}
+                >
+                    <Avatar name={name} size={24} />
+                    <span className="flex-1 font-medium" style={{ color: 'var(--ink)' }}>
+                        {name}
+                    </span>
+                    <Mono style={{ color: 'var(--sub)' }}>{eta}</Mono>
+                    <Icon name="star" size={10} stroke="var(--amber)" fill="var(--amber)" />
+                    <span style={{ color: 'var(--ink)' }}>{rating}</span>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+function PayMock(): ReactElement {
+    return (
+        <div className="flex flex-col gap-1.5">
+            <div
+                className="flex items-center justify-between rounded-[7px] border bg-bg p-2.5 text-[12px]"
+                style={{ borderColor: 'var(--line)' }}
+            >
+                <span style={{ color: 'var(--sub)' }}>Cerrajería · 25 min</span>
+                <Mono className="font-semibold" style={{ color: 'var(--ink)' }}>
+                    $32.000 CLP
+                </Mono>
+            </div>
+            <div
+                className="flex items-center gap-2 rounded-[7px] border bg-bg p-2.5 text-[12px]"
+                style={{ borderColor: 'var(--line)' }}
+            >
+                <Icon name="card" size={12} stroke="var(--sub)" />
+                <span style={{ color: 'var(--ink)' }}>MercadoPago</span>
+                <span className="ml-auto">
+                    <Pill tone="success" style={{ fontSize: 9 }}>
+                        autorizado
+                    </Pill>
+                </span>
+            </div>
+        </div>
+    );
+}
+
+function StepShotPanel({ shot }: { shot: StepShot }): ReactElement {
+    return (
+        <div
+            className="rounded-xl border p-4 text-[12px]"
+            style={{ background: 'var(--tint)', borderColor: 'var(--line)' }}
+        >
+            {shot === 'chat' ? <ChatMock /> : null}
+            {shot === 'list' ? <ListMock /> : null}
+            {shot === 'pay' ? <PayMock /> : null}
+        </div>
+    );
+}
 
 export default async function ComoFuncionaPage({
     params,
 }: {
     params: Promise<{ country: string }>;
-}): Promise<React.ReactElement> {
+}): Promise<ReactElement> {
     const { country } = await params;
     const dict = getPageDictionary<ComoFuncionaDict>('como-funciona', country);
 
     return (
-        <div className="bg-background">
-            <section className="bg-brand px-4 py-12 text-center md:py-20 dark:bg-brand-hover">
-                <div className="container mx-auto max-w-site px-4">
-                    <h1 className="mb-4 text-3xl leading-tight font-black text-white md:mb-6 md:text-5xl">
-                        {dict.hero.title}
-                    </h1>
-                    <p className="mx-auto max-w-2xl text-base text-brand/20 opacity-90 md:text-lg">
-                        {dict.hero.subtitle}
-                    </p>
-                </div>
+        <div style={{ background: 'var(--bg)', color: 'var(--ink)' }}>
+            <section className="mx-auto max-w-[1100px] px-6 pt-24 pb-12 sm:px-10 lg:px-14">
+                <SectionLabel>{dict.hero.eyebrow}</SectionLabel>
+                <h1
+                    className="m-0 mt-3.5 mb-5 max-w-[900px]"
+                    style={{
+                        fontSize: 'clamp(36px, 6vw, 64px)',
+                        fontWeight: 500,
+                        letterSpacing: '-0.04em',
+                        lineHeight: 0.98,
+                        color: 'var(--ink)',
+                    }}
+                >
+                    {dict.hero.titleBefore}
+                    <br />
+                    {dict.hero.titleAfter}
+                </h1>
+                <p
+                    className="m-0 max-w-[660px] text-[18px] leading-[1.55]"
+                    style={{ color: 'var(--sub)' }}
+                >
+                    {dict.hero.subtitle}
+                </p>
             </section>
 
-            <section className="bg-background w-full py-12 md:py-20">
-                <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
-                    <div className="mb-10 text-center md:mb-16">
-                        <span className="text-[10px] font-black tracking-widest text-brand uppercase md:text-sm dark:text-brand-light">
-                            {dict.forClients.label}
-                        </span>
-                        <h2 className="mt-2 text-2xl font-black text-gray-900 md:text-3xl dark:text-white">
-                            {dict.forClients.title}
-                        </h2>
+            <section className="mx-auto max-w-[1100px] px-6 pb-20 sm:px-10 lg:px-14">
+                {dict.steps.map((s, i) => (
+                    <div
+                        key={s.n}
+                        className="grid items-start gap-8 py-9 md:grid-cols-[70px_minmax(0,1fr)_minmax(0,1.1fr)]"
+                        style={{
+                            borderTop: i === 0 ? '1px solid var(--line)' : 'none',
+                            borderBottom: '1px solid var(--line)',
+                        }}
+                    >
+                        <Mono
+                            style={{
+                                fontSize: 42,
+                                fontWeight: 500,
+                                color: 'var(--ink)',
+                                letterSpacing: '-0.02em',
+                                lineHeight: 1,
+                            }}
+                        >
+                            {s.n}
+                        </Mono>
+                        <div>
+                            <h3
+                                className="m-0 mb-3"
+                                style={{
+                                    fontSize: 28,
+                                    fontWeight: 500,
+                                    letterSpacing: '-0.025em',
+                                    color: 'var(--ink)',
+                                }}
+                            >
+                                {s.title}
+                            </h3>
+                            <p
+                                className="m-0 mb-3.5 text-[15.5px] leading-[1.55]"
+                                style={{ color: 'var(--sub)' }}
+                            >
+                                {s.desc}
+                            </p>
+                            <Pill icon="info">{s.meta}</Pill>
+                        </div>
+                        <StepShotPanel shot={s.shot} />
                     </div>
-                    <div className="grid grid-cols-1 gap-10 text-center md:grid-cols-3 md:gap-12">
-                        {dict.forClients.steps.map((step, i) => {
-                            const Icon = CLIENT_ICONS[i];
-                            return (
-                                <div key={step.title} className="space-y-3 md:space-y-4">
-                                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-brand/5 text-brand md:h-16 md:w-16 dark:bg-brand/10 dark:text-brand-light">
-                                        <Icon size={28} className="md:h-8 md:w-8" />
-                                    </div>
-                                    <h3 className="text-lg font-bold text-gray-900 md:text-xl dark:text-white">
-                                        {step.title}
-                                    </h3>
-                                    <p className="text-sm leading-relaxed text-gray-500 md:text-base dark:text-gray-400">
-                                        {step.desc}
-                                    </p>
-                                </div>
-                            );
-                        })}
-                    </div>
-                </div>
+                ))}
             </section>
 
-            <section className="dark:bg-background w-full border-t border-gray-100 bg-gray-50 py-12 md:py-20 dark:border-gray-800">
-                <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
-                    <div className="mb-10 text-center md:mb-16">
-                        <span className="text-[10px] font-black tracking-widest text-green-600 uppercase md:text-sm dark:text-green-400">
-                            {dict.forProviders.label}
-                        </span>
-                        <h2 className="mt-2 text-2xl font-black text-gray-900 md:text-3xl dark:text-white">
-                            {dict.forProviders.title}
-                        </h2>
-                    </div>
-                    <div className="grid grid-cols-1 gap-10 text-center md:grid-cols-3 md:gap-12">
-                        {dict.forProviders.steps.map((step, i) => {
-                            const Icon = PROVIDER_ICONS[i];
-                            return (
-                                <div key={step.title} className="space-y-3 md:space-y-4">
-                                    <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-green-50 text-green-600 md:h-16 md:w-16 dark:bg-green-900/20 dark:text-green-400">
-                                        <Icon size={28} className="md:h-8 md:w-8" />
-                                    </div>
-                                    <h3 className="text-lg font-bold text-gray-900 md:text-xl dark:text-white">
-                                        {step.title}
-                                    </h3>
-                                    <p className="text-sm leading-relaxed text-gray-500 md:text-base dark:text-gray-400">
-                                        {step.desc}
-                                    </p>
+            <section className="mx-auto max-w-[1100px] px-6 pt-12 pb-20 sm:px-10 lg:px-14">
+                <SectionLabel>{dict.faq.eyebrow}</SectionLabel>
+                <h2
+                    className="m-0 mt-3.5 mb-8"
+                    style={{
+                        fontSize: 'clamp(28px, 4vw, 38px)',
+                        fontWeight: 500,
+                        letterSpacing: '-0.03em',
+                        color: 'var(--ink)',
+                    }}
+                >
+                    {dict.faq.title}
+                </h2>
+                <div style={{ borderTop: '1px solid var(--line)' }}>
+                    {dict.faq.items.map(([q, a], i) => (
+                        <div
+                            key={q}
+                            className="grid items-start gap-6 py-5"
+                            style={{
+                                gridTemplateColumns: '40px minmax(0, 1fr) 40px',
+                                borderBottom: '1px solid var(--line)',
+                            }}
+                        >
+                            <Mono
+                                className="text-[13px] font-semibold"
+                                style={{ color: 'var(--sub)' }}
+                            >
+                                {String(i + 1).padStart(2, '0')}
+                            </Mono>
+                            <div>
+                                <div
+                                    className="mb-2 text-[17px] font-semibold"
+                                    style={{ color: 'var(--ink)' }}
+                                >
+                                    {q}
                                 </div>
-                            );
-                        })}
-                    </div>
+                                <div
+                                    className="text-[14.5px] leading-[1.55]"
+                                    style={{ color: 'var(--sub)' }}
+                                >
+                                    {a}
+                                </div>
+                            </div>
+                            <Icon name="chevronDown" size={16} stroke="var(--muted)" />
+                        </div>
+                    ))}
                 </div>
             </section>
         </div>

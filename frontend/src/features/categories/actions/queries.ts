@@ -14,6 +14,7 @@ function mapCategoryDto(c: BackendCategoryDto) {
         icono: c.icon ?? null,
         orden: c.order,
         activo: c.active,
+        serviceCount: c.serviceCount,
     };
 }
 

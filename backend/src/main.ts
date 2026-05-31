@@ -1,6 +1,6 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 
@@ -40,7 +40,7 @@ async function bootstrap() {
     app.useGlobalFilters(new PrismaExceptionFilter());
 
     // Interceptor global: elimina campos sensibles (password, etc.)
-    app.useGlobalInterceptors(new SerializeInterceptor());
+    app.useGlobalInterceptors(new SerializeInterceptor(app.get(Reflector)));
 
     // Validación global de DTOs
     app.useGlobalPipes(

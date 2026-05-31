@@ -1,5 +1,6 @@
 import { getTodasSponsors } from '@/features/sponsors/actions';
 import SponsorsTable from '@/features/sponsors/components/admin/SponsorsTable';
+import { PageHeader } from '@/shared/components/hireeo';
 
 type Props = {
     params: Promise<{ country: string }>;
@@ -15,8 +16,15 @@ export default async function AdminSponsorsPage({ params, searchParams }: Props)
     const result = await getTodasSponsors(page, 9, search);
 
     return (
-        <div>
-            <SponsorsTable result={result} />
-        </div>
+        <>
+            <PageHeader
+                breadcrumb={['Admin', 'Sponsors']}
+                title="Sponsors y publicidad"
+                subtitle="Banners y campañas que aparecen en la plataforma."
+            />
+            <div style={{ padding: 28 }}>
+                <SponsorsTable result={result} />
+            </div>
+        </>
     );
 }

@@ -1,5 +1,6 @@
 import { getAdminCategorias } from '@/features/categories/actions';
 import CategoriasTable from '@/features/categories/components/admin/CategoriasTable';
+import { PageHeader } from '@/shared/components/hireeo';
 
 type Props = {
     params: Promise<{ country: string }>;
@@ -15,8 +16,15 @@ export default async function AdminCategoriasPage({ params, searchParams }: Prop
     const result = await getAdminCategorias(page, 9, search);
 
     return (
-        <div>
-            <CategoriasTable result={result} />
-        </div>
+        <>
+            <PageHeader
+                breadcrumb={['Admin', 'Categorías']}
+                title="Categorías"
+                subtitle="Taxonomía de servicios disponibles en la plataforma."
+            />
+            <div style={{ padding: 28 }}>
+                <CategoriasTable result={result} />
+            </div>
+        </>
     );
 }

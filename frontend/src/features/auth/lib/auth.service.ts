@@ -23,19 +23,32 @@ export async function validateUserCredentials(email: string, password: string) {
     }
 }
 
-export async function refreshBackendToken(refreshToken: string) {
+/**
+ * Resultado discriminado del refresh de token del backend.
+ * - `ok`: nuevos tokens emitidos.
+ * - `invalid`: refresh token realmente inválido o expirado (401) → invalidar sesión.
+ * - `transient`: fallo de red, timeout o 5xx → NO invalidar, reintentar luego.
+ */
+export type RefreshResult =
+    | { status: 'ok'; accessToken: string; refreshToken: string }
+    | { status: 'invalid' }
+    | { status: 'transient' };
+
+export async function refreshBackendToken(refreshToken: string): Promise<RefreshResult> {
     try {
         const data = await apiClient.post<BackendRefreshResponse>('/auth/refresh', { refreshToken });
         return {
+            status: 'ok',
             accessToken: data.accessToken,
             refreshToken: data.refreshToken,
         };
     } catch (error) {
         if (error instanceof ApiError && error.status === 401) {
-            return null;
+            return { status: 'invalid' };
         }
-        console.error('Error al renovar token:', error);
-        return null;
+        // Red, timeout o 5xx: error transitorio. No envenenar la sesión.
+        console.error('Error transitorio al renovar token:', error);
+        return { status: 'transient' };
     }
 }
 

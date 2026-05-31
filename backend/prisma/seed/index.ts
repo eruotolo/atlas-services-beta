@@ -5,7 +5,9 @@ import { PrismaClient } from '@prisma/client';
 import { seedCategories } from './categories';
 import { seedGeo } from './geo';
 import { seedPrices } from './prices';
+import { seedRatings } from './ratings';
 import { seedRolesUsers } from './roles-users';
+import { seedServices } from './services';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL as string });
 const prisma = new PrismaClient({ adapter });
@@ -28,6 +30,14 @@ async function main() {
 
         // 4. Planes premium (depende de países)
         await seedPrices();
+        console.log('');
+
+        // 5. Servicios de prueba (depende de geo + admin user + categorías)
+        await seedServices();
+        console.log('');
+
+        // 6. Reseñas de prueba (depende de servicios + crea reviewers)
+        await seedRatings();
         console.log('');
 
         console.log('✨ Seed completado exitosamente!');
