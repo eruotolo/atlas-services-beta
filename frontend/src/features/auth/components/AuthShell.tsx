@@ -1,9 +1,9 @@
-import Image from 'next/image';
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import type { ReactElement, ReactNode } from 'react';
 
 import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
 import { Avatar, Mono } from '@/shared/components/hireeo';
+import Logo from '@/shared/components/layout/Logo';
 
 interface AuthShellProps {
     side?: 'right' | 'left';
@@ -32,14 +32,7 @@ export function AuthShell({
             <div className={`flex flex-col px-8 py-10 sm:px-12 lg:px-16 ${formOrder}`}>
                 <div className="mb-12 flex items-center justify-between">
                     <Link href={`/${country}`} aria-label="Hireeo" className="inline-flex">
-                        <Image
-                            src="/logo.png"
-                            alt="Hireeo"
-                            width={2371}
-                            height={938}
-                            className="h-7 w-auto"
-                            priority
-                        />
+                        <Logo className="h-7 w-auto" />
                     </Link>
                     <Mono
                         className="text-[11px]"

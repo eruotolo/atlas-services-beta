@@ -1,6 +1,5 @@
-'use client';
+﻿'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useMemo, type ReactElement } from 'react';
@@ -9,6 +8,7 @@ import { signOut } from 'next-auth/react';
 
 import { Avatar, Icon, Mono } from '@/shared/components/hireeo';
 import type { HireIconName } from '@/shared/components/hireeo/icons';
+import Logo from '@/shared/components/layout/Logo';
 
 interface AdminUser {
     name: string;
@@ -121,7 +121,7 @@ function AdminNavLink({ item, active }: AdminNavLinkProps): ReactElement {
             href={item.href}
             className="mb-px flex cursor-pointer items-center justify-between rounded-md px-2.5 py-1.5"
             style={{
-                background: active ? 'white' : 'transparent',
+                background: active ? 'var(--bg)' : 'transparent',
                 border: active ? '1px solid var(--line)' : '1px solid transparent',
                 boxShadow: active ? '0 1px 2px rgba(0,0,0,0.03)' : 'none',
             }}
@@ -166,13 +166,7 @@ export function AdminSidebar({ country, user }: AdminSidebarProps): ReactElement
                 style={{ padding: '6px 10px 18px' }}
             >
                 <Link href={`/${country}`} aria-label="Hireeo" className="inline-flex">
-                    <Image
-                        src="/logo.png"
-                        alt="Hireeo"
-                        width={2371}
-                        height={938}
-                        className="h-5 w-auto"
-                    />
+                    <Logo className="h-5 w-auto" />
                 </Link>
                 <Mono
                     className="rounded font-semibold"

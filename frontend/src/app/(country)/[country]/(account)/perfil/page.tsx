@@ -1,4 +1,4 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { redirect } from 'next/navigation';
 
 import type { Metadata } from 'next';
@@ -243,7 +243,7 @@ export default async function ProfilePage({ params }: Props) {
                             <Link
                                 href={`/${country}/suscripcion-pro`}
                                 className="inline-flex items-center gap-1.5 rounded-md bg-white px-5 py-2.5 text-[13px] font-semibold"
-                                style={{ color: 'var(--ink)' }}
+                                style={{ color: '#0a0a0a' }}
                             >
                                 Ver planes Pro →
                             </Link>

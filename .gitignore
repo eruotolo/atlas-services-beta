@@ -58,9 +58,14 @@ next-env.d.ts
 # IDEs
 .idea/
 .vscode/
+.codegraph/
 
 # Internal Tools & Scripts
 /scripts/
 
 # Docker — datos persistidos de PostgreSQL
 docker-database/postgres-data/
+
+# Prototipo de diseño (referencia, no parte del código fuente)
+NuevoHireeoApp/
+Nuevo Hireeo App.zip

@@ -1,28 +1,46 @@
 {
     "meta": {
-        "title": "How does Hireeo work?",
-        "description": "Discover how to connect with local professionals. Simple, fast and reliable. For clients: search, contact and rate. For providers: publish, stand out and earn."
+        "title": "How Hireeo works",
+        "description": "Hireeo is a coordination layer between you and the professionals who fix, install, paint and move. The step-by-step."
     },
     "hero": {
-        "title": "How does Hireeo work?",
-        "subtitle": "The simplest platform to connect local talent with those who need quick, reliable solutions."
+        "eyebrow": "— HOW IT WORKS",
+        "titleBefore": "Solve the everyday,",
+        "titleAfter": "without the usual friction.",
+        "subtitle": "Hireeo is a coordination layer between you and the professionals who fix, install, paint and move. The step-by-step."
     },
-    "forClients": {
-        "label": "For Clients",
-        "title": "Find the ideal expert",
-        "steps": [
-            { "title": "1. Search", "desc": "Filter by category and area. We're everywhere!" },
-            { "title": "2. Contact", "desc": "Review their profile and contact directly by WhatsApp or phone." },
-            { "title": "3. Rate", "desc": "After the job, leave your review to help others." }
-        ]
-    },
-    "forProviders": {
-        "label": "For Providers",
-        "title": "Grow your trade",
-        "steps": [
-            { "title": "1. Publish", "desc": "Create your profile in minutes. Easy, fast and free to start." },
-            { "title": "2. Stand out with Premium", "desc": "Activate a Premium plan to appear first in searches and get the verification badge." },
-            { "title": "3. Earn", "desc": "Receive calls from new clients every day directly." }
+    "steps": [
+        {
+            "n": "01",
+            "title": "Tell us what you need",
+            "desc": "In natural language — as you'd tell a friend. e.g.: \"the bathroom pipe broke, La Reina area, today if possible\".",
+            "meta": "No forms. AI detects category, area and urgency.",
+            "shot": "chat"
+        },
+        {
+            "n": "02",
+            "title": "Get three proposals",
+            "desc": "We curate pros by reputation, availability and proximity. Each one brings photo, real rating and reference price.",
+            "meta": "Average reply: 12 minutes.",
+            "shot": "list"
+        },
+        {
+            "n": "03",
+            "title": "Agree and resolve",
+            "desc": "Chat directly with the pro, confirm price and schedule. Pay with your local gateway. Rate when done.",
+            "meta": "MercadoPago in CL/AR/UY · Stripe in ES/US.",
+            "shot": "pay"
+        }
+    ],
+    "faq": {
+        "eyebrow": "— QUESTIONS",
+        "title": "Before you start.",
+        "items": [
+            ["Do you charge commission?", "No. Hireeo never touches the job's money. Payment goes directly to the pro via local gateway."],
+            ["What is a verified pro?", "We validate official ID, references and background. The badge appears next to the profile."],
+            ["Does it work in my country?", "Yes in Chile, Argentina, Uruguay, Spain and United States. Coming soon: Peru and Colombia."],
+            ["What if no one shows up?", "Your request stays visible to all pros in the area for 24h. If no match, we notify you and close it."],
+            ["How do I rate a service?", "When the job closes you get an email with the rating link. Photo of completed job required."]
         ]
     }
 }

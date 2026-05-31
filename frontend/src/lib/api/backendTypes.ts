@@ -25,6 +25,7 @@ export interface BackendCategoryDto {
     icon?: string | null;
     order: number;
     active: boolean;
+    serviceCount?: number;
 }
 
 export interface BackendSponsorDto {
