@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { Check } from 'lucide-react';
 
 import { obtenerPreciosPremiumActivos } from '@/features/payments/actions';
+import { useCountry } from '@/lib/providers/CountryProvider';
 
 interface PrecioPremium {
     id: string;
@@ -18,6 +19,7 @@ interface Paso4SeleccionarDuracionProps {
 }
 
 export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarDuracionProps) {
+    const { regionLabel } = useCountry();
     const [precios, setPrecios] = useState<PrecioPremium[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -144,7 +146,7 @@ export default function Paso4SeleccionarDuracion({ onSelect }: Paso4SeleccionarD
                                         size={14}
                                         className="mt-0.5 shrink-0 text-brand"
                                     />
-                                    <span>Badge Premium Chiloé</span>
+                                    <span>Badge Premium {regionLabel}</span>
                                 </li>
                             </ul>
 
