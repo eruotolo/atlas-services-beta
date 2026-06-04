@@ -34,7 +34,7 @@ interface Usuario {
     id: string;
     nombre: string;
     email: string;
-    telefono?: string | null;
+    phone?: string | null;
 }
 
 interface Paso2TuOficioProps {
@@ -114,8 +114,8 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
             setNombreContacto(usuario.nombre);
             setEmailContacto(usuario.email);
 
-            if (usuario.telefono) {
-                setTelefonoContacto(usuario.telefono);
+            if (usuario.phone) {
+                setTelefonoContacto(usuario.phone);
             } else {
                 // Si no hay teléfono en las props (posible sesión antigua), buscarlo
                 getUsuarioById(usuario.id).then((u) => {

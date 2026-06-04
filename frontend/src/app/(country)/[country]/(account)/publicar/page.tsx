@@ -32,7 +32,7 @@ export default async function PublicarPage({ params }: Props) {
         id: session.user.id,
         nombre: session.user.name || '',
         email: session.user.email || '',
-        telefono: session.user.telefono,
+        phone: (session.user as any).phone,
     };
 
     const profile = await getProfilePageData(session.user.id);

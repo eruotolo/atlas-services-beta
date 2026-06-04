@@ -65,20 +65,20 @@ export class SubscriptionsService {
         if (existing?.active) throw new ConflictException('Este servicio ya tiene una suscripción activa');
 
         const country = await this.prisma.country.findUnique({
-            where: { code: dto.countryCode.toLowerCase() },
-            select: { id: true },
+            where: { id: service.countryId },
+            select: { id: true, code: true },
         });
-        if (!country) throw new NotFoundException(`País no encontrado: ${dto.countryCode}`);
+        if (!country) throw new NotFoundException(`País del servicio no encontrado`);
 
         const price = await this.pricesService.findByCountryAndDuration(country.id, dto.durationMonths);
-        if (!price) throw new NotFoundException(`No hay precio configurado para ${dto.durationMonths} meses en ${dto.countryCode}`);
+        if (!price) throw new NotFoundException(`No hay precio configurado para ${dto.durationMonths} meses en el país del servicio`);
 
         const startDate = new Date();
         const endDate = new Date(startDate);
         endDate.setMonth(endDate.getMonth() + dto.durationMonths);
 
-        // Determinar gateway según país
-        const gatewayName = this.paymentsService.resolveGatewayName(dto.countryCode);
+        // Determinar gateway según país del servicio
+        const gatewayName = this.paymentsService.resolveGatewayName(country.code);
 
         return this.prisma.subscription.create({
             data: {

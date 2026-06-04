@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import type { ReactElement } from 'react';
 
-import { useDictionary } from '@/lib/i18n/useDictionary';
+import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
 import type { Dictionary } from '@/lib/i18n/types';
+import { useDictionary } from '@/lib/i18n/useDictionary';
 import { Mono, SectionLabel } from '@/shared/components/hireeo';
 
 import Logo from './Logo';
@@ -62,32 +63,32 @@ function FooterColumn({ title, links }: FooterColumnProps): ReactElement {
     );
 }
 
-function buildProductLinks(country: string, dict: Dictionary): FooterColumnProps['links'] {
+function buildProductLinks(link: (path: string) => string, dict: Dictionary): FooterColumnProps['links'] {
     return [
-        { label: dict.nav.search, href: `/${country}/buscar` },
-        { label: dict.footer.howItWorks, href: `/${country}/como-funciona` },
-        { label: dict.footer.proSubscriptions, href: `/${country}/suscripcion-pro` },
-        { label: dict.footer.businesses, href: `/${country}/contacto` },
-        { label: dict.footer.api, href: `/${country}/contacto` },
+        { label: dict.nav.search, href: link('/buscar') },
+        { label: dict.footer.howItWorks, href: link('/como-funciona') },
+        { label: dict.footer.proSubscriptions, href: link('/suscripcion-pro') },
+        { label: dict.footer.businesses, href: link('/contacto') },
+        { label: dict.footer.api, href: link('/contacto') },
     ];
 }
 
-function buildResourceLinks(country: string, dict: Dictionary): FooterColumnProps['links'] {
+function buildResourceLinks(link: (path: string) => string, dict: Dictionary): FooterColumnProps['links'] {
     return [
-        { label: dict.footer.helpCenter, href: `/${country}/ayuda` },
-        { label: dict.footer.documentation, href: `/${country}/ayuda` },
-        { label: dict.footer.changelog, href: `/${country}/ayuda` },
-        { label: dict.footer.blog, href: `/${country}/ayuda` },
-        { label: dict.footer.statusPage, href: `/${country}/ayuda` },
+        { label: dict.footer.helpCenter, href: link('/ayuda') },
+        { label: dict.footer.documentation, href: link('/ayuda') },
+        { label: dict.footer.changelog, href: link('/ayuda') },
+        { label: dict.footer.blog, href: link('/ayuda') },
+        { label: dict.footer.statusPage, href: link('/ayuda') },
     ];
 }
 
-function buildCompanyLinks(country: string, dict: Dictionary): FooterColumnProps['links'] {
+function buildCompanyLinks(link: (path: string) => string, dict: Dictionary): FooterColumnProps['links'] {
     return [
-        { label: dict.footer.aboutUs, href: `/${country}/quienes-somos` },
-        { label: dict.footer.careers, href: `/${country}/quienes-somos` },
-        { label: dict.footer.press, href: `/${country}/quienes-somos` },
-        { label: dict.footer.contact, href: `/${country}/contacto` },
+        { label: dict.footer.aboutUs, href: link('/quienes-somos') },
+        { label: dict.footer.careers, href: link('/quienes-somos') },
+        { label: dict.footer.press, href: link('/quienes-somos') },
+        { label: dict.footer.contact, href: link('/contacto') },
     ];
 }
 
@@ -96,6 +97,7 @@ const Footer: React.FC = (): ReactElement => {
     const router = useRouter();
     const country = (params?.country as string) ?? 'cl';
     const dict = useDictionary();
+    const link = useCountryLink();
 
     function handleCountryChange(newCountry: string): void {
         // biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API no disponible en todos los navegadores
@@ -130,16 +132,16 @@ const Footer: React.FC = (): ReactElement => {
 
                     <FooterColumn
                         title={dict.footer.platform}
-                        links={buildProductLinks(country, dict)}
+                        links={buildProductLinks(link, dict)}
                     />
                     <FooterColumn
                         title={dict.footer.resourcesLabel}
-                        links={buildResourceLinks(country, dict)}
+                        links={buildResourceLinks(link, dict)}
                     />
                     <FooterColumn title={dict.footer.countriesLabel} links={countryLinks} />
                     <FooterColumn
                         title={dict.footer.companyLabel}
-                        links={buildCompanyLinks(country, dict)}
+                        links={buildCompanyLinks(link, dict)}
                     />
                 </div>
 
@@ -150,21 +152,21 @@ const Footer: React.FC = (): ReactElement => {
                     <Mono>{dict.footer.copyrightLine}</Mono>
                     <div className="flex flex-wrap items-center gap-5">
                         <Link
-                            href={`/${country}/terminos`}
+                            href={link('/terminos')}
                             className="transition-colors hover:opacity-80"
                             style={{ color: 'var(--sub)' }}
                         >
                             {dict.footer.terms}
                         </Link>
                         <Link
-                            href={`/${country}/privacidad`}
+                            href={link('/privacidad')}
                             className="transition-colors hover:opacity-80"
                             style={{ color: 'var(--sub)' }}
                         >
                             {dict.footer.privacy}
                         </Link>
                         <Link
-                            href={`/${country}/privacidad`}
+                            href={link('/privacidad')}
                             className="transition-colors hover:opacity-80"
                             style={{ color: 'var(--sub)' }}
                         >

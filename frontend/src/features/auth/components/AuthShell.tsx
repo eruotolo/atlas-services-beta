@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 import type { ReactElement, ReactNode } from 'react';
 
 import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
@@ -102,7 +102,7 @@ export function AuthShell({
                                 className="text-[11.5px]"
                                 style={{ color: 'rgba(255,255,255,0.6)' }}
                             >
-                                Gasfíter · Castro, Chile
+                                Gasfíter · {countryName}
                             </div>
                         </div>
                     </div>

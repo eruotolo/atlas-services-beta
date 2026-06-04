@@ -6,18 +6,23 @@ import { useRouter } from 'next/navigation';
 
 import { CheckCircle2, Eye, Home, PartyPopper } from 'lucide-react';
 
+import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
+import { useCountry } from '@/lib/providers/CountryProvider';
+
 interface PasoExitoBasicoProps {
     slug: string;
 }
 
 export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
     const router = useRouter();
+    const link = useCountryLink();
+    const { regionLabel } = useCountry();
     const [countdown, setCountdown] = useState(10);
 
     // Countdown automático a /servicio/[slug]
     useEffect(() => {
         if (countdown === 0) {
-            router.push(`/servicio/${slug}`);
+            router.push(link(`/servicio/${slug}`));
             return;
         }
 
@@ -47,7 +52,7 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
             </div>
 
             <p className="mb-12 max-w-md text-sub">
-                Tu anuncio básico gratuito ha sido publicado exitosamente. Los clientes de Chiloé ya
+                Tu anuncio básico gratuito ha sido publicado exitosamente. Los clientes de tu {regionLabel.toLowerCase()} ya
                 pueden encontrarte y contactarte.
             </p>
 
@@ -64,7 +69,7 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
             {/* Botones de acción */}
             <div className="flex w-full max-w-md flex-col gap-4 sm:flex-row">
                 <button
-                    onClick={() => router.push('/')}
+                    onClick={() => router.push(link(''))}
                     className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-2xl bg-tint px-6 py-4 font-bold text-sub transition-all hover:bg-line active:scale-95"
                     type="button"
                 >
@@ -73,7 +78,7 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
                 </button>
 
                 <button
-                    onClick={() => router.push(`/servicio/${slug}`)}
+                    onClick={() => router.push(link(`/servicio/${slug}`))}
                     className="btn-primary flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-2xl px-6 py-4"
                     type="button"
                 >

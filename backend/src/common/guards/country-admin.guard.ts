@@ -43,7 +43,16 @@ export class CountryAdminGuard implements CanActivate {
         const code = (Array.isArray(countryCode) ? countryCode[0] : countryCode).toLowerCase();
 
         // Admin de país específico: valida que el countryCode esté en adminCountries del JWT
-        const hasCountryAccess = user.adminCountries?.includes(code);
+        // Maneja tanto el caso donde viene como array de strings (['cl']) o array de objetos ([{ code: 'cl' }])
+        const adminCountries = user.adminCountries || [];
+        const hasCountryAccess = adminCountries.some((country: any) => {
+            if (typeof country === 'string') {
+                return country.toLowerCase() === code;
+            }
+            // En caso de que el JWT traiga la relación directa del ORM
+            const countryCode = country?.code || country?.countryCode || country?.id;
+            return typeof countryCode === 'string' && countryCode.toLowerCase() === code;
+        });
 
         if (!hasCountryAccess) {
             throw new ForbiddenException(

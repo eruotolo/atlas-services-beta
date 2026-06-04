@@ -65,7 +65,7 @@ export const authOptions: NextAuthOptions = {
                     // Datos vienen del bloque authorize de Credenciales
                     token.id = user.id;
                     token.roles = (user as any).roles ?? [];
-                    token.telefono = (user as any).telefono ?? null;
+                    token.phone = (user as any).phone ?? null;
                     token.backendToken = (user as any).backendToken ?? '';
                     token.backendRefreshToken = (user as any).backendRefreshToken ?? '';
                     token.backendTokenExpires = getBackendTokenExpiry(token.backendToken);
@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
                     if (backendUser) {
                         token.id = backendUser.id;
                         token.roles = backendUser.roles ?? [];
-                        token.telefono = backendUser.telefono ?? null;
+                        token.phone = backendUser.phone ?? null;
                         token.backendToken = backendUser.backendToken ?? '';
                         token.backendRefreshToken = backendUser.backendRefreshToken ?? '';
                         token.backendTokenExpires = getBackendTokenExpiry(token.backendToken);
@@ -129,7 +129,7 @@ export const authOptions: NextAuthOptions = {
             if (session.user) {
                 session.user.id = token.id as string;
                 session.user.roles = token.roles as string[];
-                session.user.telefono = token.telefono as string | null | undefined;
+                (session.user as any).phone = token.phone as string | null | undefined;
                 session.user.backendToken = token.backendToken as string;
                 session.user.backendRefreshToken = token.backendRefreshToken as string;
             }

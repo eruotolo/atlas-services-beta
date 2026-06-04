@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import type { ReactElement } from 'react';
 
+import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
 import { COUNTRY_CONFIG } from '@/features/geo/lib/countryUtils';
 import { useDictionary } from '@/lib/i18n/useDictionary';
 import { Btn, Icon, Mono } from '@/shared/components/hireeo';
@@ -22,12 +23,13 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
     const dict = useDictionary();
     const config = COUNTRY_CONFIG[country] ?? COUNTRY_CONFIG.cl;
     const countryCode = country.toUpperCase();
+    const link = useCountryLink();
 
     const navItems = [
-        { href: `/${country}/buscar`, label: dict.nav.search },
-        { href: `/${country}/como-funciona`, label: dict.nav.howItWorks },
-        { href: `/${country}/suscripcion-pro`, label: dict.nav.pricing },
-        { href: `/${country}/quienes-somos`, label: dict.nav.about },
+        { href: link('/buscar'), label: dict.nav.search },
+        { href: link('/como-funciona'), label: dict.nav.howItWorks },
+        { href: link('/suscripcion-pro'), label: dict.nav.pricing },
+        { href: link('/quienes-somos'), label: dict.nav.about },
     ];
 
     return (
@@ -41,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
             <div className="mx-auto flex h-16 max-w-site items-center justify-between px-6 sm:px-10 lg:px-14">
                 <div className="flex items-center gap-9">
                     <Link
-                        href={`/${country}`}
+                        href={link('')}
                         aria-label="Hireeo"
                         className="flex items-center"
                     >
@@ -76,7 +78,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
                     </span>
 
                     {user?.role === 'admin' ? (
-                        <Link href={`/${country}/admin`}>
+                        <Link href={link('/admin')}>
                             <Btn size="sm" variant="ghost" icon="layoutDash">
                                 {dict.nav.adminPanel}
                             </Btn>
@@ -85,7 +87,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
 
                     {user ? (
                         <Link
-                            href={`/${country}/perfil`}
+                            href={link('/perfil')}
                             className="inline-flex items-center gap-2 rounded-md px-2 py-1 transition-colors hover:bg-tint"
                         >
                             <span
@@ -116,7 +118,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
                         </Link>
                     ) : (
                         <Link
-                            href={`/${country}/login`}
+                            href={link('/login')}
                             className="text-[13px] font-medium transition-colors hover:opacity-80"
                             style={{ color: 'var(--sub)' }}
                         >
@@ -124,7 +126,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
                         </Link>
                     )}
 
-                    <Link href={`/${country}/publicar`}>
+                    <Link href={link('/publicar')}>
                         <Btn size="sm" variant="primary" iconRight="arrow">
                             {dict.nav.startCta}
                         </Btn>
@@ -135,20 +137,20 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
 
                 <div className="flex items-center gap-1.5 md:hidden">
                     <Link
-                        href={`/${country}/buscar`}
+                        href={link('/buscar')}
                         className="inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-tint"
                         aria-label={dict.nav.searchMobile}
                         style={{ color: 'var(--sub)' }}
                     >
                         <Icon name="search" size={18} />
                     </Link>
-                    <Link href={`/${country}/publicar`}>
+                    <Link href={link('/publicar')}>
                         <Btn size="sm" variant="primary" icon="plus" aria-label={dict.nav.publish}>
                             <span className="sr-only">{dict.nav.publish}</span>
                         </Btn>
                     </Link>
                     <Link
-                        href={user ? `/${country}/perfil` : `/${country}/login`}
+                        href={user ? link('/perfil') : link('/login')}
                         className="inline-flex h-9 w-9 items-center justify-center rounded-md border transition-colors hover:bg-tint"
                         aria-label={user ? user.name : dict.nav.login}
                         style={{
