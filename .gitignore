@@ -28,6 +28,7 @@
 # misc
 .DS_Store
 *.pem
+.tmp/
 
 # debug logs
 npm-debug.log*
@@ -59,6 +60,9 @@ next-env.d.ts
 .idea/
 .vscode/
 .codegraph/
+
+# Claude Code — configuración local, memoria y agentes
+.claude/
 
 # Internal Tools & Scripts
 /scripts/
