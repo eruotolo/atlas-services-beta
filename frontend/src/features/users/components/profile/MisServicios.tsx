@@ -152,13 +152,13 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
     return (
         <div className="space-y-8">
             {/* Header */}
-            <div className="rounded-[2.5rem] border border-gray-100 bg-white p-8 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
+            <div className="rounded-[2.5rem] border border-line bg-bg p-8 shadow-sm">
                 <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
                     <div>
-                        <h3 className="text-2xl font-black text-gray-900 italic dark:text-white">
+                        <h3 className="text-2xl font-black text-ink italic">
                             Mis Servicios Publicados
                         </h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-sm text-muted">
                             Gestiona la visibilidad y el estado de cada uno de tus anuncios.
                         </p>
                     </div>
@@ -178,7 +178,7 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                     {servicios.map((servicio) => (
                         <div
                             key={servicio.id}
-                            className="relative overflow-hidden rounded-3xl border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:hover:border-white/20"
+                            className="relative overflow-hidden rounded-3xl border border-line bg-bg p-6 shadow-sm transition-all hover:shadow-md"
                         >
                             {servicio.destacado && (
                                 <div className="absolute top-0 bottom-0 left-0 w-1.5 bg-brand" />
@@ -187,7 +187,7 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                             <div className="flex flex-col gap-6 md:flex-row">
                                 <div className="flex-grow space-y-3">
                                     <div className="flex flex-wrap items-center justify-between gap-2">
-                                        <span className="text-[10px] font-black tracking-widest text-brand uppercase dark:text-brand-light">
+                                        <span className="text-[10px] font-black tracking-widest text-brand uppercase">
                                             {servicio.categories && servicio.categories.length > 0
                                                 ? servicio.categories
                                                       .map((c) => c.nombre)
@@ -196,11 +196,11 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                                         </span>
                                         <div className="flex items-center gap-2">
                                             {servicio.nivel === 'PREMIUM' ? (
-                                                <span className="flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-[9px] font-black text-amber-600 uppercase dark:bg-amber-900/20 dark:text-amber-400">
+                                                <span className="flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 text-[9px] font-black text-amber-600 uppercase">
                                                     <Crown size={10} /> Premium
                                                 </span>
                                             ) : (
-                                                <span className="rounded-full bg-gray-100 px-3 py-1 text-[9px] font-black text-gray-500 uppercase dark:bg-gray-800 dark:text-gray-400">
+                                                <span className="rounded-full bg-tint px-3 py-1 text-[9px] font-black text-muted uppercase">
                                                     Básico
                                                 </span>
                                             )}
@@ -212,8 +212,8 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                                             <span
                                                 className={`rounded-full px-3 py-1 text-[9px] font-black uppercase ${
                                                     servicio.activo
-                                                        ? 'bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400'
-                                                        : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-500'
+                                                        ? 'bg-green-50 text-green-600'
+                                                        : 'bg-tint text-muted'
                                                 }`}
                                             >
                                                 {servicio.activo ? 'Activo' : 'Inactivo'}
@@ -221,25 +221,25 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                                         </div>
                                     </div>
 
-                                    <h4 className="line-clamp-1 text-xl font-bold text-gray-900 dark:text-white">
+                                    <h4 className="line-clamp-1 text-xl font-bold text-ink">
                                         {servicio.titulo}
                                     </h4>
-                                    <p className="line-clamp-2 text-sm text-gray-500 dark:text-gray-400">
+                                    <p className="line-clamp-2 text-sm text-muted">
                                         {servicio.descripcion}
                                     </p>
 
                                     <div className="flex flex-wrap items-center gap-4 pt-2">
-                                        <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
+                                        <div className="flex items-center gap-1 text-xs text-muted">
                                             <ShieldCheck size={14} className="text-green-500" />
                                             <span>{servicio.comuna}</span>
                                         </div>
-                                        <div className="flex items-center gap-1 text-sm font-bold text-gray-900 dark:text-white">
+                                        <div className="flex items-center gap-1 text-sm font-bold text-ink">
                                             <span>${servicio.precio.toLocaleString('es-CL')}</span>
                                         </div>
                                     </div>
 
                                     {servicio.nivel === 'PREMIUM' && servicio.suscripcion && (
-                                        <div className="rounded-xl border border-amber-100 bg-amber-50 px-3 py-2 pt-2 text-xs text-amber-600 dark:border-amber-900/20 dark:bg-amber-900/10 dark:text-amber-400">
+                                        <div className="rounded-xl border border-amber-100 bg-amber-50 px-3 py-2 pt-2 text-xs text-amber-600">
                                             <span className="font-bold">
                                                 Premium hasta: {formatearFecha(servicio.fechaFin)}
                                             </span>
@@ -258,7 +258,7 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                                     <button
                                         type="button"
                                         onClick={() => handleToggleActivo(servicio.id)}
-                                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-gray-100 py-2.5 text-xs font-bold text-gray-600 transition-all hover:bg-gray-50 dark:border-white/5 dark:text-gray-400 dark:hover:bg-gray-800"
+                                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-line py-2.5 text-xs font-bold text-sub transition-all hover:bg-tint"
                                     >
                                         {servicio.activo ? (
                                             <>
@@ -273,7 +273,7 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                                     <button
                                         type="button"
                                         onClick={() => handleEdit(servicio)}
-                                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-brand/20 py-2.5 text-xs font-bold text-brand transition-all hover:bg-brand/5 dark:border-brand-marino/30 dark:text-brand-light dark:hover:bg-brand/10"
+                                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-brand/20 py-2.5 text-xs font-bold text-brand transition-all hover:bg-brand/5"
                                     >
                                         <Edit2 size={14} /> Editar
                                     </button>
@@ -281,14 +281,14 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                                         type="button"
                                         onClick={() => handleDelete(servicio.id)}
                                         disabled={isDeleting === servicio.id}
-                                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-red-100 py-2.5 text-xs font-bold text-red-600 transition-all hover:bg-red-50 disabled:opacity-50 dark:border-red-900/30 dark:text-red-400 dark:hover:bg-red-900/20"
+                                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border-2 border-red-100 py-2.5 text-xs font-bold text-red-600 transition-all hover:bg-red-50 disabled:opacity-50"
                                     >
                                         <Trash2 size={14} /> Eliminar
                                     </button>
                                     {servicio.nivel === 'BASICO' && (
                                         <Link
                                             href={link(`/publicar?upgrade=${servicio.id}`)}
-                                            className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-amber-200 bg-amber-50 py-2.5 text-xs font-black text-amber-700 transition-all hover:bg-amber-100 dark:border-amber-900/30 dark:bg-amber-900/20 dark:text-amber-400"
+                                            className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-amber-200 bg-amber-50 py-2.5 text-xs font-black text-amber-700 transition-all hover:bg-amber-100"
                                         >
                                             <Crown size={14} /> Actualizar a Premium
                                         </Link>
@@ -299,14 +299,14 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
                     ))}
                 </div>
             ) : (
-                <div className="rounded-[2.5rem] border-2 border-dashed border-gray-100 bg-white p-16 text-center dark:border-white/5 dark:bg-gray-900/20">
-                    <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-gray-50 text-gray-300 dark:bg-gray-800 dark:text-gray-600">
+                <div className="rounded-[2.5rem] border-2 border-dashed border-line bg-bg p-16 text-center">
+                    <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-tint text-muted">
                         <AlertCircle size={40} />
                     </div>
-                    <h4 className="mb-2 text-xl font-bold text-gray-900 dark:text-white">
+                    <h4 className="mb-2 text-xl font-bold text-ink">
                         Aún no tienes servicios activos
                     </h4>
-                    <p className="mx-auto mb-8 max-w-xs text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+                    <p className="mx-auto mb-8 max-w-xs text-sm leading-relaxed text-muted">
                         Publica tu oficio hoy mismo y empieza a recibir llamados de clientes en tu
                         zona.
                     </p>

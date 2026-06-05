@@ -1,5 +1,6 @@
 import { getHistorialPagos } from '@/features/payments/actions';
 import PagosTable from '@/features/payments/components/admin/PagosTable';
+import { PageHeader } from '@/shared/components/hireeo';
 
 type Props = {
     params: Promise<{ country: string }>;
@@ -16,8 +17,15 @@ export default async function AdminPagosPage({ params, searchParams }: Props) {
     const result = await getHistorialPagos(page, 5, startDate, endDate);
 
     return (
-        <div>
-            <PagosTable result={result} />
-        </div>
+        <>
+            <PageHeader
+                breadcrumb={['Admin', 'Pagos y Caja']}
+                title="Pagos y caja"
+                subtitle="Historial de transacciones, suscripciones y reembolsos."
+            />
+            <div style={{ padding: 28 }}>
+                <PagosTable result={result} />
+            </div>
+        </>
     );
 }

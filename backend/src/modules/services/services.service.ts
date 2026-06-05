@@ -176,8 +176,8 @@ export class ServicesService {
                 rating: r.stars,
                 comment: r.comment,
                 ownerResponse: r.ownerResponse,
-                respondedAt: r.respondedAt,
-                date: r.createdAt,
+                respondedAt: r.respondedAt ? r.respondedAt.toISOString() : null,
+                date: r.createdAt.toISOString(),
             })),
         };
     }

@@ -3,8 +3,7 @@ import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 
-import AdminHeader from '@/shared/components/admin/AdminHeader';
-import AdminSidebar from '@/shared/components/admin/AdminSidebar';
+import { AdminSidebar } from '@/features/admin/components/AdminSidebar';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
@@ -36,22 +35,33 @@ export default async function CountryAdminLayout({
         redirect(`/${country}/unauthorized`);
     }
 
+    const sessionUser = session.user as {
+        name?: string | null;
+        email?: string | null;
+        avatar?: string | null;
+        image?: string | null;
+    };
+
     return (
-        <div className="bg-background flex min-h-screen transition-colors duration-300">
-            <AdminSidebar />
-            <main className="scrollbar-custom flex-grow overflow-y-auto p-4 md:p-12">
-                <div className="mx-auto max-w-6xl">
-                    <AdminHeader
-                        user={{
-                            name: session.user.name,
-                            email: session.user.email,
-                            image:
-                                (session.user as { avatar?: string }).avatar || session.user.image,
-                        }}
-                    />
-                    {children}
-                </div>
-            </main>
+        <div
+            className="w-full"
+            style={{
+                minHeight: '100vh',
+                background: 'var(--bg)',
+                color: 'var(--ink)',
+            }}
+        >
+            <div className="grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)]">
+                <AdminSidebar
+                    country={country}
+                    user={{
+                        name: sessionUser.name || 'Admin',
+                        email: sessionUser.email || '',
+                        avatar: sessionUser.avatar || sessionUser.image || null,
+                    }}
+                />
+                <main className="min-w-0">{children}</main>
+            </div>
         </div>
     );
 }

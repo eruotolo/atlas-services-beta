@@ -3,14 +3,22 @@ import type { Metadata } from 'next';
 import { getCategorias } from '@/features/categories/actions';
 import { getRegionsByCountry } from '@/features/geo/actions';
 import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
+import { SearchPageClient } from '@/features/services/components/search';
 import { getFilteredServices } from '@/features/services/actions';
+import { buildSearchTitle, parseCategoryParam } from '@/features/services/lib/searchTitle';
 import { getSponsorStandardRandom } from '@/features/sponsors/actions';
 
-import SearchPageClient from '@/app/(public)/buscar/components/SearchPageClient';
+import { getDictionary } from '@/lib/i18n/getDictionary';
 
 type Props = {
     params: Promise<{ country: string }>;
-    searchParams: Promise<{ q?: string; c?: string; region?: string; locality?: string; page?: string }>;
+    searchParams: Promise<{
+        q?: string;
+        c?: string;
+        region?: string;
+        locality?: string;
+        page?: string;
+    }>;
 };
 
 export async function generateMetadata({
@@ -20,18 +28,30 @@ export async function generateMetadata({
     const { country } = await routeParams;
     const params = await searchParams;
     const countryName = COUNTRY_SEO_CONFIG[country]?.countryName ?? country.toUpperCase();
+    const dict = getDictionary(country);
     const query = params.q;
-    const category = params.c;
+    const categoryNames = parseCategoryParam(params.c ?? '');
 
-    let title = `Buscar Servicios Profesionales en ${countryName}`;
-    let description = `Encuentra carpinteros, gasfíter, electricistas y más profesionales verificados en ${countryName}.`;
+    const computedTitle = buildSearchTitle({
+        categoryNames,
+        localityName: null,
+        regionName: null,
+        countryName,
+        defaultTitle: dict.search.defaultTitle,
+        prepositionIn: dict.search.prepositionIn,
+        multipleCategoriesSuffix: dict.search.multipleCategoriesSuffix,
+    });
+
+    let title = computedTitle;
+    let description = `Encuentra profesionales verificados en ${countryName}. Presupuestos gratis.`;
 
     if (query) {
         title = `Resultados para "${query}" en ${countryName}`;
         description = `Resultados de búsqueda para "${query}". Contacta profesionales locales rápidamente.`;
-    } else if (category && category !== 'Todos') {
-        title = `Servicios de ${category} en ${countryName}`;
-        description = `Los mejores profesionales de ${category} en ${countryName}. Presupuestos gratis.`;
+    } else if (categoryNames.length === 1) {
+        description = `Los mejores profesionales de ${categoryNames[0]} en ${countryName}. Presupuestos gratis.`;
+    } else if (categoryNames.length > 1) {
+        description = `Los mejores profesionales en ${countryName}. Presupuestos gratis.`;
     }
 
     return { title, description };
@@ -45,6 +65,7 @@ export default async function CountrySearchPage({ params: routeParams, searchPar
     const regionParam = params.region || '';
     const localityParam = params.locality || '';
     const pageParam = Number(params.page) || 1;
+    const dict = getDictionary(country);
 
     const [{ services, totalCount, totalPages, currentPage }, categories, regions, sponsor] =
         await Promise.all([
@@ -63,11 +84,12 @@ export default async function CountrySearchPage({ params: routeParams, searchPar
 
     return (
         <SearchPageClient
+            dict={dict}
+            country={country}
             initialQuery={query}
             initialCategory={categoryParam}
             initialRegion={regionParam}
             initialLocality={localityParam}
-            country={country}
             regions={regions}
             sponsor={sponsor}
             services={services}

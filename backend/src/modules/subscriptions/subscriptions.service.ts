@@ -8,7 +8,6 @@ import {
 import { PrismaService } from '../../prisma/prisma.service';
 import { PaymentsService } from '../payments/payments.service';
 import { PricesService } from '../prices/prices.service';
-import { ServicesService } from '../services/services.service';
 
 import type { CreateSubscriptionDto } from './dto/create-subscription.dto';
 
@@ -31,7 +30,6 @@ const SUBSCRIPTION_SELECT = {
 export class SubscriptionsService {
     constructor(
         private readonly prisma: PrismaService,
-        private readonly servicesService: ServicesService,
         private readonly pricesService: PricesService,
         private readonly paymentsService: PaymentsService,
     ) {}
@@ -52,9 +50,12 @@ export class SubscriptionsService {
     }
 
     async create(dto: CreateSubscriptionDto, userId: string) {
-        const service = await this.servicesService.findById(dto.serviceId);
-        if (!service) throw new NotFoundException(`Servicio ${dto.serviceId} no encontrado`);
-        if (service.userId !== userId) {
+        const serviceData = await this.prisma.service.findUnique({
+            where: { id: dto.serviceId },
+            select: { id: true, userId: true, countryId: true },
+        });
+        if (!serviceData) throw new NotFoundException(`Servicio ${dto.serviceId} no encontrado`);
+        if (serviceData.userId !== userId) {
             throw new ForbiddenException('Solo puedes suscribir tus propios servicios');
         }
 
@@ -65,20 +66,20 @@ export class SubscriptionsService {
         if (existing?.active) throw new ConflictException('Este servicio ya tiene una suscripción activa');
 
         const country = await this.prisma.country.findUnique({
-            where: { code: dto.countryCode.toLowerCase() },
-            select: { id: true },
+            where: { id: serviceData.countryId },
+            select: { id: true, code: true },
         });
-        if (!country) throw new NotFoundException(`País no encontrado: ${dto.countryCode}`);
+        if (!country) throw new NotFoundException(`País del servicio no encontrado`);
 
         const price = await this.pricesService.findByCountryAndDuration(country.id, dto.durationMonths);
-        if (!price) throw new NotFoundException(`No hay precio configurado para ${dto.durationMonths} meses en ${dto.countryCode}`);
+        if (!price) throw new NotFoundException(`No hay precio configurado para ${dto.durationMonths} meses en el país del servicio`);
 
         const startDate = new Date();
         const endDate = new Date(startDate);
         endDate.setMonth(endDate.getMonth() + dto.durationMonths);
 
-        // Determinar gateway según país
-        const gatewayName = this.paymentsService.resolveGatewayName(dto.countryCode);
+        // Determinar gateway según país del servicio
+        const gatewayName = this.paymentsService.resolveGatewayName(country.code);
 
         return this.prisma.subscription.create({
             data: {

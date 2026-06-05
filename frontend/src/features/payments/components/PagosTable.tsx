@@ -11,6 +11,7 @@ import {
     TrendingUp,
 } from 'lucide-react';
 
+import { Pill } from '@/shared/components/hireeo';
 import { calcularIngresoNeto } from '@/shared/lib/utils';
 
 interface Pago {
@@ -105,47 +106,47 @@ export default function PagosTable({ pagos }: PagosTableProps) {
         <div className="space-y-8 transition-colors duration-300">
             {/* Stats Cards */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400">
+                <div className="rounded-[2rem] border border-line bg-bg p-6 shadow-sm">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-600">
                         <DollarSign size={24} />
                     </div>
-                    <p className="text-xs font-black tracking-widest text-gray-400 uppercase dark:text-gray-500">
+                    <p className="text-xs font-black tracking-widest text-muted uppercase">
                         Ingresos Reales (Caja)
                     </p>
-                    <h4 className="mt-1 text-2xl font-black text-gray-900 dark:text-white">
+                    <h4 className="mt-1 text-2xl font-black text-ink">
                         {formatCurrency(stats.ingresosNetos)}
                     </h4>
-                    <p className="mt-2 text-xs font-medium text-green-600 dark:text-green-400">
+                    <p className="mt-2 text-xs font-medium text-green-600">
                         Cobrado: {formatCurrency(stats.ingresosBrutos)}
                     </p>
                 </div>
 
-                <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/5 text-brand dark:bg-brand/10 dark:text-brand-light">
+                <div className="rounded-[2rem] border border-line bg-bg p-6 shadow-sm">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/5 text-brand">
                         <TrendingUp size={24} />
                     </div>
-                    <p className="text-xs font-black tracking-widest text-gray-400 uppercase dark:text-gray-500">
+                    <p className="text-xs font-black tracking-widest text-muted uppercase">
                         Transacciones
                     </p>
-                    <h4 className="mt-1 text-2xl font-black text-gray-900 dark:text-white">
+                    <h4 className="mt-1 text-2xl font-black text-ink">
                         {filteredPagos.length}
                     </h4>
-                    <p className="mt-2 text-xs font-medium text-gray-500 dark:text-gray-500">
+                    <p className="mt-2 text-xs font-medium text-muted">
                         En el periodo seleccionado
                     </p>
                 </div>
 
-                <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400">
+                <div className="rounded-[2rem] border border-line bg-bg p-6 shadow-sm">
+                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
                         <CreditCard size={24} />
                     </div>
-                    <p className="text-xs font-black tracking-widest text-gray-400 uppercase dark:text-gray-500">
+                    <p className="text-xs font-black tracking-widest text-muted uppercase">
                         Por Cobrar / Pendiente
                     </p>
-                    <h4 className="mt-1 text-2xl font-black text-gray-900 dark:text-white">
+                    <h4 className="mt-1 text-2xl font-black text-ink">
                         {formatCurrency(stats.montoPendiente)}
                     </h4>
-                    <p className="mt-2 text-xs font-medium text-amber-600 dark:text-amber-400">
+                    <p className="mt-2 text-xs font-medium text-amber-600">
                         {stats.pendientes} pagos pendientes
                     </p>
                 </div>
@@ -154,12 +155,12 @@ export default function PagosTable({ pagos }: PagosTableProps) {
             {/* Filters & Table */}
             <div>
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <h2 className="text-2xl font-black text-gray-900 dark:text-white">
+                    <h2 className="text-2xl font-black text-ink">
                         Detalle de Movimientos
                     </h2>
                     <div className="flex flex-wrap gap-4">
-                        <div className="flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-4 py-2 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                            <Calendar size={16} className="text-gray-400 dark:text-gray-600" />
+                        <div className="flex items-center gap-2 rounded-2xl border border-line bg-bg px-4 py-2 shadow-sm">
+                            <Calendar size={16} className="text-muted" />
                             <input
                                 type="date"
                                 value={startDate}
@@ -167,9 +168,9 @@ export default function PagosTable({ pagos }: PagosTableProps) {
                                     setStartDate(e.target.value);
                                     setCurrentPage(1);
                                 }}
-                                className="bg-transparent text-sm font-medium text-gray-600 outline-none dark:text-gray-300"
+                                className="bg-transparent text-sm font-medium text-sub outline-none"
                             />
-                            <span className="text-gray-300 dark:text-gray-700">→</span>
+                            <span className="text-muted">→</span>
                             <input
                                 type="date"
                                 value={endDate}
@@ -177,16 +178,16 @@ export default function PagosTable({ pagos }: PagosTableProps) {
                                     setEndDate(e.target.value);
                                     setCurrentPage(1);
                                 }}
-                                className="bg-transparent text-sm font-medium text-gray-600 outline-none dark:text-gray-300"
+                                className="bg-transparent text-sm font-medium text-sub outline-none"
                             />
                         </div>
                     </div>
                 </div>
 
                 <div className="flex flex-col gap-4">
-                    <div className="overflow-x-auto rounded-3xl border border-gray-100 bg-white shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
+                    <div className="overflow-x-auto rounded-3xl border border-line bg-bg shadow-sm">
                         <table className="w-full text-left text-sm">
-                            <thead className="border-b border-gray-100 bg-gray-50/50 text-xs text-gray-500 uppercase dark:border-white/5 dark:bg-gray-800/50 dark:text-gray-400">
+                            <thead className="border-b border-line bg-tint text-xs text-muted uppercase">
                                 <tr>
                                     <th className="px-6 py-4">Fecha</th>
                                     <th className="px-6 py-4">Cliente / Servicio</th>
@@ -197,13 +198,13 @@ export default function PagosTable({ pagos }: PagosTableProps) {
                                     <th className="px-6 py-4 text-right">Método</th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-100 bg-white dark:divide-white/5 dark:bg-transparent">
+                            <tbody className="divide-y divide-line bg-bg">
                                 {paginatedPagos.map((pago) => (
                                     <tr
                                         key={pago.id}
-                                        className="transition-colors hover:bg-gray-50/50 dark:hover:bg-white/5"
+                                        className="transition-colors hover:bg-tint"
                                     >
-                                        <td className="px-6 py-4 text-gray-500 dark:text-gray-500">
+                                        <td className="px-6 py-4 text-muted">
                                             {new Date(pago.createdAt).toLocaleDateString()}
                                             <br />
                                             <span className="text-[10px]" suppressHydrationWarning>
@@ -212,38 +213,38 @@ export default function PagosTable({ pagos }: PagosTableProps) {
                                         </td>
                                         <td className="px-6 py-4">
                                             <div>
-                                                <p className="font-bold text-gray-900 dark:text-white">
+                                                <p className="font-bold text-ink">
                                                     {pago.servicio.usuario.nombre}
                                                 </p>
-                                                <p className="text-xs text-gray-500 dark:text-gray-500">
+                                                <p className="text-xs text-muted">
                                                     {pago.servicio.titulo}
                                                 </p>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 text-gray-600 dark:text-gray-400">
+                                        <td className="px-6 py-4 text-sub">
                                             Premium {pago.duracionMeses}m
                                         </td>
-                                        <td className="px-6 py-4 font-medium text-gray-600 dark:text-gray-400">
+                                        <td className="px-6 py-4 font-medium text-sub">
                                             {formatCurrency(pago.monto)}
                                         </td>
-                                        <td className="px-6 py-4 font-bold text-gray-900 dark:text-white">
+                                        <td className="px-6 py-4 font-bold text-ink">
                                             {formatCurrency(calcularIngresoNeto(pago.monto))}
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span
-                                                className={`inline-flex rounded-full px-3 py-1 text-xs font-bold ${
+                                            <Pill
+                                                tone={
                                                     pago.estadoPago === 'completado'
-                                                        ? 'bg-green-50 text-green-600 dark:bg-green-900/30 dark:text-green-400'
+                                                        ? 'success'
                                                         : pago.estadoPago === 'pendiente'
-                                                          ? 'bg-amber-50 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400'
-                                                          : 'bg-red-50 text-red-600 dark:bg-red-900/30 dark:text-red-400'
-                                                }`}
+                                                          ? 'warning'
+                                                          : 'danger'
+                                                }
                                             >
                                                 {pago.estadoPago.charAt(0).toUpperCase() +
                                                     pago.estadoPago.slice(1)}
-                                            </span>
+                                            </Pill>
                                         </td>
-                                        <td className="px-6 py-4 text-right text-gray-500 capitalize dark:text-gray-500">
+                                        <td className="px-6 py-4 text-right text-muted capitalize">
                                             {pago.metodoPago || '-'}
                                         </td>
                                     </tr>
@@ -251,7 +252,7 @@ export default function PagosTable({ pagos }: PagosTableProps) {
                             </tbody>
                         </table>
                         {filteredPagos.length === 0 && (
-                            <div className="py-12 text-center text-gray-500 dark:text-gray-600">
+                            <div className="py-12 text-center text-muted">
                                 No se encontraron movimientos en este periodo
                             </div>
                         )}
@@ -259,18 +260,18 @@ export default function PagosTable({ pagos }: PagosTableProps) {
 
                     {/* Pagination Controls */}
                     {totalPages > 1 && (
-                        <div className="flex items-center justify-between border-t border-gray-100 pt-4 dark:border-white/5">
-                            <p className="text-sm text-gray-500 dark:text-gray-500">
+                        <div className="flex items-center justify-between border-t border-line pt-4">
+                            <p className="text-sm text-muted">
                                 Mostrando{' '}
-                                <span className="font-bold dark:text-gray-300">
+                                <span className="font-bold text-sub">
                                     {(currentPage - 1) * ITEMS_PER_PAGE + 1}
                                 </span>{' '}
                                 a{' '}
-                                <span className="font-bold dark:text-gray-300">
+                                <span className="font-bold text-sub">
                                     {Math.min(currentPage * ITEMS_PER_PAGE, filteredPagos.length)}
                                 </span>{' '}
                                 de{' '}
-                                <span className="font-bold dark:text-gray-300">
+                                <span className="font-bold text-sub">
                                     {filteredPagos.length}
                                 </span>{' '}
                                 resultados
@@ -280,11 +281,11 @@ export default function PagosTable({ pagos }: PagosTableProps) {
                                     type="button"
                                     onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                                     disabled={currentPage === 1}
-                                    className="cursor-pointer rounded-xl border border-gray-200 p-2 hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:hover:bg-gray-800"
+                                    className="cursor-pointer rounded-xl border border-line p-2 hover:bg-tint disabled:opacity-50"
                                 >
                                     <ChevronLeft size={20} />
                                 </button>
-                                <span className="text-sm font-bold text-gray-700 dark:text-gray-300">
+                                <span className="text-sm font-bold text-sub">
                                     Página {currentPage} de {totalPages}
                                 </span>
                                 <button
@@ -293,7 +294,7 @@ export default function PagosTable({ pagos }: PagosTableProps) {
                                         setCurrentPage((p) => Math.min(totalPages, p + 1))
                                     }
                                     disabled={currentPage === totalPages}
-                                    className="cursor-pointer rounded-xl border border-gray-200 p-2 hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:hover:bg-gray-800"
+                                    className="cursor-pointer rounded-xl border border-line p-2 hover:bg-tint disabled:opacity-50"
                                 >
                                     <ChevronRight size={20} />
                                 </button>

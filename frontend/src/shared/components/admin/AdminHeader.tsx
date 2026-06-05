@@ -40,28 +40,28 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
                     <Logo className="h-9 w-auto" />
                 </Link>
                 <div>
-                    <h1 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
+                    <h1 className="text-3xl font-black tracking-tight text-ink">
                         {titles[pathname] || 'Panel Admin'}
                     </h1>
-                    <p className="mt-1 text-sm font-medium text-gray-500 italic dark:text-gray-400">
+                    <p className="mt-1 text-sm font-medium text-muted italic">
                         Administra tu plataforma de servicios desde un solo lugar.
                     </p>
                 </div>
             </div>
             <div className="flex items-center gap-4">
                 <div className="hidden text-right sm:block">
-                    <p className="text-sm font-bold text-gray-900 dark:text-white">
+                    <p className="text-sm font-bold text-ink">
                         {user?.name || 'Admin Local'}
                     </p>
-                    <p className="text-[10px] font-black tracking-widest text-brand uppercase dark:text-brand-light">
+                    <p className="text-[10px] font-black tracking-widest text-brand uppercase">
                         Control Maestro
                     </p>
                 </div>
-                <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border-2 border-white bg-brand/10 shadow-sm dark:border-white/10 dark:bg-gray-800">
+                <div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-2xl border-2 border-line bg-brand/10 shadow-sm">
                     {user?.image ? (
                         <Image src={user.image} alt="Admin" fill className="object-cover" />
                     ) : (
-                        <span className="text-lg font-black text-brand dark:text-brand-light">
+                        <span className="text-lg font-black text-brand">
                             {user?.name?.charAt(0).toUpperCase() || 'A'}
                         </span>
                     )}
@@ -69,7 +69,7 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
                 <button
                     type="button"
                     onClick={() => signOut({ callbackUrl: `/${country}/login`, redirect: true })}
-                    className="flex cursor-pointer items-center gap-2 rounded-2xl bg-red-50 px-4 py-3 font-bold text-red-600 transition-colors hover:bg-red-100 dark:bg-red-950/20 dark:text-red-400 dark:hover:bg-red-900/30"
+                    className="flex cursor-pointer items-center gap-2 rounded-2xl bg-red-50 px-4 py-3 font-bold text-red-600 transition-colors hover:bg-red-100"
                     title="Cerrar Sesión"
                 >
                     <LogOut size={18} />

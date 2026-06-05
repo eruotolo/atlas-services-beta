@@ -71,7 +71,7 @@ export default function ShareButton({ title, text, url }: ShareButtonProps) {
             <button
                 type="button"
                 onClick={handleShare}
-                className="flex cursor-pointer items-center justify-center rounded-full border border-gray-100 p-2.5 text-gray-400 shadow-sm transition-colors hover:bg-brand/5 hover:text-brand md:p-3 dark:border-brand/20 dark:bg-brand/5 dark:text-brand-light dark:hover:bg-brand/50/20 dark:hover:text-brand-light"
+                className="flex cursor-pointer items-center justify-center rounded-full border border-line p-2.5 text-muted shadow-sm transition-colors hover:bg-brand/5 hover:text-brand md:p-3"
                 title="Compartir"
             >
                 <Share2 size={16} className="md:h-[18px] md:w-[18px]" />
@@ -79,12 +79,12 @@ export default function ShareButton({ title, text, url }: ShareButtonProps) {
 
             {/* Menú Desktop (Fallback) */}
             {isOpen && (
-                <div className="absolute bottom-full left-1/2 z-50 mb-2 w-48 -translate-x-1/2 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-xl shadow-brand-marino/10">
+                <div className="absolute bottom-full left-1/2 z-50 mb-2 w-48 -translate-x-1/2 overflow-hidden rounded-xl border border-line bg-bg shadow-xl shadow-brand-marino/10">
                     <div className="flex flex-col py-1">
                         <button
                             type="button"
                             onClick={shareWhatsApp}
-                            className="flex items-center gap-3 px-4 py-3 text-left text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                            className="flex items-center gap-3 px-4 py-3 text-left text-sm font-medium text-sub transition-colors hover:bg-tint"
                         >
                             <MessageCircle size={16} className="text-green-500" />
                             WhatsApp
@@ -92,12 +92,12 @@ export default function ShareButton({ title, text, url }: ShareButtonProps) {
                         <button
                             type="button"
                             onClick={copyToClipboard}
-                            className="flex items-center gap-3 border-t border-gray-50 px-4 py-3 text-left text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                            className="flex items-center gap-3 border-t border-line px-4 py-3 text-left text-sm font-medium text-sub transition-colors hover:bg-tint"
                         >
                             {copied ? (
                                 <Check size={16} className="text-brand" />
                             ) : (
-                                <LinkIcon size={16} className="text-gray-400" />
+                                <LinkIcon size={16} className="text-muted" />
                             )}
                             {copied ? '¡Copiado!' : 'Copiar enlace'}
                         </button>

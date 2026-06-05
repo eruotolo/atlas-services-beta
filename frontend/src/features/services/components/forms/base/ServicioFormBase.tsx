@@ -226,13 +226,13 @@ export default function ServicioFormBase({
             {servicio && <input type="hidden" name="id" value={servicio.id} />}
 
             {error && (
-                <div className="rounded-2xl border border-red-100 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
+                <div className="rounded-2xl border border-red-100 bg-red-50 p-4 text-sm text-red-600">
                     {error}
                 </div>
             )}
 
             {imagenPrincipal.error && (
-                <div className="rounded-2xl border border-red-100 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
+                <div className="rounded-2xl border border-red-100 bg-red-50 p-4 text-sm text-red-600">
                     {imagenPrincipal.error}
                 </div>
             )}
@@ -248,7 +248,7 @@ export default function ServicioFormBase({
                 <div className="relative">
                     {!isAdmin && (
                         // Icono solo para versión usuario para mantener limpieza admin
-                        <span className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400 dark:text-gray-600">
+                        <span className="absolute top-1/2 left-4 -translate-y-1/2 text-muted">
                             {/* Icono opcional */}
                         </span>
                     )}
@@ -311,7 +311,7 @@ export default function ServicioFormBase({
                     className={inputWithIconClass}
                 />
                 {!isAdmin && (
-                    <p className="mt-1 text-xs text-gray-500 dark:text-gray-500">
+                    <p className="mt-1 text-xs text-muted">
                         Este es un precio referencial que los clientes verán
                     </p>
                 )}
@@ -345,17 +345,17 @@ export default function ServicioFormBase({
 
                 {/* Checkbox "Usar mis datos" */}
                 {usuarioActual && !isAdmin && (
-                    <div className="mb-4 flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-800/50">
+                    <div className="mb-4 flex items-center gap-3 rounded-2xl border border-line bg-tint p-4">
                         <input
                             type="checkbox"
                             id={usarDatosUsuarioId}
                             checked={usarDatosUsuario}
                             onChange={(e) => setUsarDatosUsuario(e.target.checked)}
-                            className="h-4 w-4 cursor-pointer rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-600 dark:bg-gray-700"
+                            className="h-4 w-4 cursor-pointer rounded border-line text-brand focus:ring-brand bg-bg"
                         />
                         <label
                             htmlFor={usarDatosUsuarioId}
-                            className="cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-300"
+                            className="cursor-pointer text-sm font-medium text-sub"
                         >
                             Usar datos de registro ({usuarioActual.nombre})
                         </label>
@@ -370,7 +370,7 @@ export default function ServicioFormBase({
                         <div className="relative">
                             <User
                                 size={18}
-                                className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+                                className="absolute top-1/2 left-4 -translate-y-1/2 text-muted"
                             />
                             <input
                                 type="text"
@@ -393,7 +393,7 @@ export default function ServicioFormBase({
                             <div className="relative">
                                 <Mail
                                     size={18}
-                                    className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+                                    className="absolute top-1/2 left-4 -translate-y-1/2 text-muted"
                                 />
                                 <input
                                     type="email"
@@ -439,19 +439,19 @@ export default function ServicioFormBase({
                         <ImageIcon
                             size={18}
                             className={
-                                'pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-gray-400 dark:text-gray-600'
+                                'pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-muted'
                             }
                         />
                         <input
                             type="file"
                             accept="image/jpeg,image/jpg,image/png,image/webp"
                             onChange={imagenPrincipal.handleFileChange}
-                            className="form-input-with-icon file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-2 file:text-xs file:font-bold file:text-brand-hover hover:file:bg-brand/10 dark:file:bg-brand/10 dark:file:text-brand-light"
+                            className="form-input-with-icon file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-2 file:text-xs file:font-bold file:text-brand-hover hover:file:bg-brand/10"
                         />
                     </div>
                     {imagenPrincipal.preview && (
                         <div
-                            className={`relative mt-2 w-full h-${isAdmin ? '40' : '48'} overflow-hidden rounded-xl border border-gray-200 dark:border-white/10 ${isAdmin ? 'shadow-inner' : ''}`}
+                            className={`relative mt-2 w-full h-${isAdmin ? '40' : '48'} overflow-hidden rounded-xl border border-line ${isAdmin ? 'shadow-inner' : ''}`}
                         >
                             <Image
                                 src={imagenPrincipal.preview}
@@ -479,7 +479,7 @@ export default function ServicioFormBase({
                                     src={url}
                                     alt={`Gal ${idx}`}
                                     fill
-                                    className={`${isAdmin ? 'rounded-lg' : 'rounded-xl'} border border-gray-200 object-cover dark:border-white/10`}
+                                    className={`${isAdmin ? 'rounded-lg' : 'rounded-xl'} border border-line object-cover`}
                                 />
                                 <button
                                     type="button"
@@ -511,12 +511,12 @@ export default function ServicioFormBase({
             </div>
 
             {/* Botones */}
-            <div className="flex justify-end gap-4 border-t border-gray-100 pt-4 dark:border-white/5">
+            <div className="flex justify-end gap-4 border-t border-line pt-4">
                 <button
                     type="button"
                     onClick={onCancel}
                     disabled={loading}
-                    className="flex items-center justify-center gap-2 rounded-2xl border-2 border-gray-200 bg-white px-8 py-3 font-bold text-gray-700 transition-all hover:bg-gray-50 dark:border-white/10 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800"
+                    className="flex items-center justify-center gap-2 rounded-2xl border-2 border-line bg-bg px-8 py-3 font-bold text-sub transition-all hover:bg-tint"
                 >
                     Cancelar
                 </button>

@@ -97,7 +97,7 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
         {
             header: 'Icono',
             cell: (categoria) => (
-                <span className="font-mono text-xs text-gray-500 dark:text-gray-500">
+                <span className="font-mono text-xs text-muted">
                     {categoria.icono || '-'}
                 </span>
             ),
@@ -105,19 +105,19 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
         {
             header: 'Nombre',
             cell: (categoria) => (
-                <span className="font-bold text-gray-900 dark:text-white">{categoria.nombre}</span>
+                <span className="font-bold text-ink">{categoria.nombre}</span>
             ),
         },
         {
             header: 'Slug',
             cell: (categoria) => (
-                <span className="text-gray-500 dark:text-gray-400">{categoria.slug}</span>
+                <span className="text-muted">{categoria.slug}</span>
             ),
         },
         {
             header: 'Orden',
             cell: (categoria) => (
-                <span className="text-gray-500 dark:text-gray-400">{categoria.orden}</span>
+                <span className="text-muted">{categoria.orden}</span>
             ),
         },
         {
@@ -128,8 +128,8 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
                     onClick={() => handleToggleActivo(categoria.id)}
                     className={`cursor-pointer rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 ${
                         categoria.activo
-                            ? 'bg-brand/5 text-brand hover:bg-brand/10 dark:bg-brand-marino/30 dark:text-brand-light'
-                            : 'bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-500'
+                            ? 'bg-brand/5 text-brand hover:bg-brand/10'
+                            : 'bg-tint text-muted hover:bg-tint/80'
                     }`}
                     title={categoria.activo ? 'Click para desactivar' : 'Click para activar'}
                 >
@@ -145,7 +145,7 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
                     <button
                         type="button"
                         onClick={() => handleEdit(categoria)}
-                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand-marino/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5"
                         title="Editar"
                     >
                         <Edit2 size={18} />
@@ -154,7 +154,7 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
                         type="button"
                         onClick={() => handleDelete(categoria.id)}
                         disabled={isDeleting === categoria.id}
-                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
                         title="Eliminar"
                     >
                         <Trash2 size={18} />

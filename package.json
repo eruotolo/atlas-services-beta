@@ -1,7 +1,11 @@
 {
-    "name": "atlas-services",
-    "version": "0.1.0",
+    "name": "hireeo",
+    "version": "1.1.9",
     "private": true,
+    "packageManager": "pnpm@10.33.2",
+    "engines": {
+        "node": ">=22 <23"
+    },
     "scripts": {
         "dev": "concurrently --names \"backend,frontend\" --prefix-colors \"blue,green\" \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
         "dev:backend": "pnpm --filter backend dev",

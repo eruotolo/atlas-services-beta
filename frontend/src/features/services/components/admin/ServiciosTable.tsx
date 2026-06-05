@@ -10,6 +10,8 @@ import {
     toggleDestacadoServicio,
 } from '@/features/services/actions';
 
+import { Pill } from '@/shared/components/hireeo';
+
 import Modal from '@/shared/components/admin/Modal';
 import type { Column } from '@/shared/components/ui/data-table';
 import { DataTable } from '@/shared/components/ui/data-table';
@@ -148,7 +150,7 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
             header: 'Servicio',
             cell: (servicio) => (
                 <div className="flex items-center gap-2">
-                    <span className="font-bold text-gray-900 dark:text-white">
+                    <span className="font-bold text-ink">
                         {servicio.titulo}
                     </span>
                     {servicio.destacado && (
@@ -160,23 +162,23 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
         {
             header: 'Categorías',
             cell: (servicio) => (
-                <span className="text-gray-600 dark:text-gray-400">
+                <Pill tone="default">
                     {servicio.categories && servicio.categories.length > 0
                         ? servicio.categories.map((c) => c.nombre).join(', ')
                         : servicio.categoria.nombre}
-                </span>
+                </Pill>
             ),
         },
         {
             header: 'Proveedor',
             cell: (servicio) => (
-                <span className="text-gray-600 dark:text-gray-400">{servicio.usuario.nombre}</span>
+                <span className="text-sub">{servicio.usuario.nombre}</span>
             ),
         },
         {
             header: 'Precio',
             cell: (servicio) => (
-                <span className="font-bold text-gray-900 dark:text-white">
+                <span className="font-bold text-ink">
                     ${Number(servicio.precio).toLocaleString('es-CL')}
                 </span>
             ),
@@ -184,15 +186,9 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
         {
             header: 'Estado',
             cell: (servicio) => (
-                <span
-                    className={`rounded-full px-3 py-1 text-xs font-bold ${
-                        servicio.activo
-                            ? 'bg-green-50 text-green-600 dark:bg-green-900/20 dark:text-green-400'
-                            : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-500'
-                    }`}
-                >
+                <Pill tone={servicio.activo ? 'success' : 'default'}>
                     {servicio.activo ? 'Activo' : 'Inactivo'}
-                </span>
+                </Pill>
             ),
         },
         {
@@ -203,7 +199,7 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
                     <button
                         type="button"
                         onClick={() => handleToggleActivo(servicio.id)}
-                        className="cursor-pointer rounded-xl p-2 text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+                        className="cursor-pointer rounded-xl p-2 text-sub transition-colors hover:bg-tint"
                         title={servicio.activo ? 'Desactivar' : 'Activar'}
                     >
                         {servicio.activo ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -213,8 +209,8 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
                         onClick={() => handleToggleDestacado(servicio.id)}
                         className={`cursor-pointer rounded-xl p-2 transition-colors ${
                             servicio.destacado
-                                ? 'text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-900/20'
-                                : 'text-gray-400 hover:bg-gray-100 dark:text-gray-600 dark:hover:bg-gray-800'
+                                ? 'text-amber-600 hover:bg-amber-50'
+                                : 'text-muted hover:bg-tint'
                         }`}
                         title={servicio.destacado ? 'Quitar destacado' : 'Destacar'}
                     >
@@ -223,7 +219,7 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
                     <button
                         type="button"
                         onClick={() => handleEdit(servicio)}
-                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand-marino/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5"
                         title="Editar"
                     >
                         <Edit2 size={18} />
@@ -232,7 +228,7 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
                         type="button"
                         onClick={() => handleDelete(servicio.id)}
                         disabled={isDeleting === servicio.id}
-                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
                         title="Eliminar"
                     >
                         <Trash2 size={18} />

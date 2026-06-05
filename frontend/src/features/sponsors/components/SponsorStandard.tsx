@@ -22,7 +22,7 @@ export default function SponsorStandard({ sponsor }: SponsorStandardProps) {
         // Placeholder si no hay sponsor
         return (
             <div className="flex flex-col gap-2">
-                <p className="text-[10px] font-black tracking-widest text-gray-400 uppercase">
+                <p className="text-[10px] font-black tracking-widest text-muted uppercase">
                     Publicidad
                 </p>
                 <div className="group flex cursor-pointer flex-col items-center justify-center rounded-[2rem] border-2 border-dashed border-brand/20 bg-brand/5/40 px-4 py-8 text-center transition-colors hover:bg-brand/5">
@@ -48,14 +48,14 @@ export default function SponsorStandard({ sponsor }: SponsorStandardProps) {
 
     return (
         <div className="flex flex-col gap-2">
-            <p className="text-[10px] font-black tracking-widest text-gray-400 uppercase">
+            <p className="text-[10px] font-black tracking-widest text-muted uppercase">
                 Sugerido
             </p>
             <Link
                 href={sponsor.linkExterno}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative block overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-all hover:border-brand/20 hover:shadow-md"
+                className="group relative block overflow-hidden rounded-2xl border border-line bg-bg shadow-sm transition-all hover:border-brand/20 hover:shadow-md"
             >
                 <div className="relative aspect-square w-full overflow-hidden">
                     <Image
@@ -70,11 +70,11 @@ export default function SponsorStandard({ sponsor }: SponsorStandardProps) {
                     </div>
                 </div>
                 <div className="p-3">
-                    <h3 className="text-xs font-bold text-gray-900 transition-colors group-hover:text-brand">
+                    <h3 className="text-xs font-bold text-ink transition-colors group-hover:text-brand">
                         {sponsor.nombre}
                     </h3>
                     {sponsor.descripcion && (
-                        <p className="mt-1 line-clamp-2 text-[10px] leading-relaxed text-gray-500">
+                        <p className="mt-1 line-clamp-2 text-[10px] leading-relaxed text-muted">
                             {sponsor.descripcion}
                         </p>
                     )}

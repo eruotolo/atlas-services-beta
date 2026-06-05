@@ -1,40 +1,50 @@
 {
+    "meta": {
+        "title": "About · Hireeo",
+        "description": "Hireeo builds infrastructure for the trades that hold up daily life. Founded in Castro, Chiloé in 2024."
+    },
     "hero": {
-        "badge": "Connecting Professionals",
-        "title": "Connecting the local talent of",
-        "highlight": "Latin America",
-        "subtitle": "We were born with a clear mission: use technology to connect professionals with those who need their services, strengthening the local economy in every country we operate in."
+        "eyebrow": "— COMPANY",
+        "title": "Building infrastructure for the trades that hold up daily life.",
+        "subtitle": "Hireeo was born in Castro, Chiloé, in 2024. A conversation between a plumber without clients and a programmer with a broken boiler. The question was: why is it so hard to find each other?"
     },
-    "story": {
-        "label": "Our Story",
-        "title": "More than an App",
-        "description": "Atlas Services is not a multinational. We are a team of entrepreneurs who understood that the best way to grow is by connecting professionals with those who need them."
-    },
-    "values": {
-        "title": "Our Values",
-        "subtitle": "What drives us every day to improve the platform.",
+    "numbers": [
+        ["2024", "Founded"],
+        ["5", "Active countries"],
+        ["38,500", "Professionals"],
+        ["184k", "Jobs done"]
+    ],
+    "principles": {
+        "eyebrow": "— PRINCIPLES",
+        "title": "What we don't negotiate.",
         "items": [
-            { "title": "Local Identity", "desc": "We understand the reality of each country. We adapt the platform to the local needs of each market." },
-            { "title": "Trust", "desc": "We validate identities and promote real reviews. We want contracting to be safe and transparent." },
-            { "title": "Community", "desc": "Every payment for a service stays in the local community. We support entrepreneurship and traditional trades." }
+            { "title": "Trade on the cover", "desc": "Every profile shows finished work. We don't sell stock photos, we sell results." },
+            { "title": "No commission on jobs", "desc": "The job's money never goes through us. The economic relationship is between client and pro." },
+            { "title": "Made in LATAM", "desc": "Local gateway, local currency, local language. We're not a translated product — we think in Spanish." },
+            { "title": "Data as a product, not merchandise", "desc": "We don't sell user data. Decisions are made with aggregate, anonymous metrics." },
+            { "title": "Verification is mandatory", "desc": "Identity, references and background checked by hand by our operations team." },
+            { "title": "Small by choice", "desc": "Team of 18. We grow slow, we listen fast." }
         ]
     },
-    "stats": {
-        "label": "Real Impact",
-        "title": "Growing alongside the community",
-        "description": "In the last year, we have helped more than 500 families find quick solutions for their homes, generating direct income for hundreds of local professionals.",
-        "items": [
-            { "value": "2.5k+", "label": "Users" },
-            { "value": "450+", "label": "Providers" },
-            { "value": "98%", "label": "Happy Clients" }
+    "team": {
+        "eyebrow": "— TEAM",
+        "title": "18 people. 3 countries.",
+        "ctaText": "Looking for 4 more",
+        "ctaLink": "careers",
+        "members": [
+            { "name": "Erick Ruotolo", "role": "CEO · Castro" },
+            { "name": "Camila Soto", "role": "Product · Santiago" },
+            { "name": "Diego Vargas", "role": "Eng · Buenos Aires" },
+            { "name": "Paula Riveros", "role": "Design · Valdivia" },
+            { "name": "Federico Lima", "role": "Data · Montevideo" },
+            { "name": "Sara González", "role": "Ops · Madrid" },
+            { "name": "Tomás Vera", "role": "Eng · Santiago" },
+            { "name": "Lucía Pena", "role": "Marketing · BA" },
+            { "name": "Rodrigo Iturra", "role": "Payments · Santiago" },
+            { "name": "Andrea Quezada", "role": "Support · Castro" }
         ],
-        "quote": "We created this platform because we saw the need for a modern, organized and reliable professional directory for Latin America.",
-        "quoteAuthor": "Atlas Services Team",
-        "quoteRole": "Founders"
-    },
-    "cta": {
-        "title": "Ready to join the network?",
-        "searchService": "Find a Service",
-        "joinProvider": "Join as Provider"
+        "moreLabel": "+ 08",
+        "moreDesc": "in ops, growth and security",
+        "joinLabel": "JOIN US →"
     }
 }

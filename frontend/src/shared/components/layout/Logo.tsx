@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 
@@ -13,17 +13,17 @@ const Logo: React.FC<LogoProps> = ({ className }) => {
         <>
             <Image
                 src="/logo.png"
-                alt="Atlas Services"
-                width={2371}
-                height={938}
+                alt="Hireeo"
+                width={1017}
+                height={346}
                 className={`block dark:hidden ${sizeClass}`}
                 priority
             />
             <Image
                 src="/logo-white.png"
-                alt="Atlas Services"
-                width={2371}
-                height={938}
+                alt="Hireeo"
+                width={1017}
+                height={346}
                 className={`hidden dark:block ${sizeClass}`}
                 priority
             />

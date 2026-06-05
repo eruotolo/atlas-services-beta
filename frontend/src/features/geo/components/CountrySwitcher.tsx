@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 
 import { useCountry } from '@/lib/providers/CountryProvider';
+import { Select } from '@/shared/components/hireeo';
 
 const COUNTRY_OPTIONS = [
     { code: 'cl', flag: '🇨🇱', name: 'Chile' },
@@ -18,22 +19,23 @@ export function CountrySwitcher() {
 
     function handleChange(newCountry: string) {
         // biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API no disponible en todos los navegadores
-        document.cookie = `atlas_country=${newCountry}; path=/; max-age=31536000; SameSite=Lax`;
+        document.cookie = `hireeo_country=${newCountry}; path=/; max-age=31536000; SameSite=Lax`;
         router.push(`/${newCountry}`);
     }
 
     return (
-        <select
+        <Select
+            icon="globe"
             aria-label="Seleccionar país"
             value={country.code}
             onChange={(e) => handleChange(e.target.value)}
-            className="cursor-pointer rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm font-medium outline-none focus:ring-2 focus:ring-brand dark:border-white/10 dark:bg-gray-900 dark:text-white"
+            className="cursor-pointer font-medium"
         >
             {COUNTRY_OPTIONS.map((opt) => (
                 <option key={opt.code} value={opt.code}>
                     {opt.flag} {opt.name}
                 </option>
             ))}
-        </select>
+        </Select>
     );
 }

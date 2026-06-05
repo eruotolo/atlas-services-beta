@@ -1,6 +1,6 @@
 {
-    "name": "Atlas Servicios",
-    "short_name": "Atlas",
+    "name": "Hireeo",
+    "short_name": "Hireeo",
     "description": "Encuentra los mejores profesionales cerca de ti. Gasfitería, electricidad, carpintería, fletes y más.",
     "start_url": "/",
     "display": "standalone",

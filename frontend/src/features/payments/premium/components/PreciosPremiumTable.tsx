@@ -8,6 +8,7 @@ import Modal from '@/shared/components/admin/Modal';
 import type { Column } from '@/shared/components/ui/data-table';
 import { DataTable } from '@/shared/components/ui/data-table';
 import { useDataTable } from '@/shared/components/ui/data-table/useDataTable';
+import { Pill } from '@/shared/components/hireeo';
 
 import type { PrecioPremium } from '../../types/paymentTypes';
 import { eliminarPrecioPremium, toggleActivoPrecioPremium } from '../actions';
@@ -84,7 +85,7 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
         {
             header: 'Duración',
             cell: (precio) => (
-                <span className="font-bold text-gray-900 dark:text-white">
+                <span className="font-bold text-ink">
                     {precio.duracionMeses} {precio.duracionMeses === 1 ? 'mes' : 'meses'}
                 </span>
             ),
@@ -92,7 +93,7 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
         {
             header: 'Precio',
             cell: (precio) => (
-                <span className="text-gray-600 dark:text-gray-400">
+                <span className="text-sub">
                     ${Number(precio.precio).toLocaleString('es-CL')}
                 </span>
             ),
@@ -100,7 +101,7 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
         {
             header: 'Descripción',
             cell: (precio) => (
-                <span className="text-gray-600 dark:text-gray-400">
+                <span className="text-sub">
                     {precio.descripcion || '-'}
                 </span>
             ),
@@ -111,14 +112,12 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
                 <button
                     type="button"
                     onClick={() => handleToggleActivo(precio.id)}
-                    className={`cursor-pointer rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 ${
-                        precio.activo
-                            ? 'bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400'
-                            : 'bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-500'
-                    }`}
+                    className="cursor-pointer transition-all hover:scale-105"
                     title={precio.activo ? 'Click para desactivar' : 'Click para activar'}
                 >
-                    {precio.activo ? 'Activo' : 'Inactivo'}
+                    <Pill tone={precio.activo ? 'success' : 'default'}>
+                        {precio.activo ? 'Activo' : 'Inactivo'}
+                    </Pill>
                 </button>
             ),
         },
@@ -130,7 +129,7 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
                     <button
                         type="button"
                         onClick={() => handleEdit(precio)}
-                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand-marino/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5"
                         title="Editar"
                     >
                         <Edit2 size={18} />
@@ -139,7 +138,7 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
                         type="button"
                         onClick={() => handleDelete(precio.id)}
                         disabled={isDeleting === precio.id}
-                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
                         title="Eliminar"
                     >
                         <Trash2 size={18} />

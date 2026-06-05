@@ -4,6 +4,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 
 import { CurrentUser } from '@common/decorators/current-user.decorator';
+import { ExposeTokens } from '@common/decorators/expose-tokens.decorator';
 
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -14,6 +15,7 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('register')
+    @ExposeTokens()
     @Throttle({ short: { limit: 3, ttl: 60000 } })
     @ApiOperation({ summary: 'Registrar nuevo usuario' })
     register(@Body() dto: RegisterDto) {
@@ -21,6 +23,7 @@ export class AuthController {
     }
 
     @Post('login')
+    @ExposeTokens()
     @HttpCode(HttpStatus.OK)
     @Throttle({ short: { limit: 5, ttl: 60000 } })
     @UseGuards(AuthGuard('local'))
@@ -33,6 +36,7 @@ export class AuthController {
     }
 
     @Post('refresh')
+    @ExposeTokens()
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'Renovar access token con refresh token' })
     refresh(@Body('refreshToken') refreshToken: string) {
@@ -40,6 +44,7 @@ export class AuthController {
     }
 
     @Post('google')
+    @ExposeTokens()
     @HttpCode(HttpStatus.OK)
     @Throttle({ short: { limit: 5, ttl: 60000 } })
     @ApiOperation({ summary: 'Login con Google — recibe idToken, retorna JWT' })
