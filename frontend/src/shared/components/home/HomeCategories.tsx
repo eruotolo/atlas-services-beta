@@ -119,10 +119,10 @@ export function HomeCategories(): ReactElement {
     const currentCards = CARDS_BY_CATEGORY[activeTab] || CARDS_BY_CATEGORY['Hogar'];
 
     return (
-        <div className="w-full mt-10">
+        <div className="w-full mt-14">
             {/* Top Navigation Row (Thumbtack style) */}
             <div 
-                className="mb-8 flex items-center justify-start gap-8 overflow-x-auto border-b pb-6"
+                className="mb-8 flex items-center justify-between overflow-x-auto border-b pb-6"
                 style={{ borderColor: 'var(--line)', scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
             >
                 {TABS.map((tab) => {
@@ -137,14 +137,16 @@ export function HomeCategories(): ReactElement {
                             <div 
                                 className="flex h-[52px] w-[52px] items-center justify-center rounded-full transition-transform group-hover:scale-105"
                                 style={{ 
-                                    background: isActive ? 'var(--accent)' : 'var(--bg)', 
+                                    background: isActive ? 'var(--accent)' : 'var(--tint)', 
                                     border: isActive ? 'none' : '1px solid var(--line)',
-                                    color: isActive ? 'white' : 'var(--ink)'
                                 }}
                             >
-                                <Icon name={tab.icon} size={22} className="transition-colors" color={isActive ? 'white' : 'currentColor'} />
+                                <Icon name={tab.icon} size={22} color={isActive ? 'white' : 'var(--sub)'} />
                             </div>
-                            <span className="text-[13px] font-medium transition-colors" style={{ color: isActive ? 'var(--ink)' : 'inherit' }}>
+                            <span
+                                className="text-[13px] transition-colors"
+                                style={{ color: isActive ? 'var(--ink)' : 'var(--sub)', fontWeight: isActive ? 700 : 500 }}
+                            >
                                 {tab.label}
                             </span>
                         </button>
@@ -153,12 +155,12 @@ export function HomeCategories(): ReactElement {
             </div>
 
             {/* Grid of Visual Cards */}
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6 relative min-h-[250px]">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-6 relative min-h-[250px] mt-10">
                 {currentCards.map((card, idx) => (
                     <Link
                         key={card.label + idx}
                         href={link(`/buscar?c=${encodeURIComponent(card.query)}`)}
-                        className="group relative aspect-[3/4] overflow-hidden rounded-[14px] bg-tint transition-all hover:shadow-lg hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-2 duration-300"
+                        className="group relative aspect-[4/3] overflow-hidden rounded-[14px] bg-tint transition-all hover:shadow-lg hover:-translate-y-1 animate-in fade-in slide-in-from-bottom-2 duration-300"
                         style={{ animationFillMode: 'both', animationDelay: `${idx * 50}ms` }}
                     >
                         {/* Background Image */}
@@ -181,11 +183,12 @@ export function HomeCategories(): ReactElement {
                 ))}
             </div>
             
-            {/* View All specific to category */}
-            <div className="mt-8 flex justify-center">
+            {/* Bottom actions: Ver todos + Soy profesional */}
+            <div className="mt-5 flex flex-col items-center gap-3">
                 <Link 
                     href={link(`/buscar?c=${encodeURIComponent(activeTab)}`)}
-                    className="text-[14px] font-bold text-accent hover:underline flex items-center gap-1"
+                    className="text-[14px] font-bold flex items-center gap-1.5 transition-colors hover:opacity-80"
+                    style={{ color: 'var(--accent)' }}
                 >
                     Ver todos los profesionales en {TABS.find(t => t.query === activeTab)?.label}
                     <Icon name="arrow" size={16} />
