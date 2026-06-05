@@ -30,6 +30,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
         { href: link('/como-funciona'), label: dict.nav.howItWorks },
         { href: link('/suscripcion-pro'), label: dict.nav.pricing },
         { href: link('/quienes-somos'), label: dict.nav.about },
+        { href: link('/publicar'), label: 'Soy profesional' },
     ];
 
     return (

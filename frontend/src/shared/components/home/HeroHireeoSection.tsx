@@ -2,7 +2,7 @@ import Link from 'next/link';
 import type { ReactElement } from 'react';
 
 import type { Dictionary } from '@/lib/i18n/types';
-import { Avatar, Btn, Icon, Mono, Pill, Stars } from '@/shared/components/hireeo';
+import { Icon } from '@/shared/components/hireeo';
 import type { Service } from '@/shared/types/common';
 import { HeroSearchBar } from './HeroSearchBar';
 import { HeroCountrySelector } from './HeroCountrySelector';
@@ -42,24 +42,15 @@ export function HeroHireeoSection({
                 }}
             />
 
-            <div className="relative z-[5] mx-auto max-w-site px-6 pt-24 pb-20 sm:px-10 lg:px-14">
-                <Pill icon="sparkle" className="mb-8 gap-2 py-1 pr-3 pl-1">
-                    <span
-                        className="rounded-full px-2 py-[2px] text-[10.5px] font-semibold"
-                        style={{ background: 'var(--ink)', color: 'var(--bg)' }}
-                    >
-                        {dict.home.hero2.badge}
-                    </span>
-                    {dict.home.hero2.badgeText} →
-                </Pill>
+            <div className="relative z-[5] mx-auto max-w-site px-6 pt-10 pb-10 sm:px-10 lg:px-14 flex flex-col items-center text-center">
 
                 <h1
-                    className="m-0 mb-6 max-w-[1100px]"
+                    className="m-0 mb-3 whitespace-nowrap"
                     style={{
-                        fontSize: 'clamp(40px, 7vw, 84px)',
+                        fontSize: 'clamp(36px, 6vw, 82px)',
                         fontWeight: 500,
-                        lineHeight: 0.96,
-                        letterSpacing: '-0.045em',
+                        lineHeight: 1,
+                        letterSpacing: '-0.04em',
                     }}
                 >
                     {dict.home.hero2.titleBefore}{' '}
@@ -68,8 +59,9 @@ export function HeroHireeoSection({
                     </span>
                     {dict.home.hero2.titleAfter}
                 </h1>
+
                 <p
-                    className="mb-2 max-w-[600px] text-[18px] leading-[1.5]"
+                    className="mb-8 w-full text-[15px] leading-[1.5]"
                     style={{ color: 'var(--sub)' }}
                 >
                     {dict.home.hero2.subtitle}
@@ -77,14 +69,24 @@ export function HeroHireeoSection({
 
                 <HeroSearchBar country={country} />
 
-                <div className="mb-12 flex flex-wrap items-center gap-3">
-                    <Link href={`/${country}/publicar`} className="group flex items-center gap-1.5 text-[14px] font-semibold transition-colors hover:text-accent" style={{ color: 'var(--ink)' }}>
+                <HomeCategories />
+
+                <div className="mt-8 flex items-center justify-center">
+                    <Link
+                        href={`/${country}/publicar`}
+                        className="group flex items-center gap-3 rounded-full border px-5 py-3 text-[14px] font-semibold transition-all hover:shadow-md hover:-translate-y-0.5"
+                        style={{ borderColor: 'var(--line)', color: 'var(--ink)', background: 'var(--bg)' }}
+                    >
+                        <span
+                            className="flex h-7 w-7 items-center justify-center rounded-full"
+                            style={{ background: 'var(--accent)' }}
+                        >
+                            <Icon name="briefcase" size={15} color="white" />
+                        </span>
                         {dict.home.hero2.ctaProfessional}
-                        <Icon name="arrowUR" size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        <Icon name="arrowUR" size={15} className="opacity-50 transition-all group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </Link>
                 </div>
-
-                <HomeCategories />
 
                 <HeroCountrySelector 
                     currentCountry={country} 
