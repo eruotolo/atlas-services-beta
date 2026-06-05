@@ -19,16 +19,38 @@ const CATEGORY_SELECT = {
 export class CategoriesService {
     constructor(private readonly prisma: PrismaService) {}
 
-    findAll(countryCode?: string) {
-        const where: Prisma.ServiceCategoryWhereInput = countryCode
-            ? { active: true, OR: [{ countryCode: null }, { countryCode: countryCode.toLowerCase() }] }
+    async findAll(countryCode?: string) {
+        const normalizedCode = countryCode?.toLowerCase();
+        const where: Prisma.ServiceCategoryWhereInput = normalizedCode
+            ? { active: true, OR: [{ countryCode: null }, { countryCode: normalizedCode }] }
             : { active: true };
 
-        return this.prisma.serviceCategory.findMany({
+        const categories = await this.prisma.serviceCategory.findMany({
             where,
             orderBy: { order: 'asc' },
-            select: CATEGORY_SELECT,
+            select: {
+                ...CATEGORY_SELECT,
+                _count: {
+                    select: {
+                        services: normalizedCode
+                            ? {
+                                  where: {
+                                      service: {
+                                          active: true,
+                                          country: { code: normalizedCode },
+                                      },
+                                  },
+                              }
+                            : { where: { service: { active: true } } },
+                    },
+                },
+            },
         });
+
+        return categories.map(({ _count, ...rest }) => ({
+            ...rest,
+            serviceCount: _count.services,
+        }));
     }
 
     async findById(id: string) {

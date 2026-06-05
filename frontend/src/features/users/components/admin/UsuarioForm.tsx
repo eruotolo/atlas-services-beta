@@ -127,7 +127,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
             {usuario && <input type="hidden" name="id" value={usuario.id} />}
 
             {error && (
-                <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
+                <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-600">
                     {error}
                 </div>
             )}
@@ -135,7 +135,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
             <div>
                 <label
                     htmlFor={`${id}-nombre`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
+                    className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase"
                 >
                     Nombre
                 </label>
@@ -145,14 +145,14 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                     name="nombre"
                     defaultValue={usuario?.nombre}
                     required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none"
                 />
             </div>
 
             <div>
                 <label
                     htmlFor={`${id}-email`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
+                    className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase"
                 >
                     Email
                 </label>
@@ -162,14 +162,14 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                     name="email"
                     defaultValue={usuario?.email}
                     required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none"
                 />
             </div>
 
             <div>
                 <label
                     htmlFor={`${id}-password`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
+                    className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase"
                 >
                     Contraseña {usuario && '(opcional)'}
                 </label>
@@ -180,12 +180,12 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                         name="password"
                         required={!usuario}
                         placeholder={usuario ? 'Dejar vacío para no cambiar' : ''}
-                        className="w-full rounded-xl border border-gray-200 px-4 py-2.5 pr-12 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                        className="w-full rounded-xl border border-line bg-bg px-4 py-2.5 pr-12 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none"
                     />
                     <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-600 focus:outline-none dark:hover:text-gray-200"
+                        className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer text-muted hover:text-sub focus:outline-none"
                     >
                         {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
@@ -195,7 +195,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
             <div>
                 <label
                     htmlFor={`${id}-telefono`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
+                    className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase"
                 >
                     Teléfono
                 </label>
@@ -204,12 +204,12 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                     id={`${id}-telefono`}
                     name="telefono"
                     defaultValue={usuario?.telefono || ''}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-line bg-bg px-4 py-2.5 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none"
                 />
             </div>
 
             <div>
-                <span className="mb-3 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500">
+                <span className="mb-3 block text-xs font-black tracking-wider text-sub uppercase">
                     Roles
                 </span>
                 <div className="flex flex-wrap gap-4">
@@ -221,9 +221,9 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                                 value={role.id}
                                 checked={selectedRoles.includes(role.id)}
                                 onChange={() => handleRoleToggle(role.id)}
-                                className="h-4 w-4 rounded border-gray-300 text-brand focus:ring-2 focus:ring-brand/20 dark:border-white/10 dark:bg-gray-800"
+                                className="h-4 w-4 rounded border-line bg-tint text-brand focus:ring-2 focus:ring-brand/20"
                             />
-                            <span className="text-xs font-bold text-gray-700 dark:text-gray-400">
+                            <span className="text-xs font-bold text-sub">
                                 {role.nombre}
                             </span>
                         </label>
@@ -231,12 +231,12 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                 </div>
             </div>
 
-            <div className="flex justify-end gap-3 border-t pt-4 dark:border-white/5">
+            <div className="flex justify-end gap-3 border-t border-line pt-4">
                 <button
                     type="button"
                     onClick={onCancel}
                     disabled={loading}
-                    className="cursor-pointer rounded-xl border border-gray-200 px-6 py-2.5 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:text-gray-400 dark:hover:bg-gray-800"
+                    className="cursor-pointer rounded-xl border border-line px-6 py-2.5 text-xs font-bold text-sub transition-colors hover:bg-tint disabled:opacity-50"
                 >
                     Cancelar
                 </button>

@@ -41,8 +41,8 @@ export default function FavoriteButton({
             disabled={isPending}
             className={`group rounded-full border transition-all duration-300 ${
                 optimisticFavorite
-                    ? 'border-red-200 bg-red-50 text-red-500 shadow-sm shadow-red-100 dark:border-red-500/30 dark:bg-red-500/15 dark:text-red-400 dark:shadow-none'
-                    : 'border-gray-100 bg-white text-gray-400 hover:border-red-200 hover:bg-red-50 hover:text-red-500 dark:border-white/10 dark:bg-gray-900/40 dark:text-gray-500 dark:hover:border-red-500/30 dark:hover:bg-red-500/15 dark:hover:text-red-400'
+                    ? 'border-red-200 bg-red-50 text-red-500 shadow-sm shadow-red-100'
+                    : 'border-line bg-bg text-muted hover:border-red-200 hover:bg-red-50 hover:text-red-500'
             } ${isSmall ? 'p-1.5' : 'p-2.5 md:p-3'} ${isPending ? 'cursor-wait opacity-70' : 'cursor-pointer'}`}
             title={optimisticFavorite ? 'Quitar de favoritos' : 'Guardar en favoritos'}
         >

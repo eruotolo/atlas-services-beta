@@ -10,6 +10,7 @@ declare module 'next-auth' {
             backendToken: string;
             backendRefreshToken: string;
         } & DefaultSession['user'];
+        error?: 'RefreshTokenExpired' | 'GoogleBackendError';
     }
 
     interface User {
@@ -33,5 +34,6 @@ declare module 'next-auth/jwt' {
         backendToken: string;
         backendRefreshToken: string;
         backendTokenExpires?: number;
+        error?: 'RefreshTokenExpired' | 'GoogleBackendError';
     }
 }

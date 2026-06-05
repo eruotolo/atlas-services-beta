@@ -1,5 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Patch,
+    Post,
+    Query,
+    UseGuards,
+} from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { Roles } from '@common/decorators/roles.decorator';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
@@ -14,8 +24,12 @@ export class PricesController {
     constructor(private readonly service: PricesService) {}
 
     @Get()
-    @ApiOperation({ summary: 'Listar precios premium activos' })
-    findAll() {
+    @ApiOperation({ summary: 'Listar precios premium activos (opcional por país)' })
+    @ApiQuery({ name: 'countryCode', required: false, example: 'cl' })
+    findAll(@Query('countryCode') countryCode?: string) {
+        if (countryCode) {
+            return this.service.findAllByCountry(countryCode);
+        }
         return this.service.findAll();
     }
 

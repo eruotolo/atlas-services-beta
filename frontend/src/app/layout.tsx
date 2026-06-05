@@ -1,37 +1,47 @@
-import { Inter } from 'next/font/google';
+import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
 
 import type { Metadata } from 'next';
-import { getServerSession } from 'next-auth';
 import { headers } from 'next/headers';
 
-import Footer from '@/shared/components/layout/Footer';
-import Navbar from '@/shared/components/layout/Navbar';
 import ScrollToTop from '@/shared/components/ui/ScrollToTop';
 import { ToastProvider } from '@/shared/components/ui/ToastProvider';
-import { SubscriptionLevel } from '@/shared/types/common';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Providers } from '@/lib/providers/Providers';
 
 import './globals.css';
 
-const inter = Inter({
+const geistSans = Geist({
     subsets: ['latin'],
-    variable: '--font-inter',
-    weight: ['300', '400', '500', '600', '700'],
+    variable: '--font-geist',
+    weight: ['300', '400', '500', '600', '700', '800', '900'],
+    display: 'swap',
+});
+
+const geistMono = Geist_Mono({
+    subsets: ['latin'],
+    variable: '--font-geist-mono',
+    weight: ['400', '500', '600'],
+    display: 'swap',
+});
+
+const instrumentSerif = Instrument_Serif({
+    subsets: ['latin'],
+    variable: '--font-instrument-serif',
+    weight: ['400'],
+    style: ['normal', 'italic'],
     display: 'swap',
 });
 
 // Configuración global del sitio
 const siteConfig = {
-    name: 'Atlas Servicios',
+    name: 'Hireeo',
     description:
         'Encuentra electricistas, carpinteros, gasfíter, fletes y más profesionales verificados cerca de ti.',
-    url: process.env.NEXT_PUBLIC_APP_URL || 'https://www.atlasservicios.cl',
-    ogImage: '/atlas-og.png',
+    url: process.env.NEXT_PUBLIC_APP_URL || 'https://hireeo.app',
+    ogImage: '/hireeo-og.png',
     links: {
-        twitter: 'https://twitter.com/atlasservicios',
-        github: 'https://github.com/atlasservicios',
+        twitter: 'https://twitter.com/hireeo',
+        github: 'https://github.com/hireeo',
     },
 };
 
@@ -43,13 +53,13 @@ export const metadata: Metadata = {
     },
     description: siteConfig.description,
     other: {
-        'DC.title': 'Atlas Servicios - Directorio de Profesionales',
+        'DC.title': 'Hireeo - Directorio de Profesionales',
         'DC.description':
             'Plataforma que conecta usuarios con proveedores de servicios profesionales. Gasfíter, electricista, carpintero, fletes y más.',
         'DC.subject': 'Directorio servicios, Profesionales, Servicios hogar, Oficios manuales',
     },
     keywords: [
-        'Atlas Servicios',
+        'Hireeo',
         'Directorio de servicios',
         'Gasfíter',
         'Electricista',
@@ -60,8 +70,8 @@ export const metadata: Metadata = {
         'Servicios a domicilio',
         'Presupuestos gratis',
     ],
-    authors: [{ name: 'Atlas Servicios', url: siteConfig.url }],
-    creator: 'Atlas Servicios',
+    authors: [{ name: 'Hireeo', url: siteConfig.url }],
+    creator: 'Hireeo',
     openGraph: {
         type: 'website',
         locale: 'es_CL',
@@ -74,7 +84,7 @@ export const metadata: Metadata = {
                 url: siteConfig.ogImage,
                 width: 1200,
                 height: 630,
-                alt: 'Atlas Servicios - Directorio de Profesionales',
+                alt: 'Hireeo - Directorio de Profesionales',
             },
         ],
     },
@@ -83,7 +93,7 @@ export const metadata: Metadata = {
         title: siteConfig.name,
         description: siteConfig.description,
         images: [siteConfig.ogImage],
-        creator: '@atlasservicios',
+        creator: '@hireeo',
     },
     icons: {
         icon: [
@@ -113,25 +123,8 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const [session, headersList] = await Promise.all([
-        getServerSession(authOptions),
-        headers(),
-    ]);
-    const lang = headersList.get('x-atlas-lang') ?? 'es';
-
-    const currentUser = session?.user
-        ? {
-              id: session.user.id,
-              email: session.user.email || '',
-              name: session.user.name || '',
-              role: session.user.roles?.includes('SuperAdministrador')
-                  ? ('admin' as const)
-                  : ('usuario' as const),
-              subscription:
-                  (session.user.nivelSuscripcion as unknown as SubscriptionLevel) ||
-                  SubscriptionLevel.BASICO,
-          }
-        : null;
+    const headersList = await headers();
+    const lang = headersList.get('x-hireeo-lang') ?? 'es';
 
     const webSiteSchema = {
         '@context': 'https://schema.org',
@@ -161,13 +154,17 @@ export default async function RootLayout({
             height: 800,
         },
         description: siteConfig.description,
-        email: 'info@atlasservicios.cl',
+        email: 'info@hireeo.app',
         foundingDate: '2025',
         sameAs: [siteConfig.links.twitter, siteConfig.links.github],
     };
 
     return (
-        <html lang={lang} suppressHydrationWarning>
+        <html
+            lang={lang}
+            suppressHydrationWarning
+            className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
+        >
             <head>
                 <link rel="preconnect" href="https://www.googletagmanager.com" />
                 <link rel="preconnect" href="https://www.google-analytics.com" />
@@ -198,7 +195,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     }}
                 />
             </head>
-            <body className={`${inter.className} antialiased`}>
+            <body className={`${geistSans.className} antialiased`}>
                 <noscript>
                     <iframe
                         src="https://www.googletagmanager.com/ns.html?id=GTM-PT2PFWF9"
@@ -220,11 +217,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 />
                 <Providers>
                     <ToastProvider>
-                        <div className="flex min-h-screen flex-col">
-                            <Navbar user={currentUser} />
-                            <main className="page-fade-in flex-grow">{children}</main>
-                            <Footer />
-                        </div>
+                        {children}
                         <ScrollToTop />
                     </ToastProvider>
                 </Providers>

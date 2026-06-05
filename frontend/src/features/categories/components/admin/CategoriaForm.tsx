@@ -82,7 +82,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
             {categoria && <input type="hidden" name="id" value={categoria.id} />}
 
             {error && (
-                <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
+                <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-600">
                     {error}
                 </div>
             )}
@@ -90,7 +90,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
             <div>
                 <label
                     htmlFor={nombreId}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
+                    className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase"
                 >
                     Nombre de la Categoría
                 </label>
@@ -101,29 +101,29 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                     defaultValue={categoria?.nombre}
                     required
                     placeholder="Ej: Gasfitería"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-line px-4 py-2.5 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none bg-bg"
                 />
             </div>
 
             <div className="relative">
-                <span className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500">
+                <span className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase">
                     Icono
                 </span>
                 <div className="flex gap-3">
                     <button
                         type="button"
                         onClick={() => setShowIconPicker(!showIconPicker)}
-                        className="flex w-full cursor-pointer items-center justify-between rounded-xl border border-gray-200 px-4 py-2.5 text-left text-gray-900 transition-all hover:bg-gray-50 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+                        className="flex w-full cursor-pointer items-center justify-between rounded-xl border border-line px-4 py-2.5 text-left text-ink transition-all hover:bg-tint focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none bg-bg"
                     >
                         <span className="flex items-center gap-3">
                             {selectedIcon ? (
                                 <CategoryIcon
                                     name={selectedIcon}
-                                    className="text-brand dark:text-brand-light"
+                                    className="text-brand "
                                     size={20}
                                 />
                             ) : (
-                                <span className="text-gray-400 dark:text-gray-600">
+                                <span className="text-muted">
                                     Seleccionar icono...
                                 </span>
                             )}
@@ -131,7 +131,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                                 {selectedIcon || 'Sin icono'}
                             </span>
                         </span>
-                        <span className="text-xs font-bold text-brand dark:text-brand-light">
+                        <span className="text-xs font-bold text-brand ">
                             Cambiar
                         </span>
                     </button>
@@ -139,7 +139,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                         <button
                             type="button"
                             onClick={() => setSelectedIcon('')}
-                            className="cursor-pointer rounded-xl border border-gray-200 p-2.5 text-gray-400 hover:bg-red-50 hover:text-red-600 dark:border-white/5 dark:hover:bg-red-950/30"
+                            className="cursor-pointer rounded-xl border border-line p-2.5 text-muted hover:bg-red-50 hover:text-red-600"
                             title="Quitar icono"
                         >
                             <X size={20} />
@@ -149,10 +149,10 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
 
                 {/* Icon Picker Dropdown */}
                 {showIconPicker && (
-                    <div className="mt-4 w-full overflow-hidden rounded-2xl border border-gray-100 bg-gray-50/50 dark:border-white/5 dark:bg-gray-800/50">
-                        <div className="border-b border-gray-100 p-3 dark:border-white/5">
-                            <div className="flex items-center gap-2 rounded-xl bg-gray-50 px-3 py-2 dark:bg-gray-800">
-                                <Search size={16} className="text-gray-400 dark:text-gray-600" />
+                    <div className="mt-4 w-full overflow-hidden rounded-2xl border border-line bg-tint/50">
+                        <div className="border-b border-line p-3">
+                            <div className="flex items-center gap-2 rounded-xl bg-tint px-3 py-2">
+                                <Search size={16} className="text-muted" />
                                 <input
                                     type="text"
                                     placeholder="Buscar icono..."
@@ -161,7 +161,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                                         setIconSearch(e.target.value);
                                         setVisibleLimit(50);
                                     }}
-                                    className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400 dark:text-white"
+                                    className="w-full bg-transparent text-sm outline-none placeholder:text-muted text-ink"
                                 />
                             </div>
                         </div>
@@ -178,8 +178,8 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                                         }}
                                         className={`flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl p-2 transition-all ${
                                             isSelected
-                                                ? 'bg-brand/5 text-brand ring-2 ring-brand ring-offset-1 dark:bg-brand-marino/30 dark:text-brand-light dark:ring-brand dark:ring-offset-gray-900'
-                                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200'
+                                                ? 'bg-brand/5 text-brand ring-2 ring-brand ring-offset-1'
+                                                : 'text-sub hover:bg-tint hover:text-ink'
                                         }`}
                                         title={iconName}
                                     >
@@ -191,13 +191,13 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                                 <button
                                     type="button"
                                     onClick={() => setVisibleLimit((prev) => prev + 50)}
-                                    className="col-span-full mt-2 cursor-pointer rounded-lg bg-gray-100 py-2 text-xs font-medium text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                                    className="col-span-full mt-2 cursor-pointer rounded-lg bg-tint py-2 text-xs font-medium text-sub hover:bg-line"
                                 >
                                     Cargar más ({filteredIcons.length - visibleLimit} restantes)
                                 </button>
                             )}
                             {filteredIcons.length === 0 && (
-                                <div className="col-span-full py-4 text-center text-xs text-gray-400">
+                                <div className="col-span-full py-4 text-center text-xs text-muted">
                                     No se encontraron iconos
                                 </div>
                             )}
@@ -209,7 +209,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
             <div>
                 <label
                     htmlFor={ordenId}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
+                    className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase"
                 >
                     Orden
                 </label>
@@ -219,19 +219,19 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                     name="orden"
                     defaultValue={categoria?.orden || 0}
                     required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-xl border border-line px-4 py-2.5 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none bg-bg"
                 />
-                <p className="mt-1 text-[10px] tracking-tight text-gray-400 uppercase">
+                <p className="mt-1 text-[10px] tracking-tight text-muted uppercase">
                     Menor número aparece primero.
                 </p>
             </div>
 
-            <div className="flex justify-end gap-3 border-t pt-4 dark:border-white/5">
+            <div className="flex justify-end gap-3 border-t border-line pt-4">
                 <button
                     type="button"
                     onClick={onCancel}
                     disabled={loading}
-                    className="cursor-pointer rounded-xl border border-gray-200 px-6 py-2.5 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:text-gray-400 dark:hover:bg-gray-800"
+                    className="cursor-pointer rounded-xl border border-line px-6 py-2.5 text-xs font-bold text-sub transition-colors hover:bg-tint disabled:opacity-50"
                 >
                     Cancelar
                 </button>

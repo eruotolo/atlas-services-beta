@@ -36,7 +36,7 @@ function checkAccess(userRoles: string[], requiredRoles: string[]): boolean {
 }
 
 function detectCountry(request: NextRequest): string {
-    const cookie = request.cookies.get('atlas_country')?.value;
+    const cookie = request.cookies.get('hireeo_country')?.value;
     if (cookie && SUPPORTED_COUNTRIES.includes(cookie)) return cookie;
 
     const cf = request.headers.get('cf-ipcountry')?.toLowerCase();
@@ -126,7 +126,7 @@ export default async function proxy(req: NextRequest) {
     }
 
     const response = NextResponse.next();
-    response.headers.set('x-atlas-lang', firstSegment === 'us' ? 'en' : 'es');
+    response.headers.set('x-hireeo-lang', firstSegment === 'us' ? 'en' : 'es');
     return response;
 }
 

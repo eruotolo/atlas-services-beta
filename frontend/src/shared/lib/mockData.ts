@@ -3,14 +3,14 @@ import { type Service, SubscriptionLevel, type User } from '@/shared/types/commo
 export const mockUsers: User[] = [
     {
         id: 'u1',
-        email: 'juan@atlas-services.com',
+        email: 'juan@hireeo.app',
         name: 'Juan Perez',
         role: 'proveedor',
         subscription: SubscriptionLevel.BASICO,
     },
     {
         id: 'u2',
-        email: 'maria@atlas-services.com',
+        email: 'maria@hireeo.app',
         name: 'Maria Soto',
         role: 'usuario',
         subscription: SubscriptionLevel.BASICO,
@@ -89,7 +89,7 @@ export const mockServices: Service[] = [
 export const mockSponsors = [
     {
         id: 'ms1',
-        nombre: 'Constructora Atlas',
+        nombre: 'Constructora Andina',
         imagenUrl:
             'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&q=80&w=1000',
         linkExterno: '#',

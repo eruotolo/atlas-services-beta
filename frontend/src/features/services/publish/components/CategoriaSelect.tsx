@@ -59,19 +59,19 @@ export default function CategoriaSelect({
             <div className="relative">
                 <Tag
                     size={18}
-                    className="pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-gray-400"
+                    className="pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-muted"
                 />
                 <button
                     type="button"
                     onClick={() => !disabled && setIsOpen(!isOpen)}
                     disabled={disabled}
-                    className="w-full cursor-pointer appearance-none rounded-2xl border border-gray-200 bg-white py-3 pr-12 pl-12 text-left text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none disabled:cursor-wait disabled:bg-gray-100 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:disabled:bg-gray-900"
+                    className="w-full cursor-pointer appearance-none rounded-2xl border border-line bg-bg py-3 pr-12 pl-12 text-left text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none disabled:cursor-wait disabled:bg-tint"
                 >
                     {selectedCategoria ? selectedCategoria.nombre : 'Selecciona una categoría'}
                 </button>
                 <ChevronDown
                     size={18}
-                    className={`pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 transition-transform ${
+                    className={`pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-muted transition-transform ${
                         isOpen ? 'rotate-180' : ''
                     }`}
                 />
@@ -90,20 +90,20 @@ export default function CategoriaSelect({
 
             {/* Dropdown */}
             {isOpen && (
-                <div className="absolute z-50 mt-2 w-full rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-white/10 dark:bg-gray-900 dark:shadow-none">
+                <div className="absolute z-50 mt-2 w-full rounded-2xl border border-line bg-bg shadow-lg">
                     {/* Input de búsqueda */}
-                    <div className="border-b border-gray-200 p-3 dark:border-white/5">
+                    <div className="border-b border-line p-3">
                         <div className="relative">
                             <Search
                                 size={18}
-                                className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
+                                className="absolute top-1/2 left-3 -translate-y-1/2 text-muted"
                             />
                             <input
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 placeholder="Buscar categoría..."
-                                className="w-full rounded-xl border border-gray-200 py-2 pr-3 pl-10 text-sm focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                                className="w-full rounded-xl border border-line py-2 pr-3 pl-10 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none"
                             />
                         </div>
                     </div>
@@ -116,17 +116,17 @@ export default function CategoriaSelect({
                                     key={cat.id}
                                     type="button"
                                     onClick={() => handleSelect(cat.id)}
-                                    className={`w-full cursor-pointer px-4 py-3 text-left text-sm transition-colors hover:bg-brand/5 dark:hover:bg-brand/10 ${
+                                    className={`w-full cursor-pointer px-4 py-3 text-left text-sm transition-colors hover:bg-brand/5 ${
                                         cat.id === value
-                                            ? 'bg-brand/5 font-semibold text-brand-hover dark:bg-brand-marino/40 dark:text-brand-light'
-                                            : 'text-gray-900 dark:text-gray-300'
+                                            ? 'bg-brand/5 font-semibold text-brand-hover'
+                                            : 'text-ink'
                                     }`}
                                 >
                                     {cat.nombre}
                                 </button>
                             ))
                         ) : (
-                            <div className="px-4 py-3 text-center text-sm text-gray-500 dark:text-gray-500">
+                            <div className="px-4 py-3 text-center text-sm text-muted">
                                 No se encontraron categorías
                             </div>
                         )}

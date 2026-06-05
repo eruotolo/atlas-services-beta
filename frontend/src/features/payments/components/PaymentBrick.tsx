@@ -118,26 +118,26 @@ export default function PaymentBrick({
     return (
         <div>
             <div className="mb-8 text-center">
-                <h2 className="mb-2 text-3xl font-black text-gray-900 dark:text-white">
+                <h2 className="mb-2 text-3xl font-black text-ink">
                     Confirmar Pago
                 </h2>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-sub">
                     Ingresa los datos de tu tarjeta para continuar
                 </p>
             </div>
 
             {error && (
-                <div className="mb-6 rounded-2xl border-2 border-red-200 bg-red-50 p-6 dark:border-red-900/30 dark:bg-red-900/20">
+                <div className="mb-6 rounded-2xl border-2 border-red-200 bg-red-50 p-6">
                     <div className="flex items-start gap-3">
                         <AlertCircle
                             size={24}
-                            className="mt-1 shrink-0 text-red-600 dark:text-red-400"
+                            className="mt-1 shrink-0 text-red-600"
                         />
                         <div className="flex-1">
-                            <h3 className="mb-2 font-bold text-red-900 dark:text-red-300">
+                            <h3 className="mb-2 font-bold text-red-900">
                                 Error al Cargar Formulario de Pago
                             </h3>
-                            <div className="text-sm whitespace-pre-line text-red-700 dark:text-red-400">
+                            <div className="text-sm whitespace-pre-line text-red-700">
                                 {error}
                             </div>
                         </div>
@@ -145,51 +145,51 @@ export default function PaymentBrick({
                 </div>
             )}
 
-            <div className="mb-6 rounded-[2rem] border border-gray-200 bg-white p-8 dark:border-white/10 dark:bg-gray-900/40 dark:backdrop-blur-xl">
-                <h3 className="mb-4 text-lg font-black text-gray-900 dark:text-white">
+            <div className="mb-6 rounded-[2rem] border border-line bg-bg p-8">
+                <h3 className="mb-4 text-lg font-black text-ink">
                     Resumen del Pedido
                 </h3>
 
                 <div className="mb-6 space-y-3">
                     <div className="flex justify-between text-sm">
-                        <span className="text-gray-600 dark:text-gray-400">Plan seleccionado:</span>
-                        <span className="font-bold text-gray-900 dark:text-white">
+                        <span className="text-sub">Plan seleccionado:</span>
+                        <span className="font-bold text-ink">
                             Premium {duracionMeses} {duracionMeses === 1 ? 'mes' : 'meses'}
                         </span>
                     </div>
                     <div className="flex justify-between text-sm">
-                        <span className="text-gray-600 dark:text-gray-400">Precio por mes:</span>
-                        <span className="font-bold text-gray-900 dark:text-white">
+                        <span className="text-sub">Precio por mes:</span>
+                        <span className="font-bold text-ink">
                             ${Math.round(precio / duracionMeses).toLocaleString('es-CL')}
                         </span>
                     </div>
-                    <div className="flex justify-between border-t border-gray-100 pt-3 dark:border-white/5">
-                        <span className="font-bold text-gray-900 dark:text-white">
+                    <div className="flex justify-between border-t border-line pt-3">
+                        <span className="font-bold text-ink">
                             Total a pagar:
                         </span>
-                        <span className="text-2xl font-black text-brand dark:text-brand-light">
+                        <span className="text-2xl font-black text-brand">
                             ${precio.toLocaleString('es-CL')}
                         </span>
                     </div>
                 </div>
 
-                <div className="mb-6 rounded-xl bg-brand/5 p-4 dark:bg-brand/10">
+                <div className="mb-6 rounded-xl bg-brand/5 p-4">
                     <div className="flex items-start gap-3">
                         <CheckCircle2
                             size={20}
-                            className="mt-0.5 shrink-0 text-brand dark:text-brand-light"
+                            className="mt-0.5 shrink-0 text-brand"
                         />
-                        <p className="text-sm font-medium text-brand-marino dark:text-brand-light">
+                        <p className="text-sm font-medium text-brand-marino">
                             Tu servicio será destacado inmediatamente después del pago
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div className="mb-6 rounded-[2rem] border border-gray-200 bg-white p-8 dark:border-white/10 dark:bg-gray-900/40">
+            <div className="mb-6 rounded-[2rem] border border-line bg-bg p-8">
                 <div className="mb-4 flex items-center gap-2">
-                    <CreditCard size={24} className="text-brand dark:text-brand-light" />
-                    <h3 className="text-lg font-black text-gray-900 dark:text-white">
+                    <CreditCard size={24} className="text-brand" />
+                    <h3 className="text-lg font-black text-ink">
                         Datos de Pago
                     </h3>
                 </div>
@@ -198,7 +198,7 @@ export default function PaymentBrick({
                     <div className="flex items-center justify-center py-12">
                         <Loader2
                             size={32}
-                            className="animate-spin text-brand dark:text-brand-light"
+                            className="animate-spin text-brand"
                         />
                     </div>
                 )}
@@ -222,7 +222,7 @@ export default function PaymentBrick({
                 )}
 
                 {loading && (
-                    <div className="mt-4 flex items-center justify-center gap-2 text-brand dark:text-brand-light">
+                    <div className="mt-4 flex items-center justify-center gap-2 text-brand">
                         <Loader2 size={20} className="animate-spin" />
                         <span className="text-sm font-medium">Procesando pago...</span>
                     </div>
@@ -234,7 +234,7 @@ export default function PaymentBrick({
                     type="button"
                     onClick={onCancel}
                     disabled={loading}
-                    className="flex-1 cursor-pointer rounded-2xl border border-gray-200 px-6 py-4 font-bold text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:text-gray-300 dark:hover:bg-gray-800"
+                    className="flex-1 cursor-pointer rounded-2xl border border-line px-6 py-4 font-bold text-sub transition-colors hover:bg-tint disabled:opacity-50"
                 >
                     Cancelar
                 </button>

@@ -1,7 +1,7 @@
 import type React from 'react';
 
 import { getPageDictionary } from '@/lib/i18n/getPageDictionary';
-import ContactView from '@/app/(public)/(estaticas)/contacto/ContactView';
+import ContactView from '@/features/contact/components/ContactView';
 
 interface ContactoDict {
     title: string;

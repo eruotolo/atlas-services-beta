@@ -1,6 +1,6 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 
@@ -40,7 +40,7 @@ async function bootstrap() {
     app.useGlobalFilters(new PrismaExceptionFilter());
 
     // Interceptor global: elimina campos sensibles (password, etc.)
-    app.useGlobalInterceptors(new SerializeInterceptor());
+    app.useGlobalInterceptors(new SerializeInterceptor(app.get(Reflector)));
 
     // Validación global de DTOs
     app.useGlobalPipes(
@@ -57,8 +57,8 @@ async function bootstrap() {
     // Swagger — solo en desarrollo
     if (nodeEnv !== 'production') {
         const config = new DocumentBuilder()
-            .setTitle('Atlas Services API')
-            .setDescription('API REST para la plataforma Chiloé Servicios')
+            .setTitle('Hireeo API')
+            .setDescription('API REST para la plataforma Hireeo')
             .setVersion('1.0')
             .addApiKey({ type: 'apiKey', in: 'header', name: 'X-API-Key' }, 'api-key')
             .addBearerAuth(

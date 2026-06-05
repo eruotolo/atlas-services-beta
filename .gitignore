@@ -28,6 +28,7 @@
 # misc
 .DS_Store
 *.pem
+.tmp/
 
 # debug logs
 npm-debug.log*
@@ -58,9 +59,17 @@ next-env.d.ts
 # IDEs
 .idea/
 .vscode/
+.codegraph/
+
+# Claude Code — configuración local, memoria y agentes
+.claude/
 
 # Internal Tools & Scripts
 /scripts/
 
 # Docker — datos persistidos de PostgreSQL
 docker-database/postgres-data/
+
+# Prototipo de diseño (referencia, no parte del código fuente)
+NuevoHireeoApp/
+Nuevo Hireeo App.zip

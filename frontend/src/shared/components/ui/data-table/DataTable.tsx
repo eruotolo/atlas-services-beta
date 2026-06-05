@@ -2,6 +2,9 @@
 
 import type React from 'react';
 
+import { Btn } from '@/shared/components/hireeo/Btn';
+import { Input } from '@/shared/components/hireeo/Input';
+
 export interface Column<T> {
     header: string;
     accessorKey?: keyof T;
@@ -53,35 +56,21 @@ export default function DataTable<T extends { id: string }>({
             {/* Header con título, búsqueda y acciones */}
             <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 {title && (
-                    <h2 className="text-2xl font-black text-gray-900 dark:text-white">
+                    <h2 className="text-2xl font-black text-ink">
                         {title}
                         {totalCount !== undefined && ` (${totalCount})`}
                     </h2>
                 )}
-                <div className="flex gap-4">
+                <div className="flex items-center gap-3">
                     {onSearchChange && (
-                        <div className="relative">
-                            <input
+                        <div className="w-full sm:w-72">
+                            <Input
+                                icon="search"
                                 type="text"
                                 placeholder={searchPlaceholder}
                                 value={searchValue}
                                 onChange={(e) => onSearchChange(e.target.value)}
-                                className="w-full rounded-2xl border border-gray-200 py-3 pr-4 pl-10 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20 dark:border-white/10 dark:bg-gray-900/40 dark:text-white"
                             />
-                            <svg
-                                className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400 dark:text-gray-600"
-                                width="20"
-                                height="20"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <title>Buscar</title>
-                                <circle cx="11" cy="11" r="8" />
-                                <path d="m21 21-4.35-4.35" />
-                            </svg>
                         </div>
                     )}
                     {actionButton}
@@ -89,26 +78,26 @@ export default function DataTable<T extends { id: string }>({
             </div>
 
             {/* Tabla */}
-            <div className="overflow-x-auto rounded-3xl border border-gray-100 shadow-sm dark:border-white/10 dark:bg-gray-900/40 dark:backdrop-blur-xl">
+            <div className="overflow-x-auto rounded-xl border border-line bg-bg">
                 <table className="w-full text-left text-sm">
-                    <thead className="border-b border-gray-100 bg-gray-50/50 text-xs text-gray-500 uppercase dark:border-white/5 dark:bg-gray-800/50 dark:text-gray-400">
+                    <thead className="border-b border-line bg-tint font-mono text-[10.5px] tracking-[0.08em] text-sub uppercase">
                         <tr>
                             {columns.map((column) => (
                                 <th
                                     key={column.accessorKey?.toString() || column.header}
-                                    className={`px-6 py-4 ${column.className || ''}`}
+                                    className={`px-6 py-3 font-semibold ${column.className || ''}`}
                                 >
                                     {column.header}
                                 </th>
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 bg-white dark:divide-white/5 dark:bg-transparent">
+                    <tbody className="bg-bg">
                         {isLoading ? (
                             <tr>
                                 <td
                                     colSpan={columns.length}
-                                    className="bg-white py-12 text-center text-gray-500 dark:bg-transparent dark:text-gray-500"
+                                    className="py-12 text-center text-muted"
                                 >
                                     Cargando...
                                 </td>
@@ -117,7 +106,7 @@ export default function DataTable<T extends { id: string }>({
                             <tr>
                                 <td
                                     colSpan={columns.length}
-                                    className="bg-white py-12 text-center text-gray-500 dark:bg-transparent dark:text-gray-500"
+                                    className="py-12 text-center text-muted"
                                 >
                                     {searchValue
                                         ? 'No se encontraron resultados'
@@ -128,7 +117,7 @@ export default function DataTable<T extends { id: string }>({
                             data.map((item) => (
                                 <tr
                                     key={item.id}
-                                    className="transition-colors hover:bg-gray-50/50 dark:hover:bg-white/5"
+                                    className="border-t border-line transition-colors hover:bg-tint"
                                 >
                                     {columns.map((column) => (
                                         <td
@@ -152,26 +141,28 @@ export default function DataTable<T extends { id: string }>({
             {/* Paginación */}
             {pageCount > 1 && (
                 <div className="mt-6 flex items-center justify-between">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-sub">
                         Página {currentPage} de {pageCount}
                     </p>
                     <div className="flex gap-2">
-                        <button
-                            type="button"
+                        <Btn
+                            variant="secondary"
+                            size="sm"
+                            icon="arrowLeft"
                             onClick={() => onPageChange(currentPage - 1)}
                             disabled={currentPage === 1}
-                            className="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-white/10 dark:text-gray-300 dark:hover:bg-white/5"
                         >
                             Anterior
-                        </button>
-                        <button
-                            type="button"
+                        </Btn>
+                        <Btn
+                            variant="secondary"
+                            size="sm"
+                            iconRight="arrow"
                             onClick={() => onPageChange(currentPage + 1)}
                             disabled={currentPage === pageCount}
-                            className="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50 dark:border-white/10 dark:text-gray-300 dark:hover:bg-white/5"
                         >
                             Siguiente
-                        </button>
+                        </Btn>
                     </div>
                 </div>
             )}

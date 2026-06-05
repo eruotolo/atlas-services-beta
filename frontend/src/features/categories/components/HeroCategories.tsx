@@ -21,12 +21,12 @@ export default function HeroCategories({ categories }: HeroCategoriesProps) {
                         <Link
                             key={cat.name}
                             href={`/buscar?c=${cat.category}`}
-                            className="stagger-item flex items-center gap-2 rounded-2xl border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 shadow-lg transition-all hover:border-brand hover:text-brand hover:shadow-xl dark:border-white/10 dark:bg-gray-900/80 dark:text-gray-100 dark:backdrop-blur-md dark:hover:border-brand dark:hover:text-brand-light"
+                            className="stagger-item flex items-center gap-2 rounded-2xl border border-line bg-bg px-6 py-3 text-sm font-semibold text-sub shadow-lg transition-all hover:border-brand hover:text-brand hover:shadow-xl"
                         >
                             <CategoryIcon
                                 name={cat.iconName}
                                 size={18}
-                                className="text-brand dark:text-brand-light"
+                                className="text-brand"
                             />
                             {cat.name}
                         </Link>

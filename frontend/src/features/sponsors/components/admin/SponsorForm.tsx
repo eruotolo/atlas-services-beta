@@ -1,16 +1,15 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useState } from 'react';
 
 import Image from 'next/image';
 
 import { Upload, X } from 'lucide-react';
 
-import type { CategoriaSponsor } from '../../types/sponsorTypes';
-
 import { actualizarSponsor, crearSponsor } from '@/features/sponsors/actions';
+import { Btn, Field, Input, Select } from '@/shared/components/hireeo';
 
-import type { Sponsor } from '../../types/sponsorTypes';
+import type { CategoriaSponsor, Sponsor } from '../../types/sponsorTypes';
 
 interface SponsorFormProps {
     sponsor?: Sponsor;
@@ -25,14 +24,6 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
     const [previewUrl, setPreviewUrl] = useState<string | null>(sponsor?.imagenUrl || null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [charCount, setCharCount] = useState(sponsor?.descripcion?.length || 0);
-
-    const nombreId = useId();
-    const logoId = useId();
-    const linkId = useId();
-    const descId = useId();
-    const inicioId = useId();
-    const finId = useId();
-    const nivelId = useId();
 
     function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
         const file = e.target.files?.[0];
@@ -132,35 +123,23 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
             {sponsor && <input type="hidden" name="id" value={sponsor.id} />}
 
             {error && (
-                <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
+                <div
+                    className="rounded-xl border p-4 text-sm"
+                    style={{
+                        borderColor: 'var(--danger)',
+                        background: 'var(--danger-soft)',
+                        color: 'var(--danger)',
+                    }}
+                >
                     {error}
                 </div>
             )}
 
-            <div>
-                <label
-                    htmlFor={nombreId}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Nombre del Sponsor
-                </label>
-                <input
-                    type="text"
-                    id={nombreId}
-                    name="nombre"
-                    defaultValue={sponsor?.nombre}
-                    required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
-                />
-            </div>
+            <Field label="Nombre del Sponsor">
+                <Input type="text" name="nombre" defaultValue={sponsor?.nombre} required />
+            </Field>
 
-            <div>
-                <label
-                    htmlFor={logoId}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Logo / Imagen
-                </label>
+            <Field label="Logo / Imagen">
                 <div className="flex flex-col gap-4">
                     {previewUrl && (
                         <div className="relative w-fit">
@@ -169,7 +148,7 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                                 alt="Preview"
                                 width={128}
                                 height={128}
-                                className="h-32 w-auto rounded-xl border border-gray-200 object-contain p-2 dark:border-white/10 dark:bg-gray-800"
+                                className="h-32 w-auto rounded-xl border border-line object-contain p-2"
                             />
                             <button
                                 type="button"
@@ -183,14 +162,13 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                             </button>
                         </div>
                     )}
-                    <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 bg-gray-50 px-4 py-8 hover:bg-gray-100 dark:border-white/10 dark:bg-gray-900/40 dark:hover:bg-gray-800">
-                        <Upload className="text-gray-400" />
-                        <span className="text-xs font-bold text-gray-600 dark:text-gray-400">
+                    <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-line bg-tint px-4 py-8 transition-colors hover:bg-tint/70">
+                        <Upload className="text-muted" />
+                        <span className="text-xs font-bold text-sub">
                             Clic para subir imagen (JPG, PNG)
                         </span>
                         <input
                             type="file"
-                            id={logoId}
                             accept="image/*"
                             onChange={handleFileChange}
                             className="hidden"
@@ -198,131 +176,73 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                         />
                     </label>
                 </div>
-            </div>
+            </Field>
 
-            <div>
-                <label
-                    htmlFor={linkId}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Link Externo (Sitio Web)
-                </label>
-                <input
+            <Field label="Link Externo (Sitio Web)">
+                <Input
                     type="url"
-                    id={linkId}
                     name="linkExterno"
                     defaultValue={sponsor?.linkExterno}
                     required
                     placeholder="https://ejemplo.com"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
-            </div>
+            </Field>
 
-            <div>
-                <div className="mb-1.5 flex items-center justify-between">
-                    <label
-                        htmlFor={descId}
-                        className="text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                    >
-                        Descripción (opcional)
-                    </label>
-                    <span className="text-[10px] font-bold text-gray-400">Máx 170 caracteres.</span>
-                </div>
+            <Field label="Descripción" optional hint="Máx 170 caracteres.">
                 <textarea
-                    id={descId}
                     name="descripcion"
                     defaultValue={sponsor?.descripcion || ''}
                     rows={3}
                     maxLength={170}
                     placeholder="Breve descripción del sponsor..."
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    className="w-full rounded-lg border bg-bg px-3 py-2 text-[13px] outline-none transition-colors placeholder:text-muted focus:border-ink"
+                    style={{ borderColor: 'var(--line)', color: 'var(--ink)' }}
                     onChange={(e) => setCharCount(e.target.value.length)}
                 />
                 <div className="mt-1 text-right">
-                    <span className="text-[10px] font-bold text-gray-400 dark:text-gray-600">
-                        {charCount}/170
-                    </span>
+                    <span className="text-[10px] font-bold text-muted">{charCount}/170</span>
                 </div>
-            </div>
+            </Field>
 
             <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <label
-                        htmlFor={inicioId}
-                        className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                    >
-                        Fecha Inicio
-                    </label>
-                    <input
+                <Field label="Fecha Inicio">
+                    <Input
                         type="date"
-                        id={inicioId}
                         name="fechaInicio"
                         defaultValue={formatDateForInput(sponsor?.fechaInicio || new Date())}
                         required
-                        className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                     />
-                </div>
+                </Field>
 
-                <div>
-                    <label
-                        htmlFor={finId}
-                        className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                    >
-                        Fecha Fin
-                    </label>
-                    <input
+                <Field label="Fecha Fin">
+                    <Input
                         type="date"
-                        id={finId}
                         name="fechaFin"
                         defaultValue={formatDateForInput(sponsor?.fechaFin || null)}
                         required
-                        className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                     />
-                </div>
+                </Field>
             </div>
 
-            <div>
-                <label
-                    htmlFor={nivelId}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Nivel de Sponsor
-                </label>
-                <select
-                    id={nivelId}
+            <Field label="Nivel de Sponsor">
+                <Select
                     name="nivel"
                     value={selectedLevel}
                     onChange={(e) => setSelectedLevel(e.target.value as CategoriaSponsor)}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 >
-                    <option value="STANDARD" className="dark:bg-gray-900">
-                        Standard
-                    </option>
-                    <option value="PREMIUM" className="dark:bg-gray-900">
-                        Premium
-                    </option>
-                    <option value="SENIOR" className="dark:bg-gray-900">
-                        Senior
-                    </option>
-                </select>
-            </div>
+                    <option value="STANDARD">Standard</option>
+                    <option value="PREMIUM">Premium</option>
+                    <option value="SENIOR">Senior</option>
+                </Select>
+            </Field>
 
-            <div className="flex justify-end gap-3 border-t pt-4 dark:border-white/5">
-                <button
-                    type="button"
-                    onClick={onCancel}
-                    disabled={loading}
-                    className="cursor-pointer rounded-xl border border-gray-200 px-6 py-2.5 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:text-gray-400 dark:hover:bg-gray-800"
-                >
+            <div className="flex justify-end gap-3 border-t border-line pt-4">
+                <Btn type="button" variant="secondary" onClick={onCancel} disabled={loading}>
                     Cancelar
-                </button>
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-primary cursor-pointer rounded-xl px-6 py-2.5 text-xs disabled:opacity-50"
-                >
+                </Btn>
+                <Btn type="submit" variant="accent" disabled={loading}>
                     {loading ? 'Guardando...' : sponsor ? 'Actualizar' : 'Crear Sponsor'}
-                </button>
+                </Btn>
             </div>
         </form>
     );

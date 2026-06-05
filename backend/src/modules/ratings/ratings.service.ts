@@ -74,8 +74,15 @@ export class RatingsService {
     }
 
     async create(serviceId: string, dto: CreateRatingDto, userId: string) {
-        const service = await this.servicesService.findById(serviceId);
+        const service = await this.prisma.service.findUnique({
+            where: { id: serviceId },
+            select: { id: true, userId: true },
+        });
         if (!service) throw new NotFoundException(`Servicio ${serviceId} no encontrado`);
+
+        if (service.userId === userId) {
+            throw new ForbiddenException('No puedes reseñar tu propio servicio');
+        }
 
         const existing = await this.prisma.rating.findUnique({
             where: { serviceId_userId: { serviceId, userId } },
@@ -107,15 +114,16 @@ export class RatingsService {
     async update(id: string, dto: UpdateRatingDto) {
         const rating = await this.prisma.rating.findUnique({
             where: { id },
-            select: { id: true },
+            select: { id: true, serviceId: true },
         });
         if (!rating) throw new NotFoundException(`Calificación ${id} no encontrada`);
 
-        return this.prisma.rating.update({
+        const updated = await this.prisma.rating.update({
             where: { id },
             data: {
                 ...(dto.estrellas !== undefined && { stars: dto.estrellas }),
                 ...(dto.comentario !== undefined && { comment: dto.comentario }),
+                ...(dto.estado !== undefined && { status: dto.estado }),
             },
             select: {
                 id: true,
@@ -128,6 +136,13 @@ export class RatingsService {
                 service: { select: { id: true, title: true } },
             },
         });
+
+        // Si cambió el status, recalcular el promedio del servicio (solo cuenta ACTIVE)
+        if (dto.estado !== undefined) {
+            void this.servicesService.recalcularCalificacion(rating.serviceId);
+        }
+
+        return updated;
     }
 
     async delete(id: string, requesterId: string, requesterRoles: string[]) {

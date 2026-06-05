@@ -4,7 +4,7 @@
     "sections": [
         {
             "title": "Responsable",
-            "content": "Atlas Services es el responsable del tratamiento de tus datos personales."
+            "content": "Hireeo es el responsable del tratamiento de tus datos personales."
         },
         {
             "title": "Datos recolectados",
@@ -37,7 +37,7 @@
         },
         {
             "title": "Tus derechos",
-            "content": "Puedes acceder, rectificar, cancelar o bloquear tus datos escribiendo a privacidad@atlasservicios.com o desde tu configuración de cuenta."
+            "content": "Puedes acceder, rectificar, cancelar o bloquear tus datos escribiendo a privacidad@hireeo.app o desde tu configuración de cuenta."
         },
         {
             "title": "Seguridad",
@@ -53,8 +53,8 @@
         },
         {
             "title": "Contacto",
-            "content": "privacidad@atlasservicios.com"
+            "content": "privacidad@hireeo.app"
         }
     ],
-    "footer": "Tu confianza es importante para nosotros. Gracias por usar Atlas Services."
+    "footer": "Tu confianza es importante para nosotros. Gracias por usar Hireeo."
 }

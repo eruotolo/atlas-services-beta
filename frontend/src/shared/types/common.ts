@@ -5,6 +5,7 @@ export interface CategoriaServicio {
     icono?: string | null;
     orden: number;
     activo: boolean;
+    serviceCount?: number;
 }
 
 export enum SubscriptionLevel {
