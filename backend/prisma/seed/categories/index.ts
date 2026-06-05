@@ -24,8 +24,10 @@ const categories = [
     { name: 'Limpieza de Tapices y Alfombras', slug: 'limpieza-tapices', icon: 'Waves' },
     { name: 'Fumigación y Control de Plagas', slug: 'fumigacion', icon: 'Bug' },
 
-    // Jardín
+    // Jardín y Exteriores (Estilo LawnStarter)
+    { name: 'Corte de Césped', slug: 'corte-cesped', icon: 'Leaf' },
     { name: 'Jardinería y Paisajismo', slug: 'jardineria', icon: 'Leaf' },
+    { name: 'Mantenimiento de Patios', slug: 'mantenimiento-patios', icon: 'Home' },
     { name: 'Poda y Corte de Árboles', slug: 'poda', icon: 'Scissors' },
     { name: 'Mantención de Piscinas', slug: 'piscinas', icon: 'Waves' },
     { name: 'Riego Automático', slug: 'riego', icon: 'Droplets' },
@@ -38,9 +40,11 @@ const categories = [
     { name: 'Tratamientos Faciales y Corporales', slug: 'estetica', icon: 'Heart' },
     { name: 'Masajes', slug: 'masajes', icon: 'Hand' },
 
-    // Salud y Cuidado
-    { name: 'Enfermería a Domicilio', slug: 'enfermeria', icon: 'Syringe' },
+    // Salud y Cuidado Personal (Estilo Care.com)
+    { name: 'Cuidado Infantil / Niñeras', slug: 'nineras', icon: 'Baby' },
     { name: 'Cuidado de Adultos Mayores', slug: 'cuidado-adultos', icon: 'Heart' },
+    { name: 'Cuidado de Necesidades Especiales', slug: 'cuidados-especiales', icon: 'Heart' },
+    { name: 'Enfermería a Domicilio', slug: 'enfermeria', icon: 'Syringe' },
     { name: 'Podología', slug: 'podologia', icon: 'Footprints' },
     { name: 'Entrenador Personal / Yoga / Pilates', slug: 'entrenamiento', icon: 'Dumbbell' },
     { name: 'Nutrición y Dietética', slug: 'nutricion', icon: 'Salad' },
@@ -73,8 +77,8 @@ const categories = [
     { name: 'Animación y DJs', slug: 'animacion', icon: 'Music' },
     { name: 'Fotografía y Video de Eventos', slug: 'fotografia', icon: 'Camera' },
 
-    // Educación
-    { name: 'Reforzamiento Escolar', slug: 'reforzamiento', icon: 'GraduationCap' },
+    // Educación y Tutorías (Estilo Care.com)
+    { name: 'Tutorías Escolares', slug: 'tutorias', icon: 'GraduationCap' },
     { name: 'Idiomas', slug: 'idiomas', icon: 'Languages' },
     { name: 'Clases de Música e Instrumentos', slug: 'clases-musica', icon: 'Music' },
     { name: 'Clases de Arte y Manualidades', slug: 'clases-arte', icon: 'Palette' },

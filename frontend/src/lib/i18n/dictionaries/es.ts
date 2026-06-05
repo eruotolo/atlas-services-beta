@@ -17,8 +17,8 @@ export const es: Dictionary = {
         hero2: {
             badge: 'Nuevo',
             badgeText: 'Hireeo 2.0 — agente IA para servicios',
-            titleBefore: 'La infraestructura para resolver lo que',
-            titleAccent: 'se rompe',
+            titleBefore: 'Tu próximo servicio empieza',
+            titleAccent: 'aquí',
             titleAfter: '.',
             subtitle:
                 'Hireeo conecta a personas y empresas con los profesionales que sostienen la operación cotidiana. Una API, cinco países, miles de oficios.',

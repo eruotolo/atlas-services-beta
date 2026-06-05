@@ -11,6 +11,7 @@ export interface CountryConfig {
     gateway: 'MERCADOPAGO' | 'STRIPE';
     regionLabel: string;
     localityLabel: string;
+    paymentsEnabled?: boolean;
 }
 
 const CountryContext = createContext<CountryConfig | null>(null);

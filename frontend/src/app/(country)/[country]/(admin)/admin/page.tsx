@@ -1,4 +1,4 @@
-﻿import { Eye, Hammer, Megaphone, Users } from 'lucide-react';
+import { Eye, Hammer, Megaphone, Users } from 'lucide-react';
 
 import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
 import { getInteracciones, getInteraccionesMetricas } from '@/features/analytics/actions';
@@ -7,6 +7,8 @@ import RecentActivity from '@/features/analytics/components/admin/RecentActivity
 import { getAdminServices } from '@/features/services/actions/queries';
 import { getTodasSponsors } from '@/features/sponsors/actions/queries';
 import { getAdminUsers } from '@/features/users/actions';
+import CountryPaymentToggle from '@/features/geo/components/admin/CountryPaymentToggle';
+import { getCountryConfig } from '@/features/geo/actions/queries';
 import { PageHeader, Pill } from '@/shared/components/hireeo';
 import { formatCurrency } from '@/shared/lib/utils';
 
@@ -77,7 +79,7 @@ type Props = { params: Promise<{ country: string }> };
 export default async function AdminOverviewPage({ params }: Props) {
     const { country } = await params;
     const countryName = COUNTRY_SEO_CONFIG[country]?.countryName ?? country.toUpperCase();
-    const [stats, recent] = await Promise.all([getDashboardStats(), getRecentInteractions()]);
+    const [stats, recent, countryData] = await Promise.all([getDashboardStats(), getRecentInteractions(), getCountryConfig(country)]);
 
     const statsCards = [
         {
@@ -124,6 +126,15 @@ export default async function AdminOverviewPage({ params }: Props) {
             />
             <div style={{ padding: 28 }}>
                 <div className="animate-in fade-in space-y-8 duration-500">
+                    
+                    {/* Admin Actions */}
+                    <div className="max-w-md">
+                        <CountryPaymentToggle 
+                            countryCode={country} 
+                            initialStatus={countryData?.paymentsEnabled ?? true} 
+                        />
+                    </div>
+
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
                         {statsCards.map((stat) => (
                             <div
