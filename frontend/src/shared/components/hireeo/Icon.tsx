@@ -15,7 +15,7 @@ export function Icon({
     className,
     ...rest
 }: IconProps): ReactElement {
-    const LucideComp = HIRE_ICONS[name];
+    const LucideComp = HIRE_ICONS[name] || HIRE_ICONS.alert;
     return (
         <LucideComp
             width={size}
