@@ -61,6 +61,7 @@ model Country {
     regionLabel   String
     localityLabel String
     active        Boolean        @default(true)
+    paymentsEnabled Boolean      @default(true)
     createdAt     DateTime       @default(now())
     updatedAt     DateTime       @updatedAt
 

@@ -61,6 +61,11 @@ import {
     Wind,
     X,
     Zap,
+    Leaf,
+    Bug,
+    Baby,
+    Dog,
+    Home,
     type LucideIcon,
 } from 'lucide-react';
 
@@ -133,6 +138,11 @@ export const HIRE_ICONS = {
     link: LinkIcon,
     refresh: RefreshCw,
     pause: Pause,
+    leaf: Leaf,
+    bug: Bug,
+    baby: Baby,
+    dog: Dog,
+    home: Home,
 } as const satisfies Record<string, LucideIcon>;
 
 export type HireIconName = keyof typeof HIRE_ICONS;

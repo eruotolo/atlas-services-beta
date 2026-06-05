@@ -33,3 +33,27 @@ El frontend requiere estabilizarse tras la remoción directa de Prisma y adoptar
 ## Verificación del Plan
 *   **Build Frontend**: Tras corregir la Fase 1 y Fase 2, ejecutar `pnpm build` no solo debe compilar exitosamente, sino que la regeneración estática de Next.js (SSG) no debe arrojar errores "500 - Base de datos".
 *   **Tests**: Ejecución exitosa de `pnpm test:e2e` para validar los flujos de login y navegación entre países.
+
+
+- Geolocalizacion automatica, y servicios prefiltrados para la zona 
+
+
+- Chatbot con MCP de IA
+generemos una interfaz sencilla de conversacion para el cliente que diga solamente cual es el problema y matchee rapidamente con el servicio o profesional que necesite. Geolocalicemos.
+Caso del calefono , sugerencia de comprar el calefon tambien?
+
+- Sumemos ideas de Lawnstarter.com -> servicio de mantención de césped, piscinas, paisajismo
+
+
+- Sumemos ideas de care.com -> orientado a una vertical de profesional del cuidado con : enfermeras, cuidado de adulto mayores, casa de salud de cuidados, cuidado de niños, etc.
+
+
+- Seccion administrador - generar la posibilidad de poner pagos independiente por pais, ejemplo para Uruguay no queremos que aparezca la parte de suscripciones, pagos, etc. Estamos buscando ser mas agresivos con una politica de masificar el registro de personas y que usen la plataforma conectando necesidades y profesionales.
+
+
+- Canal de whatsapp integrado con la herramienta donde la gente puede pedir un servicio y mapearlo rapidamente.
+
+
+
+
+

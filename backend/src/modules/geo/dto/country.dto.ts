@@ -28,4 +28,7 @@ export class CountryDto {
 
     @ApiProperty({ example: 'Comuna', description: 'Etiqueta de la división administrativa nivel 2' })
     localityLabel: string;
+
+    @ApiProperty({ example: true, description: 'Indica si la pasarela de pagos está activa en este país' })
+    paymentsEnabled: boolean;
 }
