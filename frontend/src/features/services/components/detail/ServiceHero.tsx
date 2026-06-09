@@ -2,6 +2,7 @@ import type { ReactElement } from 'react';
 
 import type { Dictionary } from '@/lib/i18n/types';
 import { Avatar, Icon, Pill, Stars } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
 
 import type { ServiceDetail } from './types';
 
@@ -43,7 +44,11 @@ export function ServiceHero({
                             lineHeight: 1.1,
                         }}
                     >
-                        {professionalName}
+                        <AnimatedRotatingText
+                            delay={300}
+                            speed={40}
+                            segments={[{ text: professionalName }]}
+                        />
                     </h1>
                     {service.isPremium ? (
                         <Pill tone="accent" icon="sparkle">

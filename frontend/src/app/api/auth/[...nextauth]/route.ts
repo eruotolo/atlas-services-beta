@@ -79,7 +79,7 @@ export const authOptions: NextAuthOptions = {
                     if (backendUser) {
                         token.id = backendUser.id;
                         token.roles = backendUser.roles ?? [];
-                        token.phone = backendUser.phone ?? null;
+                        token.phone = backendUser.telefono ?? null;
                         token.backendToken = backendUser.backendToken ?? '';
                         token.backendRefreshToken = backendUser.backendRefreshToken ?? '';
                         token.backendTokenExpires = getBackendTokenExpiry(token.backendToken);
@@ -148,7 +148,7 @@ export const authOptions: NextAuthOptions = {
             if (url.startsWith(baseUrl)) {
                 return url;
             }
-            return `${baseUrl}/perfil`;
+            return `${baseUrl}/profile`;
         },
     },
     pages: { signIn: '/login' },

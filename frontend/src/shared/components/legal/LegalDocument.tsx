@@ -1,6 +1,7 @@
 import type { ReactElement, ReactNode } from 'react';
 
 import { Mono } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
 
 interface LegalSection {
     title: string;
@@ -59,10 +60,7 @@ export function LegalDocument({
     renderSectionBody,
 }: LegalDocumentProps): ReactElement {
     return (
-        <section
-            className="mx-auto px-6 py-20 sm:px-10 lg:px-14"
-            style={{ maxWidth: 880 }}
-        >
+        <section className="mx-auto w-full max-w-site px-6 py-20 sm:px-10 lg:px-14">
             <header className="mb-12">
                 <Mono
                     className="text-[11px] font-semibold"
@@ -80,7 +78,11 @@ export function LegalDocument({
                         color: 'var(--ink)',
                     }}
                 >
-                    {title}
+                    <AnimatedRotatingText
+                        delay={300}
+                        speed={40}
+                        segments={[{ text: title }]}
+                    />
                 </h1>
                 <Mono
                     className="mt-4 inline-block text-[11.5px]"

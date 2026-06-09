@@ -5,8 +5,8 @@ import { revalidatePath } from 'next/cache';
 import { apiClient } from '@/lib/api/apiClient';
 import { getAuthToken } from '@/shared/lib/auth/getAuthToken';
 
-import { servicioCreateSchema, servicioUpdateSchema } from '../schemas/servicioSchemas';
-import type { ServicioCreateInput, ServicioUpdateInput } from '../types/servicioTypes';
+import { servicioCreateSchema, servicioUpdateSchema } from '../schemas/serviceSchemas';
+import type { ServicioCreateInput, ServicioUpdateInput } from '../types/serviceTypes';
 
 export async function crearServicio(data: ServicioCreateInput) {
     const token = await getAuthToken();
@@ -31,7 +31,7 @@ export async function crearServicio(data: ServicioCreateInput) {
             { token },
         );
 
-        revalidatePath('/admin/servicios');
+        revalidatePath('/admin/services');
         return { success: true, servicio: result };
     } catch (error) {
         console.error('Error al crear servicio:', error);
@@ -62,7 +62,7 @@ export async function actualizarServicio(data: ServicioUpdateInput) {
             { token },
         );
 
-        revalidatePath('/admin/servicios');
+        revalidatePath('/admin/services');
         return { success: true, servicio: result };
     } catch (error) {
         console.error('Error al actualizar servicio:', error);
@@ -77,7 +77,7 @@ export async function eliminarServicio(id: string) {
     try {
         await apiClient.delete(`/services/${id}`, { token });
 
-        revalidatePath('/admin/servicios');
+        revalidatePath('/admin/services');
         return { success: true };
     } catch (error) {
         console.error('Error al eliminar servicio:', error);
@@ -91,7 +91,7 @@ export async function toggleActivoServicio(id: string) {
     try {
         await apiClient.patch(`/services/${id}/active`, {}, { token });
 
-        revalidatePath('/admin/servicios');
+        revalidatePath('/admin/services');
         return { success: true };
     } catch (error) {
         console.error('Error al cambiar estado del servicio:', error);
@@ -105,7 +105,7 @@ export async function toggleDestacadoServicio(id: string) {
     try {
         await apiClient.patch(`/services/${id}/featured`, {}, { token });
 
-        revalidatePath('/admin/servicios');
+        revalidatePath('/admin/services');
         revalidatePath('/');
         return { success: true };
     } catch (error) {

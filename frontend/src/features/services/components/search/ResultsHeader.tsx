@@ -7,6 +7,7 @@ import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
 import { buildSearchTitle, parseCategoryParam } from '@/features/services/lib/searchTitle';
 import type { Dictionary } from '@/lib/i18n/types';
 import { Icon, Mono, Pill } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
 
 import type { SortOption } from './types';
 
@@ -108,7 +109,11 @@ export function ResultsHeader({
                             color: 'var(--ink)',
                         }}
                     >
-                        {title}
+                        <AnimatedRotatingText
+                            delay={200}
+                            speed={40}
+                            segments={[{ text: title }]}
+                        />
                     </h1>
                     <div className="mt-1.5 text-[13px]" style={{ color: 'var(--sub)' }}>
                         <Mono className="font-semibold" style={{ color: 'var(--ink)' }}>

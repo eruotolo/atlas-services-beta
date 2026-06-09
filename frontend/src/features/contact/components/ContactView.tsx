@@ -5,6 +5,7 @@ import { useId, useState, type ReactElement } from 'react';
 
 import { enviarFormularioContacto } from '@/features/contact/actions';
 import { Btn, Icon, Mono, SectionLabel } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
 
 interface ContactViewTranslations {
     title: string;
@@ -187,9 +188,11 @@ const ContactView: React.FC<ContactViewProps> = ({ t }) => {
                             color: 'var(--ink)',
                         }}
                     >
-                        {tr.title}
-                        <br />
-                        {tr.titleHighlight}
+                        <AnimatedRotatingText
+                            delay={300}
+                            speed={40}
+                            segments={[{ text: `${tr.title}\n${tr.titleHighlight}` }]}
+                        />
                     </h1>
                     <p
                         className="m-0 mb-10 text-[16px] leading-[1.55]"

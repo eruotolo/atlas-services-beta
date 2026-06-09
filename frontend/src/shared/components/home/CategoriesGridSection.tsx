@@ -3,6 +3,7 @@ import type { ReactElement } from 'react';
 
 import type { Dictionary } from '@/lib/i18n/types';
 import { Icon, Mono, SectionLabel } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
 import type { HireIconName } from '@/shared/components/hireeo/icons';
 
 interface Category {
@@ -68,11 +69,15 @@ export function CategoriesGridSection({
                                 color: 'var(--ink)',
                             }}
                         >
-                            {dict.home.categories2.title}
+                            <AnimatedRotatingText
+                                delay={200}
+                                speed={40}
+                                segments={[{ text: dict.home.categories2.title }]}
+                            />
                         </h2>
                     </div>
                     <Link
-                        href={`/${country}/buscar`}
+                        href={`/${country}/search`}
                         className="inline-flex items-center gap-1.5 text-[13px]"
                         style={{ color: 'var(--sub)' }}
                     >
@@ -88,7 +93,7 @@ export function CategoriesGridSection({
                     {list.map((cat, i) => (
                         <Link
                             key={cat.id}
-                            href={`/${country}/buscar?categoria=${cat.slug}`}
+                            href={`/${country}/search?categoria=${cat.slug}`}
                             className="flex items-center justify-between border-r border-b p-5 transition-colors hover:bg-tint"
                             style={{ borderColor: 'var(--line)' }}
                         >

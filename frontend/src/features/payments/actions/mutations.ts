@@ -19,6 +19,6 @@ export async function crearPagoPremium(data: {
     paymentData: unknown;
 }): Promise<{ success: boolean; error?: string }> {
     console.info('crearPagoPremium (stub):', data);
-    revalidatePath('/perfil');
+    revalidatePath('/profile');
     return { success: true };
 }

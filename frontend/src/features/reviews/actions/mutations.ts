@@ -22,7 +22,7 @@ export async function crearCalificacion(data: ReviewCreateInput) {
             { token },
         );
 
-        revalidatePath('/servicio');
+        revalidatePath('/service');
         return { success: true, message: '¡Gracias! Tu reseña ha sido enviada para moderación.' };
     } catch (error) {
         if (error instanceof ApiError && error.status === 409) {
@@ -86,7 +86,7 @@ export async function responderReview(serviceId: string, ratingId: string, respu
             { token },
         );
 
-        revalidatePath('/servicio');
+        revalidatePath('/service');
         return { success: true };
     } catch (error) {
         if (error instanceof ApiError && error.status === 409) {

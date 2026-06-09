@@ -23,7 +23,7 @@ export default function AdminSidebar() {
 
     const links = [
         { href: '/admin', icon: LayoutDashboard, label: 'Resumen' },
-        { href: '/admin/servicios', icon: Hammer, label: 'Servicios' },
+        { href: '/admin/services', icon: Hammer, label: 'Servicios' },
         { href: '/admin/categorias', icon: Layers, label: 'Categorías' },
         { href: '/admin/usuarios', icon: Users, label: 'Usuarios' },
         { href: '/admin/calificaciones', icon: Star, label: 'Calificaciones' },

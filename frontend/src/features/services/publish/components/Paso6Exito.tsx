@@ -13,7 +13,7 @@ export default function Paso6Exito() {
     // Efecto para el contador
     useEffect(() => {
         if (countdown === 0) {
-            router.push('/perfil');
+            router.push('/profile');
             return;
         }
 
@@ -55,7 +55,7 @@ export default function Paso6Exito() {
 
             <button
                 type="button"
-                onClick={() => router.push('/perfil')}
+                onClick={() => router.push('/profile')}
                 className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-8 py-4"
             >
                 Ir a mi Perfil ahora

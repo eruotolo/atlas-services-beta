@@ -86,7 +86,7 @@ export function ReviewToggleForm({
 
     function handleToggleClick(): void {
         if (!isLoggedIn) {
-            const callback = encodeURIComponent(`/${country}/servicio/${serviceSlug}`);
+            const callback = encodeURIComponent(`/${country}/service/${serviceSlug}`);
             router.push(`/${country}/login?callbackUrl=${callback}`);
             return;
         }

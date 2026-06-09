@@ -88,7 +88,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                         </div>
                         {debeIniciarSesion && (
                             <Link
-                                href="/login?callbackUrl=/publicar"
+                                href="/login?callbackUrl=/publish"
                                 className="block w-full rounded-xl bg-red-600 px-4 py-2 text-center text-sm font-bold text-white transition-colors hover:bg-red-700"
                             >
                                 Ir a Iniciar Sesión
@@ -173,7 +173,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                     >
                         Acepto los{' '}
                         <Link
-                            href="/terminos"
+                            href="/terms"
                             target="_blank"
                             className="font-bold text-brand hover:underline"
                         >
@@ -181,7 +181,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                         </Link>{' '}
                         y la{' '}
                         <Link
-                            href="/privacidad"
+                            href="/privacy"
                             target="_blank"
                             className="font-bold text-brand hover:underline"
                         >

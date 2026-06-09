@@ -55,7 +55,7 @@ export function ServiceSubNav({
                     <Icon name="chevronRight" size={10} stroke="var(--muted)" />
                     <span>{breadcrumbPlace}</span>
                     <Icon name="chevronRight" size={10} stroke="var(--muted)" />
-                    <Link href={`/${country}/buscar?c=${encodeURIComponent(category)}`}>
+                    <Link href={`/${country}/search?c=${encodeURIComponent(category)}`}>
                         {category}
                     </Link>
                     <Icon name="chevronRight" size={10} stroke="var(--muted)" />
@@ -73,7 +73,7 @@ export function ServiceSubNav({
                     <ShareButton
                         title={serviceTitle}
                         text={serviceDescription}
-                        url={`/${country}/servicio/${serviceSlug}`}
+                        url={`/${country}/service/${serviceSlug}`}
                     />
                 </div>
             </div>

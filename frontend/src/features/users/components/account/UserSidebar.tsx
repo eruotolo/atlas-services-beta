@@ -35,19 +35,19 @@ function buildSections(country: string, counts: UserSidebarProps['counts']): Nav
         {
             title: 'Mi cuenta',
             items: [
-                { id: 'resumen', label: 'Resumen', icon: 'layoutDash', href: `/${country}/perfil` },
+                { id: 'resumen', label: 'Resumen', icon: 'layoutDash', href: `/${country}/profile` },
                 {
                     id: 'mensajes',
                     label: 'Mensajes',
                     icon: 'inbox',
-                    href: `/${country}/perfil/mensajes`,
+                    href: `/${country}/profile/mensajes`,
                     badge: c.mensajes,
                 },
                 {
                     id: 'favoritos',
                     label: 'Favoritos',
                     icon: 'heart',
-                    href: `/${country}/perfil/favoritos`,
+                    href: `/${country}/profile/favoritos`,
                 },
             ],
         },
@@ -58,13 +58,13 @@ function buildSections(country: string, counts: UserSidebarProps['counts']): Nav
                     id: 'publicar',
                     label: 'Publicar servicio',
                     icon: 'plus',
-                    href: `/${country}/publicar`,
+                    href: `/${country}/publish`,
                 },
                 {
                     id: 'pro',
                     label: 'Plan Hireeo Pro',
                     icon: 'crown',
-                    href: `/${country}/suscripcion-pro`,
+                    href: `/${country}/pricing`,
                 },
             ],
         },
@@ -75,7 +75,7 @@ function buildSections(country: string, counts: UserSidebarProps['counts']): Nav
                     id: 'ajustes',
                     label: 'Ajustes',
                     icon: 'settings',
-                    href: `/${country}/perfil/ajustes`,
+                    href: `/${country}/profile/ajustes`,
                 },
             ],
         },
@@ -83,7 +83,7 @@ function buildSections(country: string, counts: UserSidebarProps['counts']): Nav
 }
 
 function isItemActive(pathname: string, href: string, country: string): boolean {
-    const base = `/${country}/perfil`;
+    const base = `/${country}/profile`;
     if (href === base) {
         return pathname === base || pathname === `${base}/`;
     }

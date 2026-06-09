@@ -50,7 +50,7 @@ export function ServiceBookingCard({
         startTransition(async () => {
             const result = await iniciarConversacion(serviceId);
             if (result.conversationId) {
-                router.push(link(`/perfil/mensajes/${result.conversationId}`));
+                router.push(link(`/profile/mensajes/${result.conversationId}`));
             }
         });
     }
