@@ -2,7 +2,7 @@
 
 import { type ReactElement, useEffect, useRef, useState } from 'react';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, usePathname } from 'next/navigation';
 
 import { detectarServicio, type DetectarServicioResult } from '@/features/chatbot/actions';
 import { Btn, Icon } from '@/shared/components/hireeo';
@@ -240,10 +240,16 @@ function CuerpoSinProveedores({
 /*  ChatbotWidget                                                       */
 /* ------------------------------------------------------------------ */
 
-export function ChatbotWidget(): ReactElement {
+export function ChatbotWidget(): ReactElement | null {
     const params = useParams();
+    const pathname = usePathname();
     const country = (params?.country as string) ?? 'cl';
     const router = useRouter();
+
+    // Si estamos en la página de búsqueda o detalle del servicio, ocultar este widget
+    if (pathname?.includes('/search') || pathname?.includes('/service')) {
+        return null;
+    }
 
     const [abierto, setAbierto] = useState(false);
     const [paso, setPaso] = useState<Paso>('inicio');

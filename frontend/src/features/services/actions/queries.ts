@@ -248,3 +248,19 @@ export const getAdminServices = cache(
     }
     },
 );
+
+import { getAuthToken } from '@/shared/lib/auth/getAuthToken';
+
+export const getUserServices = cache(async (userId: string) => {
+    try {
+        const token = await getAuthToken();
+        const response = await apiClient.get<BackendServiceDto[]>(`/users/${userId}/services`, {
+            revalidate: 0,
+            token,
+        });
+        return (response ?? []).map(mapServiceDto);
+    } catch (error) {
+        console.error('Error fetching user services:', error);
+        return [];
+    }
+});

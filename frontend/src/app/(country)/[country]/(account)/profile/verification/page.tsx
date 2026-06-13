@@ -6,10 +6,11 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getKycStatus } from '@/features/users/actions/kyc';
 import { getProfilePageData } from '@/features/users/actions';
-import { UserShell } from '@/features/users/components/account/UserShell';
+
 import { KycStatusBanner } from '@/features/users/components/kyc/KycStatusBanner';
 import { KycInitiateButton } from '@/features/users/components/kyc/KycInitiateButton';
 import { Card, Icon, Mono, Pill } from '@/shared/components/hireeo';
+import { PageHeader } from '@/shared/components/hireeo';
 
 export const metadata: Metadata = {
     title: 'Verificación de identidad — Hireeo',
@@ -115,43 +116,19 @@ export default async function VerificacionPage({ params }: Props) {
     const verifiedAt = kycStatus?.kycVerifiedAt ?? null;
 
     return (
-        <UserShell
-            country={country}
-            user={{ name: usuario.name, avatar: usuario.avatar, isPremium: tienePremium }}
-            counts={{ servicios: usuario.stats.totalServicios }}
-        >
-            {/* ── Header de página ──────────────────────────────────────────── */}
-            <div
-                className="flex flex-wrap items-center justify-between gap-4"
-                style={{
-                    padding: '24px 28px',
-                    borderBottom: '1px solid var(--line)',
-                    background: 'linear-gradient(135deg, var(--tint) 0%, var(--accent-soft) 100%)',
-                }}
-            >
-                <div>
-                    <div className="flex items-center gap-2.5">
-                        <Icon name="shieldCheck" size={20} stroke="var(--accent)" />
-                        <h1
-                            className="m-0 text-[22px] font-semibold"
-                            style={{ letterSpacing: '-0.02em', color: 'var(--ink)' }}
-                        >
-                            Verificación de identidad
-                        </h1>
-                    </div>
-                    <Mono
-                        className="mt-1 text-[12px]"
-                        style={{ color: 'var(--sub)' }}
-                    >
-                        Confirmá quién sos y generá más confianza en tus clientes
-                    </Mono>
-                </div>
-                {isVerified ? (
-                    <Pill tone="success" icon="shieldCheck">IDENTIDAD VERIFICADA</Pill>
-                ) : (
-                    <Pill tone="warning">PENDIENTE</Pill>
-                )}
-            </div>
+        <>
+            <PageHeader
+                breadcrumb={['Mi cuenta', 'Verificación']}
+                title="Verificación de identidad"
+                subtitle="Confirmá quién sos y generá más confianza en tus clientes"
+                actions={
+                    isVerified ? (
+                        <Pill tone="success" icon="shieldCheck">IDENTIDAD VERIFICADA</Pill>
+                    ) : (
+                        <Pill tone="warning">PENDIENTE</Pill>
+                    )
+                }
+            />
 
             <div style={{ padding: '28px', maxWidth: 820 }}>
 
@@ -431,6 +408,6 @@ export default async function VerificacionPage({ params }: Props) {
                     </div>
                 </section>
             </div>
-        </UserShell>
+        </>
     );
 }

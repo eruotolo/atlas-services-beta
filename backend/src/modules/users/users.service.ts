@@ -13,6 +13,8 @@ import { PrismaService } from '../../prisma/prisma.service';
 import type { AssignRolesDto } from './dto/assign-roles.dto';
 import type { UpdatePasswordDto } from './dto/update-password.dto';
 import type { UpdateUserDto } from './dto/update-user.dto';
+import type { CreateAddressDto } from './dto/create-address.dto';
+import type { UpdateAddressDto } from './dto/update-address.dto';
 
 const USER_SELECT = {
     id: true,
@@ -35,7 +37,7 @@ const USER_SELECT = {
 export class UsersService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async findAll(page = 1, limit = 10, query?: string, roleNames?: string[]) {
+    async findAll(page = 1, limit = 10, query?: string, roleNames?: string[], countryCode?: string) {
         const skip = (page - 1) * limit;
         const where: Prisma.UserWhereInput = {
             ...(query
@@ -46,8 +48,15 @@ export class UsersService {
                       ],
                   }
                 : {}),
-            ...(roleNames?.length
-                ? { roles: { some: { role: { name: { in: roleNames } } } } }
+            ...(roleNames?.length || countryCode
+                ? {
+                      roles: {
+                          some: {
+                              ...(roleNames?.length ? { role: { name: { in: roleNames } } } : {}),
+                              ...(countryCode ? { country: { code: countryCode } } : {}),
+                          },
+                      },
+                  }
                 : {}),
         };
 
@@ -222,5 +231,63 @@ export class UsersService {
         }
         await this.findById(id);
         return this.prisma.user.delete({ where: { id }, select: { id: true } });
+    }
+
+    // --- ADDRESS MANAGEMENT ---
+
+    async getAddresses(userId: string) {
+        return this.prisma.address.findMany({
+            where: { userId },
+            include: {
+                country: { select: { id: true, code: true, name: true } },
+                region: { select: { id: true, code: true, name: true } },
+                locality: { select: { id: true, slug: true, name: true } },
+            },
+            orderBy: [{ isDefault: 'desc' }, { createdAt: 'desc' }],
+        });
+    }
+
+    async createAddress(userId: string, dto: CreateAddressDto) {
+        if (dto.isDefault) {
+            await this.prisma.address.updateMany({
+                where: { userId, isDefault: true },
+                data: { isDefault: false },
+            });
+        }
+        return this.prisma.address.create({
+            data: {
+                ...dto,
+                userId,
+            },
+        });
+    }
+
+    async updateAddress(userId: string, addressId: string, dto: UpdateAddressDto) {
+        const address = await this.prisma.address.findUnique({ where: { id: addressId } });
+        if (!address || address.userId !== userId) {
+            throw new NotFoundException('Dirección no encontrada');
+        }
+
+        if (dto.isDefault && !address.isDefault) {
+            await this.prisma.address.updateMany({
+                where: { userId, isDefault: true, id: { not: addressId } },
+                data: { isDefault: false },
+            });
+        }
+
+        return this.prisma.address.update({
+            where: { id: addressId },
+            data: dto,
+        });
+    }
+
+    async deleteAddress(userId: string, addressId: string) {
+        const address = await this.prisma.address.findUnique({ where: { id: addressId } });
+        if (!address || address.userId !== userId) {
+            throw new NotFoundException('Dirección no encontrada');
+        }
+        return this.prisma.address.delete({
+            where: { id: addressId },
+        });
     }
 }

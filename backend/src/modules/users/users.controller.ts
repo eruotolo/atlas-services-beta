@@ -5,6 +5,7 @@ import {
     Get,
     Param,
     Patch,
+    Post,
     Put,
     Query,
     UseGuards,
@@ -19,6 +20,8 @@ import { RolesGuard } from '@common/guards/roles.guard';
 import { AssignRolesDto } from './dto/assign-roles.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateAddressDto } from './dto/create-address.dto';
+import { UpdateAddressDto } from './dto/update-address.dto';
 import { UsersService } from './users.service';
 
 @ApiTags('users')
@@ -32,14 +35,16 @@ export class UsersController {
     @ApiQuery({ name: 'limit', required: false, type: Number })
     @ApiQuery({ name: 'query', required: false, type: String })
     @ApiQuery({ name: 'roles', required: false, type: String, description: 'Filtrar por nombres de rol separados por coma' })
+    @ApiQuery({ name: 'country', required: false, type: String, description: 'Código del país' })
     findAll(
         @Query('page') page?: string,
         @Query('limit') limit?: string,
         @Query('query') query?: string,
         @Query('roles') roles?: string,
+        @Query('country') country?: string,
     ) {
         const roleNames = roles ? roles.split(',') : undefined;
-        return this.service.findAll(page ? Number(page) : 1, limit ? Number(limit) : 10, query, roleNames);
+        return this.service.findAll(page ? Number(page) : 1, limit ? Number(limit) : 10, query, roleNames, country);
     }
 
     @Get('roles')
@@ -113,5 +118,43 @@ export class UsersController {
         @CurrentUser() user: { id: string; roles: string[] },
     ) {
         return this.service.delete(id, user.id, user.roles);
+    }
+
+    // --- ADDRESS ENDPOINTS ---
+
+    @Get(':id/addresses')
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth('access-token')
+    @ApiOperation({ summary: 'Listar direcciones de un usuario' })
+    getAddresses(@Param('id') id: string) {
+        return this.service.getAddresses(id);
+    }
+
+    @Post(':id/addresses')
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth('access-token')
+    @ApiOperation({ summary: 'Crear una nueva dirección para un usuario' })
+    createAddress(@Param('id') id: string, @Body() dto: CreateAddressDto) {
+        return this.service.createAddress(id, dto);
+    }
+
+    @Patch(':id/addresses/:addressId')
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth('access-token')
+    @ApiOperation({ summary: 'Actualizar una dirección existente' })
+    updateAddress(
+        @Param('id') id: string,
+        @Param('addressId') addressId: string,
+        @Body() dto: UpdateAddressDto,
+    ) {
+        return this.service.updateAddress(id, addressId, dto);
+    }
+
+    @Delete(':id/addresses/:addressId')
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth('access-token')
+    @ApiOperation({ summary: 'Eliminar una dirección' })
+    deleteAddress(@Param('id') id: string, @Param('addressId') addressId: string) {
+        return this.service.deleteAddress(id, addressId);
     }
 }

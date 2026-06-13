@@ -414,6 +414,24 @@ export interface Dictionary {
             breadcrumb2: string;
             title: string;
         };
+        sidebar: {
+            sectionAccount: string;
+            sectionServices: string;
+            sectionClients: string;
+            sectionSettings: string;
+            overview: string;
+            messages: string;
+            quotes: string;
+            favorites: string;
+            publishService: string;
+            hireeoPro: string;
+            availableLeads: string;
+            idVerification: string;
+            settings: string;
+            signOutLabel: string;
+            rolePro: string;
+            roleClient: string;
+        };
     };
     admin: {
         sidebar: {

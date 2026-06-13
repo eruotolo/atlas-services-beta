@@ -4,7 +4,7 @@ import { UserSidebar } from './UserSidebar';
 
 interface UserShellProps {
     country: string;
-    user: { name: string; avatar?: string | null; isPremium?: boolean };
+    user: { name: string; email: string; avatar?: string | null; isPremium?: boolean };
     counts?: { servicios?: number; mensajes?: number };
     children: ReactNode;
 }

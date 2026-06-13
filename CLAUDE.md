@@ -279,11 +279,17 @@ pnpm db:seed          # Pobla geo + roles + categorías + precios (5 países)
 La documentación de este proyecto vive en el vault **SitesDoc**. Al iniciar cualquier sesión de trabajo, leer la nota:
 
 ```bash
-obsidian vault="SitesDoc" read file="nextjs_projects/next-atlas-services/next-atlas-services"
+cat "/Users/edgardoruotolo/SitesDoc/nextjs_projects/next-atlas-services/next-atlas-services.md"
 ```
 
-Al finalizar cambios relevantes (nueva feature, bug crítico, decisión de arquitectura), actualizar la nota:
+Al finalizar cambios relevantes (nueva feature, bug crítico, decisión de arquitectura), actualizar la nota **automáticamente** con:
 
 ```bash
-obsidian vault="SitesDoc" append file="nextjs_projects/next-atlas-services/next-atlas-services" content="## YYYY-MM-DD — Título\nDescripción del cambio."
+cat >> "/Users/edgardoruotolo/SitesDoc/nextjs_projects/next-atlas-services/next-atlas-services.md" << 'EOF'
+
+### $(date +%Y-%m-%d) — TÍTULO DEL CAMBIO
+- Descripción del cambio realizado
+EOF
 ```
+
+**Importante:** Ejecutar este append siempre al terminar una tarea, sin esperar que el usuario lo pida.
