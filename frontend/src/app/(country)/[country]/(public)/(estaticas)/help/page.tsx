@@ -4,7 +4,7 @@ import type { ReactElement } from 'react';
 import { getDictionary } from '@/lib/i18n/getDictionary';
 import { Btn, Icon, Mono, SectionLabel } from '@/shared/components/hireeo';
 import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
-import { FinalCtaSection } from '@/shared/components/home/FinalCtaSection';
+import { FinalCtaSection } from '@/features/home/components/FinalCtaSection';
 
 interface FaqBlock {
     type:

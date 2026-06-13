@@ -148,6 +148,7 @@ Ejemplos:
 
 - **NUNCA** crear un archivo de componente plano (`ComponenteName.tsx`) fuera de su carpeta propia.
 - **NUNCA** mover un componente de `features/` a `shared/` por conveniencia. Si dos features necesitan algo en común, crear un componente shared *nuevo* sin lógica de dominio.
+- **NUNCA** poner componentes que pertenezcan a un dominio (ej. `Home`, `Legal`, `Admin`) dentro de `shared/components/`. Deben ir a su respectiva carpeta en `features/` (ej. `features/home/components/HeroSection`).
 - La misma regla de carpetas aplica a `lib/`, `types/` y `schemas/` dentro de `shared/` si crecen en complejidad.
 
 ## 3. Estructura del Monorepo
