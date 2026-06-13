@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp } from '@/shared/components/icons';
 
 export default function ScrollToTop() {
     const [visible, setVisible] = useState(false);

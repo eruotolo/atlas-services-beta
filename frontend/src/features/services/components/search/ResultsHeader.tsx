@@ -7,6 +7,7 @@ import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
 import { buildSearchTitle, parseCategoryParam } from '@/features/services/lib/searchTitle';
 import type { Dictionary } from '@/lib/i18n/types';
 import { Icon, Mono, Pill } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
 
 import type { SortOption } from './types';
 
@@ -76,9 +77,9 @@ export function ResultsHeader({
     return (
         <section className="mx-auto max-w-site px-6 pt-6 sm:px-10 lg:px-14">
             <nav
-                className="mb-2 flex items-center gap-1.5 text-[12px]"
+                className="mb-2 flex items-center gap-1.5 text-[12px] text-sub"
                 aria-label="breadcrumb"
-                style={{ color: 'var(--sub)' }}
+                
             >
                 <span>{dict.search.breadcrumbHome}</span>
                 <Icon name="chevronRight" size={10} stroke="var(--muted)" />
@@ -90,28 +91,28 @@ export function ResultsHeader({
                     </>
                 ) : null}
                 <Icon name="chevronRight" size={10} stroke="var(--muted)" />
-                <span className="font-semibold" style={{ color: 'var(--ink)' }}>
+                <span className="font-semibold text-ink">
                     {title}
                 </span>
             </nav>
 
             <div
-                className="flex flex-col gap-4 border-b pb-4 md:flex-row md:items-end md:justify-between"
-                style={{ borderColor: 'var(--line)' }}
+                className="flex flex-col gap-4 border-b pb-4 md:flex-row md:items-end md:justify-between border-line"
             >
                 <div>
                     <h1
-                        className="m-0 text-[28px] md:text-[32px]"
+                        className="m-0 text-[28px] md:text-[32px] font-medium text-ink"
                         style={{
-                            fontWeight: 500,
-                            letterSpacing: '-0.025em',
-                            color: 'var(--ink)',
-                        }}
+                            letterSpacing: '-0.025em'}} 
                     >
-                        {title}
+                        <AnimatedRotatingText
+                            delay={200}
+                            speed={40}
+                            segments={[{ text: title }]}
+                        />
                     </h1>
-                    <div className="mt-1.5 text-[13px]" style={{ color: 'var(--sub)' }}>
-                        <Mono className="font-semibold" style={{ color: 'var(--ink)' }}>
+                    <div className="mt-1.5 text-[13px] text-sub">
+                        <Mono className="font-semibold text-ink">
                             {totalCount}
                         </Mono>{' '}
                         {dict.search.professionalsFound}
@@ -119,7 +120,7 @@ export function ResultsHeader({
                             <>
                                 {' — '}
                                 {dict.search.showingPrefix}{' '}
-                                <Mono className="font-semibold" style={{ color: 'var(--ink)' }}>
+                                <Mono className="font-semibold text-ink">
                                     {shown}
                                 </Mono>{' '}
                                 {dict.search.topRatedHint}
@@ -136,13 +137,11 @@ export function ResultsHeader({
                     ) : null}
 
                     <div
-                        className="inline-flex items-center gap-0 rounded-md p-[3px]"
-                        style={{ background: 'var(--tint)' }}
+                        className="inline-flex items-center gap-0 rounded-md p-[3px] bg-tint"
                     >
                         <button
                             type="button"
-                            className="inline-flex items-center gap-1.5 rounded-[5px] px-3 py-1 text-[12px] font-semibold"
-                            style={{ background: 'var(--ink)', color: 'var(--bg)' }}
+                            className="inline-flex items-center gap-1.5 rounded-[5px] px-3 py-1 text-[12px] font-semibold bg-ink text-bg"
                         >
                             <Icon name="layoutDash" size={11} stroke="var(--bg)" />
                             {dict.search.viewList}
@@ -150,8 +149,7 @@ export function ResultsHeader({
                         <button
                             type="button"
                             disabled
-                            className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-[5px] px-3 py-1 text-[12px] font-medium opacity-60"
-                            style={{ color: 'var(--sub)' }}
+                            className="inline-flex cursor-not-allowed items-center gap-1.5 rounded-[5px] px-3 py-1 text-[12px] font-medium opacity-60 text-sub"
                             title={dict.search.mapComingSoon}
                         >
                             <Icon name="pin" size={11} stroke="var(--sub)" />
@@ -163,8 +161,7 @@ export function ResultsHeader({
                         value={sort}
                         onChange={handleSort}
                         aria-label={dict.search.sortLabel}
-                        className="h-9 rounded-md border bg-bg px-3 text-[12.5px] font-medium outline-none focus:border-ink"
-                        style={{ borderColor: 'var(--line)', color: 'var(--ink)' }}
+                        className="h-9 rounded-md border bg-bg px-3 text-[12.5px] font-medium outline-none focus:border-ink border-line text-ink"
                     >
                         <option value="rating">{dict.search.sortRating}</option>
                         <option value="nearest">{dict.search.sortNearest}</option>
@@ -175,8 +172,7 @@ export function ResultsHeader({
                     <button
                         type="button"
                         onClick={onOpenMobileFilters}
-                        className="inline-flex h-9 items-center gap-1.5 rounded-md border px-3 text-[12.5px] font-semibold md:hidden"
-                        style={{ borderColor: 'var(--line)', color: 'var(--ink)' }}
+                        className="inline-flex h-9 items-center gap-1.5 rounded-md border px-3 text-[12.5px] font-semibold md:hidden border-line text-ink"
                     >
                         <Icon name="filter" size={13} />
                         {dict.search.filters}

@@ -3,8 +3,9 @@ import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 
+import { Toaster } from 'sileo';
+
 import ScrollToTop from '@/shared/components/ui/ScrollToTop';
-import { ToastProvider } from '@/shared/components/ui/ToastProvider';
 
 import { Providers } from '@/lib/providers/Providers';
 
@@ -135,7 +136,7 @@ export default async function RootLayout({
         description: siteConfig.description,
         potentialAction: {
             '@type': 'SearchAction',
-            target: `${siteConfig.url}/cl/buscar?q={search_term_string}`,
+            target: `${siteConfig.url}/cl/search?q={search_term_string}`,
             'query-input': 'required name=search_term_string',
         },
         inLanguage: 'es',
@@ -216,10 +217,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
                 />
                 <Providers>
-                    <ToastProvider>
-                        {children}
-                        <ScrollToTop />
-                    </ToastProvider>
+                    {children}
+                    <ScrollToTop />
+                    <Toaster position="top-right" options={{ roundness: 16 }} />
                 </Providers>
             </body>
         </html>

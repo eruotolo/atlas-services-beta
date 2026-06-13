@@ -88,7 +88,7 @@ function generarPlantillaConfirmacionPago(datos: DatosEmailConfirmacionPago): st
                     <p>Tu perfil ya está destacado en la plataforma. Puedes entrar ahora a gestionar tu servicio:</p>
                     
                     <div style="text-align: center;">
-                        <a href="${process.env.AUTH_URL || 'https://hireeo.app'}/perfil" class="button" style="color:white !important;">Ir a mi Perfil</a>
+                        <a href="${process.env.AUTH_URL || 'https://hireeo.app'}/profile" class="button" style="color:white !important;">Ir a mi Perfil</a>
                     </div>
 
                     <p style="margin-top:30px;">Desde ahí podrás:</p>

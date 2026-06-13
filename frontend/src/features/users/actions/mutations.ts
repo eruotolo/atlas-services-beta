@@ -25,13 +25,22 @@ import type {
 
 // ─── Admin: CRUD Usuarios ─────────────────────────────────────────────────────
 
+interface RoleAssignment {
+    roleId: string;
+    countryCode?: string;
+}
+
+async function asignarRoles(userId: string, roles: RoleAssignment[], token?: string) {
+    await apiClient.put(`/users/${userId}/roles`, { roles }, { token });
+}
+
 export async function crearUsuario(data: UserCreateInput) {
     const token = await getAuthToken();
     const validated = userCreateSchema.parse(data);
 
     try {
         // Registrar el usuario con el endpoint de auth
-        const result = await apiClient.post(
+        const result = await apiClient.post<{ user?: { id: string } }>(
             '/auth/register',
             {
                 nombre: validated.nombre,
@@ -41,6 +50,11 @@ export async function crearUsuario(data: UserCreateInput) {
             },
             { token },
         );
+
+        // Asignar los roles seleccionados (con país cuando aplica)
+        if (result.user?.id) {
+            await asignarRoles(result.user.id, validated.roles, token);
+        }
 
         revalidatePath('/admin/usuarios');
         return { success: true, usuario: result };
@@ -65,6 +79,8 @@ export async function actualizarUsuario(data: UserUpdateInput) {
             },
             { token },
         );
+
+        await asignarRoles(validated.id, validated.roles, token);
 
         revalidatePath('/admin/usuarios');
         return { success: true };
@@ -126,9 +142,9 @@ export async function actualizarPerfil(formData: FormData) {
             { token },
         );
 
-        revalidatePath('/perfil');
-        revalidatePath('/perfil/ajustes');
-        return { success: true };
+        revalidatePath('/profile');
+        revalidatePath('/profile/settings');
+        return { success: true, avatar: avatarUrl };
     } catch (error) {
         console.error('Error al actualizar perfil:', error);
         return { error: 'Error al actualizar perfil' };
@@ -185,7 +201,7 @@ export async function crearServicioPropio(data: OwnServiceInput) {
             { token },
         );
 
-        revalidatePath('/perfil');
+        revalidatePath('/profile');
         return { success: true, servicio: result };
     } catch (error) {
         console.error('Error al crear servicio:', error);
@@ -218,7 +234,7 @@ export async function actualizarServicioPropio(data: OwnServiceUpdateInput) {
             { token },
         );
 
-        revalidatePath('/perfil');
+        revalidatePath('/profile');
         return { success: true, servicio: result };
     } catch (error) {
         console.error('Error al actualizar servicio:', error);
@@ -233,7 +249,7 @@ export async function eliminarServicioPropio(id: string) {
     try {
         await apiClient.delete(`/services/${id}`, { token });
 
-        revalidatePath('/perfil');
+        revalidatePath('/profile');
         return { success: true };
     } catch (error) {
         console.error('Error al eliminar servicio:', error);
@@ -248,7 +264,7 @@ export async function toggleActivoServicioPropio(id: string) {
     try {
         await apiClient.patch(`/services/${id}/toggle-owner`, {}, { token });
 
-        revalidatePath('/perfil');
+        revalidatePath('/profile');
         return { success: true };
     } catch (error) {
         console.error('Error al cambiar estado servicio:', error);

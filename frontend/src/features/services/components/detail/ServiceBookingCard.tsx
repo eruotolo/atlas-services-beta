@@ -1,12 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState, useTransition, type ReactElement } from 'react';
+import { useTransition, type ReactElement } from 'react';
 
 import { iniciarConversacion } from '@/features/chat/actions/mutations';
 import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
 import type { Dictionary } from '@/lib/i18n/types';
-import { Btn, Field, Input, Mono, Pill } from '@/shared/components/hireeo';
+import { Btn, Field, Input, Mono } from '@/shared/components/hireeo';
 
 interface BookingStat {
     value: string;
@@ -41,7 +41,6 @@ export function ServiceBookingCard({
     contactPhone,
     stats,
 }: ServiceBookingCardProps): ReactElement {
-    const [address, setAddress] = useState<string>('');
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
     const link = useCountryLink();
@@ -50,47 +49,40 @@ export function ServiceBookingCard({
         startTransition(async () => {
             const result = await iniciarConversacion(serviceId);
             if (result.conversationId) {
-                router.push(link(`/perfil/mensajes/${result.conversationId}`));
+                import('@/shared/lib/chatWidgetBus').then(({ chatWidgetBus }) => {
+                    chatWidgetBus.emit('open_chat', result.conversationId);
+                });
+            } else if (result.error) {
+                // Si hay error (ej. sin sesión), mandarlo a login
+                router.push(link('/login'));
             }
         });
     }
 
     return (
         <div
-            className="rounded-[14px] border p-5"
+            className="rounded-[14px] border p-5 border-line bg-bg"
             style={{
-                borderColor: 'var(--line)',
-                background: 'var(--bg)',
-                boxShadow: '0 12px 40px rgba(10,10,10,0.04)',
-            }}
+                boxShadow: '0 12px 40px rgba(10,10,10,0.04)'}} 
         >
             <div
-                className="mb-4 flex items-center justify-between border-b pb-3.5"
-                style={{ borderColor: 'var(--line)' }}
+                className="mb-4 border-b pb-3.5 border-line"
             >
-                <div>
-                    <div className="mb-0.5 text-[11px]" style={{ color: 'var(--sub)' }}>
-                        {dict.serviceDetail.bookingFrom}
-                    </div>
-                    <div className="flex items-baseline gap-1.5">
-                        <span
-                            style={{
-                                fontSize: 28,
-                                fontWeight: 500,
-                                letterSpacing: '-0.025em',
-                                color: 'var(--ink)',
-                            }}
-                        >
-                            {formatPrice(price, locale, currencySymbol)}
-                        </span>
-                        <Mono className="text-[12px]" style={{ color: 'var(--muted)' }}>
-                            {dict.serviceDetail.bookingPerVisit}
-                        </Mono>
-                    </div>
+                <div className="mb-0.5 text-[11px] text-sub">
+                    {dict.serviceDetail.bookingFrom}
                 </div>
-                <Pill tone="success" icon="check">
-                    {dict.serviceDetail.bookingAvailableToday}
-                </Pill>
+                <div className="flex items-baseline gap-1.5">
+                    <span
+                        style={{
+                            fontSize: 28,
+                            letterSpacing: '-0.025em'}} className="font-medium text-ink"
+                    >
+                        {formatPrice(price, locale, currencySymbol)}
+                    </span>
+                    <Mono className="text-[12px] text-muted">
+                        {dict.serviceDetail.bookingPerVisit}
+                    </Mono>
+                </div>
             </div>
 
             <Field label={dict.serviceDetail.bookingServiceLabel}>
@@ -101,39 +93,6 @@ export function ServiceBookingCard({
                     aria-label={dict.serviceDetail.bookingServiceLabel}
                 />
             </Field>
-
-            <div className="h-3" />
-
-            <Field label={dict.serviceDetail.bookingWhenLabel}>
-                <Input
-                    icon="calendar"
-                    placeholder="Hoy"
-                    aria-label={dict.serviceDetail.bookingWhenLabel}
-                />
-            </Field>
-
-            <div className="h-3" />
-
-            <Field label={dict.serviceDetail.bookingAddressLabel}>
-                <Input
-                    icon="pin"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                    placeholder="—"
-                    aria-label={dict.serviceDetail.bookingAddressLabel}
-                />
-            </Field>
-
-            <div
-                className="mt-4 rounded-md p-3 text-[12px]"
-                style={{
-                    background: 'var(--tint)',
-                    color: 'var(--sub)',
-                    lineHeight: 1.5,
-                }}
-            >
-                {dict.serviceDetail.bookingDisclaimer}
-            </div>
 
             {isOwner ? null : (
                 <>
@@ -161,11 +120,7 @@ export function ServiceBookingCard({
                         {contactPhone ? (
                             <a
                                 href={`tel:${contactPhone.replace(/\s/g, '')}`}
-                                className="inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-[13px] font-semibold transition-colors hover:bg-tint"
-                                style={{
-                                    borderColor: 'var(--line)',
-                                    color: 'var(--ink)',
-                                }}
+                                className="inline-flex w-full items-center justify-center gap-2 rounded-lg border px-4 py-2.5 text-[13px] font-semibold transition-colors hover:bg-tint border-line text-ink"
                             >
                                 <span className="inline-flex items-center gap-2">
                                     {dict.serviceDetail.bookingCallCta}
@@ -187,27 +142,19 @@ export function ServiceBookingCard({
 
             {stats.length > 0 ? (
                 <div
-                    className="mt-4 grid grid-cols-3 gap-3 border-t pt-3.5"
-                    style={{ borderColor: 'var(--line)' }}
+                    className="mt-4 grid grid-cols-3 gap-3 border-t pt-3.5 border-line"
                 >
                     {stats.map((stat) => (
                         <div key={stat.label} className="text-center">
                             <div
                                 style={{
                                     fontSize: 17,
-                                    fontWeight: 600,
-                                    color: 'var(--ink)',
-                                    letterSpacing: '-0.015em',
-                                }}
+                                    letterSpacing: '-0.015em'}} className="font-semibold text-ink"
                             >
                                 {stat.value}
                             </div>
                             <Mono
-                                className="mt-0.5 inline-block text-[10px]"
-                                style={{
-                                    color: 'var(--muted)',
-                                    letterSpacing: '0.08em',
-                                }}
+                                className="mt-0.5 inline-block text-[10px] tracking-[0.08em] text-muted"
                             >
                                 {stat.label.toUpperCase()}
                             </Mono>

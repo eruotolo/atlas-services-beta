@@ -11,8 +11,8 @@ export function IconografiaSection(): ReactElement {
         <SectionShell
             anchor="iconografia"
             eyebrow="06 · Iconografía"
-            title="63 iconos sobre lucide-react"
-            description="Cada nombre del prototipo Hireeo está mapeado a un componente de lucide-react. Importar con name tipado por HireIconName."
+            title="Iconos SVG propios"
+            description="Cada nombre del prototipo Hireeo está mapeado a un componente SVG inline propio. Importar con name tipado por HireIconName."
         >
             <Card padding={24} className="mb-6">
                 <SectionLabel className="mb-4">Grilla completa</SectionLabel>

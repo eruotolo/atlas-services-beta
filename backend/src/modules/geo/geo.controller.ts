@@ -1,11 +1,12 @@
-import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { RolesGuard } from '@common/guards/roles.guard';
 import { Roles } from '@common/decorators/roles.decorator';
 
 import { CountryDto } from './dto/country.dto';
+import { CreateCountryDto } from './dto/create-country.dto';
 import { UpdateCountryDto } from './dto/update-country.dto';
 import { GeoLocalityDto } from './dto/geo-locality.dto';
 import { GeoRegionDto } from './dto/geo-region.dto';
@@ -21,6 +22,16 @@ export class GeoController {
     @ApiOkResponse({ type: [CountryDto] })
     findAllCountries() {
         return this.geoService.findAllCountries();
+    }
+
+    @Get('admin/countries')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('SUPER_ADMIN')
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Listar todos los países (Super Admin) — incluye inactivos' })
+    @ApiOkResponse({ type: [CountryDto] })
+    findAllCountriesAdmin() {
+        return this.geoService.findAllCountriesAdmin();
     }
 
     @Get('countries/:code')
@@ -53,6 +64,16 @@ export class GeoController {
     @ApiOkResponse({ type: [GeoLocalityDto] })
     searchLocalitiesByCountry(@Param('code') code: string) {
         return this.geoService.searchLocalitiesByCountry(code);
+    }
+
+    @Post('countries')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('SUPER_ADMIN')
+    @ApiBearerAuth()
+    @ApiOperation({ summary: 'Crear un nuevo país (Super Admin)' })
+    @ApiCreatedResponse({ type: CountryDto })
+    createCountry(@Body() createCountryDto: CreateCountryDto) {
+        return this.geoService.createCountry(createCountryDto);
     }
 
     @Patch('countries/:code')

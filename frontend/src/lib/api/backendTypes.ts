@@ -8,8 +8,11 @@ export interface BackendAuthResponse {
         id: string;
         email: string;
         name: string;
+        avatar?: string | null;
         roles: string[];
         phone?: string | null;
+        adminCountries?: string[];
+        providerCountries?: string[];
     };
 }
 
@@ -21,6 +24,7 @@ export interface BackendRefreshResponse {
 export interface BackendCategoryDto {
     id: string;
     name: string;
+    nameEn?: string | null;
     slug: string;
     icon?: string | null;
     order: number;
@@ -38,6 +42,7 @@ export interface BackendSponsorDto {
     active: boolean;
     startDate: string;
     endDate: string;
+    country?: { code: string; name: string } | null;
 }
 
 export interface BackendServiceDto {

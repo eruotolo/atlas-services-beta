@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { Check, ChevronDown, Search } from 'lucide-react';
+import { Check, ChevronDown, Search } from '@/shared/components/icons';
 
 const COUNTRIES = [
     { code: 'CL', name: 'Chile', dial: '+56', flag: '🇨🇱', placeholder: '9 1234 5678' },
@@ -127,24 +127,24 @@ export default function PhoneInput({
             {label && (
                 <label
                     htmlFor={id}
-                    className="mb-2 block text-sm font-bold text-sub"
+                    className="mb-1.5 block text-[12px] font-semibold tracking-[-0.005em] text-ink"
                 >
                     {label}
                 </label>
             )}
 
             <div
-                className={`form-input flex items-center overflow-hidden p-0 ${
-                    error ? 'border-red-500' : ''
+                className={`flex h-[38px] items-center overflow-hidden rounded-lg border bg-bg transition-colors focus-within:border-ink ${
+                    error ? 'border-red-500' : 'border-line'
                 }`}
             >
                 <button
                     type="button"
                     onClick={() => setIsOpen(!isOpen)}
-                    className="flex h-full shrink-0 items-center gap-2 border-r border-line px-4 py-3 hover:bg-tint focus:outline-none"
+                    className="flex h-full shrink-0 items-center gap-1.5 border-r border-line px-3 py-2 hover:bg-tint focus:outline-none"
                 >
-                    <span className="text-xl">{selectedCountry.flag}</span>
-                    <span className="font-bold text-sub">
+                    <span className="text-base">{selectedCountry.flag}</span>
+                    <span className="text-[13px] font-semibold text-sub">
                         {selectedCountry.dial}
                     </span>
                     <ChevronDown size={14} className="text-muted" />
@@ -156,7 +156,7 @@ export default function PhoneInput({
                     value={phoneNumber}
                     onChange={handlePhoneChange}
                     placeholder={selectedCountry.placeholder}
-                    className="h-full w-full bg-transparent px-4 py-3 font-medium text-ink placeholder:text-muted focus:outline-none"
+                    className="h-full w-full bg-transparent px-3 py-2 text-[13px] text-ink placeholder:text-muted focus:outline-none"
                 />
 
                 <input type="hidden" name={name} value={fullValue} required={required} />

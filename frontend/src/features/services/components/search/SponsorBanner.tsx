@@ -34,16 +34,10 @@ export function SponsorBanner({ sponsor, dict }: SponsorBannerProps): ReactEleme
             href={sponsor.linkExterno}
             target="_blank"
             rel="sponsored noopener"
-            className="relative mb-3 block rounded-xl border bg-bg p-[18px] transition-shadow hover:shadow-sm"
-            style={{ borderColor: 'var(--line)' }}
+            className="relative mb-3 block rounded-xl border bg-bg p-[18px] transition-shadow hover:shadow-sm border-line"
         >
             <Mono
-                className="absolute top-3 right-3 rounded px-1.5 py-0.5 text-[10px] font-semibold"
-                style={{
-                    background: 'var(--tint)',
-                    color: 'var(--muted)',
-                    letterSpacing: '0.08em',
-                }}
+                className="absolute top-3 right-3 rounded px-1.5 py-0.5 text-[10px] font-semibold tracking-[0.08em] bg-tint text-muted"
             >
                 {dict.search.sponsorLabel}
             </Mono>
@@ -59,23 +53,20 @@ export function SponsorBanner({ sponsor, dict }: SponsorBannerProps): ReactEleme
                     />
                 ) : (
                     <div
-                        className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[10px] text-[22px] font-bold text-white"
-                        style={{ background: 'var(--accent)' }}
+                        className="flex h-14 w-14 shrink-0 items-center justify-center rounded-[10px] text-[22px] font-bold text-white bg-accent"
                     >
                         {initialsOf(sponsor.nombre)}
                     </div>
                 )}
                 <div className="min-w-0 flex-1">
                     <div
-                        className="truncate text-[14.5px] font-semibold"
-                        style={{ color: 'var(--ink)' }}
+                        className="truncate text-[14.5px] font-semibold text-ink"
                     >
                         {sponsor.nombre}
                     </div>
                     {sponsor.descripcion ? (
                         <div
-                            className="mt-0.5 line-clamp-1 text-[12.5px]"
-                            style={{ color: 'var(--sub)' }}
+                            className="mt-0.5 line-clamp-1 text-[12.5px] text-sub"
                         >
                             {sponsor.descripcion}
                         </div>

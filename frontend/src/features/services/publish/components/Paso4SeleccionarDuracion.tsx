@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-import { Check } from 'lucide-react';
+import { Check } from '@/shared/components/icons';
 
 import { obtenerPreciosPremiumActivos } from '@/features/payments/actions';
 import { useCountry } from '@/lib/providers/CountryProvider';

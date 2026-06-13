@@ -13,24 +13,20 @@ interface EmptyResultsProps {
 export function EmptyResults({ dict, onReset }: EmptyResultsProps): ReactElement {
     return (
         <div
-            className="rounded-xl border bg-bg p-16 text-center"
-            style={{ borderColor: 'var(--line)' }}
+            className="rounded-xl border bg-bg p-16 text-center border-line"
         >
             <div
-                className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full"
-                style={{ background: 'var(--tint)' }}
+                className="mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-tint"
             >
                 <Icon name="search" size={28} stroke="var(--muted)" />
             </div>
             <h3
-                className="m-0 mb-2 text-[20px] font-semibold"
-                style={{ color: 'var(--ink)', letterSpacing: '-0.015em' }}
+                className="m-0 mb-2 text-[20px] font-semibold text-ink tracking-[-0.015em]"
             >
                 {dict.search.noResults}
             </h3>
             <p
-                className="mx-auto mb-6 max-w-[480px] text-[14px]"
-                style={{ color: 'var(--sub)' }}
+                className="mx-auto mb-6 max-w-[480px] text-[14px] text-sub"
             >
                 {dict.search.noResultsHint}
             </p>

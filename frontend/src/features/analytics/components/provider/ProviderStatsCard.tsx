@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart3, Eye, MessageCircle, Mouse, Phone, PhoneCall, Share2 } from 'lucide-react';
+import { BarChart3, Eye, MessageCircle, Mouse, Phone, PhoneCall, Share2 } from '@/shared/components/icons';
 
 import type { ServiceStatItem } from '@/features/analytics/actions/queries';
 

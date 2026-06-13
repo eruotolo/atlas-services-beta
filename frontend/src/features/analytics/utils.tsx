@@ -1,6 +1,6 @@
 import type React from 'react';
 
-import { Eye, Mail, MessageSquare, Phone } from 'lucide-react';
+import { Eye, Mail, MessageSquare, Phone } from '@/shared/components/icons';
 
 export const getInteraccionIcon = (tipo: string): React.ReactNode => {
     switch (tipo) {

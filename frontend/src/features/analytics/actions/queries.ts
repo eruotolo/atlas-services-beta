@@ -25,10 +25,11 @@ interface InteraccionesResponse {
     meta: { total: number; page: number; limit: number; totalPages: number };
 }
 
-export const getInteraccionesMetricas = cache(async () => {
+export const getInteraccionesMetricas = cache(async (countryCode?: string) => {
     try {
         const token = await getAuthToken();
-        const result = await apiClient.get<MetricasResponse>('/interactions/metrics', {
+        const qs = countryCode ? `?countryCode=${encodeURIComponent(countryCode)}` : '';
+        const result = await apiClient.get<MetricasResponse>(`/interactions/metrics${qs}`, {
             token,
             revalidate: 0,
         });
@@ -57,13 +58,15 @@ export const getInteraccionesMetricas = cache(async () => {
     }
 });
 
-export const getInteracciones = cache(async (page = 1, limit = 10, search?: string) => {
+export const getInteracciones = cache(
+    async (page = 1, limit = 10, search?: string, countryCode?: string) => {
     try {
         const token = await getAuthToken();
         const qs = new URLSearchParams({
             page: String(page),
             limit: String(limit),
             ...(search ? { query: search } : {}),
+            ...(countryCode ? { countryCode } : {}),
         });
 
         const result = await apiClient.get<InteraccionesResponse>(`/interactions?${qs}`, {
@@ -91,7 +94,8 @@ export const getInteracciones = cache(async (page = 1, limit = 10, search?: stri
             meta: { total: 0, page, limit, totalPages: 0 },
         };
     }
-});
+    },
+);
 
 // ─── Estadísticas per-service (dueño del servicio o admin) ────────────────────
 

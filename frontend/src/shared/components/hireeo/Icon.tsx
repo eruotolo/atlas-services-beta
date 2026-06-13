@@ -15,9 +15,9 @@ export function Icon({
     className,
     ...rest
 }: IconProps): ReactElement {
-    const LucideComp = HIRE_ICONS[name] || HIRE_ICONS.alert;
+    const SvgComp = HIRE_ICONS[name] || HIRE_ICONS.alert;
     return (
-        <LucideComp
+        <SvgComp
             width={size}
             height={size}
             strokeWidth={strokeWidth}

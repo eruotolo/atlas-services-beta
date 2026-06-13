@@ -50,8 +50,7 @@ export function SearchHeader({
 
     return (
         <section
-            className="border-b"
-            style={{ borderColor: 'var(--line)', background: 'var(--tint)' }}
+            className="border-b border-line bg-tint"
         >
             <div className="mx-auto max-w-site px-6 py-5 sm:px-10 lg:px-14">
                 <form
@@ -59,12 +58,10 @@ export function SearchHeader({
                     className="grid grid-cols-1 gap-2.5 md:grid-cols-[1.7fr_1fr_1fr_auto]"
                 >
                     <div
-                        className="relative flex items-center rounded-md border bg-bg"
-                        style={{ borderColor: 'var(--line)' }}
+                        className="relative flex items-center rounded-md border bg-bg border-line"
                     >
                         <span
-                            className="pointer-events-none absolute left-3 inline-flex"
-                            style={{ color: 'var(--muted)' }}
+                            className="pointer-events-none absolute left-3 inline-flex text-muted"
                         >
                             <Icon name="search" size={14} />
                         </span>
@@ -73,8 +70,7 @@ export function SearchHeader({
                             value={searchQuery}
                             onChange={(e) => onQueryChange(e.target.value)}
                             placeholder={dict.search.placeholder}
-                            className="h-10 w-full bg-transparent pr-3 pl-9 text-[13px] outline-none"
-                            style={{ color: 'var(--ink)' }}
+                            className="h-10 w-full bg-transparent pr-3 pl-9 text-[13px] outline-none text-ink"
                         />
                     </div>
 
@@ -82,8 +78,7 @@ export function SearchHeader({
                         value={selectedRegion}
                         onChange={handleRegion}
                         aria-label={dict.search.region}
-                        className={selectFieldStyles()}
-                        style={{ borderColor: 'var(--line)', color: 'var(--ink)' }}
+                        className={`${selectFieldStyles()} border-line text-ink`}
                     >
                         <option value="">{dict.search.allRegions}</option>
                         {regions.map((r) => (
@@ -98,11 +93,9 @@ export function SearchHeader({
                         onChange={handleLocality}
                         disabled={localities.length === 0}
                         aria-label={dict.search.city}
-                        className={selectFieldStyles()}
+                        className={`${selectFieldStyles()} border-line text-ink`}
                         style={{
-                            borderColor: 'var(--line)',
-                            color: 'var(--ink)',
-                            opacity: localities.length === 0 ? 0.5 : 1,
+                            opacity: localities.length === 0 ? 0.5 : 1
                         }}
                     >
                         <option value="">{dict.search.allCities}</option>

@@ -8,6 +8,16 @@ export class CreateCategoryDto {
     @MaxLength(50)
     nombre: string;
 
+    @ApiPropertyOptional({
+        example: 'Electrician',
+        description: 'Nombre en inglés (usado en países de habla inglesa, ej. us)',
+        nullable: true,
+    })
+    @IsOptional()
+    @IsString()
+    @MaxLength(50)
+    nombreEn?: string | null;
+
     @ApiProperty({ example: 'electricista' })
     @IsString()
     @MinLength(2)

@@ -102,6 +102,54 @@ Mantén todas tus reglas actuales de arquitectura DDD, Server Components, estruc
 - **DRY Enforcement**: Verificar si la lógica ya existe antes de escribir.
 - **Contract-First**: Si Frontend necesita un dato del Backend inexistente, generar primero la Interface TypeScript.
 
+### 🗂️ Organización de Componentes — REGLA DE ORO (NO NEGOCIABLE)
+
+#### Componentes únicos → `features/`
+
+Un componente único pertenece a un dominio específico y no se reutiliza en otros dominios.
+
+```
+features/
+└── <dominio>/               # admin, auth, services, users, payments…
+    ├── actions/             # Server Actions y llamadas a API
+    ├── components/
+    │   └── <NombreComponente>/   # ← carpeta obligatoria por componente
+    │       └── index.tsx
+    ├── lib/                 # helpers y utilidades del dominio
+    ├── schemas/             # schemas Zod del dominio
+    └── types/               # tipos TypeScript del dominio
+```
+
+Ejemplos:
+- `AdminSidebar` → `features/admin/components/AdminSidebar/index.tsx`
+- `ConfigPageHeader` → `features/admin/components/ConfigPageHeader/index.tsx`
+- `ServiceCard` → `features/services/components/ServiceCard/index.tsx`
+
+#### Componentes reutilizables → `shared/`
+
+Un componente shared no tiene lógica de dominio y puede usarse en cualquier feature sin modificación.
+
+```
+shared/
+├── components/
+│   └── <NombreComponente>/   # ← carpeta obligatoria por componente
+│       └── index.tsx
+├── lib/                     # utils globales (formatCurrency, cn, etc.)
+├── types/                   # tipos globales del proyecto
+└── schemas/                 # schemas Zod reutilizables
+```
+
+Ejemplos:
+- `PageHeader` → `shared/components/PageHeader/index.tsx`
+- `Avatar` → `shared/components/Avatar/index.tsx`
+- `Icon`, `Mono` → `shared/components/Icon/index.tsx`, etc.
+
+#### Reglas de aplicación
+
+- **NUNCA** crear un archivo de componente plano (`ComponenteName.tsx`) fuera de su carpeta propia.
+- **NUNCA** mover un componente de `features/` a `shared/` por conveniencia. Si dos features necesitan algo en común, crear un componente shared *nuevo* sin lógica de dominio.
+- La misma regla de carpetas aplica a `lib/`, `types/` y `schemas/` dentro de `shared/` si crecen en complejidad.
+
 ## 3. Estructura del Monorepo
 ```
 next-atlas-services/
@@ -145,8 +193,8 @@ pnpm --filter backend db:seed   # Poblar DB (geo + roles + categorías + precios
 
 ## 5. Información del Proyecto
 > **Hireeo (Beta)** — Marketplace multi-país de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas).
-> Países: Chile (`cl`), Argentina (`ar`), Uruguay (`uy`), España (`es`), Estados Unidos (`us`).
-> **Dominio oficial:** `hireeo.app` (un solo dominio con subpaths por país: `/cl`, `/ar`, `/uy`, `/es`, `/us`). Producción aún no desplegada.
+> Países: Chile (`cl`), Argentina (`ar`), Uruguay (`uy`), España (`es`), Estados Unidos (`us`). **(Nota: Pendiente incorporar Paraguay (`py`) en el futuro).**
+> **Dominio oficial:** `hireeo.app` (un solo dominio con subpaths por país: `/cl`, `/ar`, `/uy`, `/es`, `/us`, y futuramente `/py`). Producción aún no desplegada.
 
 ## 6. Arquitectura Multi-País
 
@@ -211,7 +259,37 @@ pnpm db:seed          # Pobla geo + roles + categorías + precios (5 países)
 - Textos: genéricos (no hardcodeados a Chiloé ni a ningún país específico)
 - Los filtros de ubicación se cargan dinámicamente desde la API geo (no hardcodeados)
 
+### 🌟 Iconos — REGLA DE ORO (NO NEGOCIABLE)
+- **Si la app requiere usar algún icono, usar el MCP `icons0`, eso tiene todo incluido.**
+- **SIEMPRE usar el MCP `icons0`** para obtener iconos. NUNCA buscar iconos de otra fuente.
+- Está **PROHIBIDO** usar Lucide React, Heroicons, FontAwesome ni ninguna otra librería de iconos.
+- Flujo obligatorio: antes de usar cualquier ícono, consultar el MCP `icons0` para obtener el SVG o nombre correcto.
+- Si el MCP `icons0` no está disponible en la sesión, reportarlo al usuario antes de continuar.
+
 ## 9. Errores ya corregidos (no repetir)
 - **Geo actions deben usar `apiClient`**: Las funciones en `features/geo/actions/queries.ts` deben usar `apiClient.get()` (no `fetch` directo). El backend tiene `ApiKeyGuard` global — `fetch` sin el header `x-api-key` recibe 401 silencioso y retorna `[]`.
 - **Cognitive complexity > 15**: Si Biome rechaza por complejidad, extraer funciones puras o subcomponentes fuera del componente principal. Usar `biome-ignore` solo como último recurso con justificación.
 - **Seed obligatorio para geo**: Sin ejecutar `pnpm --filter backend db:seed`, los filtros de región y ciudad no aparecen (la tabla `GeoRegion` está vacía).
+
+
+---
+
+## Documentación en Obsidian
+
+La documentación de este proyecto vive en el vault **SitesDoc**. Al iniciar cualquier sesión de trabajo, leer la nota:
+
+```bash
+cat "/Users/edgardoruotolo/SitesDoc/nextjs_projects/next-atlas-services/next-atlas-services.md"
+```
+
+Al finalizar cambios relevantes (nueva feature, bug crítico, decisión de arquitectura), actualizar la nota **automáticamente** con:
+
+```bash
+cat >> "/Users/edgardoruotolo/SitesDoc/nextjs_projects/next-atlas-services/next-atlas-services.md" << 'EOF'
+
+### $(date +%Y-%m-%d) — TÍTULO DEL CAMBIO
+- Descripción del cambio realizado
+EOF
+```
+
+**Importante:** Ejecutar este append siempre al terminar una tarea, sin esperar que el usuario lo pida.

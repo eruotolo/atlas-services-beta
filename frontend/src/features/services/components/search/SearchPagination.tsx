@@ -44,16 +44,15 @@ export function SearchPagination({
 
     return (
         <div
-            className="mt-7 flex flex-col items-start justify-between gap-3 md:flex-row md:items-center"
-            style={{ color: 'var(--sub)' }}
+            className="mt-7 flex flex-col items-start justify-between gap-3 md:flex-row md:items-center text-sub"
         >
             <div className="text-[12.5px]">
                 {dict.search.paginationShowing}{' '}
-                <Mono className="font-semibold" style={{ color: 'var(--ink)' }}>
+                <Mono className="font-semibold text-ink">
                     {from}–{to}
                 </Mono>{' '}
                 {dict.search.paginationOf}{' '}
-                <Mono className="font-semibold" style={{ color: 'var(--ink)' }}>
+                <Mono className="font-semibold text-ink">
                     {totalCount}
                 </Mono>
             </div>
@@ -76,8 +75,7 @@ export function SearchPagination({
                         return (
                             <span
                                 key={`ellipsis-after-${prevPage}`}
-                                className="px-1 text-[12.5px]"
-                                style={{ color: 'var(--muted)' }}
+                                className="px-1 text-[12.5px] text-muted"
                             >
                                 {ELLIPSIS}
                             </span>

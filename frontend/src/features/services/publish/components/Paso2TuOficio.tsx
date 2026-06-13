@@ -1,4 +1,5 @@
 'use client';
+import { Btn } from '@/shared/components/hireeo';
 
 import { useEffect, useId, useState } from 'react';
 
@@ -10,14 +11,14 @@ import {
     DollarSign,
     FileText,
     Globe,
-    Image as ImageIcon,
     Mail,
     MapPin,
     Plus,
     Sparkles,
     Trash2,
     User,
-} from 'lucide-react';
+} from '@/shared/components/icons';
+import { ImageDropzone } from '@/shared/components/ImageDropzone';
 
 import { getCategorias } from '@/features/categories/actions';
 import { LocalitySelect } from '@/features/geo/components/LocalitySelect';
@@ -71,7 +72,6 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
 
     const tituloId = useId();
     const descripcionId = useId();
-    const imagenPrincipalId = useId();
     const precioId = useId();
     const declaracionId = useId();
 
@@ -193,22 +193,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
         cargarCategorias();
     }, []);
 
-    function handleImagenPrincipalChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-        if (!validTypes.includes(file.type)) {
-            setError('Tipo de archivo no válido. Solo JPG, PNG y WEBP');
-            return;
-        }
-
-        const MAX_SIZE = 3 * 1024 * 1024; // 3MB
-        if (file.size > MAX_SIZE) {
-            setError('La imagen no puede superar 3MB');
-            return;
-        }
-
+    function handleImagenPrincipalFile(file: File): void {
         setImagenPrincipal(file);
         setError('');
 
@@ -412,27 +397,18 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                 </div>
 
                 <div>
-                    <label
-                        htmlFor={imagenPrincipalId}
-                        className="mb-1.5 block text-sm font-bold text-sub"
-                    >
+                    <p className="mb-1.5 text-sm font-bold text-sub">
                         Imagen del Servicio *
-                    </label>
+                    </p>
                     <div className="space-y-3">
-                        <div className="relative">
-                            <ImageIcon
-                                size={18}
-                                className="pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-muted"
-                            />
-                            <input
-                                type="file"
-                                id={imagenPrincipalId}
-                                accept="image/jpeg,image/jpg,image/png,image/webp"
-                                onChange={handleImagenPrincipalChange}
-                                required
-                                className="form-input pr-4 pl-12 file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-3 file:text-xs file:font-bold file:text-brand-hover hover:file:bg-brand/10"
-                            />
-                        </div>
+                        <ImageDropzone
+                            maxSizeMB={3}
+                            onFilesAccepted={(files) => {
+                                if (files[0]) handleImagenPrincipalFile(files[0]);
+                            }}
+                            label="Arrastra la imagen del servicio o haz clic para seleccionar"
+                            description="JPG, PNG, WEBP · Máx. 3 MB"
+                        />
                         {imagenPrincipalPreview && (
                             <div className="mt-2">
                                 <Image
@@ -681,7 +657,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                     >
                         Declaro que la información proporcionada es verdadera y acepto las{' '}
                         <a
-                            href="/terminos"
+                            href="/terms"
                             target="_blank"
                             className="font-bold text-brand hover:underline"
                             rel="noopener"
@@ -692,13 +668,9 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                     </label>
                 </div>
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-primary w-full cursor-pointer rounded-2xl px-6 py-4 disabled:opacity-50"
-                >
+                <Btn variant="primary" type="submit" disabled={loading}>
                     {loading ? 'Guardando...' : 'Siguiente Paso'}
-                </button>
+                </Btn>
             </form>
         </div>
     );

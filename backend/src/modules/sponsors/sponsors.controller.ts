@@ -20,18 +20,25 @@ export class SponsorsController {
     @ApiQuery({ name: 'limit', required: false, type: Number })
     @ApiQuery({ name: 'query', required: false, type: String })
     @ApiQuery({ name: 'countryCode', required: false, type: String, example: 'cl' })
+    @ApiQuery({ name: 'level', required: false, type: String, example: 'SENIOR' })
+    @ApiQuery({ name: 'active', required: false, type: Boolean })
     findAll(
         @Query('page') page?: string,
         @Query('limit') limit?: string,
         @Query('query') query?: string,
         @Query('countryCode') countryCode?: string,
+        @Query('level') level?: string,
+        @Query('active') active?: string,
     ) {
         // If query parameters for pagination exist, return paginated results
         if (page || limit || query) {
             return this.service.findAllPaginated(
                 page ? Number(page) : 1,
                 limit ? Number(limit) : 10,
-                query
+                query,
+                countryCode,
+                level,
+                active === 'true',
             );
         }
         // Otherwise return the flat list filtered by country (e.g. for the landing page)

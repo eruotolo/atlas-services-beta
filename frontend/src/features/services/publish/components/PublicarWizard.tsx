@@ -53,11 +53,9 @@ function StepperItem({ paso, isActive, isLast }: StepperItemProps): ReactElement
                 </span>
                 <div className="hidden leading-tight md:block">
                     <Mono
-                        className="text-[9.5px] font-semibold"
+                        className="text-[9.5px] font-semibold tracking-[0.08em]"
                         style={{
-                            color: isActive ? 'var(--accent)' : 'var(--muted)',
-                            letterSpacing: '0.08em',
-                        }}
+                            color: isActive ? 'var(--accent)' : 'var(--muted)'}} 
                     >
                         PASO {paso.numero}
                     </Mono>
@@ -166,8 +164,7 @@ export default function PublicarWizard({ usuarioLogueado }: PublicarWizardProps)
                 {Number.isInteger(pasoActual) && pasos[pasoActual - 1] ? (
                     <div className="mt-4 text-center md:hidden">
                         <Mono
-                            className="text-[10.5px] font-semibold"
-                            style={{ color: 'var(--accent)', letterSpacing: '0.1em' }}
+                            className="text-[10.5px] font-semibold tracking-wider text-accent"
                         >
                             PASO {pasoActual} · {pasos[pasoActual - 1].titulo.toUpperCase()}
                         </Mono>

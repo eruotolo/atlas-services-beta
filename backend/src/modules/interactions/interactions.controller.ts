@@ -28,15 +28,18 @@ export class InteractionsController {
     @ApiQuery({ name: 'page', required: false, type: Number })
     @ApiQuery({ name: 'limit', required: false, type: Number })
     @ApiQuery({ name: 'query', required: false, type: String })
+    @ApiQuery({ name: 'countryCode', required: false, type: String, example: 'cl' })
     findAll(
         @Query('page') page?: string,
         @Query('limit') limit?: string,
         @Query('query') query?: string,
+        @Query('countryCode') countryCode?: string,
     ) {
         return this.service.findAllPaginated(
             page ? parseInt(page, 10) : 1,
             limit ? parseInt(limit, 10) : 20,
             query,
+            countryCode,
         );
     }
 
@@ -44,9 +47,10 @@ export class InteractionsController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('admin')
     @ApiBearerAuth('access-token')
-    @ApiOperation({ summary: 'Métricas globales de interacciones (admin)' })
-    getMetricas() {
-        return this.service.getMetricas();
+    @ApiOperation({ summary: 'Métricas de interacciones, global o por país (admin)' })
+    @ApiQuery({ name: 'countryCode', required: false, type: String, example: 'cl' })
+    getMetricas(@Query('countryCode') countryCode?: string) {
+        return this.service.getMetricas(countryCode);
     }
 
     @Get('services/:serviceId/stats')

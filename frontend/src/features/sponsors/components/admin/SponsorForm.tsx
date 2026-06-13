@@ -4,68 +4,101 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 
-import { Upload, X } from 'lucide-react';
+import { X } from '@/shared/components/icons';
+import { ImageDropzone } from '@/shared/components/ImageDropzone';
 
+import type { Country } from '@/features/geo/types/geoTypes';
 import { actualizarSponsor, crearSponsor } from '@/features/sponsors/actions';
+import { useCountry } from '@/lib/providers/CountryProvider';
 import { Btn, Field, Input, Select } from '@/shared/components/hireeo';
+import { notify } from '@/shared/lib/notify';
 
 import type { CategoriaSponsor, Sponsor } from '../../types/sponsorTypes';
 
 interface SponsorFormProps {
     sponsor?: Sponsor;
+    countries?: Country[];
     onSuccess: () => void;
     onCancel: () => void;
 }
 
-export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFormProps) {
+const GLOBAL_OPTION = '';
+
+interface CountryOption {
+    code: string;
+    name: string;
+}
+
+function buildPublicationDescription(code: string, options: CountryOption[]): string {
+    if (!code) return 'Publicado en todos los países (Global)';
+    const name = options.find((c) => c.code === code)?.name ?? code;
+    return `Publicado en ${name}`;
+}
+
+async function uploadImage(file: File): Promise<string> {
+    const formData = new FormData();
+    formData.append('files', file);
+    formData.append('folder', 'sponsors');
+
+    const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+    });
+
+    if (!response.ok) {
+        let errorMessage = 'Error al subir la imagen';
+        try {
+            const errorData = await response.json();
+            if (errorData.error) {
+                errorMessage = errorData.details || errorData.error;
+            }
+        } catch (_e) {
+            // Si no es JSON, mantenemos el mensaje genérico
+        }
+        throw new Error(errorMessage);
+    }
+
+    const data = await response.json();
+    return data.urls[0];
+}
+
+async function resolveImagenUrl(file: File | null, currentUrl?: string): Promise<string> {
+    if (file) return uploadImage(file);
+    if (currentUrl) return currentUrl;
+    throw new Error('Debes subir una imagen');
+}
+
+export default function SponsorForm({
+    sponsor,
+    countries = [],
+    onSuccess,
+    onCancel,
+}: SponsorFormProps) {
+    const scopeCountry = useCountry();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [selectedLevel, setSelectedLevel] = useState(sponsor?.nivel || 'STANDARD');
+    const [selectedCountry, setSelectedCountry] = useState<string>(
+        sponsor ? (sponsor.pais?.codigo ?? GLOBAL_OPTION) : scopeCountry.code,
+    );
+
+    // Si la página no pasó la lista de países, ofrecer al menos el país del scope
+    const countryOptions: CountryOption[] =
+        countries.length > 0
+            ? countries.map((c) => ({ code: c.code, name: c.name }))
+            : [{ code: scopeCountry.code, name: scopeCountry.name }];
+
+    const labels = sponsor
+        ? { success: 'Sponsor actualizado', error: 'Error al actualizar sponsor', submit: 'Actualizar' }
+        : { success: 'Sponsor creado', error: 'Error al crear sponsor', submit: 'Crear Sponsor' };
     const [previewUrl, setPreviewUrl] = useState<string | null>(sponsor?.imagenUrl || null);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [charCount, setCharCount] = useState(sponsor?.descripcion?.length || 0);
 
-    function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const file = e.target.files?.[0];
-        if (file) {
-            const MAX_SIZE = 3 * 1024 * 1024; // 3MB
-            if (file.size > MAX_SIZE) {
-                setError(`El archivo ${file.name} supera el tamaño máximo de 3MB`);
-                e.target.value = '';
-                return;
-            }
-
-            setSelectedFile(file);
-            setPreviewUrl(URL.createObjectURL(file));
-            setError('');
-        }
-    }
-
-    async function uploadImage(file: File): Promise<string> {
-        const formData = new FormData();
-        formData.append('files', file);
-        formData.append('folder', 'sponsors');
-
-        const response = await fetch('/api/upload', {
-            method: 'POST',
-            body: formData,
-        });
-
-        if (!response.ok) {
-            let errorMessage = 'Error al subir la imagen';
-            try {
-                const errorData = await response.json();
-                if (errorData.error) {
-                    errorMessage = errorData.details || errorData.error;
-                }
-            } catch (_e) {
-                // Si no es JSON, mantenemos el mensaje genérico
-            }
-            throw new Error(errorMessage);
-        }
-
-        const data = await response.json();
-        return data.urls[0];
+    function handleFileAccepted(file: File): void {
+        setSelectedFile(file);
+        setPreviewUrl(URL.createObjectURL(file));
+        setError('');
     }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -76,13 +109,7 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
         const formData = new FormData(e.currentTarget);
 
         try {
-            let finalImagenUrl = sponsor?.imagenUrl || '';
-
-            if (selectedFile) {
-                finalImagenUrl = await uploadImage(selectedFile);
-            } else if (!sponsor?.imagenUrl) {
-                throw new Error('Debes subir una imagen');
-            }
+            const finalImagenUrl = await resolveImagenUrl(selectedFile, sponsor?.imagenUrl);
 
             const data = {
                 nombre: formData.get('nombre') as string,
@@ -92,7 +119,8 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                 nivel: selectedLevel as CategoriaSponsor,
                 fechaInicio: new Date(formData.get('fechaInicio') as string),
                 fechaFin: new Date(formData.get('fechaFin') as string),
-                activo: sponsor ? sponsor.activo : true,
+                activo: sponsor?.activo ?? true,
+                countryCode: selectedCountry || null,
             };
 
             const result = sponsor
@@ -101,12 +129,19 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
 
             if (result.error) {
                 setError(result.error);
+                notify.error({ title: labels.error, description: result.error });
             } else {
+                notify.success({
+                    title: labels.success,
+                    description: buildPublicationDescription(selectedCountry, countryOptions),
+                });
                 onSuccess();
             }
             // biome-ignore lint/suspicious/noExplicitAny: Error genérico
         } catch (err: any) {
-            setError(err.message || 'Error al procesar la solicitud');
+            const message = err.message || 'Error al procesar la solicitud';
+            setError(message);
+            notify.error({ title: 'Error', description: message });
         } finally {
             setLoading(false);
         }
@@ -135,6 +170,25 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                 </div>
             )}
 
+            <Field
+                label="País de publicación"
+                hint="Global = visible en todos los países"
+            >
+                <Select
+                    icon="globe"
+                    name="countryCode"
+                    value={selectedCountry}
+                    onChange={(e) => setSelectedCountry(e.target.value)}
+                >
+                    <option value={GLOBAL_OPTION}>Global (todos los países)</option>
+                    {countryOptions.map((country) => (
+                        <option key={country.code} value={country.code}>
+                            {country.name}
+                        </option>
+                    ))}
+                </Select>
+            </Field>
+
             <Field label="Nombre del Sponsor">
                 <Input type="text" name="nombre" defaultValue={sponsor?.nombre} required />
             </Field>
@@ -162,19 +216,15 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                             </button>
                         </div>
                     )}
-                    <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-line bg-tint px-4 py-8 transition-colors hover:bg-tint/70">
-                        <Upload className="text-muted" />
-                        <span className="text-xs font-bold text-sub">
-                            Clic para subir imagen (JPG, PNG)
-                        </span>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            className="hidden"
-                            required={!sponsor?.imagenUrl}
-                        />
-                    </label>
+                    <ImageDropzone
+                        maxSizeMB={3}
+                        onFilesAccepted={(files) => {
+                            if (files[0]) handleFileAccepted(files[0]);
+                        }}
+                        required={!sponsor?.imagenUrl}
+                        label="Arrastra el logo o haz clic para seleccionar"
+                        description="JPG, PNG, WEBP · Máx. 3 MB"
+                    />
                 </div>
             </Field>
 
@@ -195,12 +245,11 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                     rows={3}
                     maxLength={170}
                     placeholder="Breve descripción del sponsor..."
-                    className="w-full rounded-lg border bg-bg px-3 py-2 text-[13px] outline-none transition-colors placeholder:text-muted focus:border-ink"
-                    style={{ borderColor: 'var(--line)', color: 'var(--ink)' }}
+                    className="w-full rounded-lg border bg-bg px-3 py-2 text-[13px] outline-none transition-colors placeholder:text-muted focus:border-ink border-line text-ink"
                     onChange={(e) => setCharCount(e.target.value.length)}
                 />
                 <div className="mt-1 text-right">
-                    <span className="text-[10px] font-bold text-muted">{charCount}/170</span>
+                    <span className="text-[10px] font-medium text-muted">{charCount}/170</span>
                 </div>
             </Field>
 
@@ -236,12 +285,12 @@ export default function SponsorForm({ sponsor, onSuccess, onCancel }: SponsorFor
                 </Select>
             </Field>
 
-            <div className="flex justify-end gap-3 border-t border-line pt-4">
+            <div className="mt-8 flex justify-end gap-3">
                 <Btn type="button" variant="secondary" onClick={onCancel} disabled={loading}>
                     Cancelar
                 </Btn>
                 <Btn type="submit" variant="accent" disabled={loading}>
-                    {loading ? 'Guardando...' : sponsor ? 'Actualizar' : 'Crear Sponsor'}
+                    {loading ? 'Guardando...' : labels.submit}
                 </Btn>
             </div>
         </form>

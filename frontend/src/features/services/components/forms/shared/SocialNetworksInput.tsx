@@ -1,4 +1,4 @@
-import { Globe, Plus, Trash2 } from 'lucide-react';
+import { Globe, Plus, Trash2 } from '@/shared/components/icons';
 
 import { TIPOS_RED_SOCIAL } from '../../../lib/constants';
 import type { RedSocial } from '../../../types/shared';
@@ -25,14 +25,14 @@ export default function SocialNetworksInput({
         <div className={isAdmin ? 'pt-2' : ''}>
             <div className={`${isAdmin ? 'mb-2' : 'mb-2'} flex items-center justify-between`}>
                 <span
-                    className={`block ${isAdmin ? 'text-xs font-black tracking-wider text-sub uppercase' : 'text-sm font-bold text-sub'}`}
+                    className={"block text-[12px] font-semibold tracking-[-0.005em] text-ink"}
                 >
                     Redes Sociales / Sitio Web
                 </span>
                 <button
                     type="button"
                     onClick={onAgregar}
-                    className={`flex items-center gap-1 rounded-lg bg-brand/5 px-${isAdmin ? '2' : '3'} py-${isAdmin ? '1' : '1.5'} text-${isAdmin ? '[10px]' : 'xs'} font-bold text-brand hover:bg-brand/10`}
+                    className={`flex items-center gap-1 rounded-lg bg-brand/5 px-${isAdmin ? '2' : '3'} py-${isAdmin ? '1' : '1.5'} text-${isAdmin ? '[10px]' : 'xs'} font-semibold text-brand hover:bg-brand/10`}
                 >
                     <Plus size={isAdmin ? 12 : 14} />
                     Agregar

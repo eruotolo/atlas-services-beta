@@ -4,6 +4,7 @@ interface UseImageUploadReturn {
     file: File | null;
     preview: string;
     error: string;
+    handleFile: (file: File) => void;
     handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     resetImage: () => void;
     uploadImage: (file: File) => Promise<string>;
@@ -14,10 +15,7 @@ export function useImageUpload(initialPreview = ''): UseImageUploadReturn {
     const [preview, setPreview] = useState<string>(initialPreview);
     const [error, setError] = useState('');
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = e.target.files?.[0];
-        if (!selectedFile) return;
-
+    const handleFile = (selectedFile: File): void => {
         const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
         if (!validTypes.includes(selectedFile.type)) {
             setError('Tipo de archivo no válido. Solo JPG, PNG y WEBP');
@@ -33,6 +31,11 @@ export function useImageUpload(initialPreview = ''): UseImageUploadReturn {
         setFile(selectedFile);
         setPreview(URL.createObjectURL(selectedFile));
         setError('');
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        const selectedFile = e.target.files?.[0];
+        if (selectedFile) handleFile(selectedFile);
     };
 
     const resetImage = () => {
@@ -72,6 +75,7 @@ export function useImageUpload(initialPreview = ''): UseImageUploadReturn {
         file,
         preview,
         error,
+        handleFile,
         handleFileChange,
         resetImage,
         uploadImage,

@@ -60,10 +60,17 @@ export class StripeGateway implements PaymentGatewayInterface {
         };
     }
 
-    async verifyWebhook(_payload: unknown, signature: string): Promise<WebhookVerifyResult> {
+    async verifyWebhook(payload: string | Buffer, signature: string, countryCode: string = 'es'): Promise<WebhookVerifyResult> {
         this.logger.log(`Verificando webhook Stripe, signature: ${signature}`);
-        // La verificación real usaría stripe.webhooks.constructEvent(payload, signature, secret)
-        return { isValid: true };
+        try {
+            const client = this.getClient(countryCode);
+            const secret = this.getWebhookSecret(countryCode);
+            const event = client.webhooks.constructEvent(payload, signature, secret);
+            return { isValid: true, event };
+        } catch (err) {
+            this.logger.error(`Stripe Webhook Error: ${(err as Error).message}`);
+            return { isValid: false, error: (err as Error).message };
+        }
     }
 
     /** Retorna el cliente Stripe configurado para un país específico */

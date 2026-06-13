@@ -1,38 +1,19 @@
-import { enUS } from './dictionaries/en-US';
-import { es } from './dictionaries/es';
-import { esAR } from './dictionaries/es-AR';
-import { esCL } from './dictionaries/es-CL';
-import { esES } from './dictionaries/es-ES';
-import { esUY } from './dictionaries/es-UY';
-import type { DeepPartial, Dictionary } from './types';
+import type { Dictionary } from './types';
 
-// biome-ignore lint/suspicious/noExplicitAny: Required for recursive deep merge over unknown shapes
-type AnyObject = Record<string, any>;
+import ar from './locales/ar.json';
+import cl from './locales/cl.json';
+import es from './locales/es.json';
+import us from './locales/us.json';
+import uy from './locales/uy.json';
 
-function deepMerge(base: AnyObject, overrides: AnyObject): AnyObject {
-    const result: AnyObject = { ...base };
-    for (const key of Object.keys(overrides)) {
-        const override = overrides[key];
-        if (override === undefined) continue;
-        const baseVal = result[key];
-        if (override !== null && typeof override === 'object' && !Array.isArray(override)) {
-            result[key] = deepMerge(baseVal as AnyObject, override as AnyObject);
-        } else {
-            result[key] = override;
-        }
-    }
-    return result;
-}
-
-const spanishOverrides: Record<string, DeepPartial<Dictionary>> = {
-    cl: esCL,
-    ar: esAR,
-    uy: esUY,
-    es: esES,
+const DICTS: Record<string, Dictionary> = {
+    cl: cl as unknown as Dictionary,
+    ar: ar as unknown as Dictionary,
+    uy: uy as unknown as Dictionary,
+    es: es as unknown as Dictionary,
+    us: us as unknown as Dictionary,
 };
 
 export function getDictionary(country: string): Dictionary {
-    if (country === 'us') return enUS;
-    const overrides = spanishOverrides[country] ?? {};
-    return deepMerge(es, overrides) as Dictionary;
+    return DICTS[country] ?? DICTS.cl;
 }

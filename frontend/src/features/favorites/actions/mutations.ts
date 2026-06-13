@@ -16,7 +16,7 @@ export async function toggleFavorito(serviceId: string, addToFavorites: boolean)
             await apiClient.delete(`/users/me/favorites/${serviceId}`, { token });
         }
 
-        revalidatePath('/perfil/favoritos');
+        revalidatePath('/profile/favorites');
         return { success: true };
     } catch (error) {
         console.error('Error toggling favorito:', error);

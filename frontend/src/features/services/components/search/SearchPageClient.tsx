@@ -220,7 +220,7 @@ export function SearchPageClient({
         if (locality) params.set('locality', locality);
         if (page > 1) params.set('page', String(page));
 
-        router.push(`/${country}/buscar?${params.toString()}`, { scroll: true });
+        router.push(`/${country}/search?${params.toString()}`, { scroll: true });
     }
 
     function handleSubmit(): void {
@@ -255,7 +255,7 @@ export function SearchPageClient({
         setSelectedLocality('');
         setLocalities([]);
         setClientFilters(DEFAULT_CLIENT_FILTERS);
-        router.push(`/${country}/buscar`);
+        router.push(`/${country}/search`);
     }
 
     function patchClientFilters(patch: Partial<ClientFilters>): void {
@@ -304,7 +304,7 @@ export function SearchPageClient({
     };
 
     return (
-        <div style={{ background: 'var(--bg)' }}>
+        <div className="bg-bg">
             <SearchHeader
                 dict={dict}
                 searchQuery={searchQuery}
@@ -341,13 +341,11 @@ export function SearchPageClient({
 
                     {showMobileFilters ? (
                         <div
-                            className="fixed inset-0 z-50 overflow-y-auto p-6 md:hidden"
-                            style={{ background: 'var(--bg)' }}
+                            className="fixed inset-0 z-50 overflow-y-auto p-6 md:hidden bg-bg"
                         >
                             <div className="mb-4 flex items-center justify-between">
                                 <span
-                                    className="text-[16px] font-semibold"
-                                    style={{ color: 'var(--ink)' }}
+                                    className="text-[16px] font-semibold text-ink"
                                 >
                                     {dict.search.filters}
                                 </span>
@@ -355,8 +353,7 @@ export function SearchPageClient({
                                     type="button"
                                     onClick={() => setShowMobileFilters(false)}
                                     aria-label="Cerrar"
-                                    className="cursor-pointer"
-                                    style={{ color: 'var(--ink)' }}
+                                    className="cursor-pointer text-ink"
                                 >
                                     <Icon name="x" size={20} />
                                 </button>

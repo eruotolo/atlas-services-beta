@@ -1,3 +1,6 @@
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
 /**
  * Calcula el monto real recibido descontando la comisión de MercadoPago (Link de pago)
  * Tasa: 3.19% + IVA
@@ -27,4 +30,8 @@ export function formatCurrency(amount: number): string {
 
 export function getCleanPhone(phone: string): string {
     return phone.replace(/[^\d+]/g, '');
+}
+
+export function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs));
 }

@@ -49,6 +49,9 @@ export interface PrecioPremium {
     precio: number;
     duracionMeses: number;
     activo: boolean;
+    currency?: string;
+    countryCode?: string;
+    countryName?: string;
     createdAt?: Date;
     updatedAt?: Date;
 }

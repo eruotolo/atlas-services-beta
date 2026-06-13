@@ -91,12 +91,14 @@ export async function getLocalitiesByRegion(regionId: string): Promise<GeoLocali
     }
 }
 
-export async function searchLocalitiesByCountry(countryCode: string): Promise<Array<{ id: string, name: string, slug: string, region?: { name: string } }>> {
+export async function searchLocalitiesByCountry(
+    countryCode: string,
+): Promise<Array<{ id: string; name: string; slug: string; region?: { name: string } }>> {
     try {
-        return await apiClient.get<any[]>(`/geo/countries/${countryCode}/localities/search`, {
-            revalidate: 86400,
-            tags: [`localities-${countryCode}`],
-        });
+        return await apiClient.get<Array<{ id: string; name: string; slug: string; region?: { name: string } }>>(
+            `/geo/countries/${countryCode}/localities/search`,
+            { revalidate: 86400, tags: [`localities-${countryCode}`] },
+        );
     } catch {
         return [];
     }

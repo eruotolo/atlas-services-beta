@@ -4,18 +4,19 @@ import { useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { Check, Edit2, Trash2 } from 'lucide-react';
+import { Check, Edit2, Trash2 } from '@/shared/components/icons';
 
 type EstadoComentario = 'PENDIENTE' | 'ACTIVO' | 'ELIMINADO';
 
 import { actualizarCalificacion, eliminarCalificacion } from '@/features/reviews/actions';
 
-import { Pill, Stars } from '@/shared/components/hireeo';
+import { Avatar, Pill, Stars } from '@/shared/components/hireeo';
 
 import Modal from '@/shared/components/admin/Modal';
-import type { Column } from '@/shared/components/ui/data-table';
-import { DataTable } from '@/shared/components/ui/data-table';
-import { useDataTable } from '@/shared/components/ui/data-table/useDataTable';
+import type { ColumnDef } from '@tanstack/react-table';
+import { DataTable } from '@/shared/components/DataTable';
+import { useDataTable } from '@/shared/components/DataTable/useDataTable';
+import { notify } from '@/shared/lib/notify';
 
 import CalificacionForm from './CalificacionForm';
 
@@ -65,10 +66,11 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
         setIsProcessing(id);
         try {
             await actualizarCalificacion({ id, estado: 'ACTIVO' });
+            notify.success({ title: 'Reseña aprobada' });
             router.refresh();
         } catch (error) {
             console.error('Error aprobando:', error);
-            alert('Error al aprobar la reseña');
+            notify.error({ title: 'Error al aprobar la reseña' });
         } finally {
             setIsProcessing(null);
         }
@@ -83,12 +85,13 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
         try {
             const result = await eliminarCalificacion(id);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al eliminar', description: result.error });
             } else {
+                notify.success({ title: 'Reseña eliminada' });
                 router.refresh();
             }
         } catch (_error) {
-            alert('Error al eliminar reseña');
+            notify.error({ title: 'Error al eliminar reseña' });
         } finally {
             setIsProcessing(null);
         }
@@ -114,12 +117,12 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
     }
 
     // Definir las columnas de la tabla
-    const columns: Column<Calificacion>[] = [
+    const columns: ColumnDef<Calificacion>[] = [
         {
             header: 'Servicio',
-            cell: (calificacion) => (
+            cell: ({ row: { original: calificacion } }) => (
                 <div
-                    className="line-clamp-1 max-w-[150px] font-bold text-ink"
+                    className="line-clamp-1 max-w-[150px] font-semibold text-ink"
                     title={calificacion.servicio.titulo}
                 >
                     {calificacion.servicio.titulo}
@@ -128,26 +131,29 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
         },
         {
             header: 'Usuario',
-            cell: (calificacion) => (
-                <div>
-                    <div className="font-bold text-ink">
-                        {calificacion.usuario.nombre}
-                    </div>
-                    <div className="text-xs text-muted">
-                        {calificacion.usuario.email}
+            cell: ({ row: { original: calificacion } }) => (
+                <div className="flex items-center gap-2.5">
+                    <Avatar name={calificacion.usuario.nombre} size={28} />
+                    <div>
+                        <div className="font-semibold text-ink">
+                            {calificacion.usuario.nombre}
+                        </div>
+                        <div className="text-xs text-muted">
+                            {calificacion.usuario.email}
+                        </div>
                     </div>
                 </div>
             ),
         },
         {
             header: 'Calificación',
-            cell: (calificacion) => (
+            cell: ({ row: { original: calificacion } }) => (
                 <Stars rating={calificacion.estrellas} size={14} />
             ),
         },
         {
             header: 'Comentario',
-            cell: (calificacion) => (
+            cell: ({ row: { original: calificacion } }) => (
                 <div
                     className="line-clamp-2 max-w-[250px] text-sub"
                     title={calificacion.comentario || ''}
@@ -162,7 +168,7 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
         },
         {
             header: 'Estado',
-            cell: (calificacion) => (
+            cell: ({ row: { original: calificacion } }) => (
                 <Pill tone={getStatusTone(calificacion.estado)}>
                     {calificacion.estado}
                 </Pill>
@@ -170,8 +176,8 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
         },
         {
             header: 'Acciones',
-            className: 'text-right',
-            cell: (calificacion) => (
+            meta: { className: 'text-right' },
+            cell: ({ row: { original: calificacion } }) => (
                 <div className="flex justify-end gap-2">
                     {calificacion.estado === 'PENDIENTE' && (
                         <button

@@ -133,7 +133,7 @@ export function buildCountryLink(path: string, countryCode: string): string {
     return `/${countryCode}${path}`;
 }
 
-/** Función pura para Server Components. countryLink('cl', '/buscar') → '/cl/buscar' */
+/** Función pura para Server Components. countryLink('cl', '/search') → '/cl/search' */
 export function countryLink(country: string, path: string): string {
     return `/${country}${path}`;
 }

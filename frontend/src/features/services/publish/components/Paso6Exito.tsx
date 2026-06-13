@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { ArrowRight, CheckCircle2, PartyPopper } from 'lucide-react';
+import { ArrowRight, CheckCircle2, PartyPopper } from '@/shared/components/icons';
+import { Btn } from '@/shared/components/hireeo';
 
 export default function Paso6Exito() {
     const router = useRouter();
@@ -13,7 +14,7 @@ export default function Paso6Exito() {
     // Efecto para el contador
     useEffect(() => {
         if (countdown === 0) {
-            router.push('/perfil');
+            router.push('/profile');
             return;
         }
 
@@ -53,14 +54,14 @@ export default function Paso6Exito() {
                 </p>
             </div>
 
-            <button
+            <Btn
                 type="button"
-                onClick={() => router.push('/perfil')}
-                className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-8 py-4"
+                onClick={() => router.push('/profile')}
+                variant="primary"
             >
                 Ir a mi Perfil ahora
                 <ArrowRight size={20} />
-            </button>
+            </Btn>
         </div>
     );
 }

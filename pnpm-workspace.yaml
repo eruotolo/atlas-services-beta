@@ -9,3 +9,4 @@ allowBuilds:
   prisma: true
   protobufjs: true
   sharp: true
+ignoreWorkspaceRootCheck: true
