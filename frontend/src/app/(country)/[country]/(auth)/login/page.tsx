@@ -4,17 +4,20 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useId, useState, type FormEvent, type ReactElement } from 'react';
 import Link from 'next/link';
 
-import { signIn } from 'next-auth/react';
+import { getSession, signIn } from 'next-auth/react';
 
 import { AuthShell } from '@/features/auth/components/AuthShell';
 import { CheckboxInk } from '@/features/auth/components/CheckboxInk';
+import { AppleIcon, GoogleIcon, MicrosoftIcon } from '@/features/auth/components/OAuthBrandIcons';
 import { Btn, Field, Icon, Input, Mono } from '@/shared/components/hireeo';
-import { useToast } from '@/shared/components/ui/ToastProvider';
 
 export default function LoginPage(): ReactElement {
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [googleLoading, setGoogleLoading] = useState<boolean>(false);
+    const [appleLoading, setAppleLoading] = useState<boolean>(false);
+    const [microsoftLoading, setMicrosoftLoading] = useState<boolean>(false);
+    const [oauthError, setOauthError] = useState<string | null>(null);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [keepSession, setKeepSession] = useState<boolean>(true);
     const router = useRouter();
@@ -23,11 +26,13 @@ export default function LoginPage(): ReactElement {
     const country = (params?.country as string) ?? 'cl';
     const callbackUrl = searchParams.get('callbackUrl') || `/${country}/profile`;
     const passwordId = useId();
-    const { toast } = useToast();
 
-    function handleProviderComingSoon(name: string): void {
-        toast(`${name} estará disponible pronto.`, 'info');
-    }
+    const anyProviderLoading = googleLoading || appleLoading || microsoftLoading;
+
+    // Leer el error de NextAuth que puede venir como query param (?error=...)
+    const nextAuthError = searchParams.get('error');
+    const resolvedOauthError = oauthError ??
+        (nextAuthError ? 'Hubo un problema al iniciar sesión con el proveedor seleccionado. Intenta nuevamente.' : null);
 
     async function handleSubmit(e: FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
@@ -45,7 +50,15 @@ export default function LoginPage(): ReactElement {
             setError('Credenciales inválidas');
             setLoading(false);
         } else {
-            router.push(callbackUrl);
+            const session = await getSession();
+            const roles = session?.user?.roles ?? [];
+            const hasExplicitCallback = searchParams.get('callbackUrl') !== null;
+
+            if (!hasExplicitCallback && roles.includes('SuperAdministrador')) {
+                router.push('/config');
+            } else {
+                router.push(callbackUrl);
+            }
             router.refresh();
         }
     }
@@ -53,7 +66,40 @@ export default function LoginPage(): ReactElement {
     async function handleGoogleSignIn(): Promise<void> {
         setGoogleLoading(true);
         setError(null);
-        await signIn('google', { callbackUrl });
+        setOauthError(null);
+        try {
+            await signIn('google', { callbackUrl });
+        } catch {
+            setOauthError('No se pudo conectar con Google. Intenta nuevamente.');
+        } finally {
+            setGoogleLoading(false);
+        }
+    }
+
+    async function handleAppleSignIn(): Promise<void> {
+        setAppleLoading(true);
+        setError(null);
+        setOauthError(null);
+        try {
+            await signIn('apple', { callbackUrl });
+        } catch {
+            setOauthError('No se pudo conectar con Apple. Intenta nuevamente.');
+        } finally {
+            setAppleLoading(false);
+        }
+    }
+
+    async function handleMicrosoftSignIn(): Promise<void> {
+        setMicrosoftLoading(true);
+        setError(null);
+        setOauthError(null);
+        try {
+            await signIn('azure-ad', { callbackUrl });
+        } catch {
+            setOauthError('No se pudo conectar con Microsoft. Intenta nuevamente.');
+        } finally {
+            setMicrosoftLoading(false);
+        }
     }
 
     return (
@@ -104,31 +150,26 @@ export default function LoginPage(): ReactElement {
                     </Field>
 
                     <Field label="Contraseña" hint="Mínimo 8 caracteres">
-                        <div
-                            className="flex items-center gap-2 rounded-md border bg-bg px-3 py-2"
-                            style={{ borderColor: 'var(--line)' }}
-                        >
-                            <Icon name="key" size={14} stroke="var(--muted)" />
-                            <input
-                                id={passwordId}
-                                type={showPassword ? 'text' : 'password'}
-                                name="password"
-                                required
-                                placeholder="••••••••••"
-                                className="flex-1 bg-transparent text-[13px] outline-none"
-                                style={{ color: 'var(--ink)' }}
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowPassword((v) => !v)}
-                                className="inline-flex cursor-pointer"
-                                aria-label={
-                                    showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
-                                }
-                            >
-                                <Icon name="eye" size={14} stroke="var(--muted)" />
-                            </button>
-                        </div>
+                        <Input
+                            id={passwordId}
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            required
+                            placeholder="••••••••••"
+                            icon="key"
+                            suffix={
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword((v) => !v)}
+                                    className="inline-flex cursor-pointer"
+                                    aria-label={
+                                        showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+                                    }
+                                >
+                                    <Icon name="eye" size={14} stroke="var(--muted)" />
+                                </button>
+                            }
+                        />
                     </Field>
 
                     <div className="flex items-center justify-between text-[12.5px]">
@@ -172,11 +213,11 @@ export default function LoginPage(): ReactElement {
                         type="button"
                         variant="secondary"
                         size="lg"
-                        icon="globe"
                         onClick={handleGoogleSignIn}
-                        disabled={googleLoading || loading}
+                        disabled={googleLoading || loading || anyProviderLoading}
                         className="w-full justify-center"
                     >
+                        <GoogleIcon size={16} />
                         {googleLoading ? 'Conectando…' : 'Google'}
                     </Btn>
 
@@ -184,23 +225,37 @@ export default function LoginPage(): ReactElement {
                         type="button"
                         variant="secondary"
                         size="lg"
-                        icon="sparkle"
-                        onClick={() => handleProviderComingSoon('Apple')}
+                        onClick={handleAppleSignIn}
+                        disabled={appleLoading || loading || anyProviderLoading}
                         className="w-full justify-center"
                     >
-                        Apple
+                        <AppleIcon size={16} />
+                        {appleLoading ? 'Conectando…' : 'Apple'}
                     </Btn>
 
                     <Btn
                         type="button"
                         variant="secondary"
                         size="lg"
-                        icon="check"
-                        onClick={() => handleProviderComingSoon('Microsoft')}
+                        onClick={handleMicrosoftSignIn}
+                        disabled={microsoftLoading || loading || anyProviderLoading}
                         className="w-full justify-center"
                     >
-                        Microsoft
+                        <MicrosoftIcon size={16} />
+                        {microsoftLoading ? 'Conectando…' : 'Microsoft'}
                     </Btn>
+
+                    {resolvedOauthError ? (
+                        <div
+                            className="rounded-md px-3 py-2 text-[12.5px]"
+                            style={{
+                                background: 'var(--danger-soft)',
+                                color: 'var(--danger)',
+                            }}
+                        >
+                            {resolvedOauthError}
+                        </div>
+                    ) : null}
                 </form>
 
                 <p

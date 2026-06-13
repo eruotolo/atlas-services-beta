@@ -107,31 +107,26 @@ export default function RegistroPage(): ReactElement {
                         hint="Mín. 8 caracteres, una mayúscula, un número"
                         error={errors.password?.[0]}
                     >
-                        <div
-                            className="flex items-center gap-2 rounded-md border bg-bg px-3 py-2"
-                            style={{ borderColor: 'var(--line)' }}
-                        >
-                            <Icon name="key" size={14} stroke="var(--muted)" />
-                            <input
-                                id={passwordId}
-                                type={showPassword ? 'text' : 'password'}
-                                name="password"
-                                required
-                                placeholder="••••••••••"
-                                className="flex-1 bg-transparent text-[13px] outline-none"
-                                style={{ color: 'var(--ink)' }}
-                            />
-                            <button
-                                type="button"
-                                onClick={() => setShowPassword((v) => !v)}
-                                aria-label={
-                                    showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
-                                }
-                                className="inline-flex cursor-pointer"
-                            >
-                                <Icon name="eye" size={14} stroke="var(--muted)" />
-                            </button>
-                        </div>
+                        <Input
+                            id={passwordId}
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            required
+                            placeholder="••••••••••"
+                            icon="key"
+                            suffix={
+                                <button
+                                    type="button"
+                                    onClick={() => setShowPassword((v) => !v)}
+                                    aria-label={
+                                        showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+                                    }
+                                    className="inline-flex cursor-pointer"
+                                >
+                                    <Icon name="eye" size={14} stroke="var(--muted)" />
+                                </button>
+                            }
+                        />
                     </Field>
 
                     <CheckboxInk

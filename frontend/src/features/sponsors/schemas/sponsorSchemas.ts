@@ -11,6 +11,7 @@ export const sponsorSchema = z.object({
     fechaInicio: z.date(),
     fechaFin: z.date(),
     activo: z.boolean().default(true),
+    countryCode: z.string().nullable().optional(),
 });
 
 export const sponsorUpdateSchema = sponsorSchema.extend({

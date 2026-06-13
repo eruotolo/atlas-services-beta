@@ -138,20 +138,16 @@ export function ReviewToggleForm({
         <div className="w-full">
             <div className="flex items-center justify-between gap-3">
                 <h2
-                    className="m-0"
+                    className="m-0 font-semibold text-ink"
                     style={{
                         fontSize: 20,
-                        fontWeight: 600,
-                        color: 'var(--ink)',
-                        letterSpacing: '-0.015em',
-                    }}
+                        letterSpacing: '-0.015em'}} 
                 >
                     Reseñas recientes
                 </h2>
                 {isOwner ? (
                     <span
-                        className="text-[12px]"
-                        style={{ color: 'var(--muted)' }}
+                        className="text-[12px] text-muted"
                     >
                         Las reseñas las hacen tus clientes
                     </span>
@@ -171,21 +167,18 @@ export function ReviewToggleForm({
             {expanded && isLoggedIn && !isOwner ? (
                 <form
                     onSubmit={handleSubmit}
-                    className="mt-4 rounded-xl border p-5"
-                    style={{ borderColor: 'var(--line)', background: 'var(--bg)' }}
+                    className="mt-4 rounded-xl border p-5 border-line bg-bg"
                 >
                     <div className="mb-4 flex items-start gap-3">
                         <Avatar name={reviewerName} size={40} />
                         <div className="min-w-0 flex-1">
                             <div
-                                className="text-[14px] font-semibold leading-tight"
-                                style={{ color: 'var(--ink)' }}
+                                className="text-[14px] font-semibold leading-tight text-ink"
                             >
                                 {hireText}
                             </div>
                             <Mono
-                                className="mt-0.5 inline-block text-[11.5px]"
-                                style={{ color: 'var(--sub)' }}
+                                className="mt-0.5 inline-block text-[11.5px] text-sub"
                             >
                                 {referenceText}
                             </Mono>
@@ -196,12 +189,10 @@ export function ReviewToggleForm({
                     </div>
 
                     <div
-                        className="mb-4 rounded-md p-4"
-                        style={{ background: 'var(--tint)' }}
+                        className="mb-4 rounded-md p-4 bg-tint"
                     >
                         <div
-                            className="mb-2 text-[10.5px] font-semibold tracking-[0.08em] uppercase"
-                            style={{ color: 'var(--sub)' }}
+                            className="mb-2 text-[10.5px] font-semibold tracking-[0.08em] uppercase text-sub"
                         >
                             Tu calificación
                         </div>
@@ -211,16 +202,12 @@ export function ReviewToggleForm({
                                 <div className="flex items-baseline gap-1.5">
                                     <span
                                         style={{
-                                            fontSize: 17,
-                                            fontWeight: 600,
-                                            color: 'var(--ink)',
-                                        }}
+                                            fontSize: 17}} className="font-semibold text-ink"
                                     >
                                         {`${rating.toString()},0`}
                                     </span>
                                     <span
-                                        className="text-[13px]"
-                                        style={{ color: 'var(--sub)' }}
+                                        className="text-[13px] text-sub"
                                     >
                                         · {RATING_LABELS[rating]}
                                     </span>
@@ -230,8 +217,7 @@ export function ReviewToggleForm({
                     </div>
 
                     <label
-                        className="block rounded-md border"
-                        style={{ borderColor: 'var(--line)' }}
+                        className="block rounded-md border border-line"
                     >
                         <span className="sr-only">Comentario</span>
                         <textarea
@@ -239,8 +225,7 @@ export function ReviewToggleForm({
                             onChange={(e) => setComment(e.target.value)}
                             rows={3}
                             placeholder="Contanos cómo fue tu experiencia con este profesional..."
-                            className="w-full resize-none bg-transparent px-4 py-3 text-[14px] leading-[1.55] outline-none"
-                            style={{ color: 'var(--ink)' }}
+                            className="w-full resize-none bg-transparent px-4 py-3 text-[14px] leading-[1.55] outline-none text-ink"
                         />
                     </label>
 
@@ -277,8 +262,7 @@ export function ReviewToggleForm({
                                 ariaLabel="Recomendar este profesional"
                             />
                             <span
-                                className="text-[13px] font-medium"
-                                style={{ color: 'var(--ink)' }}
+                                className="text-[13px] font-medium text-ink"
                             >
                                 Recomendar este profesional
                             </span>

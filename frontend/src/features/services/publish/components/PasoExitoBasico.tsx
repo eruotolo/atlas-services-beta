@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { CheckCircle2, Eye, Home, PartyPopper } from 'lucide-react';
+import { CheckCircle2, Eye, Home, PartyPopper, ArrowRight } from '@/shared/components/icons';
+import { Btn } from '@/shared/components/hireeo';
 
 import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
 import { useCountry } from '@/lib/providers/CountryProvider';
@@ -31,7 +32,7 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [countdown, router, slug]);
+    }, [countdown, router, slug, link]);
 
     return (
         <div className="flex flex-col items-center justify-center bg-transparent py-12 text-center">
@@ -77,14 +78,15 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
                     Volver al inicio
                 </button>
 
-                <button
-                    onClick={() => router.push(link(`/service/${slug}`))}
-                    className="btn-primary flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-2xl px-6 py-4"
+                <Btn
                     type="button"
+                    onClick={() => router.push(link(`/service/${slug}`))}
+                    variant="primary"
+                    className="flex-1"
                 >
                     <Eye size={20} />
                     Ver servicio
-                </button>
+                </Btn>
             </div>
         </div>
     );

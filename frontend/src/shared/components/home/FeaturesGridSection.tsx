@@ -31,23 +31,13 @@ function buildFeatures(dict: Dictionary): readonly Feature[] {
 export function FeaturesGridSection({ dict }: FeaturesGridSectionProps): ReactElement {
     const features = buildFeatures(dict);
     return (
-        <section
-            className="border-t"
-            style={{ borderColor: 'var(--line)', background: 'var(--bg)' }}
-        >
+        <section className="border-t border-line bg-bg">
             <div className="mx-auto max-w-site px-6 py-20 sm:px-10 lg:px-14">
                 <div className="mb-12 grid grid-cols-1 gap-12 md:grid-cols-[0.7fr_1fr] md:gap-20">
                     <div>
                         <SectionLabel>{dict.home.product.eyebrow}</SectionLabel>
                         <h2
-                            className="m-0 mt-3.5"
-                            style={{
-                                fontSize: 'clamp(32px, 4vw, 48px)',
-                                fontWeight: 500,
-                                letterSpacing: '-0.04em',
-                                lineHeight: 0.98,
-                                color: 'var(--ink)',
-                            }}
+                            className="m-0 mt-3.5 text-ink font-medium tracking-tighter text-[clamp(32px,4vw,48px)] leading-[0.98]"
                         >
                             <AnimatedRotatingText
                                 delay={200}
@@ -57,50 +47,34 @@ export function FeaturesGridSection({ dict }: FeaturesGridSectionProps): ReactEl
                         </h2>
                     </div>
                     <div
-                        className="pt-3.5 text-[16px] leading-[1.6]"
-                        style={{ color: 'var(--sub)' }}
+                        className="pt-3.5 text-[16px] leading-[1.6] text-sub"
                     >
                         {dict.home.product.lead}
                     </div>
                 </div>
 
                 <div
-                    className="grid grid-cols-1 border-t sm:grid-cols-2 md:grid-cols-3"
-                    style={{ borderColor: 'var(--line)' }}
+                    className="grid grid-cols-1 border-t border-line sm:grid-cols-2 md:grid-cols-3"
                 >
                     {features.map((f, i) => (
                         <div
                             key={f.n}
-                            className="border-b p-6 md:p-8"
-                            style={{
-                                borderRightColor: 'var(--line)',
-                                borderBottomColor: 'var(--line)',
-                                borderRightWidth: i % 3 === 2 ? 0 : 1,
-                                borderRightStyle: 'solid',
-                            }}
+                            className="border-b border-r border-line p-6 md:p-8 [&:nth-child(3n)]:border-r-0"
                         >
                             <div className="mb-6 flex items-center justify-between">
                                 <Mono
-                                    className="text-[11px]"
-                                    style={{ color: 'var(--sub)', letterSpacing: '0.08em' }}
+                                    className="text-[11px] text-sub tracking-[0.08em]"
                                 >
                                     {f.n}
                                 </Mono>
                                 <div
-                                    className="inline-flex h-[30px] w-[30px] items-center justify-center rounded-md"
-                                    style={{ background: 'var(--tint)' }}
+                                    className="inline-flex h-[30px] w-[30px] items-center justify-center rounded-md bg-tint"
                                 >
                                     <Icon name={f.icon} size={14} />
                                 </div>
                             </div>
                             <h3
-                                className="m-0 mb-1.5"
-                                style={{
-                                    fontSize: 17.5,
-                                    fontWeight: 600,
-                                    letterSpacing: '-0.01em',
-                                    color: 'var(--ink)',
-                                }}
+                                className="m-0 mb-1.5 text-ink font-semibold text-[17.5px] tracking-[-0.01em]"
                             >
                                 {f.title}
                             </h3>

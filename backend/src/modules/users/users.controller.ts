@@ -5,14 +5,18 @@ import {
     Get,
     Param,
     Patch,
+    Put,
     Query,
     UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { CurrentUser } from '@common/decorators/current-user.decorator';
+import { Roles } from '@common/decorators/roles.decorator';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
+import { RolesGuard } from '@common/guards/roles.guard';
 
+import { AssignRolesDto } from './dto/assign-roles.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
@@ -27,12 +31,15 @@ export class UsersController {
     @ApiQuery({ name: 'page', required: false, type: Number })
     @ApiQuery({ name: 'limit', required: false, type: Number })
     @ApiQuery({ name: 'query', required: false, type: String })
+    @ApiQuery({ name: 'roles', required: false, type: String, description: 'Filtrar por nombres de rol separados por coma' })
     findAll(
         @Query('page') page?: string,
         @Query('limit') limit?: string,
         @Query('query') query?: string,
+        @Query('roles') roles?: string,
     ) {
-        return this.service.findAll(page ? Number(page) : 1, limit ? Number(limit) : 10, query);
+        const roleNames = roles ? roles.split(',') : undefined;
+        return this.service.findAll(page ? Number(page) : 1, limit ? Number(limit) : 10, query, roleNames);
     }
 
     @Get('roles')
@@ -72,6 +79,17 @@ export class UsersController {
         @CurrentUser() user: { id: string },
     ) {
         return this.service.updatePassword(user.id, dto);
+    }
+
+    @Put(':id/roles')
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('SUPER_ADMIN')
+    @ApiBearerAuth('access-token')
+    @ApiOperation({
+        summary: 'Asignar roles a un usuario (Super Admin). El rol Administrador requiere país.',
+    })
+    assignRoles(@Param('id') id: string, @Body() dto: AssignRolesDto) {
+        return this.service.assignRoles(id, dto);
     }
 
     @Patch(':id')

@@ -1,13 +1,16 @@
 import {
+    BadRequestException,
     ForbiddenException,
     Injectable,
     NotFoundException,
     UnauthorizedException,
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import { Prisma } from '@prisma/client';
 
 import { PrismaService } from '../../prisma/prisma.service';
 
+import type { AssignRolesDto } from './dto/assign-roles.dto';
 import type { UpdatePasswordDto } from './dto/update-password.dto';
 import type { UpdateUserDto } from './dto/update-user.dto';
 
@@ -18,23 +21,35 @@ const USER_SELECT = {
     phone: true,
     avatar: true,
     createdAt: true,
-    roles: { select: { id: true, roleId: true, role: { select: { name: true } } } },
+    roles: {
+        select: {
+            id: true,
+            roleId: true,
+            role: { select: { name: true } },
+            country: { select: { code: true, name: true } },
+        },
+    },
 };
 
 @Injectable()
 export class UsersService {
     constructor(private readonly prisma: PrismaService) {}
 
-    async findAll(page = 1, limit = 10, query?: string) {
+    async findAll(page = 1, limit = 10, query?: string, roleNames?: string[]) {
         const skip = (page - 1) * limit;
-        const where = query
-            ? {
-                  OR: [
-                      { name: { contains: query, mode: 'insensitive' as const } },
-                      { email: { contains: query, mode: 'insensitive' as const } },
-                  ],
-              }
-            : {};
+        const where: Prisma.UserWhereInput = {
+            ...(query
+                ? {
+                      OR: [
+                          { name: { contains: query, mode: 'insensitive' as const } },
+                          { email: { contains: query, mode: 'insensitive' as const } },
+                      ],
+                  }
+                : {}),
+            ...(roleNames?.length
+                ? { roles: { some: { role: { name: { in: roleNames } } } } }
+                : {}),
+        };
 
         const [items, total] = await this.prisma.$transaction([
             this.prisma.user.findMany({
@@ -139,6 +154,65 @@ export class UsersService {
             select: { id: true, name: true },
             orderBy: { name: 'asc' },
         });
+    }
+
+    async assignRoles(userId: string, dto: AssignRolesDto) {
+        const user = await this.prisma.user.findUnique({
+            where: { id: userId },
+            select: { id: true },
+        });
+        if (!user) throw new NotFoundException(`Usuario ${userId} no encontrado`);
+
+        const roles = await this.prisma.role.findMany({
+            where: { id: { in: dto.roles.map((r) => r.roleId) } },
+            select: { id: true, name: true },
+        });
+        const roleNameById = new Map(roles.map((r) => [r.id, r.name]));
+
+        for (const item of dto.roles) {
+            const roleName = roleNameById.get(item.roleId);
+            if (!roleName) {
+                throw new BadRequestException(`El rol ${item.roleId} no existe`);
+            }
+            if (roleName === 'Administrador' && !item.countryCode) {
+                throw new BadRequestException('El rol Administrador requiere un país asignado');
+            }
+        }
+
+        const countryCodes = [
+            ...new Set(
+                dto.roles
+                    .map((r) => r.countryCode?.toLowerCase())
+                    .filter((c): c is string => Boolean(c)),
+            ),
+        ];
+        const countries = await this.prisma.country.findMany({
+            where: { code: { in: countryCodes } },
+            select: { id: true, code: true },
+        });
+        const countryIdByCode = new Map(countries.map((c) => [c.code, c.id]));
+
+        for (const code of countryCodes) {
+            if (!countryIdByCode.has(code)) {
+                throw new BadRequestException(`El país ${code} no existe`);
+            }
+        }
+
+        await this.prisma.$transaction([
+            this.prisma.userRole.deleteMany({ where: { userId } }),
+            this.prisma.userRole.createMany({
+                data: dto.roles.map((item) => ({
+                    userId,
+                    roleId: item.roleId,
+                    countryId: item.countryCode
+                        ? (countryIdByCode.get(item.countryCode.toLowerCase()) ?? null)
+                        : null,
+                })),
+                skipDuplicates: true,
+            }),
+        ]);
+
+        return this.findById(userId);
     }
 
     async delete(id: string, requesterId: string, requesterRoles: string[]) {

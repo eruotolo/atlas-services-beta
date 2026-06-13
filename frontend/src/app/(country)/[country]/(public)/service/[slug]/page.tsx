@@ -14,7 +14,6 @@ import {
     ServicePricingList,
     ServiceReviewsList,
     ServiceSubNav,
-    ServiceTrustCard,
 } from '@/features/services/components/detail';
 import { getFilteredServices, getServicioBySlug } from '@/features/services/actions';
 
@@ -254,7 +253,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                                 contactPhone={contactPhone}
                                 stats={bookingStats}
                             />
-                            <ServiceTrustCard dict={dict} />
+                            
                         </div>
                     </aside>
                 </div>

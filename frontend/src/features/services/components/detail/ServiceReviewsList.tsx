@@ -77,20 +77,18 @@ function ReviewItem({
 }: ReviewItemProps): ReactElement {
     return (
         <div
-            className="border-b py-5 last:border-b-0"
-            style={{ borderColor: 'var(--line)' }}
+            className="border-b py-5 last:border-b-0 border-line"
         >
             <div className="mb-2 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
                     <Avatar name={review.userName} size={30} />
                     <div>
                         <div
-                            className="text-[13px] font-semibold"
-                            style={{ color: 'var(--ink)' }}
+                            className="text-[13px] font-semibold text-ink"
                         >
                             {review.userName}
                         </div>
-                        <Mono className="text-[11px]" style={{ color: 'var(--sub)' }}>
+                        <Mono className="text-[11px] text-sub">
                             {formatRelativeDate(review.date, locale)}
                         </Mono>
                     </div>
@@ -98,12 +96,12 @@ function ReviewItem({
                 <Stars rating={review.rating} size={12} />
             </div>
             <p
-                className="m-0 mb-2.5 text-[14px]"
-                style={{ color: 'var(--ink)', lineHeight: 1.55 }}
+                className="m-0 mb-2.5 text-[14px] text-ink"
+                style={{ lineHeight: 1.55 }} 
             >
                 {review.comment}
             </p>
-            <Mono className="text-[11px]" style={{ color: 'var(--muted)' }}>
+            <Mono className="text-[11px] text-muted">
                 {serviceTitle} · {formatPrice(servicePrice, locale, currencySymbol)}
             </Mono>
 
@@ -118,15 +116,14 @@ function ReviewItem({
                     <div className="mb-1 inline-flex items-center gap-1.5">
                         <Icon name="chat" size={12} stroke="var(--accent)" />
                         <span
-                            className="text-[10.5px] font-semibold"
-                            style={{ color: 'var(--accent)', letterSpacing: '0.05em' }}
+                            className="text-[10.5px] font-semibold text-accent"
+                            style={{ letterSpacing: '0.05em' }} 
                         >
                             Respuesta del profesional
                         </span>
                     </div>
                     <p
-                        className="m-0 text-[12.5px]"
-                        style={{ color: 'var(--ink)', lineHeight: 1.5 }}
+                        className="m-0 text-[12.5px] leading-relaxed text-ink"
                     >
                         {review.ownerResponse}
                     </p>
@@ -182,18 +179,13 @@ export function ServiceReviewsList({
 
             {reviewsCount === 0 ? (
                 <div
-                    className="rounded-xl border p-6 text-center"
-                    style={{
-                        borderColor: 'var(--line)',
-                        background: 'var(--tint)',
-                    }}
+                    className="rounded-xl border p-6 text-center border-line bg-tint"
                 >
-                    <p className="m-0 text-[14px]" style={{ color: 'var(--sub)' }}>
+                    <p className="m-0 text-[14px] text-sub">
                         {dict.serviceDetail.reviewsEmpty}
                     </p>
                     <p
-                        className="m-0 mt-1 text-[12.5px]"
-                        style={{ color: 'var(--muted)' }}
+                        className="m-0 mt-1 text-[12.5px] text-muted"
                     >
                         {dict.serviceDetail.reviewsEmptyHint}
                     </p>

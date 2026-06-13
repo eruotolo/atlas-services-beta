@@ -78,7 +78,7 @@ function FilterItem({ label, count, active, onClick }: FilterItemProps): ReactEl
                 </span>
             </span>
             {count ? (
-                <Mono className="text-[10.5px]" style={{ color: 'var(--muted)' }}>
+                <Mono className="text-[10.5px] text-muted">
                     {count}
                 </Mono>
             ) : null}
@@ -102,8 +102,7 @@ function FilterGroup({ title, children, defaultOpen = true }: FilterGroupProps):
                 className="mb-2 flex w-full cursor-pointer items-center justify-between"
             >
                 <span
-                    className="text-[12.5px] font-semibold"
-                    style={{ color: 'var(--ink)' }}
+                    className="text-[12.5px] font-semibold text-ink"
                 >
                     {title}
                 </span>
@@ -140,40 +139,34 @@ function PriceGroup({
         <FilterGroup title={dict.search.groupPrice}>
             <div className="flex items-center gap-1.5">
                 <div
-                    className="relative flex flex-1 items-center rounded-md border bg-bg"
-                    style={{ borderColor: 'var(--line)' }}
+                    className="relative flex flex-1 items-center rounded-md border bg-bg border-line"
                 >
                     <input
                         inputMode="numeric"
                         value={priceMin ?? ''}
                         onChange={(e) => onMinChange(parseNumber(e))}
                         placeholder="0"
-                        className="w-full bg-transparent px-2.5 py-1.5 text-[12.5px] outline-none"
-                        style={{ color: 'var(--ink)' }}
+                        className="w-full bg-transparent px-2.5 py-1.5 text-[12.5px] outline-none text-ink"
                     />
                     <span
-                        className="pr-2 text-[10.5px]"
-                        style={{ color: 'var(--muted)' }}
+                        className="pr-2 text-[10.5px] text-muted"
                     >
                         {dict.search.priceMin}
                     </span>
                 </div>
-                <span style={{ color: 'var(--muted)' }}>—</span>
+                <span className="text-muted">—</span>
                 <div
-                    className="relative flex flex-1 items-center rounded-md border bg-bg"
-                    style={{ borderColor: 'var(--line)' }}
+                    className="relative flex flex-1 items-center rounded-md border bg-bg border-line"
                 >
                     <input
                         inputMode="numeric"
                         value={priceMax ?? ''}
                         onChange={(e) => onMaxChange(parseNumber(e))}
                         placeholder="—"
-                        className="w-full bg-transparent px-2.5 py-1.5 text-[12.5px] outline-none"
-                        style={{ color: 'var(--ink)' }}
+                        className="w-full bg-transparent px-2.5 py-1.5 text-[12.5px] outline-none text-ink"
                     />
                     <span
-                        className="pr-2 text-[10.5px]"
-                        style={{ color: 'var(--muted)' }}
+                        className="pr-2 text-[10.5px] text-muted"
                     >
                         {dict.search.priceMax}
                     </span>
@@ -213,16 +206,14 @@ export function FiltersSidebar({
         <div className="sticky top-20">
             <div className="mb-3 flex items-center justify-between">
                 <Mono
-                    className="text-[11px] font-semibold"
-                    style={{ color: 'var(--ink)', letterSpacing: '0.08em' }}
+                    className="text-[11px] font-semibold tracking-[0.08em] text-ink"
                 >
                     {dict.search.filters.toUpperCase()}
                 </Mono>
                 <button
                     type="button"
                     onClick={onClearAll}
-                    className="cursor-pointer text-[11px] font-semibold transition-opacity hover:opacity-80"
-                    style={{ color: 'var(--accent)' }}
+                    className="cursor-pointer text-[11px] font-semibold transition-opacity hover:opacity-80 text-accent"
                 >
                     {dict.search.clearFilters}
                 </button>
@@ -235,8 +226,7 @@ export function FiltersSidebar({
                             key={chip.key}
                             type="button"
                             onClick={chip.onRemove}
-                            className="inline-flex cursor-pointer items-center gap-1 rounded-full px-2 py-[3px] text-[10.5px] font-medium transition-opacity hover:opacity-80"
-                            style={{ background: 'var(--ink)', color: 'var(--bg)' }}
+                            className="inline-flex cursor-pointer items-center gap-1 rounded-full px-2 py-[3px] text-[10.5px] font-medium transition-opacity hover:opacity-80 bg-ink text-bg"
                         >
                             {chip.label}
                             <Icon name="x" size={8} stroke="var(--bg)" strokeWidth={2.5} />
@@ -272,11 +262,7 @@ export function FiltersSidebar({
                     <button
                         type="button"
                         onClick={() => setShowAllCategories((v) => !v)}
-                        className="mt-2 rounded-md border px-2 py-1.5 text-[11.5px] font-semibold transition-colors hover:bg-tint"
-                        style={{
-                            borderColor: 'var(--line)',
-                            color: 'var(--sub)',
-                        }}
+                        className="mt-2 rounded-md border px-2 py-1.5 text-[11.5px] font-semibold transition-colors hover:bg-tint border-line text-sub"
                     >
                         {showAllCategories
                             ? dict.search.viewLessCategories

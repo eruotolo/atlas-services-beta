@@ -27,37 +27,30 @@ export function ServicePricingList({
         // biome-ignore lint/correctness/useUniqueElementIds: anchor para tabs nav
         <section id="services">
             <h2
-                className="m-0 mb-3.5"
+                className="m-0 mb-3.5 font-semibold text-ink"
                 style={{
                     fontSize: 18,
-                    fontWeight: 600,
-                    color: 'var(--ink)',
-                    letterSpacing: '-0.01em',
-                }}
+                    letterSpacing: '-0.01em'}} 
             >
                 {dict.serviceDetail.pricingTitle}
             </h2>
 
-            <div className="border-t" style={{ borderColor: 'var(--line)' }}>
+            <div className="border-t border-line">
                 <div
-                    className="grid items-center gap-4 border-b py-3.5"
+                    className="grid items-center gap-4 border-b py-3.5 border-line"
                     style={{
-                        gridTemplateColumns: 'minmax(0, 1fr) 130px 130px',
-                        borderColor: 'var(--line)',
-                    }}
+                        gridTemplateColumns: 'minmax(0, 1fr) 130px 130px'}} 
                 >
                     <span
-                        className="text-[14px] font-medium"
-                        style={{ color: 'var(--ink)' }}
+                        className="text-[14px] font-medium text-ink"
                     >
                         {title}
                     </span>
-                    <Mono className="text-[12px]" style={{ color: 'var(--sub)' }}>
+                    <Mono className="text-[12px] text-sub">
                         {dict.serviceDetail.pricingDurationLabel}
                     </Mono>
                     <div
-                        className="text-right text-[13.5px] font-semibold"
-                        style={{ color: 'var(--ink)' }}
+                        className="text-right text-[13.5px] font-semibold text-ink"
                     >
                         {formatPrice(price, locale, currencySymbol)}
                     </div>

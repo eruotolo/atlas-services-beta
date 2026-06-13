@@ -4,10 +4,11 @@ import { useTransition } from 'react';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { Calendar, CreditCard, DollarSign, TrendingUp } from 'lucide-react';
+import { Calendar, CreditCard, DollarSign, TrendingUp } from '@/shared/components/icons';
 
-import type { Column } from '@/shared/components/ui/data-table';
-import { DataTable } from '@/shared/components/ui/data-table';
+import type { ColumnDef } from '@tanstack/react-table';
+import { DataTable } from '@/shared/components/DataTable';
+import { formatPrice } from '@/features/geo/lib/countryUtils';
 import { Avatar, Pill } from '@/shared/components/hireeo';
 import { calcularIngresoNeto } from '@/shared/lib/utils';
 
@@ -30,9 +31,10 @@ interface PagosTableProps {
             montoPendiente: number;
         };
     };
+    countryCode?: string;
 }
 
-export default function PagosTable({ result }: PagosTableProps) {
+export default function PagosTable({ result, countryCode = 'cl' }: PagosTableProps) {
     const router = useRouter();
     const pathname = usePathname();
     const searchParams = useSearchParams();
@@ -80,21 +82,16 @@ export default function PagosTable({ result }: PagosTableProps) {
         });
     }
 
-    const formatCurrency = (amount: number) => {
-        return new Intl.NumberFormat('es-CL', {
-            style: 'currency',
-            currency: 'CLP',
-        }).format(amount);
-    };
+    const formatCurrency = (amount: number) => formatPrice(amount, countryCode);
 
     // Calcular ingreso neto total
     const ingresosNetos = calcularIngresoNeto(result.stats.ingresosBrutos);
 
     // Definir las columnas de la tabla
-    const columns: Column<SuscripcionWithDetails>[] = [
+    const columns: ColumnDef<SuscripcionWithDetails>[] = [
         {
             header: 'Fecha',
-            cell: (pago) => (
+            cell: ({ row: { original: pago } }) => (
                 <div className="text-muted">
                     {new Date(pago.createdAt).toLocaleDateString()}
                     <br />
@@ -106,11 +103,11 @@ export default function PagosTable({ result }: PagosTableProps) {
         },
         {
             header: 'Cliente / Servicio',
-            cell: (pago) => (
+            cell: ({ row: { original: pago } }) => (
                 <div className="flex items-center gap-2.5">
                     <Avatar name={pago.servicio.usuario.nombre} size={28} />
                     <div>
-                        <p className="font-bold text-ink">
+                        <p className="font-semibold text-ink">
                             {pago.servicio.usuario.nombre}
                         </p>
                         <p className="text-xs text-muted">
@@ -122,7 +119,7 @@ export default function PagosTable({ result }: PagosTableProps) {
         },
         {
             header: 'Plan',
-            cell: (pago) => (
+            cell: ({ row: { original: pago } }) => (
                 <span className="text-sub">
                     Premium {pago.duracionMeses}m
                 </span>
@@ -130,7 +127,7 @@ export default function PagosTable({ result }: PagosTableProps) {
         },
         {
             header: 'Cobrado',
-            cell: (pago) => (
+            cell: ({ row: { original: pago } }) => (
                 <span className="font-medium text-sub">
                     {formatCurrency(Number(pago.monto))}
                 </span>
@@ -138,15 +135,15 @@ export default function PagosTable({ result }: PagosTableProps) {
         },
         {
             header: 'Neto (Caja)',
-            cell: (pago) => (
-                <span className="font-bold text-ink">
+            cell: ({ row: { original: pago } }) => (
+                <span className="font-semibold text-ink">
                     {formatCurrency(calcularIngresoNeto(Number(pago.monto)))}
                 </span>
             ),
         },
         {
             header: 'Estado',
-            cell: (pago) => (
+            cell: ({ row: { original: pago } }) => (
                 <Pill
                     tone={
                         pago.estadoPago === 'completado'
@@ -162,8 +159,8 @@ export default function PagosTable({ result }: PagosTableProps) {
         },
         {
             header: 'Método',
-            className: 'text-right',
-            cell: (pago) => (
+            meta: { className: 'text-right' },
+            cell: ({ row: { original: pago } }) => (
                 <span className="text-muted capitalize">
                     {pago.metodoPago || '-'}
                 </span>
@@ -176,13 +173,13 @@ export default function PagosTable({ result }: PagosTableProps) {
             {/* Estadísticas */}
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 <div className="rounded-xl border border-line bg-bg p-6 shadow-sm">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-600">
-                        <DollarSign size={24} />
+                    <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-green-50 text-green-600">
+                        <DollarSign size={16} />
                     </div>
-                    <p className="text-xs font-black tracking-widest text-muted uppercase">
+                    <p className="text-[10.5px] font-semibold tracking-[0.12em] text-muted uppercase">
                         Ingresos Reales (Caja)
                     </p>
-                    <h4 className="mt-1 text-2xl font-black text-ink">
+                    <h4 className="mt-2 text-[22px] font-medium tracking-[-0.02em] tabular-nums text-ink">
                         {formatCurrency(ingresosNetos)}
                     </h4>
                     <p className="mt-2 text-xs font-medium text-green-600">
@@ -191,13 +188,13 @@ export default function PagosTable({ result }: PagosTableProps) {
                 </div>
 
                 <div className="rounded-xl border border-line bg-bg p-6 shadow-sm">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand/5 text-brand">
-                        <TrendingUp size={24} />
+                    <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-brand/5 text-brand">
+                        <TrendingUp size={16} />
                     </div>
-                    <p className="text-xs font-black tracking-widest text-muted uppercase">
+                    <p className="text-[10.5px] font-semibold tracking-[0.12em] text-muted uppercase">
                         Transacciones
                     </p>
-                    <h4 className="mt-1 text-2xl font-black text-ink">
+                    <h4 className="mt-2 text-[22px] font-medium tracking-[-0.02em] tabular-nums text-ink">
                         {result.stats.total}
                     </h4>
                     <p className="mt-2 text-xs font-medium text-muted">
@@ -206,13 +203,13 @@ export default function PagosTable({ result }: PagosTableProps) {
                 </div>
 
                 <div className="rounded-xl border border-line bg-bg p-6 shadow-sm">
-                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-50 text-amber-600">
-                        <CreditCard size={24} />
+                    <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg bg-amber-50 text-amber-600">
+                        <CreditCard size={16} />
                     </div>
-                    <p className="text-xs font-black tracking-widest text-muted uppercase">
+                    <p className="text-[10.5px] font-semibold tracking-[0.12em] text-muted uppercase">
                         Por Cobrar / Pendiente
                     </p>
-                    <h4 className="mt-1 text-2xl font-black text-ink">
+                    <h4 className="mt-2 text-[22px] font-medium tracking-[-0.02em] tabular-nums text-ink">
                         {formatCurrency(result.stats.montoPendiente)}
                     </h4>
                     <p className="mt-2 text-xs font-medium text-amber-600">
@@ -224,7 +221,7 @@ export default function PagosTable({ result }: PagosTableProps) {
             {/* Tabla con filtros de fecha */}
             <div>
                 <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                    <h2 className="text-2xl font-black text-ink">
+                    <h2 className="text-[18px] font-semibold tracking-[-0.015em] text-ink">
                         Detalle de Movimientos
                     </h2>
                     <div className="flex flex-wrap gap-4">

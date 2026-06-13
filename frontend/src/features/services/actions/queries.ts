@@ -185,10 +185,12 @@ export const getServicioBySlug = cache(async (slug: string) => {
     }
 });
 
-export const getAdminServices = cache(async (page = 1, limit = 10, search?: string) => {
+export const getAdminServices = cache(
+    async (page = 1, limit = 10, search?: string, countryCode?: string) => {
     try {
         const params: Record<string, string | number | undefined> = { page, limit };
         if (search) params.query = search;
+        if (countryCode) params.countryCode = countryCode;
 
         const qs = buildQueryString(params as Record<string, string | number | boolean>);
 
@@ -244,4 +246,5 @@ export const getAdminServices = cache(async (page = 1, limit = 10, search?: stri
             meta: { total: 0, page: 1, limit: 10, totalPages: 0 },
         };
     }
-});
+    },
+);

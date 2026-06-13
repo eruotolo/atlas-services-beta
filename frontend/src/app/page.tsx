@@ -40,7 +40,7 @@ export default async function RootPage() {
             
             if (res.ok) {
                 const data = await res.json();
-                if (data && data.countryCode) {
+                if (data?.countryCode) {
                     const detectedCode = data.countryCode.toLowerCase();
                     // Solo redirigimos si es un país que nuestra plataforma opera
                     if (SUPPORTED_COUNTRIES.includes(detectedCode)) {

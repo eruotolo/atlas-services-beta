@@ -468,7 +468,7 @@ export interface Dictionary {
             meta: { title: string; description: string };
             header: { title: string; subtitle: string };
             cta: { title: string; subtitle: string; button: string };
-            faqs: Array<{ q: string; a: Array<Record<string, unknown>> }>;
+            faqs: Array<{ q: string; a: Record<string, unknown>[] }>;
         };
         comoFunciona: {
             meta: { title: string; description: string };
@@ -508,15 +508,32 @@ export interface Dictionary {
         terminos: {
             title: string;
             lastUpdated: string;
-            sections: Array<Record<string, unknown>>;
+            sections: Record<string, unknown>[];
             footer: string;
         };
         privacidad: {
             title: string;
             lastUpdated: string;
-            sections: Array<Record<string, unknown>>;
+            sections: Record<string, unknown>[];
             footer: string;
         };
+    };
+    wizard: {
+        problemLabel: string;
+        problemPlaceholder: string;
+        urgencyLabel: string;
+        urgencyUrgent: string;
+        urgencyUrgentSub: string;
+        urgencyWeek: string;
+        urgencyWeekSub: string;
+        urgencyWhenever: string;
+        urgencyWheneverSub: string;
+        locationLabel: string;
+        locationPlaceholder: string;
+        locationSkip: string;
+        locationSearch: string;
+        back: string;
+        noCitiesFound: string;
     };
 }
 

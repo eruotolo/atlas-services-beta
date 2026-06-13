@@ -21,13 +21,16 @@ export async function crearPrecioPremium(
         await apiClient.post(
             '/prices',
             {
+                countryId: data.countryId,
                 duracionMeses: data.duracionMeses,
                 precio: data.precio,
+                currency: data.currency,
                 descripcion: data.descripcion,
             },
             { token },
         );
 
+        revalidatePath('/config/premium-prices');
         revalidatePath('/admin/precios-premium');
         return { success: true };
     } catch (error) {
@@ -46,13 +49,15 @@ export async function actualizarPrecioPremium(
         await apiClient.patch(
             `/prices/${data.id}`,
             {
-                duracionMeses: data.duracionMeses,
-                precio: data.precio,
-                descripcion: data.descripcion,
+                ...(data.duracionMeses !== undefined && { duracionMeses: data.duracionMeses }),
+                ...(data.precio !== undefined && { precio: data.precio }),
+                ...(data.currency !== undefined && { currency: data.currency }),
+                ...(data.descripcion !== undefined && { descripcion: data.descripcion }),
             },
             { token },
         );
 
+        revalidatePath('/config/premium-prices');
         revalidatePath('/admin/precios-premium');
         return { success: true };
     } catch (error) {
@@ -69,6 +74,7 @@ export async function eliminarPrecioPremium(
 
     try {
         await apiClient.delete(`/prices/${id}`, { token });
+        revalidatePath('/config/premium-prices');
         revalidatePath('/admin/precios-premium');
         return { success: true };
     } catch (error) {
@@ -86,6 +92,7 @@ export async function toggleActivoPrecioPremium(
     try {
         await apiClient.patch(`/prices/${id}`, { activo: null }, { token });
 
+        revalidatePath('/config/premium-prices');
         revalidatePath('/admin/precios-premium');
         return { success: true };
     } catch (error) {

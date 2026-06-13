@@ -5,6 +5,8 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 
+import { whereServiceCountry } from '@common/utils/where-service-country';
+
 import { PrismaService } from '../../prisma/prisma.service';
 import { PaymentsService } from '../payments/payments.service';
 import { PricesService } from '../prices/prices.service';
@@ -33,6 +35,82 @@ export class SubscriptionsService {
         private readonly pricesService: PricesService,
         private readonly paymentsService: PaymentsService,
     ) {}
+
+    async findAllPaginated(options: {
+        page?: number;
+        limit?: number;
+        countryCode?: string;
+        startDate?: string;
+        endDate?: string;
+    }) {
+        const { page = 1, limit = 10, countryCode, startDate, endDate } = options;
+        const skip = (page - 1) * limit;
+
+        // endDate inclusivo: se filtra con lt al día siguiente
+        let endExclusive: Date | undefined;
+        if (endDate) {
+            endExclusive = new Date(endDate);
+            endExclusive.setDate(endExclusive.getDate() + 1);
+        }
+
+        const where = {
+            ...whereServiceCountry(countryCode),
+            ...((startDate || endExclusive) && {
+                createdAt: {
+                    ...(startDate && { gte: new Date(startDate) }),
+                    ...(endExclusive && { lt: endExclusive }),
+                },
+            }),
+        };
+
+        const [items, total, porEstado] = await Promise.all([
+            this.prisma.subscription.findMany({
+                where,
+                skip,
+                take: limit,
+                orderBy: { createdAt: 'desc' },
+                select: {
+                    ...SUBSCRIPTION_SELECT,
+                    startDate: true,
+                    service: {
+                        select: {
+                            id: true,
+                            title: true,
+                            user: { select: { name: true, email: true } },
+                        },
+                    },
+                },
+            }),
+            this.prisma.subscription.count({ where }),
+            this.prisma.subscription.groupBy({
+                by: ['paymentStatus'],
+                where,
+                _count: { paymentStatus: true },
+                _sum: { amount: true },
+            }),
+        ]);
+
+        let ingresosBrutos = 0;
+        let montoPendiente = 0;
+        let pendientes = 0;
+        let completados = 0;
+        for (const grupo of porEstado) {
+            const monto = Number(grupo._sum.amount ?? 0);
+            if (grupo.paymentStatus === 'completed') {
+                completados = grupo._count.paymentStatus;
+                ingresosBrutos = monto;
+            } else if (grupo.paymentStatus === 'pending') {
+                pendientes = grupo._count.paymentStatus;
+                montoPendiente = monto;
+            }
+        }
+
+        return {
+            data: items,
+            meta: { total, page, limit, totalPages: Math.ceil(total / limit) },
+            stats: { ingresosBrutos, montoPendiente, pendientes, completados, total },
+        };
+    }
 
     async findById(id: string, requesterId: string, requesterRoles: string[]) {
         const subscription = await this.prisma.subscription.findUnique({

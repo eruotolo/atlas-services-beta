@@ -9,6 +9,7 @@ import type { UpdateCategoryDto } from './dto/update-category.dto';
 const CATEGORY_SELECT = {
     id: true,
     name: true,
+    nameEn: true,
     slug: true,
     icon: true,
     order: true,
@@ -66,6 +67,7 @@ export class CategoriesService {
         return this.prisma.serviceCategory.create({
             data: {
                 name: dto.nombre,
+                nameEn: dto.nombreEn ?? null,
                 slug: dto.slug,
                 icon: dto.icono,
                 order: dto.orden,
@@ -81,6 +83,7 @@ export class CategoriesService {
             where: { id },
             data: {
                 ...(dto.nombre && { name: dto.nombre }),
+                ...(dto.nombreEn !== undefined && { nameEn: dto.nombreEn || null }),
                 ...(dto.slug && { slug: dto.slug }),
                 ...(dto.icono !== undefined && { icon: dto.icono }),
                 ...(dto.orden !== undefined && { order: dto.orden }),
