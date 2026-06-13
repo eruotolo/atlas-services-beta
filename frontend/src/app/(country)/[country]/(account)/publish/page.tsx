@@ -43,6 +43,7 @@ export default async function PublicarPage({ params }: Props) {
             country={country}
             user={{
                 name: session.user.name || '',
+                email: session.user.email || '',
                 avatar: profile?.avatar,
                 isPremium: tienePremium,
             }}

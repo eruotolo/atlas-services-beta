@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth';
 import { getConversaciones } from '@/features/chat/actions/queries';
 import ConversationList from '@/features/chat/components/ConversationList';
 import { PageHeader } from '@/features/users/components/account/PageHeader';
-import { UserShell } from '@/features/users/components/account/UserShell';
+
 import { getProfilePageData } from '@/features/users/actions';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -39,11 +39,7 @@ export default async function MensajesPage({ params }: Props) {
     const tienePremium = usuario.stats.premiumCount > 0;
 
     return (
-        <UserShell
-            country={country}
-            user={{ name: usuario.name, avatar: usuario.avatar, isPremium: tienePremium }}
-            counts={{ mensajes: conversations.length }}
-        >
+        <>
             <PageHeader
                 breadcrumb={['Mi cuenta', 'Mensajes']}
                 title="Bandeja de entrada"
@@ -59,6 +55,6 @@ export default async function MensajesPage({ params }: Props) {
                     <ConversationList conversations={conversations} />
                 </Card>
             </div>
-        </UserShell>
+        </>
     );
 }

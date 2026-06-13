@@ -13,7 +13,7 @@ export default async function ConfigUsuariosPage({ searchParams }: Props) {
     const page = Number(sp.page) || 1;
     const search = sp.q || '';
 
-    const ADMIN_ROLE_NAMES = ['SuperAdministrador', 'Administrador'];
+    const ADMIN_ROLE_NAMES = ['SuperAdmin', 'Admin'];
 
     const [result, roles, countries] = await Promise.all([
         getUsers(page, 9, search, ADMIN_ROLE_NAMES),

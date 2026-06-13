@@ -49,7 +49,12 @@ export function ServiceBookingCard({
         startTransition(async () => {
             const result = await iniciarConversacion(serviceId);
             if (result.conversationId) {
-                router.push(link(`/profile/mensajes/${result.conversationId}`));
+                import('@/shared/lib/chatWidgetBus').then(({ chatWidgetBus }) => {
+                    chatWidgetBus.emit('open_chat', result.conversationId);
+                });
+            } else if (result.error) {
+                // Si hay error (ej. sin sesión), mandarlo a login
+                router.push(link('/login'));
             }
         });
     }

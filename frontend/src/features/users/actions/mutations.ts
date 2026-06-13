@@ -143,7 +143,7 @@ export async function actualizarPerfil(formData: FormData) {
         );
 
         revalidatePath('/profile');
-        revalidatePath('/profile/ajustes');
+        revalidatePath('/profile/settings');
         return { success: true, avatar: avatarUrl };
     } catch (error) {
         console.error('Error al actualizar perfil:', error);

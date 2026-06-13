@@ -822,6 +822,24 @@
             "metaTitle": "Mensajes",
             "breadcrumb2": "Mensajes",
             "title": "Mis mensajes"
+        },
+        "sidebar": {
+            "sectionAccount": "MI CUENTA",
+            "sectionServices": "SERVICIOS",
+            "sectionClients": "CLIENTES",
+            "sectionSettings": "CONFIGURACIÓN",
+            "overview": "Resumen",
+            "messages": "Mensajes",
+            "quotes": "Cotizaciones",
+            "favorites": "Favoritos",
+            "publishService": "Publicar servicio",
+            "hireeoPro": "Plan Hireeo Pro",
+            "availableLeads": "Leads disponibles",
+            "idVerification": "Verificación ID",
+            "settings": "Ajustes",
+            "signOutLabel": "Cerrar sesión",
+            "rolePro": "Profesional Pro",
+            "roleClient": "Profesional"
         }
     },
     "admin": {

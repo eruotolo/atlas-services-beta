@@ -7,8 +7,9 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getMyServiceRequests, getQuotesByRequest } from '@/features/services/actions/quotes';
 import { ServiceRequestCard } from '@/features/services/components/quotes/ServiceRequestCard';
 import { getProfilePageData } from '@/features/users/actions';
-import { UserShell } from '@/features/users/components/account/UserShell';
+
 import { Btn, Mono } from '@/shared/components/hireeo';
+import { PageHeader } from '@/shared/components/hireeo';
 
 export const metadata: Metadata = {
     title: 'Mis cotizaciones · Hireeo',
@@ -47,36 +48,15 @@ export default async function CotizacionesPage({ params }: Props) {
     const isEmpty = requestsWithQuotes.length === 0;
 
     return (
-        <UserShell
-            country={country}
-            user={{ name: usuario.name, avatar: usuario.avatar, isPremium: tienePremium }}
-            counts={{ servicios: usuario.stats.totalServicios }}
-        >
-            {/* ── Page header ────────────────────────────────────────────── */}
-            <div
-                style={{
-                    padding: '24px 28px 20px',
-                    borderBottom: '1px solid var(--line)',
-                    background: 'var(--bg)',
-                }}
-            >
-                <h1
-                    style={{
-                        margin: 0,
-                        fontSize: 22,
-                        fontWeight: 600,
-                        letterSpacing: '-0.025em',
-                        color: 'var(--ink)',
-                    }}
-                >
-                    Mis cotizaciones
-                </h1>
-                <Mono className="mt-1 text-[12px]" style={{ color: 'var(--sub)' }}>
-                    {isEmpty
+        <>
+            <PageHeader
+                breadcrumb={['Mi cuenta', 'Cotizaciones']}
+                title="Mis cotizaciones"
+                subtitle={isEmpty
                         ? 'Aún no enviaste solicitudes de servicio'
-                        : `${requestsWithQuotes.length} solicitud${requestsWithQuotes.length !== 1 ? 'es' : ''} · ${requestsWithQuotes.reduce((acc, rq) => acc + rq.quotes.length, 0)} cotización${requestsWithQuotes.reduce((acc, rq) => acc + rq.quotes.length, 0) !== 1 ? 'es' : ''} recibidas`}
-                </Mono>
-            </div>
+                        : `${requestsWithQuotes.length} solicitud${requestsWithQuotes.length !== 1 ? 'es' : ''} · ${requestsWithQuotes.reduce((acc, rq) => acc + rq.quotes.length, 0)} cotización${requestsWithQuotes.reduce((acc, rq) => acc + rq.quotes.length, 0) !== 1 ? 'es' : ''} recibidas`
+                }
+            />
 
             {/* ── Content ────────────────────────────────────────────────── */}
             <div style={{ padding: 28 }}>
@@ -95,7 +75,7 @@ export default async function CotizacionesPage({ params }: Props) {
                     </div>
                 )}
             </div>
-        </UserShell>
+        </>
     );
 }
 

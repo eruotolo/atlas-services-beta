@@ -7,7 +7,7 @@ import { getServerSession } from 'next-auth';
 import { getServiceStats } from '@/features/analytics/actions';
 import ProviderStatsCard from '@/features/analytics/components/provider/ProviderStatsCard';
 import { getCategorias } from '@/features/categories/actions';
-import { UserShell } from '@/features/users/components/account/UserShell';
+
 import { getProfilePageData } from '@/features/users/actions';
 import MisServicios from '@/features/users/components/profile/MisServicios';
 
@@ -53,11 +53,7 @@ export default async function ProfilePage({ params }: Props) {
     const firstName = usuario.name.split(' ')[0];
 
     return (
-        <UserShell
-            country={country}
-            user={{ name: usuario.name, avatar: usuario.avatar, isPremium: tienePremium }}
-            counts={{ servicios: usuario.stats.totalServicios }}
-        >
+        <>
             {/* ── Welcome Hero Banner ──────────────────────────────────────── */}
             <div
                 className="flex flex-wrap items-center justify-between gap-6"
@@ -100,7 +96,7 @@ export default async function ProfilePage({ params }: Props) {
                     <Btn
                         variant="secondary"
                         icon="user"
-                        href={`/${country}/profile/ajustes`}
+                        href={`/${country}/profile/settings`}
                     >
                         Ajustes
                     </Btn>
@@ -346,6 +342,6 @@ export default async function ProfilePage({ params }: Props) {
                     </div>
                 ) : null}
             </div>
-        </UserShell>
+        </>
     );
 }

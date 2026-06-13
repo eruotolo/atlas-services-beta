@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import type { Metadata } from 'next';
 
 import { PageHeader } from '@/features/users/components/account/PageHeader';
-import { UserShell } from '@/features/users/components/account/UserShell';
+
 import { getProfilePageData, getUserProfile } from '@/features/users/actions';
 import AjustesPerfilForm from '@/features/users/components/profile/AjustesPerfilForm';
 
@@ -36,14 +36,7 @@ export default async function AjustesPerfilPage({ params }: Props) {
     };
 
     return (
-        <UserShell
-            country={country}
-            user={{
-                name: backendUser.name,
-                avatar: backendUser.avatar,
-                isPremium: tienePremium,
-            }}
-        >
+        <>
             <PageHeader
                 breadcrumb={['Mi cuenta', 'Ajustes']}
                 title="Ajustes de perfil"
@@ -53,6 +46,6 @@ export default async function AjustesPerfilPage({ params }: Props) {
             <div style={{ padding: 28 }}>
                 <AjustesPerfilForm usuario={usuarioData} />
             </div>
-        </UserShell>
+        </>
     );
 }

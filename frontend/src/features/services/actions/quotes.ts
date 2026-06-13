@@ -48,7 +48,7 @@ export async function acceptQuote(
 
     try {
         await apiClient.patch(`/quotes/${quoteId}/accept`, {}, { token });
-        revalidatePath(`/${countryCode}/profile/cotizaciones`);
+        revalidatePath(`/${countryCode}/profile/quotes`);
         return { success: true };
     } catch (error) {
         console.error('[acceptQuote]', error);

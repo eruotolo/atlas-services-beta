@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth';
 
 import { getMisFavoritos } from '@/features/favorites/actions/queries';
 import { PageHeader } from '@/features/users/components/account/PageHeader';
-import { UserShell } from '@/features/users/components/account/UserShell';
+
 import { getProfilePageData } from '@/features/users/actions';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -39,10 +39,7 @@ export default async function FavoritosPage({ params }: Props) {
     const tienePremium = usuario.stats.premiumCount > 0;
 
     return (
-        <UserShell
-            country={country}
-            user={{ name: usuario.name, avatar: usuario.avatar, isPremium: tienePremium }}
-        >
+        <>
             <PageHeader
                 breadcrumb={['Mi cuenta', 'Favoritos']}
                 title="Servicios guardados"
@@ -168,6 +165,6 @@ export default async function FavoritosPage({ params }: Props) {
                     </div>
                 )}
             </div>
-        </UserShell>
+        </>
     );
 }

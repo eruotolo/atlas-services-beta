@@ -49,7 +49,7 @@ export default function ConversationList({ conversations, activeId }: Conversati
             {conversations.map((conv) => (
                 <Link
                     key={conv.id}
-                    href={link(`/profile/mensajes/${conv.id}`)}
+                    href={link(`/profile/messages/${conv.id}`)}
                     className={`flex items-center gap-3 px-4 py-3 transition-colors hover:bg-tint md:px-5 ${
                         activeId === conv.id
                             ? 'bg-brand/5 border-l-2 border-brand'

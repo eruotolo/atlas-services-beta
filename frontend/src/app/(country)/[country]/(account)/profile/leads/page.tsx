@@ -7,8 +7,9 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { getAvailableLeads, getMySentQuotes } from '@/features/services/actions/leads';
 import { LeadCard } from '@/features/services/components/leads/LeadCard';
 import { getProfilePageData } from '@/features/users/actions';
-import { UserShell } from '@/features/users/components/account/UserShell';
+
 import { Btn, Mono, Pill } from '@/shared/components/hireeo';
+import { PageHeader } from '@/shared/components/hireeo';
 
 export const metadata: Metadata = {
     title: 'Leads disponibles · Hireeo',
@@ -41,82 +42,36 @@ export default async function LeadsPage({ params }: Props) {
     const wonJobs = sentQuotes.filter((q) => q.accepted);
 
     return (
-        <UserShell
-            country={country}
-            user={{ name: usuario.name, avatar: usuario.avatar, isPremium: tienePremium }}
-            counts={{ servicios: usuario.stats.totalServicios }}
-        >
-            {/* ── Page header ───────────────────────────────────────────── */}
-            <div
-                style={{
-                    padding: '24px 28px 20px',
-                    borderBottom: '1px solid var(--line)',
-                    background: 'var(--bg)',
-                }}
-            >
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div>
-                        <h1
-                            style={{
-                                margin: 0,
-                                fontSize: 22,
-                                fontWeight: 600,
-                                letterSpacing: '-0.025em',
-                                color: 'var(--ink)',
-                            }}
-                        >
-                            Solicitudes disponibles
-                        </h1>
-                        <Mono className="mt-1 text-[12px]" style={{ color: 'var(--sub)' }}>
-                            Clientes que buscan profesionales en tu categoría
-                        </Mono>
-                    </div>
-                    {/* Mini stats */}
-                    <div className="flex items-center gap-3">
+        <>
+            <PageHeader
+                breadcrumb={['Mi cuenta', 'Leads']}
+                title="Solicitudes disponibles"
+                subtitle="Clientes que buscan profesionales en tu categoría"
+                actions={
+                    <div className="flex items-center gap-4 px-2">
                         <div className="text-center">
-                            <p
-                                className="text-[22px] font-semibold tabular-nums"
-                                style={{ color: 'var(--ink)', lineHeight: 1 }}
-                            >
+                            <p className="text-[18px] font-semibold tabular-nums leading-none text-ink">
                                 {leads.length}
                             </p>
-                            <Mono className="text-[10px]" style={{ color: 'var(--sub)' }}>
-                                DISPONIBLES
-                            </Mono>
+                            <Mono className="mt-1 text-[9px] text-sub">DISPONIBLES</Mono>
                         </div>
-                        <div
-                            style={{ width: 1, height: 32, background: 'var(--line)' }}
-                            aria-hidden
-                        />
+                        <div className="h-8 w-px bg-line" aria-hidden />
                         <div className="text-center">
-                            <p
-                                className="text-[22px] font-semibold tabular-nums"
-                                style={{ color: 'var(--ink)', lineHeight: 1 }}
-                            >
+                            <p className="text-[18px] font-semibold tabular-nums leading-none text-ink">
                                 {sentQuotes.length}
                             </p>
-                            <Mono className="text-[10px]" style={{ color: 'var(--sub)' }}>
-                                ENVIADAS
-                            </Mono>
+                            <Mono className="mt-1 text-[9px] text-sub">ENVIADAS</Mono>
                         </div>
-                        <div
-                            style={{ width: 1, height: 32, background: 'var(--line)' }}
-                            aria-hidden
-                        />
+                        <div className="h-8 w-px bg-line" aria-hidden />
                         <div className="text-center">
-                            <p
-                                className="text-[22px] font-semibold tabular-nums"
-                                style={{ color: 'var(--accent)', lineHeight: 1 }}
-                            >
+                            <p className="text-[18px] font-semibold tabular-nums leading-none text-accent">
                                 {wonJobs.length}
                             </p>
-                            <Mono className="text-[10px]" style={{ color: 'var(--sub)' }}>
-                                GANADOS
-                            </Mono>
+                            <Mono className="mt-1 text-[9px] text-sub">GANADOS</Mono>
                         </div>
                     </div>
-                </div>
-            </div>
+                }
+            />
 
             {/* ── Tabs content ──────────────────────────────────────────── */}
             <div style={{ padding: 28 }}>
@@ -224,7 +179,7 @@ export default async function LeadsPage({ params }: Props) {
                     </section>
                 ) : null}
             </div>
-        </UserShell>
+        </>
     );
 }
 

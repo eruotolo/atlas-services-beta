@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth';
 import { getConversaciones, getMensajes } from '@/features/chat/actions/queries';
 import ChatWindow from '@/features/chat/components/ChatWindow';
 import { PageHeader } from '@/features/users/components/account/PageHeader';
-import { UserShell } from '@/features/users/components/account/UserShell';
+
 import { getProfilePageData } from '@/features/users/actions';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -47,11 +47,7 @@ export default async function ConversationPage({ params }: Props) {
     const tienePremium = usuario.stats.premiumCount > 0;
 
     return (
-        <UserShell
-            country={country}
-            user={{ name: usuario.name, avatar: usuario.avatar, isPremium: tienePremium }}
-            counts={{ mensajes: conversations.length }}
-        >
+        <>
             <PageHeader
                 breadcrumb={['Mi cuenta', 'Mensajes', conversation.otherUser.name]}
                 title={`Chat con ${conversation.otherUser.name}`}
@@ -75,6 +71,6 @@ export default async function ConversationPage({ params }: Props) {
                     />
                 </Card>
             </div>
-        </UserShell>
+        </>
     );
 }

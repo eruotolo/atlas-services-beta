@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { Edit2, Plus, Trash2 } from '@/shared/components/icons';
+import { Edit2, Plus, Trash2, MapPin } from '@/shared/components/icons';
 
 import { eliminarUsuario } from '@/features/users/actions';
 
@@ -14,6 +14,7 @@ import { useDataTable } from '@/shared/components/DataTable/useDataTable';
 import { notify } from '@/shared/lib/notify';
 
 import UsuarioForm from './UsuarioForm';
+import UserAddressesModal from './UserAddressesModal';
 
 interface Usuario {
     id: string;
@@ -61,6 +62,7 @@ interface UsuariosTableProps {
 export default function UsuariosTable({ result, roles, countries }: UsuariosTableProps) {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isAddressModalOpen, setIsAddressModalOpen] = useState(false);
     const [selectedUsuario, setSelectedUsuario] = useState<Usuario | null>(null);
     const [isDeleting, setIsDeleting] = useState<string | null>(null);
 
@@ -70,6 +72,11 @@ export default function UsuariosTable({ result, roles, countries }: UsuariosTabl
     function handleEdit(usuario: Usuario) {
         setSelectedUsuario(usuario);
         setIsEditModalOpen(true);
+    }
+
+    function handleAddresses(usuario: Usuario) {
+        setSelectedUsuario(usuario);
+        setIsAddressModalOpen(true);
     }
 
     async function handleDelete(id: string) {
@@ -159,6 +166,14 @@ export default function UsuariosTable({ result, roles, countries }: UsuariosTabl
                 <div className="flex justify-end gap-2">
                     <button
                         type="button"
+                        onClick={() => handleAddresses(usuario)}
+                        className="cursor-pointer rounded-xl p-2 text-indigo-600 transition-colors hover:bg-indigo-50"
+                        title="Direcciones"
+                    >
+                        <MapPin size={18} />
+                    </button>
+                    <button
+                        type="button"
                         onClick={() => handleEdit(usuario)}
                         className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5"
                         title="Editar"
@@ -241,6 +256,19 @@ export default function UsuariosTable({ result, roles, countries }: UsuariosTabl
                     />
                 )}
             </Modal>
+
+            {/* Modal Direcciones */}
+            {selectedUsuario && (
+                <UserAddressesModal
+                    isOpen={isAddressModalOpen}
+                    onClose={() => {
+                        setIsAddressModalOpen(false);
+                        setSelectedUsuario(null);
+                    }}
+                    userId={selectedUsuario.id}
+                    userName={selectedUsuario.nombre}
+                />
+            )}
         </>
     );
 }

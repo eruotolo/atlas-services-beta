@@ -5,6 +5,7 @@ import { PrismaClient } from '@prisma/client';
 import { seedGeo } from './geo';
 import { seedPrices } from './prices';
 import { seedRolesUsers } from './roles-users';
+import { seedTestData } from './test-data';
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL as string });
 const prisma = new PrismaClient({ adapter });
@@ -23,6 +24,10 @@ async function main() {
 
         // 3. Planes premium por país
         await seedPrices();
+        console.log('');
+
+        // 4. Datos de prueba (servicios, categorías y usuarios)
+        await seedTestData(prisma);
         console.log('');
 
         console.log('✨ Seed completado exitosamente!');
