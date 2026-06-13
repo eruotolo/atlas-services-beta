@@ -8,7 +8,7 @@ import {
     HeroHireeoSection,
     PricingSection,
     StatsSection,
-} from '@/shared/components/home';
+} from '@/features/home/components';
 import { getDictionary } from '@/lib/i18n/getDictionary';
 import { mockServices } from '@/shared/lib/mockData';
 

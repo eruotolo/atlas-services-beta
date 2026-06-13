@@ -7,7 +7,7 @@ import { obtenerPreciosPremiumActivos } from '@/features/payments/actions';
 import { getDictionary } from '@/lib/i18n/getDictionary';
 import { Icon, Mono, SectionLabel } from '@/shared/components/hireeo';
 import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
-import { FinalCtaSection } from '@/shared/components/home/FinalCtaSection';
+import { FinalCtaSection } from '@/features/home/components/FinalCtaSection';
 
 export const revalidate = 0;
 
