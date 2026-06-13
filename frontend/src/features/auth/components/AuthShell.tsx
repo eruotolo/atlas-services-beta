@@ -50,9 +50,9 @@ export function AuthShell({
                 >
                     <Mono>© 2026 HIREEO · BUILT FOR LATAM</Mono>
                     <div className="flex gap-4">
-                        <Link href={`/${country}/terminos`}>Términos</Link>
-                        <Link href={`/${country}/privacidad`}>Privacidad</Link>
-                        <Link href={`/${country}/ayuda`}>Ayuda</Link>
+                        <Link href={`/${country}/terms`}>Términos</Link>
+                        <Link href={`/${country}/privacy`}>Privacidad</Link>
+                        <Link href={`/${country}/help`}>Ayuda</Link>
                     </div>
                 </div>
             </div>

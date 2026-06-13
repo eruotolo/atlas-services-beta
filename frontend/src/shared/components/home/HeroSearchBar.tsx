@@ -2,9 +2,10 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useRef, type ReactElement } from 'react';
-import { Search, MapPin, Loader2, LocateFixed } from 'lucide-react';
+import { Search, Loader2, LocateFixed } from 'lucide-react';
 import { matchServiceCategory } from '@/features/services/actions/matchmaking';
 import { searchLocalitiesByCountry } from '@/features/geo/actions/queries';
+import { useDictionary } from '@/lib/i18n/useDictionary';
 
 interface Props {
     country: string;
@@ -18,30 +19,23 @@ const DEFAULT_LOCATIONS: Record<string, string> = {
     us: 'San Jose',
 };
 
-const LOCATION_LABELS: Record<string, string> = {
-    cl: 'Comuna o Región',
-    ar: 'Barrio o Provincia',
-    uy: 'Ciudad o Departamento',
-    es: 'Municipio o Provincia',
-    us: 'ZIP Code / City',
-};
-
 export function HeroSearchBar({ country }: Props): ReactElement {
     const router = useRouter();
+    const dict = useDictionary();
+    const s = dict.search;
+
     const [query, setQuery] = useState('');
     const [location, setLocation] = useState('');
     const [isSearching, setIsSearching] = useState(false);
 
-    // Estado para autocompletado
-    const [localities, setLocalities] = useState<any[]>([]);
-    const [selectedLocality, setSelectedLocality] = useState<any>(null);
+    const [localities, setLocalities] = useState<{ id: string; name: string; slug: string; region?: { name: string } }[]>([]);
+    const [selectedLocality, setSelectedLocality] = useState<{ slug: string } | null>(null);
     const [showDropdown, setShowDropdown] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    // Estado de geolocalización
     const [isLocating, setIsLocating] = useState(false);
+    const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
 
-    // Cerrar dropdown al hacer click fuera
     useEffect(() => {
         function handleClickOutside(event: MouseEvent) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -52,24 +46,25 @@ export function HeroSearchBar({ country }: Props): ReactElement {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
 
-    // Cargar localidades al montar
     useEffect(() => {
-        setLocation(DEFAULT_LOCATIONS[country] || 'Ciudad Capital');
+        setLocation(DEFAULT_LOCATIONS[country] ?? s.capitalCity);
         searchLocalitiesByCountry(country).then(setLocalities);
-    }, [country]);
+    }, [country, s.capitalCity]);
 
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSearching(true);
         setShowDropdown(false);
         try {
-            let redirectUrl = `/${country}/buscar`;
+            let redirectUrl = `/${country}/search`;
             const params = new URLSearchParams();
 
-            if (selectedLocality && selectedLocality.region) {
-                params.set('region', selectedLocality.region.code);
+            if (selectedLocality) {
                 params.set('locality', selectedLocality.slug);
-            } else if (location.trim() && location !== 'Ubicación Actual') {
+            } else if (location === s.currentLocation && coords) {
+                params.set('lat', String(coords.lat));
+                params.set('lng', String(coords.lng));
+            } else if (location.trim() && location !== s.currentLocation) {
                 params.set('q', location);
             }
 
@@ -86,7 +81,7 @@ export function HeroSearchBar({ country }: Props): ReactElement {
             router.push(redirectUrl);
         } catch (error) {
             console.error('Error in matchmaking', error);
-            router.push(`/${country}/buscar?q=${encodeURIComponent(query)}`);
+            router.push(`/${country}/search?q=${encodeURIComponent(query)}`);
             setIsSearching(false);
         }
     };
@@ -96,51 +91,52 @@ export function HeroSearchBar({ country }: Props): ReactElement {
         setIsLocating(true);
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                // Aquí podrías conectar a un API de Reverse Geocoding real.
-                // Por ahora usamos una simulación visual de éxito.
-                setLocation('Ubicación Actual');
+                setCoords({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                });
+                setLocation(s.currentLocation);
+                setSelectedLocality(null);
                 setIsLocating(false);
                 setShowDropdown(false);
             },
             (error) => {
                 console.warn('Geolocalización fallida', error);
                 setIsLocating(false);
-            }
+            },
+            { timeout: 10000, enableHighAccuracy: false }
         );
     };
 
-    // Filtrar ciudades
-    const filteredLocalities = location.trim() === '' 
-        ? localities.slice(0, 5) 
+    const filteredLocalities = location.trim() === ''
+        ? localities.slice(0, 5)
         : localities.filter(l => l.name.toLowerCase().includes(location.toLowerCase())).slice(0, 5);
 
-    const locationLabel = LOCATION_LABELS[country] || 'Ubicación';
-
     return (
-        <form 
+        <form
             onSubmit={handleSearch}
-            className="flex w-full flex-col md:flex-row items-center bg-bg rounded-xl md:rounded-full border border-line shadow-sm mt-6 mb-12 transition-all hover:shadow-md focus-within:ring-2 focus-within:ring-accent/50 relative z-20"
+            className="relative z-20 mb-12 mt-6 flex w-full max-w-4xl flex-col items-stretch overflow-hidden rounded-2xl border border-line shadow-lg transition-all focus-within:ring-4 focus-within:ring-accent/30 hover:shadow-xl md:flex-row md:items-center md:rounded-full bg-bg"
         >
-            {/* Campo 1: Qué necesitas (IA) */}
-            <div className="flex-1 w-full flex items-center px-6 py-4 md:py-0 h-[56px] border-b md:border-b-0 md:border-r border-line overflow-hidden md:rounded-l-full">
+            {/* What do you need (AI) */}
+            <div className="flex h-14 w-full shrink-0 items-center border-b border-line px-5 md:h-[64px] md:flex-1 md:shrink md:rounded-l-full md:border-r md:border-b-0 md:px-6">
                 <Search size={20} className="text-sub shrink-0 mr-3" />
                 <input
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Describe el problema (ej: tengo una fuga en el baño)"
+                    placeholder={s.descriptionPlaceholder}
                     className="w-full bg-transparent border-none outline-none text-[15px] text-ink placeholder:text-sub"
                     autoComplete="off"
                 />
             </div>
 
-            {/* Campo 2: Ubicación con Autocompletado */}
-            <div className="w-full md:w-[300px] flex items-center px-6 py-4 md:py-0 h-[56px] bg-black/[0.01] dark:bg-white/[0.01] relative" ref={dropdownRef}>
-                <button 
-                    type="button" 
+            {/* Location with Autocomplete */}
+            <div className="relative flex h-14 w-full items-center px-5 md:h-[64px] md:w-[260px] md:px-6 bg-black/[0.01] dark:bg-white/[0.01]" ref={dropdownRef}>
+                <button
+                    type="button"
                     onClick={handleGeolocation}
                     className="text-sub shrink-0 mr-3 hover:text-accent transition-colors"
-                    title="Usar mi ubicación actual"
+                    title={s.useCurrentLocationTitle}
                 >
                     {isLocating ? <Loader2 size={20} className="animate-spin text-accent" /> : <LocateFixed size={20} />}
                 </button>
@@ -150,15 +146,15 @@ export function HeroSearchBar({ country }: Props): ReactElement {
                     onChange={(e) => {
                         setLocation(e.target.value);
                         setSelectedLocality(null);
+                        setCoords(null);
                         setShowDropdown(true);
                     }}
                     onFocus={() => setShowDropdown(true)}
-                    placeholder={locationLabel}
+                    placeholder={s.locationLabel}
                     className="w-full bg-transparent border-none outline-none text-[15px] text-ink placeholder:text-sub"
                     autoComplete="off"
                 />
 
-                {/* Dropdown de sugerencias */}
                 {showDropdown && localities.length > 0 && (
                     <div className="absolute top-[60px] left-0 w-full bg-bg border border-line rounded-xl shadow-lg overflow-hidden z-50">
                         {filteredLocalities.length > 0 ? (
@@ -180,20 +176,20 @@ export function HeroSearchBar({ country }: Props): ReactElement {
                                 </button>
                             ))
                         ) : (
-                            <div className="px-4 py-3 text-[13px] text-sub">No se encontraron ciudades con ese nombre.</div>
+                            <div className="px-4 py-3 text-[13px] text-sub">{s.noCitiesFound}</div>
                         )}
                     </div>
                 )}
             </div>
 
-            {/* Botón de Búsqueda */}
+            {/* Search Button */}
             <div className="w-full md:w-auto p-1.5 md:rounded-r-full overflow-hidden">
                 <button
                     type="submit"
                     disabled={isSearching}
-                    className="w-full md:w-auto flex items-center justify-center gap-2 rounded-full px-8 h-[44px] bg-accent text-white font-bold text-[15px] transition-transform active:scale-95 disabled:opacity-70 disabled:active:scale-100"
+                    className="flex h-14 w-full cursor-pointer items-center justify-center gap-2 rounded-full bg-accent px-8 text-[16px] font-bold text-white transition-all active:scale-95 disabled:opacity-70 disabled:active:scale-100 md:h-[48px] md:w-auto"
                 >
-                    {isSearching ? <Loader2 className="animate-spin" size={18} /> : 'Buscar'}
+                    {isSearching ? <Loader2 className="animate-spin" size={18} /> : s.searchButton}
                 </button>
             </div>
         </form>

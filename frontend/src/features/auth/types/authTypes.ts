@@ -4,7 +4,7 @@ export interface AuthResponse {
     success?: boolean;
 }
 
-// Tipos para formularios de login/registro
+// Tipos para formularios de login/register
 export interface LoginFormData {
     email: string;
     password: string;

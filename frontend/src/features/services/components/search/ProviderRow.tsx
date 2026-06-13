@@ -46,7 +46,7 @@ export function ProviderRow({
             <div className="min-w-0">
                 <div className="mb-1 flex flex-wrap items-center gap-2">
                     <Link
-                        href={`/servicio/${service.slug}`}
+                        href={`/service/${service.slug}`}
                         className="truncate text-[16px] font-semibold leading-tight transition-opacity hover:opacity-80"
                         style={{ color: 'var(--ink)', letterSpacing: '-0.01em' }}
                     >
@@ -111,7 +111,7 @@ export function ProviderRow({
             </div>
 
             <div className="flex flex-col gap-1.5">
-                <Link href={`/servicio/${service.slug}`}>
+                <Link href={`/service/${service.slug}`}>
                     <Btn variant="primary" iconRight="arrow" className="w-full justify-center">
                         {dict.search.contactCta}
                     </Btn>

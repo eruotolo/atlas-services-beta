@@ -26,11 +26,11 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
     const link = useCountryLink();
 
     const navItems = [
-        { href: link('/buscar'), label: dict.nav.search },
-        { href: link('/como-funciona'), label: dict.nav.howItWorks },
-        { href: link('/suscripcion-pro'), label: dict.nav.pricing },
-        { href: link('/quienes-somos'), label: dict.nav.about },
-        { href: link('/publicar'), label: 'Soy profesional' },
+        { href: link('/search'), label: dict.nav.search },
+        { href: link('/how-it-works'), label: dict.nav.howItWorks },
+        { href: link('/pricing'), label: dict.nav.pricing },
+        { href: link('/about-us'), label: dict.nav.about },
+        { href: link('/publish'), label: dict.home.hero2.ctaProfessional },
     ];
 
     return (
@@ -88,7 +88,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
 
                     {user ? (
                         <Link
-                            href={link('/perfil')}
+                            href={link('/profile')}
                             className="inline-flex items-center gap-2 rounded-md px-2 py-1 transition-colors hover:bg-tint"
                         >
                             <span
@@ -127,7 +127,7 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
                         </Link>
                     )}
 
-                    <Link href={link('/publicar')}>
+                    <Link href={link('/publish')}>
                         <Btn size="sm" variant="primary" iconRight="arrow">
                             {dict.nav.startCta}
                         </Btn>
@@ -138,20 +138,20 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
 
                 <div className="flex items-center gap-1.5 md:hidden">
                     <Link
-                        href={link('/buscar')}
+                        href={link('/search')}
                         className="inline-flex h-9 w-9 items-center justify-center rounded-md transition-colors hover:bg-tint"
                         aria-label={dict.nav.searchMobile}
                         style={{ color: 'var(--sub)' }}
                     >
                         <Icon name="search" size={18} />
                     </Link>
-                    <Link href={link('/publicar')}>
+                    <Link href={link('/publish')}>
                         <Btn size="sm" variant="primary" icon="plus" aria-label={dict.nav.publish}>
                             <span className="sr-only">{dict.nav.publish}</span>
                         </Btn>
                     </Link>
                     <Link
-                        href={user ? link('/perfil') : link('/login')}
+                        href={user ? link('/profile') : link('/login')}
                         className="inline-flex h-9 w-9 items-center justify-center rounded-md border transition-colors hover:bg-tint"
                         aria-label={user ? user.name : dict.nav.login}
                         style={{

@@ -220,7 +220,7 @@ export function SearchPageClient({
         if (locality) params.set('locality', locality);
         if (page > 1) params.set('page', String(page));
 
-        router.push(`/${country}/buscar?${params.toString()}`, { scroll: true });
+        router.push(`/${country}/search?${params.toString()}`, { scroll: true });
     }
 
     function handleSubmit(): void {
@@ -255,7 +255,7 @@ export function SearchPageClient({
         setSelectedLocality('');
         setLocalities([]);
         setClientFilters(DEFAULT_CLIENT_FILTERS);
-        router.push(`/${country}/buscar`);
+        router.push(`/${country}/search`);
     }
 
     function patchClientFilters(patch: Partial<ClientFilters>): void {

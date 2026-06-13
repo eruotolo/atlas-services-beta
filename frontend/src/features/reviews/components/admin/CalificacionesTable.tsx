@@ -10,7 +10,7 @@ type EstadoComentario = 'PENDIENTE' | 'ACTIVO' | 'ELIMINADO';
 
 import { actualizarCalificacion, eliminarCalificacion } from '@/features/reviews/actions';
 
-import { Pill, Stars } from '@/shared/components/hireeo';
+import { Avatar, Pill, Stars } from '@/shared/components/hireeo';
 
 import Modal from '@/shared/components/admin/Modal';
 import type { Column } from '@/shared/components/ui/data-table';
@@ -129,12 +129,15 @@ export default function CalificacionesTable({ result }: CalificacionesTableProps
         {
             header: 'Usuario',
             cell: (calificacion) => (
-                <div>
-                    <div className="font-bold text-ink">
-                        {calificacion.usuario.nombre}
-                    </div>
-                    <div className="text-xs text-muted">
-                        {calificacion.usuario.email}
+                <div className="flex items-center gap-2.5">
+                    <Avatar name={calificacion.usuario.nombre} size={28} />
+                    <div>
+                        <div className="font-bold text-ink">
+                            {calificacion.usuario.nombre}
+                        </div>
+                        <div className="text-xs text-muted">
+                            {calificacion.usuario.email}
+                        </div>
                     </div>
                 </div>
             ),

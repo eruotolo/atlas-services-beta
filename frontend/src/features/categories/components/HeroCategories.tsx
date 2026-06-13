@@ -20,7 +20,7 @@ export default function HeroCategories({ categories }: HeroCategoriesProps) {
                     {categories.map((cat) => (
                         <Link
                             key={cat.name}
-                            href={`/buscar?c=${cat.category}`}
+                            href={`/search?c=${cat.category}`}
                             className="stagger-item flex items-center gap-2 rounded-2xl border border-line bg-bg px-6 py-3 text-sm font-semibold text-sub shadow-lg transition-all hover:border-brand hover:text-brand hover:shadow-xl"
                         >
                             <CategoryIcon

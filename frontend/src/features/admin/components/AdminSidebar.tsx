@@ -43,7 +43,7 @@ function buildSections(country: string): NavSection[] {
                     id: 'servicios',
                     label: 'Servicios',
                     icon: 'briefcase',
-                    href: `/${country}/admin/servicios`,
+                    href: `/${country}/admin/services`,
                 },
                 {
                     id: 'usuarios',

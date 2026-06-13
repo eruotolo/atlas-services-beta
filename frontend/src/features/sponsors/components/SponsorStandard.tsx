@@ -30,7 +30,7 @@ export default function SponsorStandard({ sponsor }: SponsorStandardProps) {
                         size={20}
                         className="mb-2 text-brand-light transition-transform group-hover:scale-110"
                     />
-                    <Link href="/contacto" className="text-center">
+                    <Link href="/contact" className="text-center">
                         <h4 className="mb-1 text-[10px] font-black tracking-[0.2em] text-brand-marino uppercase">
                             Espacio Publicitario Disponible
                         </h4>

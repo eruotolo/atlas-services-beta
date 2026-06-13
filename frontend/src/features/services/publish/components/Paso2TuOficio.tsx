@@ -681,7 +681,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                     >
                         Declaro que la información proporcionada es verdadera y acepto las{' '}
                         <a
-                            href="/terminos"
+                            href="/terms"
                             target="_blank"
                             className="font-bold text-brand hover:underline"
                             rel="noopener"

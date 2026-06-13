@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { RedSocialSchema } from '@/features/services/schemas/servicioSchemas';
+import { RedSocialSchema } from '@/features/services/schemas/serviceSchemas';
 
 // Password validation logic matching original: min 8, 1 uppercase, 1 special char
 export const passwordSchema = z

@@ -2,6 +2,7 @@ import type { ReactElement } from 'react';
 
 import type { Dictionary } from '@/lib/i18n/types';
 import { Icon, Mono, SectionLabel } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
 import type { HireIconName } from '@/shared/components/hireeo/icons';
 
 interface FeaturesGridSectionProps {
@@ -48,7 +49,11 @@ export function FeaturesGridSection({ dict }: FeaturesGridSectionProps): ReactEl
                                 color: 'var(--ink)',
                             }}
                         >
-                            {dict.home.product.title}
+                            <AnimatedRotatingText
+                                delay={200}
+                                speed={40}
+                                segments={[{ text: dict.home.product.title }]}
+                            />
                         </h2>
                     </div>
                     <div

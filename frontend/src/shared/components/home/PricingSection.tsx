@@ -3,6 +3,7 @@ import type { ReactElement } from 'react';
 
 import type { Dictionary } from '@/lib/i18n/types';
 import { Icon, SectionLabel } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
 
 interface PricingSectionProps {
     country: string;
@@ -31,7 +32,7 @@ function buildTiers(country: string, dict: Dictionary): readonly Tier[] {
             sub: p.personasSub,
             features: [p.personasF1, p.personasF2, p.personasF3, p.personasF4],
             cta: p.personasCta,
-            href: `/${country}/buscar`,
+            href: `/${country}/search`,
             dark: false,
         },
         {
@@ -41,7 +42,7 @@ function buildTiers(country: string, dict: Dictionary): readonly Tier[] {
             sub: p.proSub,
             features: [p.proF1, p.proF2, p.proF3, p.proF4, p.proF5],
             cta: p.proCta,
-            href: `/${country}/suscripcion-pro`,
+            href: `/${country}/pricing`,
             dark: true,
             badge: p.proBadge,
         },
@@ -52,7 +53,7 @@ function buildTiers(country: string, dict: Dictionary): readonly Tier[] {
             sub: p.empresasSub,
             features: [p.empresasF1, p.empresasF2, p.empresasF3, p.empresasF4, p.empresasF5],
             cta: p.empresasCta,
-            href: `/${country}/contacto`,
+            href: `/${country}/contact`,
             dark: false,
         },
     ];
@@ -159,7 +160,11 @@ export function PricingSection({ country, dict }: PricingSectionProps): ReactEle
                             color: 'var(--ink)',
                         }}
                     >
-                        {dict.home.pricing.title}
+                        <AnimatedRotatingText
+                            delay={200}
+                            speed={40}
+                            segments={[{ text: dict.home.pricing.title }]}
+                        />
                     </h2>
                     <p
                         className="m-0 text-[16px]"

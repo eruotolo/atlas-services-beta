@@ -53,6 +53,11 @@ export interface Dictionary {
             viewAll: string;
             profilesSuffix: string;
         };
+        categoriesTabs: {
+            viewAllPrefix: string;
+            tabs: Array<{ label: string; icon: string; query: string }>;
+            cards: Record<string, Array<{ label: string; query: string; image: string }>>;
+        };
         stats: {
             proCount: string;
             proLabel: string;
@@ -167,6 +172,12 @@ export interface Dictionary {
         paginationNext: string;
         paginationPrev: string;
         sponsorLabel: string;
+        locationLabel: string;
+        currentLocation: string;
+        descriptionPlaceholder: string;
+        useCurrentLocationTitle: string;
+        noCitiesFound: string;
+        capitalCity: string;
     };
     service: {
         featured: string;
@@ -275,6 +286,237 @@ export interface Dictionary {
         back: string;
         next: string;
         close: string;
+    };
+    chatbot: {
+        title: string;
+        closeLabel: string;
+        openLabel: string;
+        description: string;
+        placeholder: string;
+        searchManually: string;
+        analyzing: string;
+        searchBtn: string;
+        locationError: string;
+        searchWithoutLocation: string;
+        goBack: string;
+        foundA: string;
+        gettingLocation: string;
+        goWithoutLocation: string;
+        noResults: string;
+        noProvidersOf: string;
+        viewCategoryPrefix: string;
+        startOver: string;
+        fallbackError: string;
+    };
+    auth: {
+        login: {
+            title: string;
+            subtitle: string;
+            emailLabel: string;
+            emailPlaceholder: string;
+            passwordLabel: string;
+            passwordHint: string;
+            keepSession: string;
+            forgotPassword: string;
+            loadingBtn: string;
+            loginBtn: string;
+            orWith: string;
+            googleLoading: string;
+            googleBtn: string;
+            appleBtn: string;
+            microsoftBtn: string;
+            noAccount: string;
+            createAccount: string;
+            showPassword: string;
+            hidePassword: string;
+            invalidCredentials: string;
+            comingSoon: string;
+        };
+        registro: {
+            eyebrow: string;
+            title: string;
+            subtitle: string;
+            nameLabel: string;
+            namePlaceholder: string;
+            phoneLabel: string;
+            emailLabel: string;
+            emailPlaceholder: string;
+            passwordLabel: string;
+            passwordHint: string;
+            termsPrefix: string;
+            termsLink: string;
+            privacyLink: string;
+            termsSuffix: string;
+            pendingBtn: string;
+            submitBtn: string;
+            hasAccount: string;
+            loginLink: string;
+            showPassword: string;
+            hidePassword: string;
+        };
+    };
+    account: {
+        profile: {
+            metaTitle: string;
+            breadcrumb1: string;
+            breadcrumb2: string;
+            greetingPrefix: string;
+            subStats: string;
+            settingsBtn: string;
+            publishBtn: string;
+            statServices: string;
+            statServicesLabel: string;
+            statReviews: string;
+            statReviewsLabel: string;
+            statPremium: string;
+            statPremiumLabel: string;
+            statStatus: string;
+            statStatusPro: string;
+            statStatusFree: string;
+            statStatusActive: string;
+            statStatusBasic: string;
+            myServices: string;
+            newBtn: string;
+            statsTitle: string;
+            statsSubtitle: string;
+            proTag: string;
+            proHeadline: string;
+            proDescription: string;
+            proCta: string;
+            proStat1N: string;
+            proStat1L: string;
+            proStat2N: string;
+            proStat2L: string;
+            proStat3N: string;
+            proStat3L: string;
+            proStat4N: string;
+            proStat4L: string;
+        };
+        settings: {
+            metaTitle: string;
+            breadcrumb2: string;
+            title: string;
+            subtitle: string;
+        };
+        publish: {
+            metaTitle: string;
+            breadcrumb2: string;
+            title: string;
+            subtitle: string;
+        };
+        favorites: {
+            metaTitle: string;
+            breadcrumb2: string;
+            title: string;
+        };
+        messages: {
+            metaTitle: string;
+            breadcrumb2: string;
+            title: string;
+        };
+    };
+    admin: {
+        sidebar: {
+            sectionOps: string;
+            sectionCatalog: string;
+            sectionPayments: string;
+            overview: string;
+            services: string;
+            users: string;
+            ratings: string;
+            interactions: string;
+            categories: string;
+            sponsors: string;
+            prices: string;
+            payments: string;
+            signOutLabel: string;
+        };
+        overview: {
+            metaTitle: string;
+            breadcrumb1: string;
+            breadcrumb2: string;
+            title: string;
+            subtitle: string;
+            statServices: string;
+            statUsers: string;
+            statInteractions: string;
+            statSponsors: string;
+        };
+    };
+    pages: {
+        quienesSomos: {
+            meta: { title: string; description: string };
+            hero: { eyebrow: string; title: string; subtitle: string };
+            numbers: string[][];
+            principles: {
+                eyebrow: string;
+                title: string;
+                items: Array<{ title: string; desc: string }>;
+            };
+            team: {
+                eyebrow: string;
+                title: string;
+                ctaText: string;
+                ctaLink: string;
+                members: Array<{ name: string; role: string }>;
+                moreLabel: string;
+                moreDesc: string;
+                joinLabel: string;
+            };
+        };
+        ayuda: {
+            meta: { title: string; description: string };
+            header: { title: string; subtitle: string };
+            cta: { title: string; subtitle: string; button: string };
+            faqs: Array<{ q: string; a: Array<Record<string, unknown>> }>;
+        };
+        comoFunciona: {
+            meta: { title: string; description: string };
+            hero: { eyebrow: string; titleBefore: string; titleAfter: string; subtitle: string };
+            steps: Array<{ n: string; title: string; desc: string; meta: string; shot: string }>;
+            faq: {
+                eyebrow: string;
+                title: string;
+                items: string[][];
+            };
+        };
+        contacto: {
+            title: string;
+            titleHighlight: string;
+            subtitle: string;
+            email: string;
+            whatsapp: string;
+            office: string;
+            officeValue: string;
+            form: {
+                name: string;
+                namePlaceholder: string;
+                email: string;
+                emailPlaceholder: string;
+                phone: string;
+                phonePlaceholder: string;
+                subject: string;
+                subjectOptions: string[];
+                message: string;
+                messagePlaceholder: string;
+                submit: string;
+                sending: string;
+                success: string;
+                defaultSubject: string;
+            };
+        };
+        terminos: {
+            title: string;
+            lastUpdated: string;
+            sections: Array<Record<string, unknown>>;
+            footer: string;
+        };
+        privacidad: {
+            title: string;
+            lastUpdated: string;
+            sections: Array<Record<string, unknown>>;
+            footer: string;
+        };
     };
 }
 

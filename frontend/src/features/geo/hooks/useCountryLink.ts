@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation';
  * Extrae el country del contexto de rutas actual y retorna
  * una función que prefija cualquier path con el código de país.
  *
- * Uso: const link = useCountryLink(); <Link href={link('/buscar')} />
+ * Uso: const link = useCountryLink(); <Link href={link('/search')} />
  */
 export function useCountryLink() {
     const params = useParams();

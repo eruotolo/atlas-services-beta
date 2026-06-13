@@ -24,7 +24,7 @@ export default function AdminHeader({ user }: AdminHeaderProps) {
 
     const titles: Record<string, string> = {
         [`/${country}/admin`]: 'Bienvenido, Admin',
-        [`/${country}/admin/servicios`]: 'Gestión de Servicios',
+        [`/${country}/admin/services`]: 'Gestión de Servicios',
         [`/${country}/admin/usuarios`]: 'Gestión de Usuarios',
         [`/${country}/admin/categorias`]: 'Gestión de Categorías',
         [`/${country}/admin/calificaciones`]: 'Gestión de Reseñas',
