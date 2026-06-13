@@ -17,11 +17,15 @@ export function PageHeader({
 }: PageHeaderProps): ReactElement {
     return (
         <header
-            className="flex flex-wrap items-end justify-between gap-6"
+            className="flex flex-wrap items-center justify-between gap-6"
             style={{
-                padding: '28px 28px 22px',
+                height: 100,
+                padding: '0 28px',
                 borderBottom: '1px solid var(--line)',
                 background: 'var(--bg)',
+                position: 'sticky',
+                top: 0,
+                zIndex: 10,
             }}
         >
             <div className="min-w-0 flex-1">

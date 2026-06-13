@@ -14,15 +14,21 @@ interface BackendUserItem {
     phone?: string | null;
     avatar?: string | null;
     createdAt?: string;
-    roles?: Array<{ id: string; roleId: string; role: { name: string } }>;
+    roles?: Array<{
+        id: string;
+        roleId: string;
+        role: { name: string };
+        country?: { code: string; name: string } | null;
+    }>;
     _count?: { services?: number; ratings?: number };
 }
 
 // ─── Admin: listar usuarios con paginación ────────────────────────────────────
 
-export const getUsersAll = cache(async () => {
+export const getUsersAll = cache(async (countryCode?: string) => {
     try {
-        const result = await apiClient.get<{ items: BackendUserItem[] }>('/users?limit=999');
+        const url = countryCode ? `/users?limit=999&country=${countryCode}` : '/users?limit=999';
+        const result = await apiClient.get<{ items: BackendUserItem[] }>(url);
         return (result.items ?? []).map((u) => ({
             id: u.id,
             nombre: u.name,
@@ -34,12 +40,14 @@ export const getUsersAll = cache(async () => {
     }
 });
 
-export const getUsers = cache(async (page = 1, limit = 10, search?: string) => {
+export const getUsers = cache(async (page = 1, limit = 10, search?: string, roleNames?: string[], countryCode?: string) => {
     try {
         const qs = new URLSearchParams({
             page: String(page),
             limit: String(limit),
             ...(search ? { query: search } : {}),
+            ...(roleNames?.length ? { roles: roleNames.join(',') } : {}),
+            ...(countryCode ? { country: countryCode } : {}),
         });
         const result = await apiClient.get<{
             items: BackendUserItem[];
@@ -59,6 +67,7 @@ export const getUsers = cache(async (page = 1, limit = 10, search?: string) => {
                     id: ur.id,
                     roleId: ur.roleId,
                     role: { nombre: ur.role.name ?? '' },
+                    country: ur.country ?? null,
                 })),
                 _count: {
                     servicios: u._count?.services ?? 0,

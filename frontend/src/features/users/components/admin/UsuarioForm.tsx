@@ -1,10 +1,12 @@
 'use client';
+import { Btn, Select } from '@/shared/components/hireeo';
 
 import { useId, useState } from 'react';
 
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from '@/shared/components/icons';
 
 import { actualizarUsuario, crearUsuario } from '@/features/users/actions';
+import { notify } from '@/shared/lib/notify';
 
 interface Usuario {
     id: string;
@@ -13,6 +15,7 @@ interface Usuario {
     telefono: string | null;
     roles?: Array<{
         roleId: string;
+        country?: { code: string; name: string } | null;
     }>;
 }
 
@@ -21,27 +24,42 @@ interface Role {
     nombre: string;
 }
 
+interface CountryOption {
+    code: string;
+    name: string;
+}
+
 interface UsuarioFormProps {
     usuario?: Usuario;
     roles: Role[];
+    countries: CountryOption[];
     onSuccess: () => void;
     onCancel: () => void;
 }
 
-export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: UsuarioFormProps) {
+export default function UsuarioForm({
+    usuario,
+    roles,
+    countries,
+    onSuccess,
+    onCancel,
+}: UsuarioFormProps) {
     const id = useId();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [selectedRoles, setSelectedRoles] = useState<string[]>(
-        usuario?.roles?.map((r) => r.roleId) || [],
+    const [selectedRole, setSelectedRole] = useState<string>(
+        usuario?.roles?.[0]?.roleId ?? '',
     );
 
-    function handleRoleToggle(roleId: string) {
-        setSelectedRoles((prev) =>
-            prev.includes(roleId) ? prev.filter((id) => id !== roleId) : [...prev, roleId],
-        );
-    }
+    const adminRole = roles.find((r) => r.nombre === 'Administrador');
+    const isAdminSelected = adminRole !== undefined && selectedRole === adminRole.id;
+
+    const [adminCountry, setAdminCountry] = useState<string>(
+        () =>
+            usuario?.roles?.find((r) => r.roleId === adminRole?.id && r.country)?.country?.code ??
+            '',
+    );
 
     function validatePassword(password: string): string | null {
         if (password.length < 8) {
@@ -83,11 +101,23 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
             return;
         }
 
-        if (selectedRoles.length === 0) {
-            setError('Debe seleccionar al menos un rol');
+        if (!selectedRole) {
+            setError('Debe seleccionar un rol');
             setLoading(false);
             return;
         }
+
+        if (isAdminSelected && !adminCountry) {
+            setError('El rol Administrador requiere seleccionar el país que administra');
+            setLoading(false);
+            return;
+        }
+
+        const rolesPayload = [
+            selectedRole === adminRole?.id
+                ? { roleId: selectedRole, countryCode: adminCountry }
+                : { roleId: selectedRole },
+        ];
 
         try {
             let result;
@@ -98,7 +128,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                     nombre,
                     password: password || undefined, // undefined sends undefined to Zod optional
                     telefono: telefono || null,
-                    roles: selectedRoles,
+                    roles: rolesPayload,
                 });
             } else {
                 result = await crearUsuario({
@@ -106,17 +136,25 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
                     nombre,
                     password,
                     telefono: telefono || null,
-                    roles: selectedRoles,
+                    roles: rolesPayload,
                 });
             }
 
             if (result.error) {
                 setError(result.error);
+                notify.error({
+                    title: usuario ? 'Error al actualizar usuario' : 'Error al crear usuario',
+                    description: result.error,
+                });
             } else {
+                notify.success({
+                    title: usuario ? 'Usuario actualizado' : 'Usuario creado',
+                });
                 onSuccess();
             }
         } catch (_err) {
             setError('Error al procesar la solicitud');
+            notify.error({ title: 'Error al procesar la solicitud' });
         } finally {
             setLoading(false);
         }
@@ -135,7 +173,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
             <div>
                 <label
                     htmlFor={`${id}-nombre`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase"
+                    className="mb-1.5 block text-[12px] font-semibold tracking-[-0.005em] text-ink"
                 >
                     Nombre
                 </label>
@@ -152,7 +190,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
             <div>
                 <label
                     htmlFor={`${id}-email`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase"
+                    className="mb-1.5 block text-[12px] font-semibold tracking-[-0.005em] text-ink"
                 >
                     Email
                 </label>
@@ -169,7 +207,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
             <div>
                 <label
                     htmlFor={`${id}-password`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase"
+                    className="mb-1.5 block text-[12px] font-semibold tracking-[-0.005em] text-ink"
                 >
                     Contraseña {usuario && '(opcional)'}
                 </label>
@@ -195,7 +233,7 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
             <div>
                 <label
                     htmlFor={`${id}-telefono`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-sub uppercase"
+                    className="mb-1.5 block text-[12px] font-semibold tracking-[-0.005em] text-ink"
                 >
                     Teléfono
                 </label>
@@ -209,44 +247,56 @@ export default function UsuarioForm({ usuario, roles, onSuccess, onCancel }: Usu
             </div>
 
             <div>
-                <span className="mb-3 block text-xs font-black tracking-wider text-sub uppercase">
-                    Roles
-                </span>
-                <div className="flex flex-wrap gap-4">
+                <label
+                    htmlFor={`${id}-rol`}
+                    className="mb-1.5 block text-[12px] font-semibold tracking-[-0.005em] text-ink"
+                >
+                    Rol
+                </label>
+                <Select
+                    id={`${id}-rol`}
+                    value={selectedRole}
+                    onChange={(e) => setSelectedRole(e.target.value)}
+                    aria-label="Rol del usuario"
+                >
+                    <option value="">Seleccionar rol…</option>
                     {roles.map((role) => (
-                        <label key={role.id} className="flex cursor-pointer items-center gap-2">
-                            <input
-                                type="checkbox"
-                                name="roles"
-                                value={role.id}
-                                checked={selectedRoles.includes(role.id)}
-                                onChange={() => handleRoleToggle(role.id)}
-                                className="h-4 w-4 rounded border-line bg-tint text-brand focus:ring-2 focus:ring-brand/20"
-                            />
-                            <span className="text-xs font-bold text-sub">
-                                {role.nombre}
-                            </span>
-                        </label>
+                        <option key={role.id} value={role.id}>
+                            {role.nombre}
+                        </option>
                     ))}
-                </div>
+                </Select>
+
+                {isAdminSelected && (
+                    <div className="mt-4 rounded-xl border border-line bg-tint/40 px-4 py-3">
+                        <span className="mb-1.5 block text-[12px] font-semibold tracking-[-0.005em] text-ink">
+                            País que administra
+                        </span>
+                        <p className="mb-2 text-[11px] text-sub">
+                            El Administrador gestiona el panel /admin de un solo país.
+                        </p>
+                        <Select
+                            icon="globe"
+                            value={adminCountry}
+                            onChange={(e) => setAdminCountry(e.target.value)}
+                            aria-label="País que administra"
+                        >
+                            <option value="">Seleccionar país…</option>
+                            {countries.map((country) => (
+                                <option key={country.code} value={country.code}>
+                                    {country.name}
+                                </option>
+                            ))}
+                        </Select>
+                    </div>
+                )}
             </div>
 
-            <div className="flex justify-end gap-3 border-t border-line pt-4">
-                <button
-                    type="button"
-                    onClick={onCancel}
-                    disabled={loading}
-                    className="cursor-pointer rounded-xl border border-line px-6 py-2.5 text-xs font-bold text-sub transition-colors hover:bg-tint disabled:opacity-50"
-                >
-                    Cancelar
-                </button>
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-primary cursor-pointer rounded-xl px-6 py-2.5 text-xs disabled:opacity-50"
-                >
+            <div className="mt-8 flex justify-end gap-3">
+                <Btn variant="secondary" type="button" disabled={loading} onClick={onCancel}>Cancelar</Btn>
+                <Btn variant="primary" type="submit" disabled={loading}>
                     {loading ? 'Guardando...' : usuario ? 'Actualizar' : 'Crear Usuario'}
-                </button>
+                </Btn>
             </div>
         </form>
     );

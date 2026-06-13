@@ -2,20 +2,22 @@
 
 import { useState } from 'react';
 
-import { Edit2, Eye, EyeOff, Plus, Star, Trash2 } from 'lucide-react';
+import { Edit2, Eye, EyeOff, Plus, Star, Trash2 } from '@/shared/components/icons';
 
+import type { Country } from '@/features/geo/types/geoTypes';
 import {
     eliminarServicio,
     toggleActivoServicio,
     toggleDestacadoServicio,
 } from '@/features/services/actions';
 
-import { Avatar, Pill } from '@/shared/components/hireeo';
+import { Pill, Btn, Avatar } from '@/shared/components/hireeo';
 
 import Modal from '@/shared/components/admin/Modal';
-import type { Column } from '@/shared/components/ui/data-table';
-import { DataTable } from '@/shared/components/ui/data-table';
-import { useDataTable } from '@/shared/components/ui/data-table/useDataTable';
+import type { ColumnDef } from '@tanstack/react-table';
+import { DataTable } from '@/shared/components/DataTable';
+import { useDataTable } from '@/shared/components/DataTable/useDataTable';
+import { notify } from '@/shared/lib/notify';
 
 import AdminServicioForm from './AdminServicioForm';
 
@@ -73,9 +75,15 @@ interface ServiciosTableProps {
     };
     usuarios: Usuario[];
     categorias: CategoriaServicio[];
+    countries?: Country[];
 }
 
-export default function ServiciosTable({ result, usuarios, categorias }: ServiciosTableProps) {
+export default function ServiciosTable({
+    result,
+    usuarios,
+    categorias,
+    countries = [],
+}: ServiciosTableProps) {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedServicio, setSelectedServicio] = useState<Servicio | null>(null);
@@ -100,12 +108,13 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
         try {
             const result = await eliminarServicio(id);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al eliminar', description: result.error });
             } else {
+                notify.success({ title: 'Servicio eliminado' });
                 window.location.reload();
             }
         } catch (_error) {
-            alert('Error al eliminar servicio');
+            notify.error({ title: 'Error al eliminar servicio' });
         } finally {
             setIsDeleting(null);
         }
@@ -115,12 +124,13 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
         try {
             const result = await toggleActivoServicio(id);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al cambiar estado', description: result.error });
             } else {
+                notify.success({ title: 'Estado del servicio actualizado' });
                 window.location.reload();
             }
         } catch (_error) {
-            alert('Error al cambiar estado del servicio');
+            notify.error({ title: 'Error al cambiar estado del servicio' });
         }
     }
 
@@ -128,12 +138,13 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
         try {
             const result = await toggleDestacadoServicio(id);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al cambiar destacado', description: result.error });
             } else {
+                notify.success({ title: 'Destacado actualizado' });
                 window.location.reload();
             }
         } catch (_error) {
-            alert('Error al cambiar destacado del servicio');
+            notify.error({ title: 'Error al cambiar destacado del servicio' });
         }
     }
 
@@ -145,12 +156,12 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
     }
 
     // Definir las columnas de la tabla
-    const columns: Column<Servicio>[] = [
+    const columns: ColumnDef<Servicio>[] = [
         {
             header: 'Servicio',
-            cell: (servicio) => (
+            cell: ({ row: { original: servicio } }) => (
                 <div className="flex items-center gap-2">
-                    <span className="font-bold text-ink">
+                    <span className="font-semibold text-ink">
                         {servicio.titulo}
                     </span>
                     {servicio.destacado && (
@@ -161,7 +172,7 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
         },
         {
             header: 'Categorías',
-            cell: (servicio) => (
+            cell: ({ row: { original: servicio } }) => (
                 <Pill tone="default">
                     {servicio.categories && servicio.categories.length > 0
                         ? servicio.categories.map((c) => c.nombre).join(', ')
@@ -171,7 +182,7 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
         },
         {
             header: 'Proveedor',
-            cell: (servicio) => (
+            cell: ({ row: { original: servicio } }) => (
                 <div className="flex items-center gap-2.5">
                     <Avatar name={servicio.usuario.nombre} size={28} />
                     <span className="text-sub">{servicio.usuario.nombre}</span>
@@ -180,15 +191,15 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
         },
         {
             header: 'Precio',
-            cell: (servicio) => (
-                <span className="font-bold text-ink">
+            cell: ({ row: { original: servicio } }) => (
+                <span className="font-semibold text-ink">
                     ${Number(servicio.precio).toLocaleString('es-CL')}
                 </span>
             ),
         },
         {
             header: 'Estado',
-            cell: (servicio) => (
+            cell: ({ row: { original: servicio } }) => (
                 <Pill tone={servicio.activo ? 'success' : 'default'}>
                     {servicio.activo ? 'Activo' : 'Inactivo'}
                 </Pill>
@@ -196,8 +207,8 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
         },
         {
             header: 'Acciones',
-            className: 'text-right',
-            cell: (servicio) => (
+            meta: { className: 'text-right' },
+            cell: ({ row: { original: servicio } }) => (
                 <div className="flex justify-end gap-2">
                     <button
                         type="button"
@@ -256,14 +267,14 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
                 totalCount={result.meta.total}
                 isLoading={isPending}
                 actionButton={
-                    <button
+                    <Btn
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-4 py-3"
+                        variant="primary"
                     >
                         <Plus size={20} />
                         <span className="hidden sm:inline">Nuevo Servicio</span>
-                    </button>
+                    </Btn>
                 }
             />
 
@@ -276,6 +287,7 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
                 <AdminServicioForm
                     usuarios={usuarios}
                     categorias={categorias}
+                    countries={countries}
                     onSuccess={handleSuccess}
                     onCancel={() => setIsCreateModalOpen(false)}
                 />
@@ -313,6 +325,7 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
                         }}
                         usuarios={usuarios}
                         categorias={categorias}
+                        countries={countries}
                         onSuccess={handleSuccess}
                         onCancel={() => {
                             setIsEditModalOpen(false);

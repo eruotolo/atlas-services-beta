@@ -4,15 +4,17 @@ import { useState } from 'react';
 
 import Image from 'next/image';
 
-import { Edit2, Eye, EyeOff, Plus, Trash2 } from 'lucide-react';
+import { Edit2, Eye, EyeOff, Plus, Trash2 } from '@/shared/components/icons';
 
+import type { Country } from '@/features/geo/types/geoTypes';
 import { eliminarSponsor, toggleActivoSponsor } from '@/features/sponsors/actions';
 
-import { Pill } from '@/shared/components/hireeo';
+import { Pill, Btn } from '@/shared/components/hireeo';
 import Modal from '@/shared/components/admin/Modal';
-import type { Column } from '@/shared/components/ui/data-table';
-import { DataTable } from '@/shared/components/ui/data-table';
-import { useDataTable } from '@/shared/components/ui/data-table/useDataTable';
+import type { ColumnDef } from '@tanstack/react-table';
+import { DataTable } from '@/shared/components/DataTable';
+import { useDataTable } from '@/shared/components/DataTable/useDataTable';
+import { notify } from '@/shared/lib/notify';
 
 import type { Sponsor } from '../../types/sponsorTypes';
 import SponsorForm from './SponsorForm';
@@ -27,9 +29,10 @@ interface SponsorsTableProps {
             totalPages: number;
         };
     };
+    countries?: Country[];
 }
 
-export default function SponsorsTable({ result }: SponsorsTableProps) {
+export default function SponsorsTable({ result, countries = [] }: SponsorsTableProps) {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedSponsor, setSelectedSponsor] = useState<Sponsor | null>(null);
@@ -52,27 +55,31 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
         try {
             const result = await eliminarSponsor(id);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al eliminar', description: result.error });
             } else {
+                notify.success({ title: 'Sponsor eliminado' });
                 window.location.reload();
             }
         } catch (_error) {
-            alert('Error al eliminar sponsor');
+            notify.error({ title: 'Error al eliminar sponsor' });
         } finally {
             setIsDeleting(null);
         }
     }
 
-    async function handleToggleActivo(id: string) {
+    async function handleToggleActivo(sponsor: Sponsor) {
         try {
-            const result = await toggleActivoSponsor(id);
+            const result = await toggleActivoSponsor(sponsor.id, !sponsor.activo);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al cambiar estado', description: result.error });
             } else {
+                notify.success({
+                    title: sponsor.activo ? 'Sponsor desactivado' : 'Sponsor activado',
+                });
                 window.location.reload();
             }
         } catch (_error) {
-            alert('Error al cambiar estado del sponsor');
+            notify.error({ title: 'Error al cambiar estado del sponsor' });
         }
     }
 
@@ -84,10 +91,10 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
     }
 
     // Definir las columnas de la tabla
-    const columns: Column<Sponsor>[] = [
+    const columns: ColumnDef<Sponsor>[] = [
         {
             header: 'Logo',
-            cell: (sponsor) => (
+            cell: ({ row: { original: sponsor } }) => (
                 <div className="relative h-10 w-10 overflow-hidden rounded-xl bg-tint p-1">
                     <Image
                         src={sponsor.imagenUrl}
@@ -100,13 +107,13 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
         },
         {
             header: 'Nombre',
-            cell: (sponsor) => (
-                <span className="font-bold text-ink">{sponsor.nombre}</span>
+            cell: ({ row: { original: sponsor } }) => (
+                <span className="font-semibold text-ink">{sponsor.nombre}</span>
             ),
         },
         {
             header: 'Sitio Web',
-            cell: (sponsor) => (
+            cell: ({ row: { original: sponsor } }) => (
                 <a
                     href={sponsor.linkExterno}
                     target="_blank"
@@ -119,7 +126,7 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
         },
         {
             header: 'Nivel',
-            cell: (sponsor) => (
+            cell: ({ row: { original: sponsor } }) => (
                 <Pill
                     tone={
                         sponsor.nivel === 'SENIOR'
@@ -141,8 +148,16 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
             ),
         },
         {
+            header: 'País',
+            cell: ({ row: { original: sponsor } }) => (
+                <Pill tone={sponsor.pais ? 'default' : 'success'}>
+                    {sponsor.pais ? sponsor.pais.nombre : 'Global'}
+                </Pill>
+            ),
+        },
+        {
             header: 'Inicio',
-            cell: (sponsor) => (
+            cell: ({ row: { original: sponsor } }) => (
                 <span className="text-muted">
                     {new Date(sponsor.fechaInicio).toLocaleDateString()}
                 </span>
@@ -150,7 +165,7 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
         },
         {
             header: 'Fin',
-            cell: (sponsor) => (
+            cell: ({ row: { original: sponsor } }) => (
                 <span className="text-muted">
                     {new Date(sponsor.fechaFin).toLocaleDateString()}
                 </span>
@@ -158,7 +173,7 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
         },
         {
             header: 'Estado',
-            cell: (sponsor) => (
+            cell: ({ row: { original: sponsor } }) => (
                 <Pill tone={sponsor.activo ? 'success' : 'danger'}>
                     {sponsor.activo ? 'Activo' : 'Inactivo'}
                 </Pill>
@@ -166,12 +181,12 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
         },
         {
             header: 'Acciones',
-            className: 'text-right',
-            cell: (sponsor) => (
+            meta: { className: 'text-right' },
+            cell: ({ row: { original: sponsor } }) => (
                 <div className="flex justify-end gap-2">
                     <button
                         type="button"
-                        onClick={() => handleToggleActivo(sponsor.id)}
+                        onClick={() => handleToggleActivo(sponsor)}
                         className="cursor-pointer rounded-xl p-2 text-sub transition-colors hover:bg-tint"
                         title={sponsor.activo ? 'Desactivar' : 'Activar'}
                     >
@@ -214,14 +229,14 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
                 totalCount={result.meta.total}
                 isLoading={isPending}
                 actionButton={
-                    <button
+                    <Btn
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-4 py-3"
+                        variant="primary"
                     >
                         <Plus size={20} />
                         <span className="hidden sm:inline">Nuevo Sponsor</span>
-                    </button>
+                    </Btn>
                 }
             />
 
@@ -232,6 +247,7 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
                 title="Crear Nuevo Sponsor"
             >
                 <SponsorForm
+                    countries={countries}
                     onSuccess={handleSuccess}
                     onCancel={() => setIsCreateModalOpen(false)}
                 />
@@ -249,6 +265,7 @@ export default function SponsorsTable({ result }: SponsorsTableProps) {
                 {selectedSponsor && (
                     <SponsorForm
                         sponsor={selectedSponsor}
+                        countries={countries}
                         onSuccess={handleSuccess}
                         onCancel={() => {
                             setIsEditModalOpen(false);

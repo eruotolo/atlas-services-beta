@@ -1,6 +1,6 @@
 'use client';
 
-import { Mail, MessageSquare, Phone } from 'lucide-react';
+import { Mail, MessageSquare, Phone } from '@/shared/components/icons';
 
 /* ------------------------------------------------------------------ */
 /*  Types                                                              */
@@ -85,12 +85,12 @@ function getBg(tipo: string) {
 
 export default function RecentActivity({ interactions }: RecentActivityProps) {
     return (
-        <div className="rounded-[2rem] border border-line bg-bg p-8 shadow-sm">
+        <div className="rounded-xl border border-line bg-bg p-6">
             <div className="mb-6 flex items-center justify-between">
-                <h2 className="text-xl font-black text-ink">
+                <h2 className="text-[15px] font-semibold tracking-[-0.01em] text-ink">
                     Actividad Reciente
                 </h2>
-                <span className="rounded-full bg-tint px-3 py-1 text-xs font-bold text-muted">
+                <span className="rounded-full bg-tint px-3 py-1 text-[11px] font-medium text-muted">
                     Últimas {interactions.length} interacciones
                 </span>
             </div>

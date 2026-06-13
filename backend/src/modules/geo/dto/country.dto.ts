@@ -31,4 +31,7 @@ export class CountryDto {
 
     @ApiProperty({ example: true, description: 'Indica si la pasarela de pagos está activa en este país' })
     paymentsEnabled: boolean;
+
+    @ApiProperty({ example: true, description: 'Indica si el país está activo en la plataforma' })
+    active: boolean;
 }

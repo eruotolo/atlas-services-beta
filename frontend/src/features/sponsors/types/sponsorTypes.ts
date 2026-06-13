@@ -18,6 +18,7 @@ export interface Sponsor {
     activo: boolean;
     fechaInicio: Date;
     fechaFin: Date;
+    pais?: { codigo: string; nombre: string } | null;
 }
 
 // Tipos legacy/compatibilidad

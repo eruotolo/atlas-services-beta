@@ -1,17 +1,21 @@
 'use client';
+import { Btn, Field, Input, Select } from '@/shared/components/hireeo';
 
 import { useEffect, useId, useState } from 'react';
 
 import Image from 'next/image';
 
-import { Image as ImageIcon, Loader2, Mail, Save, User, X } from 'lucide-react';
+import { Loader2, Save, X } from '@/shared/components/icons';
+import { ImageDropzone } from '@/shared/components/ImageDropzone';
 
 import { LocalitySelect } from '@/features/geo/components/LocalitySelect';
+import type { Country } from '@/features/geo/types/geoTypes';
 import CategoriaMultiSelect from '@/features/services/publish/components/CategoriaMultiSelect';
 import GaleriaUpload from '@/features/services/publish/components/GaleriaUpload';
 import { useCountry } from '@/lib/providers/CountryProvider';
 
 import PhoneInput from '@/shared/components/ui/PhoneInput';
+import { notify } from '@/shared/lib/notify';
 
 import { useImageUpload } from '../../../hooks/useImageUpload';
 import { useSocialNetworks } from '../../../hooks/useSocialNetworks';
@@ -21,6 +25,7 @@ import SocialNetworksInput from '../shared/SocialNetworksInput';
 interface ServicioFormBaseProps {
     servicio?: Servicio;
     categorias: Categoria[];
+    countries?: Country[];
     // biome-ignore lint/suspicious/noExplicitAny: Payload flexible
     onSubmit: (payload: any) => Promise<Result>;
     onSuccess: () => void;
@@ -39,6 +44,7 @@ interface ServicioFormBaseProps {
 export default function ServicioFormBase({
     servicio,
     categorias,
+    countries = [],
     onSubmit,
     onSuccess,
     onCancel,
@@ -47,7 +53,8 @@ export default function ServicioFormBase({
     submitLabel,
     usuarioActual,
 }: ServicioFormBaseProps) {
-    const { code: countryCode, regionLabel, localityLabel } = useCountry();
+    const scopeCountry = useCountry();
+    const { regionLabel, localityLabel } = scopeCountry;
 
     const id = useId();
     const [loading, setLoading] = useState(false);
@@ -58,6 +65,23 @@ export default function ServicioFormBase({
         localityName: string;
         regionCode: string;
     } | null>(null);
+
+    // País de publicación: editable solo en variant admin con lista de países
+    const [formCountryCode, setFormCountryCode] = useState(scopeCountry.code);
+    const countryCode = formCountryCode;
+    const selectedCountryData = countries.find((c) => c.code === formCountryCode);
+    const currency = selectedCountryData?.currency ?? scopeCountry.currency;
+
+    // Si cambia el país de trabajo (scope), realinear el país del formulario
+    useEffect(() => {
+        setFormCountryCode(scopeCountry.code);
+        setSelectedLocality(null);
+    }, [scopeCountry.code]);
+
+    function handleCountryChange(nextCode: string): void {
+        setFormCountryCode(nextCode);
+        setSelectedLocality(null);
+    }
 
     // IDs para contacto
     const nombreContactoId = useId();
@@ -204,19 +228,27 @@ export default function ServicioFormBase({
 
             if (result.error) {
                 setError(result.error);
+                notify.error({
+                    title: servicio ? 'Error al actualizar servicio' : 'Error al crear servicio',
+                    description: result.error,
+                });
             } else {
+                notify.success({
+                    title: servicio ? 'Servicio actualizado' : 'Servicio creado',
+                });
                 onSuccess();
             }
             // biome-ignore lint/suspicious/noExplicitAny: Error handling genérico
         } catch (err: any) {
-            setError(err.message || 'Error al procesar la solicitud');
+            const message = err.message || 'Error al procesar la solicitud';
+            setError(message);
+            notify.error({ title: 'Error', description: message });
         } finally {
             setLoading(false);
         }
     }
 
     const labelClass = 'form-label';
-    const inputWithIconClass = 'form-input-with-icon';
 
     return (
         <form
@@ -237,22 +269,35 @@ export default function ServicioFormBase({
                 </div>
             )}
 
+            {/* País de publicación (solo admin con lista de países) */}
+            {isAdmin && countries.length > 0 && (
+                <Field
+                    label="País de publicación"
+                    hint="El servicio se mostrará en el sitio de este país"
+                >
+                    <Select
+                        icon="globe"
+                        name="countryCode"
+                        value={formCountryCode}
+                        onChange={(e) => handleCountryChange(e.target.value)}
+                        aria-label="País de publicación"
+                    >
+                        {countries.map((country) => (
+                            <option key={country.code} value={country.code}>
+                                {country.name}
+                            </option>
+                        ))}
+                    </Select>
+                </Field>
+            )}
+
             {/* Selector de Usuario (solo admin en modo crear) */}
             {userSelector}
 
             {/* Título */}
             <div className={isAdmin ? 'md:col-span-2' : ''}>
-                <label htmlFor={`${id}-titulo`} className={labelClass}>
-                    Título del Servicio
-                </label>
-                <div className="relative">
-                    {!isAdmin && (
-                        // Icono solo para versión usuario para mantener limpieza admin
-                        <span className="absolute top-1/2 left-4 -translate-y-1/2 text-muted">
-                            {/* Icono opcional */}
-                        </span>
-                    )}
-                    <input
+                <Field label="Título del Servicio">
+                    <Input
                         type="text"
                         id={`${id}-titulo`}
                         name="titulo"
@@ -261,9 +306,8 @@ export default function ServicioFormBase({
                         placeholder={
                             isAdmin ? 'Ej: Gasfíter certificado' : 'Ej: Electricista certificado'
                         }
-                        className={inputWithIconClass}
                     />
-                </div>
+                </Field>
             </div>
 
             {/* Categoría y Comuna */}
@@ -284,11 +328,11 @@ export default function ServicioFormBase({
                 </div>
 
                 <div>
-                    <span className={labelClass}>Ubicación</span>
                     <LocalitySelect
+                        key={formCountryCode}
                         countryCode={countryCode}
-                        regionLabel={regionLabel}
-                        localityLabel={localityLabel}
+                        regionLabel={selectedCountryData?.regionLabel ?? regionLabel}
+                        localityLabel={selectedCountryData?.localityLabel ?? localityLabel}
                         onSelect={setSelectedLocality}
                     />
                 </div>
@@ -296,45 +340,38 @@ export default function ServicioFormBase({
 
             {/* Precio */}
             <div>
-                <label htmlFor={`${id}-precio`} className={labelClass}>
-                    Precio Base (CLP)
-                </label>
-                <input
-                    type="number"
-                    id={`${id}-precio`}
-                    name="precio"
-                    defaultValue={servicio?.precio}
-                    required
-                    min="0"
-                    step="1000"
-                    placeholder={isAdmin ? '' : 'Ej: 25000'}
-                    className={inputWithIconClass}
-                />
-                {!isAdmin && (
-                    <p className="mt-1 text-xs text-muted">
-                        Este es un precio referencial que los clientes verán
-                    </p>
-                )}
+                <Field label={`Precio Base (${currency})`} hint={!isAdmin ? 'Este es un precio referencial que los clientes verán' : undefined}>
+                    <Input
+                        type="number"
+                        id={`${id}-precio`}
+                        name="precio"
+                        defaultValue={servicio?.precio}
+                        required
+                        min="0"
+                        step="1000"
+                        placeholder={isAdmin ? '' : 'Ej: 25000'}
+                    />
+                </Field>
             </div>
 
             {/* Descripción */}
             <div>
-                <label htmlFor={`${id}-descripcion`} className={labelClass}>
-                    Descripción
-                </label>
-                <textarea
-                    id={`${id}-descripcion`}
-                    name="descripcion"
-                    defaultValue={servicio?.descripcion}
-                    required
-                    rows={4}
-                    placeholder={
-                        isAdmin
-                            ? 'Detalles del servicio...'
-                            : 'Describe tu servicio, experiencia y lo que ofreces...'
-                    }
-                    className="form-input-with-icon resize-none"
-                />
+                <Field label="Descripción">
+                    <textarea
+                        id={`${id}-descripcion`}
+                        name="descripcion"
+                        defaultValue={servicio?.descripcion}
+                        required
+                        rows={4}
+                        placeholder={
+                            isAdmin
+                                ? 'Detalles del servicio...'
+                                : 'Describe tu servicio, experiencia y lo que ofreces...'
+                        }
+                        className="w-full rounded-lg border bg-bg px-3 py-2 text-[13px] outline-none transition-colors focus:border-ink resize-none placeholder:text-muted"
+                        style={{ borderColor: 'var(--line)', color: 'var(--ink)' }}
+                    />
+                </Field>
             </div>
 
             {/* Datos de Contacto */}
@@ -364,15 +401,9 @@ export default function ServicioFormBase({
 
                 <div className="space-y-4">
                     <div>
-                        <label htmlFor={nombreContactoId} className={labelClass}>
-                            Nombre de Contacto
-                        </label>
-                        <div className="relative">
-                            <User
-                                size={18}
-                                className="absolute top-1/2 left-4 -translate-y-1/2 text-muted"
-                            />
-                            <input
+                        <Field label="Nombre de Contacto">
+                            <Input
+                                icon="user"
                                 type="text"
                                 id={nombreContactoId}
                                 name="nombreContacto"
@@ -380,22 +411,15 @@ export default function ServicioFormBase({
                                 onChange={(e) => setNombreContacto(e.target.value)}
                                 placeholder="Nombre de la persona o empresa"
                                 required
-                                className={inputWithIconClass}
                             />
-                        </div>
+                        </Field>
                     </div>
 
                     <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                         <div>
-                            <label htmlFor={emailContactoId} className={labelClass}>
-                                Email de Contacto
-                            </label>
-                            <div className="relative">
-                                <Mail
-                                    size={18}
-                                    className="absolute top-1/2 left-4 -translate-y-1/2 text-muted"
-                                />
-                                <input
+                            <Field label="Email de Contacto">
+                                <Input
+                                    icon="mail"
                                     type="email"
                                     id={emailContactoId}
                                     name="emailContacto"
@@ -403,9 +427,8 @@ export default function ServicioFormBase({
                                     onChange={(e) => setEmailContacto(e.target.value)}
                                     placeholder="contacto@ejemplo.com"
                                     required
-                                    className={inputWithIconClass}
                                 />
-                            </div>
+                            </Field>
                         </div>
 
                         <div>
@@ -435,20 +458,15 @@ export default function ServicioFormBase({
             <div className={isAdmin ? 'pt-2' : ''}>
                 <span className={labelClass}>Imagen Principal</span>
                 <div className="space-y-3">
-                    <div className="relative">
-                        <ImageIcon
-                            size={18}
-                            className={
-                                'pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-muted'
-                            }
-                        />
-                        <input
-                            type="file"
-                            accept="image/jpeg,image/jpg,image/png,image/webp"
-                            onChange={imagenPrincipal.handleFileChange}
-                            className="form-input-with-icon file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-2 file:text-xs file:font-bold file:text-brand-hover hover:file:bg-brand/10"
-                        />
-                    </div>
+                    <ImageDropzone
+                        maxSizeMB={3}
+                        onFilesAccepted={(files) => {
+                            if (files[0]) imagenPrincipal.handleFile(files[0]);
+                        }}
+                        error={imagenPrincipal.error}
+                        label="Arrastra la imagen principal o haz clic para seleccionar"
+                        description="JPG, PNG, WEBP · Máx. 3 MB"
+                    />
                     {imagenPrincipal.preview && (
                         <div
                             className={`relative mt-2 w-full h-${isAdmin ? '40' : '48'} overflow-hidden rounded-xl border border-line ${isAdmin ? 'shadow-inner' : ''}`}
@@ -511,20 +529,9 @@ export default function ServicioFormBase({
             </div>
 
             {/* Botones */}
-            <div className="flex justify-end gap-4 border-t border-line pt-4">
-                <button
-                    type="button"
-                    onClick={onCancel}
-                    disabled={loading}
-                    className="flex items-center justify-center gap-2 rounded-2xl border-2 border-line bg-bg px-8 py-3 font-bold text-sub transition-all hover:bg-tint"
-                >
-                    Cancelar
-                </button>
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-primary flex items-center justify-center gap-2 rounded-2xl px-8 py-3 disabled:opacity-50"
-                >
+            <div className="mt-8 flex justify-end gap-4">
+                <Btn variant="secondary" type="button" disabled={loading} onClick={onCancel}>Cancelar</Btn>
+                <Btn variant="primary" type="submit" disabled={loading}>
                     {loading ? (
                         <>
                             <Loader2 className="animate-spin" size={16} />
@@ -539,7 +546,7 @@ export default function ServicioFormBase({
                             </span>
                         </>
                     )}
-                </button>
+                </Btn>
             </div>
         </form>
     );

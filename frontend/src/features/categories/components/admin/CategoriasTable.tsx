@@ -2,21 +2,23 @@
 
 import { useState } from 'react';
 
-import { Edit2, Plus, Trash2 } from 'lucide-react';
+import { Edit2, Plus, Trash2 } from '@/shared/components/icons';
 
 import { eliminarCategoria, toggleActivoCategoria } from '@/features/categories/actions';
 
-import { Pill } from '@/shared/components/hireeo';
+import { Pill, Btn } from '@/shared/components/hireeo';
 import Modal from '@/shared/components/admin/Modal';
-import type { Column } from '@/shared/components/ui/data-table';
-import { DataTable } from '@/shared/components/ui/data-table';
-import { useDataTable } from '@/shared/components/ui/data-table/useDataTable';
+import type { ColumnDef } from '@tanstack/react-table';
+import { DataTable } from '@/shared/components/DataTable';
+import { useDataTable } from '@/shared/components/DataTable/useDataTable';
+import { notify } from '@/shared/lib/notify';
 
 import CategoriaForm from './CategoriaForm';
 
 interface CategoriaServicio {
     id: string;
     nombre: string;
+    nombreEn?: string | null;
     slug: string;
     icono: string | null;
     orden: number;
@@ -62,27 +64,31 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
         try {
             const result = await eliminarCategoria(id);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al eliminar', description: result.error });
             } else {
+                notify.success({ title: 'Categoría eliminada' });
                 window.location.reload();
             }
         } catch (_error) {
-            alert('Error al eliminar categoría');
+            notify.error({ title: 'Error al eliminar categoría' });
         } finally {
             setIsDeleting(null);
         }
     }
 
-    async function handleToggleActivo(id: string) {
+    async function handleToggleActivo(categoria: CategoriaServicio) {
         try {
-            const result = await toggleActivoCategoria(id);
+            const result = await toggleActivoCategoria(categoria.id, !categoria.activo);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al cambiar estado', description: result.error });
             } else {
+                notify.success({
+                    title: categoria.activo ? 'Categoría desactivada' : 'Categoría activada',
+                });
                 window.location.reload();
             }
         } catch (_error) {
-            alert('Error al cambiar estado de la categoría');
+            notify.error({ title: 'Error al cambiar estado de la categoría' });
         }
     }
 
@@ -94,10 +100,10 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
     }
 
     // Definir las columnas de la tabla
-    const columns: Column<CategoriaServicio>[] = [
+    const columns: ColumnDef<CategoriaServicio>[] = [
         {
             header: 'Icono',
-            cell: (categoria) => (
+            cell: ({ row: { original: categoria } }) => (
                 <span className="font-mono text-xs text-muted">
                     {categoria.icono || '-'}
                 </span>
@@ -105,28 +111,36 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
         },
         {
             header: 'Nombre',
-            cell: (categoria) => (
-                <span className="font-bold text-ink">{categoria.nombre}</span>
+            cell: ({ row: { original: categoria } }) => (
+                <span className="font-semibold text-ink">{categoria.nombre}</span>
+            ),
+        },
+        {
+            header: 'Nombre (EN)',
+            cell: ({ row: { original: categoria } }) => (
+                <span className="text-sub">
+                    {categoria.nombreEn || <span className="text-muted italic">—</span>}
+                </span>
             ),
         },
         {
             header: 'Slug',
-            cell: (categoria) => (
+            cell: ({ row: { original: categoria } }) => (
                 <span className="text-muted">{categoria.slug}</span>
             ),
         },
         {
             header: 'Orden',
-            cell: (categoria) => (
+            cell: ({ row: { original: categoria } }) => (
                 <span className="text-muted">{categoria.orden}</span>
             ),
         },
         {
             header: 'Estado',
-            cell: (categoria) => (
+            cell: ({ row: { original: categoria } }) => (
                 <button
                     type="button"
-                    onClick={() => handleToggleActivo(categoria.id)}
+                    onClick={() => handleToggleActivo(categoria)}
                     className="cursor-pointer transition-all hover:scale-105"
                     title={categoria.activo ? 'Click para desactivar' : 'Click para activar'}
                 >
@@ -138,8 +152,8 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
         },
         {
             header: 'Acciones',
-            className: 'text-right',
-            cell: (categoria) => (
+            meta: { className: 'text-right' },
+            cell: ({ row: { original: categoria } }) => (
                 <div className="flex justify-end gap-2">
                     <button
                         type="button"
@@ -178,14 +192,14 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
                 totalCount={result.meta.total}
                 isLoading={isPending}
                 actionButton={
-                    <button
+                    <Btn
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-4 py-3"
+                        variant="primary"
                     >
                         <Plus size={20} />
                         <span className="hidden sm:inline">Nueva Categoría</span>
-                    </button>
+                    </Btn>
                 }
             />
 

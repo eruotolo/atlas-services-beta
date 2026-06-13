@@ -3,9 +3,9 @@
 import { getInteraccionIcon, getInteraccionLabel } from '@/features/analytics/utils';
 
 import { Pill } from '@/shared/components/hireeo';
-import type { Column } from '@/shared/components/ui/data-table';
-import { DataTable } from '@/shared/components/ui/data-table';
-import { useDataTable } from '@/shared/components/ui/data-table/useDataTable';
+import { ColumnDef } from '@tanstack/react-table';
+import { DataTable } from '@/shared/components/DataTable';
+import { useDataTable } from '@/shared/components/DataTable/useDataTable';
 
 interface Interaccion {
     id: string;
@@ -39,15 +39,15 @@ export default function InteraccionesTable({ result }: InteraccionesTableProps) 
     const { currentPage, searchValue, isPending, handlePageChange, handleSearchChange } =
         useDataTable();
 
-    const columns: Column<Interaccion>[] = [
+    const columns: ColumnDef<Interaccion>[] = [
         {
             header: 'Tipo',
-            cell: (item) => (
+            cell: ({ row: { original: item } }) => (
                 <div className="flex items-center gap-2">
                     <div className="rounded-lg bg-tint p-2">
                         {getInteraccionIcon(item.tipo)}
                     </div>
-                    <span className="text-sm font-bold text-sub">
+                    <span className="text-sm font-semibold text-sub">
                         {getInteraccionLabel(item.tipo)}
                     </span>
                 </div>
@@ -55,7 +55,7 @@ export default function InteraccionesTable({ result }: InteraccionesTableProps) 
         },
         {
             header: 'Servicio',
-            cell: (item) => (
+            cell: ({ row: { original: item } }) => (
                 <div>
                     <div className="text-sm font-medium text-ink">
                         {item.servicio.titulo}
@@ -68,7 +68,7 @@ export default function InteraccionesTable({ result }: InteraccionesTableProps) 
         },
         {
             header: 'Usuario (Actor)',
-            cell: (item) => (
+            cell: ({ row: { original: item } }) => (
                 <div>
                     {item.usuario ? (
                         <>
@@ -87,7 +87,7 @@ export default function InteraccionesTable({ result }: InteraccionesTableProps) 
         },
         {
             header: 'Fecha',
-            cell: (item) => (
+            cell: ({ row: { original: item } }) => (
                 <span className="text-xs text-muted">
                     {new Date(item.createdAt).toLocaleString('es-CL')}
                 </span>

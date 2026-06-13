@@ -30,9 +30,9 @@ export class AuthController {
     @ApiOperation({ summary: 'Iniciar sesión — retorna JWT' })
     login(
         @CurrentUser()
-        user: { id: string; email: string; roles: string[]; adminCountries: string[] },
+        user: { id: string; email: string; roles: string[]; adminCountries: string[]; providerCountries: string[] },
     ) {
-        return this.authService.login(user.id, user.email, user.roles, user.adminCountries);
+        return this.authService.login(user.id, user.email, user.roles, user.adminCountries, user.providerCountries);
     }
 
     @Post('refresh')
@@ -50,5 +50,23 @@ export class AuthController {
     @ApiOperation({ summary: 'Login con Google — recibe idToken, retorna JWT' })
     googleLogin(@Body('idToken') idToken: string) {
         return this.authService.googleLogin(idToken);
+    }
+
+    @Post('apple')
+    @ExposeTokens()
+    @HttpCode(HttpStatus.OK)
+    @Throttle({ short: { limit: 5, ttl: 60000 } })
+    @ApiOperation({ summary: 'Login con Apple — recibe idToken, retorna JWT' })
+    appleLogin(@Body('idToken') idToken: string) {
+        return this.authService.appleLogin(idToken);
+    }
+
+    @Post('microsoft')
+    @ExposeTokens()
+    @HttpCode(HttpStatus.OK)
+    @Throttle({ short: { limit: 5, ttl: 60000 } })
+    @ApiOperation({ summary: 'Login con Microsoft — recibe accessToken, retorna JWT' })
+    microsoftLogin(@Body('accessToken') accessToken: string) {
+        return this.authService.microsoftLogin(accessToken);
     }
 }

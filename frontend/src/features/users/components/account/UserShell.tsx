@@ -12,14 +12,11 @@ interface UserShellProps {
 export function UserShell({ country, user, counts, children }: UserShellProps): ReactElement {
     return (
         <div
-            className="w-full"
+            className="w-full bg-bg text-ink"
             style={{
                 minHeight: '100vh',
-                background: 'var(--bg)',
-                color: 'var(--ink)',
                 display: 'grid',
-                gridTemplateColumns: 'minmax(0, 1fr)',
-            }}
+                gridTemplateColumns: 'minmax(0, 1fr)'}} 
         >
             <div className="grid grid-cols-1 lg:grid-cols-[240px_minmax(0,1fr)]">
                 <UserSidebar country={country} user={user} counts={counts} />

@@ -201,25 +201,12 @@ export function HeroHireeoSection({
 
             <div
                 aria-hidden
-                className="pointer-events-none absolute inset-0 z-2 opacity-75"
-                style={{
-                    backgroundImage:
-                        'linear-gradient(rgba(10,10,10,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(10,10,10,0.02) 1px, transparent 1px)',
-                    backgroundSize: '40px 40px',
-                    maskImage: 'linear-gradient(180deg, black 30%, transparent 90%)',
-                    WebkitMaskImage: 'linear-gradient(180deg, black 30%, transparent 90%)',
-                }}
+                className="pointer-events-none absolute inset-0 z-2 opacity-75 bg-[linear-gradient(rgba(10,10,10,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(10,10,10,0.02)_1px,transparent_1px)] bg-[length:40px_40px] [mask-image:linear-gradient(180deg,black_30%,transparent_90%)] [-webkit-mask-image:linear-gradient(180deg,black_30%,transparent_90%)]"
             />
 
             <div className="max-w-site relative z-5 mx-auto flex min-h-[60vh] flex-col items-center justify-center px-6 pt-16 pb-16 text-center sm:px-10 lg:px-14">
                 <h1
-                    className="m-0 mb-4"
-                    style={{
-                        fontSize: 'clamp(40px, 7vw, 96px)',
-                        fontWeight: 800,
-                        lineHeight: 0.95,
-                        letterSpacing: '-0.05em',
-                    }}
+                    className="m-0 mb-4 w-[16ch] text-[clamp(40px,7vw,96px)] font-extrabold leading-[0.95] tracking-[-0.05em]"
                 >
                     <AnimatedRotatingText
                         delay={300}

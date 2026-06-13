@@ -1,10 +1,11 @@
 'use client';
+import { Btn } from '@/shared/components/hireeo';
 
 import { useId, useState } from 'react';
 
 import Link from 'next/link';
 
-import { AlertCircle, CheckCircle, Mail, User } from 'lucide-react';
+import { AlertCircle, CheckCircle, Mail, User } from '@/shared/components/icons';
 
 import { verificarOCrearUsuario } from '@/features/services/publish/actions';
 
@@ -191,13 +192,9 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                     </label>
                 </div>
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-primary w-full cursor-pointer rounded-2xl px-6 py-4 disabled:opacity-50"
-                >
+                <Btn variant="primary" type="submit" disabled={loading}>
                     {loading ? 'Verificando...' : 'Continuar al Siguiente Paso'}
-                </button>
+                </Btn>
 
                 <p className="text-center text-xs text-muted">
                     Al continuar, aceptas que crearemos una cuenta para ti si aún no tienes una

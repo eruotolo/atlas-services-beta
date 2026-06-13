@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useEffect, useRef, type ReactElement } from 'react';
-import { Search, Loader2, LocateFixed } from 'lucide-react';
+import { Search, Loader2, LocateFixed } from '@/shared/components/icons';
 import { matchServiceCategory } from '@/features/services/actions/matchmaking';
 import { searchLocalitiesByCountry } from '@/features/geo/actions/queries';
 import { useDictionary } from '@/lib/i18n/useDictionary';

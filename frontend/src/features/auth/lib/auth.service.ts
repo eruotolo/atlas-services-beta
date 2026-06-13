@@ -9,8 +9,10 @@ export async function validateUserCredentials(email: string, password: string) {
             id: data.user.id,
             email: data.user.email,
             name: data.user.name,
+            image: data.user.avatar ?? data.user.image ?? null,
             telefono: data.user.phone ?? null,
             roles: data.user.roles,
+            adminCountries: data.user.adminCountries ?? [],
             backendToken: data.accessToken,
             backendRefreshToken: data.refreshToken,
         };
@@ -60,13 +62,57 @@ export async function validateGoogleToken(idToken: string) {
             id: data.user.id,
             email: data.user.email,
             name: data.user.name,
+            image: data.user.avatar ?? data.user.image ?? null,
             telefono: data.user.phone ?? null,
             roles: data.user.roles,
+            adminCountries: data.user.adminCountries ?? [],
             backendToken: data.accessToken,
             backendRefreshToken: data.refreshToken,
         };
     } catch (error) {
         console.error('Error en validación de token Google:', error);
+        return null;
+    }
+}
+
+export async function validateAppleToken(idToken: string) {
+    try {
+        const data = await apiClient.post<BackendAuthResponse>('/auth/apple', { idToken });
+
+        return {
+            id: data.user.id,
+            email: data.user.email,
+            name: data.user.name,
+            image: data.user.avatar ?? data.user.image ?? null,
+            telefono: data.user.phone ?? null,
+            roles: data.user.roles,
+            adminCountries: data.user.adminCountries ?? [],
+            backendToken: data.accessToken,
+            backendRefreshToken: data.refreshToken,
+        };
+    } catch (error) {
+        console.error('Error en validación de token Apple:', error);
+        return null;
+    }
+}
+
+export async function validateMicrosoftToken(accessToken: string) {
+    try {
+        const data = await apiClient.post<BackendAuthResponse>('/auth/microsoft', { accessToken });
+
+        return {
+            id: data.user.id,
+            email: data.user.email,
+            name: data.user.name,
+            image: data.user.avatar ?? data.user.image ?? null,
+            telefono: data.user.phone ?? null,
+            roles: data.user.roles,
+            adminCountries: data.user.adminCountries ?? [],
+            backendToken: data.accessToken,
+            backendRefreshToken: data.refreshToken,
+        };
+    } catch (error) {
+        console.error('Error en validación de token Microsoft:', error);
         return null;
     }
 }

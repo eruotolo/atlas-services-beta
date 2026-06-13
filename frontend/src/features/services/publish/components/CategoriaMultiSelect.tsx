@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { Check, ChevronDown, Search, Tag, X } from 'lucide-react';
+import { Check, ChevronDown, Search, Tag, X } from '@/shared/components/icons';
 
 interface Categoria {
     id: string;
@@ -70,8 +70,8 @@ export default function CategoriaMultiSelect({
             {/* Input visible (trigger) */}
             <div className="relative">
                 <Tag
-                    size={18}
-                    className="pointer-events-none absolute top-3.5 left-4 z-10 text-muted"
+                    size={14}
+                    className="pointer-events-none absolute top-1/2 left-3 z-10 -translate-y-1/2 text-muted"
                 />
                 {/* biome-ignore lint/a11y/useSemanticElements: Necesario usar div en lugar de button para evitar botones anidados (chips tienen botones de eliminar) */}
                 <div
@@ -85,7 +85,7 @@ export default function CategoriaMultiSelect({
                             setIsOpen(!isOpen);
                         }
                     }}
-                    className={`w-full cursor-pointer appearance-none rounded-2xl border border-line bg-bg py-3 pr-12 pl-12 text-left focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none ${
+                    className={`w-full cursor-pointer appearance-none rounded-lg border border-line bg-bg py-2 pr-9 pl-9 text-left text-[13px] transition-colors focus:border-ink focus:outline-none ${
                         disabled ? 'cursor-wait bg-tint' : ''
                     }`}
                 >
@@ -94,7 +94,7 @@ export default function CategoriaMultiSelect({
                             {selectedCategorias.map((cat) => (
                                 <span
                                     key={cat.id}
-                                    className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1 text-xs font-medium text-brand-hover"
+                                    className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-0.5 text-xs font-medium text-brand-hover"
                                 >
                                     {cat.nombre}
                                     <button
@@ -118,8 +118,8 @@ export default function CategoriaMultiSelect({
                     )}
                 </div>
                 <ChevronDown
-                    size={18}
-                    className={`pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-muted transition-transform ${
+                    size={14}
+                    className={`pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-muted transition-transform ${
                         isOpen ? 'rotate-180' : ''
                     }`}
                 />

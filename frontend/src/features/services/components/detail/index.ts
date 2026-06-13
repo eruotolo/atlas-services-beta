@@ -8,5 +8,4 @@ export { ServicePricingList } from './ServicePricingList';
 export { ServiceReviewsList } from './ServiceReviewsList';
 export { ServiceReviewsSummary } from './ServiceReviewsSummary';
 export { ServiceSubNav } from './ServiceSubNav';
-export { ServiceTrustCard } from './ServiceTrustCard';
 export type { ServiceDetail, ServiceReview } from './types';

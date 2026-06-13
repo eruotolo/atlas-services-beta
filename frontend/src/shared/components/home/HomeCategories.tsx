@@ -31,6 +31,7 @@ export function HomeCategories({ categoriesTabs }: Props): ReactElement {
                     const isActive = activeTab === tab.query;
                     return (
                         <button
+                            type="button"
                             key={tab.label}
                             onClick={() => setActiveTab(tab.query)}
                             className="group flex flex-col items-center gap-2.5 min-w-max transition-colors"

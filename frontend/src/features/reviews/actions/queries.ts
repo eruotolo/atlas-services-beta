@@ -25,13 +25,15 @@ interface BackendRatingItem {
 }
 
 // Admin: listado paginado de todas las calificaciones
-export const getTodasCalificaciones = cache(async (page = 1, limit = 10, search?: string) => {
+export const getTodasCalificaciones = cache(
+    async (page = 1, limit = 10, search?: string, countryCode?: string) => {
     try {
         const token = await getAuthToken();
         const qs = new URLSearchParams({
             page: String(page),
             limit: String(limit),
             ...(search ? { query: search } : {}),
+            ...(countryCode ? { countryCode } : {}),
         });
 
         const result = await apiClient.get<{
@@ -58,4 +60,5 @@ export const getTodasCalificaciones = cache(async (page = 1, limit = 10, search?
             meta: { total: 0, page: 1, limit: 10, totalPages: 0 },
         };
     }
-});
+    },
+);

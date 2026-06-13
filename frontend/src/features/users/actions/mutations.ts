@@ -25,13 +25,22 @@ import type {
 
 // ─── Admin: CRUD Usuarios ─────────────────────────────────────────────────────
 
+interface RoleAssignment {
+    roleId: string;
+    countryCode?: string;
+}
+
+async function asignarRoles(userId: string, roles: RoleAssignment[], token?: string) {
+    await apiClient.put(`/users/${userId}/roles`, { roles }, { token });
+}
+
 export async function crearUsuario(data: UserCreateInput) {
     const token = await getAuthToken();
     const validated = userCreateSchema.parse(data);
 
     try {
         // Registrar el usuario con el endpoint de auth
-        const result = await apiClient.post(
+        const result = await apiClient.post<{ user?: { id: string } }>(
             '/auth/register',
             {
                 nombre: validated.nombre,
@@ -41,6 +50,11 @@ export async function crearUsuario(data: UserCreateInput) {
             },
             { token },
         );
+
+        // Asignar los roles seleccionados (con país cuando aplica)
+        if (result.user?.id) {
+            await asignarRoles(result.user.id, validated.roles, token);
+        }
 
         revalidatePath('/admin/usuarios');
         return { success: true, usuario: result };
@@ -65,6 +79,8 @@ export async function actualizarUsuario(data: UserUpdateInput) {
             },
             { token },
         );
+
+        await asignarRoles(validated.id, validated.roles, token);
 
         revalidatePath('/admin/usuarios');
         return { success: true };
@@ -128,7 +144,7 @@ export async function actualizarPerfil(formData: FormData) {
 
         revalidatePath('/profile');
         revalidatePath('/profile/ajustes');
-        return { success: true };
+        return { success: true, avatar: avatarUrl };
     } catch (error) {
         console.error('Error al actualizar perfil:', error);
         return { error: 'Error al actualizar perfil' };

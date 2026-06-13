@@ -1,13 +1,15 @@
 'use client';
+import { Btn } from '@/shared/components/hireeo';
 
 import { useId, useState } from 'react';
 
-import { AlertTriangle, Trash2 } from 'lucide-react';
+import { AlertTriangle, Trash2 } from '@/shared/components/icons';
 
 type EstadoComentario = 'PENDIENTE' | 'ACTIVO' | 'ELIMINADO';
 
 import { actualizarCalificacion } from '@/features/reviews/actions';
 import { eliminarServicio } from '@/features/services/actions';
+import { notify } from '@/shared/lib/notify';
 
 interface Calificacion {
     id: string;
@@ -55,11 +57,14 @@ export default function CalificacionForm({
 
             if (result.error) {
                 setError(result.error);
+                notify.error({ title: 'Error al actualizar reseña', description: result.error });
             } else {
+                notify.success({ title: 'Reseña actualizada' });
                 onSuccess();
             }
         } catch (_err) {
             setError('Error al actualizar la calificación');
+            notify.error({ title: 'Error al actualizar la calificación' });
         } finally {
             setIsLoading(false);
         }
@@ -81,11 +86,14 @@ export default function CalificacionForm({
             const result = await eliminarServicio(calificacion.servicio.id);
             if (result.error) {
                 setError(result.error);
+                notify.error({ title: 'Error al eliminar', description: result.error });
             } else {
+                notify.success({ title: 'Publicación eliminada' });
                 onSuccess();
             }
         } catch (_err) {
             setError('Error al eliminar la publicación');
+            notify.error({ title: 'Error al eliminar la publicación' });
         } finally {
             setIsDeletingService(false);
         }
@@ -95,10 +103,10 @@ export default function CalificacionForm({
         <div className="space-y-8 transition-colors duration-300">
             {/* Cabecera con info del servicio */}
             <div className="rounded-2xl border border-line bg-tint p-4">
-                <p className="text-[10px] font-black tracking-widest text-muted uppercase">
+                <p className="text-[10px] font-semibold tracking-[0.12em] text-muted uppercase">
                     Moderando reseña de:
                 </p>
-                <h3 className="text-lg font-black text-ink">
+                <h3 className="text-[15px] font-semibold tracking-[-0.01em] text-ink">
                     {calificacion.servicio.titulo}
                 </h3>
             </div>
@@ -111,14 +119,14 @@ export default function CalificacionForm({
                 )}
 
                 <div className="space-y-2">
-                    <span className="text-sm font-bold text-ink">
+                    <span className="text-sm font-semibold text-ink">
                         Estado
                     </span>
                     <div className="flex gap-4">
                         {(['PENDIENTE', 'ACTIVO', 'ELIMINADO'] as const).map((est) => (
                             <label
                                 key={est}
-                                className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-bold transition-colors ${
+                                className={`cursor-pointer rounded-xl px-4 py-2 text-sm font-semibold transition-colors ${
                                     estado === est
                                         ? 'bg-brand text-white'
                                         : 'bg-tint text-muted hover:bg-line'
@@ -139,7 +147,7 @@ export default function CalificacionForm({
                 </div>
 
                 <div className="space-y-2">
-                    <span className="text-sm font-bold text-ink">
+                    <span className="text-sm font-semibold text-ink">
                         Puntuación (Estrellas)
                     </span>
                     <div className="flex gap-2">
@@ -159,7 +167,7 @@ export default function CalificacionForm({
                 <div className="space-y-2">
                     <label
                         htmlFor={textareaId}
-                        className="text-sm font-bold text-ink"
+                        className="text-sm font-semibold text-ink"
                     >
                         Comentario
                     </label>
@@ -178,21 +186,17 @@ export default function CalificacionForm({
                         type="button"
                         onClick={onCancel}
                         disabled={isLoading || isDeletingService}
-                        className="flex-1 cursor-pointer rounded-2xl bg-tint py-4 font-bold text-muted transition-colors hover:bg-line disabled:opacity-50"
+                        className="flex-1 cursor-pointer rounded-2xl bg-tint py-4 font-semibold text-muted transition-colors hover:bg-line disabled:opacity-50"
                     >
                         Cancelar
                     </button>
-                    <button
-                        type="submit"
-                        disabled={isLoading || isDeletingService}
-                        className="btn-primary flex-1 cursor-pointer rounded-2xl py-4 disabled:opacity-50"
-                    >
+                    <Btn variant="primary" type="submit" disabled={isLoading || isDeletingService}>
                         {isLoading ? 'Guardando...' : 'Guardar Cambios'}
-                    </button>
+                    </Btn>
                 </div>
             </form>
 
-            <div className="border-t border-line pt-6">
+            <div className="mt-8">
                 <div className="flex flex-col gap-4 rounded-2xl bg-red-50 p-6">
                     <div className="flex items-start gap-3">
                         <AlertTriangle
@@ -200,7 +204,7 @@ export default function CalificacionForm({
                             size={24}
                         />
                         <div>
-                            <h4 className="font-black text-red-900">
+                            <h4 className="text-[13px] font-semibold text-red-900">
                                 Zona de Peligro
                             </h4>
                             <p className="text-xs text-red-700">
@@ -213,7 +217,7 @@ export default function CalificacionForm({
                         type="button"
                         onClick={handleDeleteService}
                         disabled={isLoading || isDeletingService}
-                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-red-600 py-3 font-bold text-white transition-colors hover:bg-red-700 disabled:opacity-50"
+                        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-red-600 py-3 font-semibold text-white transition-colors hover:bg-red-700 disabled:opacity-50"
                     >
                         <Trash2 size={18} />
                         {isDeletingService

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -44,6 +44,12 @@ function buildSections(country: string, counts: UserSidebarProps['counts']): Nav
                     badge: c.mensajes,
                 },
                 {
+                    id: 'cotizaciones',
+                    label: 'Cotizaciones',
+                    icon: 'fileText',
+                    href: `/${country}/profile/cotizaciones`,
+                },
+                {
                     id: 'favoritos',
                     label: 'Favoritos',
                     icon: 'heart',
@@ -65,6 +71,23 @@ function buildSections(country: string, counts: UserSidebarProps['counts']): Nav
                     label: 'Plan Hireeo Pro',
                     icon: 'crown',
                     href: `/${country}/pricing`,
+                },
+            ],
+        },
+        {
+            title: 'Clientes',
+            items: [
+                {
+                    id: 'leads',
+                    label: 'Leads disponibles',
+                    icon: 'bolt',
+                    href: `/${country}/profile/leads`,
+                },
+                {
+                    id: 'verificacion',
+                    label: 'Verificación ID',
+                    icon: 'shieldCheck',
+                    href: `/${country}/profile/verificacion`,
                 },
             ],
         },
@@ -123,8 +146,8 @@ function SidebarItem({ item, active }: SidebarItemProps): ReactElement {
             </div>
             {item.badge ? (
                 <Mono
-                    className="rounded px-1.5 py-px text-[10px] font-semibold"
-                    style={{ color: 'var(--ink)', background: 'var(--accent-soft)' }}
+                    className="rounded px-1.5 py-px text-[10px] font-semibold text-ink"
+                    style={{ background: 'var(--accent-soft)' }} 
                 >
                     {item.badge}
                 </Mono>
@@ -140,13 +163,11 @@ export function UserSidebar({ country, user, counts }: UserSidebarProps): ReactE
 
     return (
         <aside
-            className="hidden flex-col lg:flex"
+            className="hidden flex-col lg:flex bg-bg"
             style={{
                 width: 240,
                 padding: '20px 14px',
-                borderRight: '1px solid var(--line)',
-                background: 'var(--bg)',
-            }}
+                borderRight: '1px solid var(--line)'}} 
         >
             <div style={{ padding: '6px 8px 22px' }}>
                 <Link href={`/${country}`} aria-label="Hireeo" className="inline-flex">
@@ -155,23 +176,18 @@ export function UserSidebar({ country, user, counts }: UserSidebarProps): ReactE
             </div>
 
             <div
-                className="mb-4 flex items-center gap-2.5 rounded-md border p-3"
-                style={{
-                    background: 'var(--tint)',
-                    borderColor: 'var(--line)',
-                }}
+                className="mb-4 flex items-center gap-2.5 rounded-md border p-3 bg-tint border-line"
             >
                 <Avatar name={user.name} src={user.avatar ?? undefined} size={32} />
                 <div className="min-w-0 flex-1">
                     <div
-                        className="truncate text-[12.5px] font-semibold"
-                        style={{ color: 'var(--ink)' }}
+                        className="truncate text-[12.5px] font-semibold text-ink"
                     >
                         {user.name}
                     </div>
                     <Mono
-                        className="text-[10px] font-semibold"
-                        style={{ color: 'var(--accent)', letterSpacing: '0.05em' }}
+                        className="text-[10px] font-semibold text-accent"
+                        style={{ letterSpacing: '0.05em' }} 
                     >
                         {role}
                     </Mono>
@@ -181,12 +197,10 @@ export function UserSidebar({ country, user, counts }: UserSidebarProps): ReactE
             {sections.map((section) => (
                 <div key={section.title} className="mb-3">
                     <Mono
-                        className="block text-[9.5px] font-semibold"
+                        className="block text-[9.5px] font-semibold text-muted"
                         style={{
-                            color: 'var(--muted)',
                             letterSpacing: '0.12em',
-                            padding: '6px 10px',
-                        }}
+                            padding: '6px 10px'}} 
                     >
                         {section.title.toUpperCase()}
                     </Mono>
@@ -203,8 +217,7 @@ export function UserSidebar({ country, user, counts }: UserSidebarProps): ReactE
             <button
                 type="button"
                 onClick={() => signOut({ callbackUrl: `/${country}` })}
-                className="mt-auto inline-flex cursor-pointer items-center gap-2.5 px-2.5 py-3 text-[12.5px]"
-                style={{ color: 'var(--sub)' }}
+                className="mt-auto inline-flex cursor-pointer items-center gap-2.5 px-2.5 py-3 text-[12.5px] text-sub"
             >
                 <Icon name="logout" size={13} stroke="var(--sub)" />
                 Cerrar sesión

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { Check, Link as LinkIcon, MessageCircle, Share2 } from 'lucide-react';
+import { Check, Link as LinkIcon, MessageCircle, Share2 } from '@/shared/components/icons';
 
 interface ShareButtonProps {
     title: string;

@@ -2,13 +2,14 @@
 
 import { useState } from 'react';
 
-import { AlertCircle, EyeOff } from 'lucide-react';
+import { AlertCircle, EyeOff } from '@/shared/components/icons';
 import { useRouter } from 'next/navigation';
 
 import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
 import { eliminarServicioPropio, toggleActivoServicioPropio } from '@/features/users/actions';
 import Modal from '@/shared/components/admin/Modal';
 import { Btn, Pill } from '@/shared/components/hireeo';
+import { notify } from '@/shared/lib/notify';
 
 import UserServicioForm from './UserServicioForm';
 
@@ -99,21 +100,19 @@ function ServicioCard({ servicio, isDeleting, onToggle, onEdit, onDelete, upgrad
 
     return (
         <div
-            className="relative overflow-hidden rounded-2xl border bg-bg transition-shadow hover:shadow-sm"
-            style={{ borderColor: 'var(--line)', padding: 20 }}
+            className="relative overflow-hidden rounded-2xl border bg-bg transition-shadow hover:shadow-sm border-line"
+            style={{ padding: 20 }} 
         >
             {servicio.destacado && (
                 <div
-                    className="absolute top-0 bottom-0 left-0 w-1"
-                    style={{ background: 'var(--accent)' }}
+                    className="absolute top-0 bottom-0 left-0 w-1 bg-accent"
                 />
             )}
             <div className="flex flex-col gap-5 md:flex-row">
                 <div className="flex-grow space-y-2">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                         <span
-                            className="text-[10px] font-semibold tracking-widest uppercase"
-                            style={{ color: 'var(--accent)' }}
+                            className="text-[10px] font-semibold tracking-widest uppercase text-accent"
                         >
                             {categoriaLabel}
                         </span>
@@ -131,22 +130,21 @@ function ServicioCard({ servicio, isDeleting, onToggle, onEdit, onDelete, upgrad
                     </div>
 
                     <h4
-                        className="line-clamp-1 text-[15px] font-semibold"
-                        style={{ color: 'var(--ink)', letterSpacing: '-0.01em' }}
+                        className="line-clamp-1 text-[15px] font-semibold text-ink"
+                        style={{ letterSpacing: '-0.01em' }} 
                     >
                         {servicio.titulo}
                     </h4>
-                    <p className="line-clamp-2 text-[13px]" style={{ color: 'var(--sub)' }}>
+                    <p className="line-clamp-2 text-[13px] text-sub">
                         {servicio.descripcion}
                     </p>
 
                     <div className="flex flex-wrap items-center gap-4 pt-1">
-                        <span className="text-[12px]" style={{ color: 'var(--muted)' }}>
+                        <span className="text-[12px] text-muted">
                             {servicio.comuna}
                         </span>
                         <span
-                            className="text-[13px] font-semibold tabular-nums"
-                            style={{ color: 'var(--ink)' }}
+                            className="text-[13px] font-semibold tabular-nums text-ink"
                         >
                             ${servicio.precio.toLocaleString('es-CL')}
                         </span>
@@ -223,12 +221,13 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
         try {
             const result = await eliminarServicioPropio(id);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al eliminar', description: result.error });
             } else {
+                notify.success({ title: 'Servicio eliminado' });
                 router.refresh();
             }
         } catch (_error) {
-            alert('Error al eliminar servicio');
+            notify.error({ title: 'Error al eliminar servicio' });
         } finally {
             setIsDeleting(null);
         }
@@ -238,12 +237,13 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
         try {
             const result = await toggleActivoServicioPropio(id);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al cambiar estado', description: result.error });
             } else {
+                notify.success({ title: 'Estado del servicio actualizado' });
                 router.refresh();
             }
         } catch (_error) {
-            alert('Error al cambiar estado del servicio');
+            notify.error({ title: 'Error al cambiar estado del servicio' });
         }
     }
 
@@ -257,17 +257,15 @@ export default function MisServicios({ servicios, categorias, usuario }: MisServ
         return (
             <div className="rounded-[2rem] border-2 border-dashed border-line bg-bg p-16 text-center">
                 <div
-                    className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full"
-                    style={{ background: 'var(--tint)' }}
+                    className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-tint"
                 >
-                    <AlertCircle size={40} style={{ color: 'var(--muted)' }} />
+                    <AlertCircle size={40} className="text-muted" />
                 </div>
-                <h4 className="mb-2 text-xl font-bold" style={{ color: 'var(--ink)' }}>
+                <h4 className="mb-2 text-xl font-bold text-ink">
                     Aún no tienes servicios activos
                 </h4>
                 <p
-                    className="mx-auto mb-8 max-w-xs text-sm leading-relaxed"
-                    style={{ color: 'var(--muted)' }}
+                    className="mx-auto mb-8 max-w-xs text-sm leading-relaxed text-muted"
                 >
                     Publica tu oficio hoy mismo y empieza a recibir llamados de clientes en tu zona.
                 </p>

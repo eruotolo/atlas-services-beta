@@ -17,19 +17,15 @@ export function ServiceAbout({
         // biome-ignore lint/correctness/useUniqueElementIds: anchor para tabs nav
         <section id="about">
             <h2
-                className="m-0 mb-3"
+                className="m-0 mb-3 font-semibold text-ink"
                 style={{
                     fontSize: 18,
-                    fontWeight: 600,
-                    color: 'var(--ink)',
-                    letterSpacing: '-0.01em',
-                }}
+                    letterSpacing: '-0.01em'}} 
             >
                 {dict.serviceDetail.aboutTitle} {professionalName}
             </h2>
             <p
-                className="m-0 whitespace-pre-wrap text-[15px]"
-                style={{ color: 'var(--ink)', lineHeight: 1.65 }}
+                className="m-0 whitespace-pre-wrap text-[15px] leading-[1.65] text-ink"
             >
                 {description}
             </p>

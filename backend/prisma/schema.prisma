@@ -48,6 +48,14 @@ enum PaymentGateway {
     STRIPE
 }
 
+enum ServiceRequestStatus {
+    PENDING
+    QUOTED
+    ACCEPTED
+    COMPLETED
+    CANCELLED
+}
+
 // ─── Models ───────────────────────────────────────────────────────────────────
 
 model Country {
@@ -126,6 +134,15 @@ model User {
     favorites             Favorite[]
     clientConversations   Conversation[] @relation("clientConversations")
     providerConversations Conversation[] @relation("providerConversations")
+    serviceRequests       ServiceRequest[]
+    quotes                Quote[]
+
+    googleId    String? @unique
+    appleId     String? @unique
+    microsoftId String? @unique
+
+    isKycVerified Boolean   @default(false)
+    kycVerifiedAt DateTime?
 
     @@map("users")
 }
@@ -163,6 +180,7 @@ model UserRole {
 model ServiceCategory {
     id          String   @id @default(uuid())
     name        String
+    nameEn      String?
     slug        String
     icon        String?
     order       Int      @default(0)
@@ -171,7 +189,8 @@ model ServiceCategory {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    services ServiceCategoryMap[]
+    services        ServiceCategoryMap[]
+    serviceRequests ServiceRequest[]
 
     @@unique([slug, countryCode])
     @@map("service_categories")
@@ -416,4 +435,44 @@ model Message {
     @@index([conversationId])
     @@index([createdAt])
     @@map("messages")
+}
+
+// ─── Transactional Marketplace ───────────────────────────────────────────────
+
+model ServiceRequest {
+    id          String               @id @default(uuid())
+    userId      String
+    categoryId  String
+    description String               @db.Text
+    urgency     String
+    status      ServiceRequestStatus @default(PENDING)
+    createdAt   DateTime             @default(now())
+    updatedAt   DateTime             @updatedAt
+
+    user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    category    ServiceCategory      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    quotes      Quote[]
+
+    @@index([userId])
+    @@index([categoryId])
+    @@index([status])
+    @@map("service_requests")
+}
+
+model Quote {
+    id               String         @id @default(uuid())
+    serviceRequestId String
+    userId           String
+    price            Decimal        @db.Decimal(10, 2)
+    message          String         @db.Text
+    accepted         Boolean        @default(false)
+    createdAt        DateTime       @default(now())
+    updatedAt        DateTime       @updatedAt
+
+    serviceRequest   ServiceRequest @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
+    provider         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([serviceRequestId])
+    @@index([userId])
+    @@map("quotes")
 }

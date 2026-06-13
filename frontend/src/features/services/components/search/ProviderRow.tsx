@@ -35,11 +35,9 @@ export function ProviderRow({
 
     return (
         <article
-            className="grid items-center gap-4 rounded-xl border bg-bg p-4 md:gap-5 md:p-[18px]"
+            className="grid items-center gap-4 rounded-xl border bg-bg p-4 md:gap-5 md:p-[18px] border-line"
             style={{
-                borderColor: 'var(--line)',
-                gridTemplateColumns: '56px minmax(0, 1fr) 180px 140px',
-            }}
+                gridTemplateColumns: '56px minmax(0, 1fr) 180px 140px'}} 
         >
             <Avatar name={service.userName} size={56} ring />
 
@@ -47,8 +45,8 @@ export function ProviderRow({
                 <div className="mb-1 flex flex-wrap items-center gap-2">
                     <Link
                         href={`/service/${service.slug}`}
-                        className="truncate text-[16px] font-semibold leading-tight transition-opacity hover:opacity-80"
-                        style={{ color: 'var(--ink)', letterSpacing: '-0.01em' }}
+                        className="truncate text-[16px] font-semibold leading-tight transition-opacity hover:opacity-80 text-ink"
+                        style={{ letterSpacing: '-0.01em' }} 
                     >
                         {service.userName}
                     </Link>
@@ -60,8 +58,7 @@ export function ProviderRow({
                 </div>
 
                 <p
-                    className="m-0 mb-2 line-clamp-2 text-[13px]"
-                    style={{ color: 'var(--sub)' }}
+                    className="m-0 mb-2 line-clamp-2 text-[13px] text-sub"
                 >
                     {service.title}
                 </p>
@@ -78,12 +75,9 @@ export function ProviderRow({
                             {categoryChips.map((c) => (
                                 <Mono
                                     key={c}
-                                    className="rounded px-1.5 py-0.5 text-[10px]"
+                                    className="rounded px-1.5 py-0.5 text-[10px] bg-tint text-sub"
                                     style={{
-                                        background: 'var(--tint)',
-                                        color: 'var(--sub)',
-                                        letterSpacing: '0.04em',
-                                    }}
+                                        letterSpacing: '0.04em'}} 
                                 >
                                     {c}
                                 </Mono>
@@ -94,17 +88,16 @@ export function ProviderRow({
             </div>
 
             <div className="hidden md:block">
-                <div className="text-[11px]" style={{ color: 'var(--sub)' }}>
+                <div className="text-[11px] text-sub">
                     {dict.search.priceFrom}
                 </div>
                 <div className="flex items-baseline gap-1.5">
                     <span
-                        className="text-[22px] font-medium"
-                        style={{ color: 'var(--ink)', letterSpacing: '-0.02em' }}
+                        className="text-[22px] font-medium tracking-[-0.02em] text-ink"
                     >
                         {formatPrice(service.price, locale, currencySymbol)}
                     </span>
-                    <span className="text-[11px]" style={{ color: 'var(--muted)' }}>
+                    <span className="text-[11px] text-muted">
                         {dict.search.priceVisit}
                     </span>
                 </div>

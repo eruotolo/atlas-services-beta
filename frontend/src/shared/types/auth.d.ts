@@ -5,12 +5,13 @@ declare module 'next-auth' {
         user: {
             id: string;
             roles: string[];
+            adminCountries?: string[];
             telefono?: string | null;
             nivelSuscripcion?: string;
             backendToken: string;
             backendRefreshToken: string;
         } & DefaultSession['user'];
-        error?: 'RefreshTokenExpired' | 'GoogleBackendError';
+        error?: string;
     }
 
     interface User {
@@ -18,6 +19,7 @@ declare module 'next-auth' {
         email: string;
         name: string;
         roles: string[];
+        adminCountries?: string[];
         telefono?: string | null;
         nivelSuscripcion?: string;
         backendToken: string;
@@ -29,11 +31,12 @@ declare module 'next-auth/jwt' {
     interface JWT {
         id: string;
         roles: string[];
+        adminCountries?: string[];
         telefono?: string | null;
         nivelSuscripcion?: string;
         backendToken: string;
         backendRefreshToken: string;
         backendTokenExpires?: number;
-        error?: 'RefreshTokenExpired' | 'GoogleBackendError';
+        error?: string;
     }
 }

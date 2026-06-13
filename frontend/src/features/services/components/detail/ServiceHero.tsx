@@ -35,14 +35,11 @@ export function ServiceHero({
             <div className="flex-1 min-w-0">
                 <div className="mb-1.5 flex flex-wrap items-center gap-2.5">
                     <h1
-                        className="m-0 truncate"
+                        className="m-0 truncate font-medium text-ink"
                         style={{
                             fontSize: 32,
-                            fontWeight: 500,
                             letterSpacing: '-0.025em',
-                            color: 'var(--ink)',
-                            lineHeight: 1.1,
-                        }}
+                            lineHeight: 1.1}} 
                     >
                         <AnimatedRotatingText
                             delay={300}
@@ -55,23 +52,18 @@ export function ServiceHero({
                             {dict.search.tierPro}
                         </Pill>
                     ) : null}
-                    <Pill tone="success" icon="shieldCheck">
-                        {dict.search.verifVerified}
-                    </Pill>
                 </div>
 
                 {subtitle ? (
                     <div
-                        className="mb-3 text-[14.5px]"
-                        style={{ color: 'var(--sub)' }}
+                        className="mb-3 text-[14.5px] text-sub"
                     >
                         {subtitle}
                     </div>
                 ) : null}
 
                 <div
-                    className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[13px]"
-                    style={{ color: 'var(--sub)' }}
+                    className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[13px] text-sub"
                 >
                     <Stars
                         rating={service.rating}
@@ -86,7 +78,7 @@ export function ServiceHero({
                     {service.reviewsCount > 0 ? (
                         <span className="inline-flex items-center gap-1.5">
                             <Icon name="check" size={12} stroke="var(--success)" />
-                            <span style={{ color: 'var(--ink)', fontWeight: 500 }}>
+                            <span className="font-medium text-ink">
                                 {service.reviewsCount}
                             </span>{' '}
                             {dict.serviceDetail.heroCompletion}

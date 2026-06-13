@@ -33,7 +33,7 @@ export function HeroSection(): ReactElement {
                 <div className="mb-12 grid grid-cols-2 gap-3 md:grid-cols-4">
                     <Stat label="Colores" value="18" sub="neutros + marca + estados" />
                     <Stat label="Tipografía" value="8" sub="niveles de escala" />
-                    <Stat label="Iconos" value="63" sub="vía lucide-react" />
+                    <Stat label="Iconos" value="63" sub="SVG propios" />
                     <Stat label="Componentes" value="12" sub="primitivas listas" />
                 </div>
 
