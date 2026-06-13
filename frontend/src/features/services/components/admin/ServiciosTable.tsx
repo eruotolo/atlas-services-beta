@@ -10,7 +10,7 @@ import {
     toggleDestacadoServicio,
 } from '@/features/services/actions';
 
-import { Pill } from '@/shared/components/hireeo';
+import { Avatar, Pill } from '@/shared/components/hireeo';
 
 import Modal from '@/shared/components/admin/Modal';
 import type { Column } from '@/shared/components/ui/data-table';
@@ -172,7 +172,10 @@ export default function ServiciosTable({ result, usuarios, categorias }: Servici
         {
             header: 'Proveedor',
             cell: (servicio) => (
-                <span className="text-sub">{servicio.usuario.nombre}</span>
+                <div className="flex items-center gap-2.5">
+                    <Avatar name={servicio.usuario.nombre} size={28} />
+                    <span className="text-sub">{servicio.usuario.nombre}</span>
+                </div>
             ),
         },
         {

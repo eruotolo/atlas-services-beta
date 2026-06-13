@@ -135,7 +135,7 @@ export default async function RootLayout({
         description: siteConfig.description,
         potentialAction: {
             '@type': 'SearchAction',
-            target: `${siteConfig.url}/cl/buscar?q={search_term_string}`,
+            target: `${siteConfig.url}/cl/search?q={search_term_string}`,
             'query-input': 'required name=search_term_string',
         },
         inLanguage: 'es',

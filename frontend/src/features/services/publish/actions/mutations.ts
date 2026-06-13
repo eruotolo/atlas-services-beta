@@ -122,7 +122,7 @@ export async function publicarServicioPublico(formData: FormData) {
         };
 
         const servicio = await apiClient.post<{ id: string; title: string; slug: string }>(
-            '/servicios',
+            '/services',
             payload,
             { token: session?.user?.backendToken },
         );
@@ -144,7 +144,7 @@ export async function publicarServicioPublico(formData: FormData) {
 // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Manejo de IA con múltiples validaciones y casos de error
 export async function generarDescripcionIA(titulo: string, categorias: string[]) {
     try {
-        const { generarDescripcionIASchema } = await import('../../schemas/servicioSchemas');
+        const { generarDescripcionIASchema } = await import('../../schemas/serviceSchemas');
         const { generateServiceDescription } = await import('@/shared/lib/ai/geminiService');
 
         const validacion = generarDescripcionIASchema.safeParse({

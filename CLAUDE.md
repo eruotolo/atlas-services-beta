@@ -145,8 +145,8 @@ pnpm --filter backend db:seed   # Poblar DB (geo + roles + categorías + precios
 
 ## 5. Información del Proyecto
 > **Hireeo (Beta)** — Marketplace multi-país de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas).
-> Países: Chile (`cl`), Argentina (`ar`), Uruguay (`uy`), España (`es`), Estados Unidos (`us`).
-> **Dominio oficial:** `hireeo.app` (un solo dominio con subpaths por país: `/cl`, `/ar`, `/uy`, `/es`, `/us`). Producción aún no desplegada.
+> Países: Chile (`cl`), Argentina (`ar`), Uruguay (`uy`), España (`es`), Estados Unidos (`us`). **(Nota: Pendiente incorporar Paraguay (`py`) en el futuro).**
+> **Dominio oficial:** `hireeo.app` (un solo dominio con subpaths por país: `/cl`, `/ar`, `/uy`, `/es`, `/us`, y futuramente `/py`). Producción aún no desplegada.
 
 ## 6. Arquitectura Multi-País
 
@@ -210,6 +210,12 @@ pnpm db:seed          # Pobla geo + roles + categorías + precios (5 países)
 - Paleta: fondo `bg-white`, cards `bg-gray-50`, accent `bg-blue-600`, éxito `bg-green-500`
 - Textos: genéricos (no hardcodeados a Chiloé ni a ningún país específico)
 - Los filtros de ubicación se cargan dinámicamente desde la API geo (no hardcodeados)
+
+### Iconos — Regla Obligatoria
+- **SIEMPRE usar el MCP `icons0`** para obtener iconos. NUNCA buscar iconos de otra fuente.
+- Está **PROHIBIDO** usar Lucide React, Heroicons, FontAwesome ni ninguna otra librería de iconos.
+- Flujo obligatorio: antes de usar cualquier ícono, consultar el MCP `icons0` para obtener el SVG o nombre correcto.
+- Si el MCP `icons0` no está disponible en la sesión, reportarlo al usuario antes de continuar.
 
 ## 9. Errores ya corregidos (no repetir)
 - **Geo actions deben usar `apiClient`**: Las funciones en `features/geo/actions/queries.ts` deben usar `apiClient.get()` (no `fetch` directo). El backend tiene `ApiKeyGuard` global — `fetch` sin el header `x-api-key` recibe 401 silencioso y retorna `[]`.

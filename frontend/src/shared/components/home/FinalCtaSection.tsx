@@ -3,6 +3,7 @@ import type { ReactElement } from 'react';
 
 import type { Dictionary } from '@/lib/i18n/types';
 import { Btn } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
 
 interface FinalCtaSectionProps {
     country: string;
@@ -29,9 +30,11 @@ export function FinalCtaSection({ country, dict }: FinalCtaSectionProps): ReactE
                         color: 'var(--ink)',
                     }}
                 >
-                    {dict.home.finalCta.titleBefore}
-                    <br />
-                    {dict.home.finalCta.titleAfter}
+                    <AnimatedRotatingText
+                        delay={200}
+                        speed={40}
+                        segments={[{ text: `${dict.home.finalCta.titleBefore}\n${dict.home.finalCta.titleAfter}` }]}
+                    />
                 </h2>
                 <p
                     className="m-0 mb-8 text-[16px]"
@@ -40,12 +43,12 @@ export function FinalCtaSection({ country, dict }: FinalCtaSectionProps): ReactE
                     {dict.home.finalCta.subtitle}
                 </p>
                 <div className="flex flex-wrap justify-center gap-2.5">
-                    <Link href={`/${country}/buscar`}>
+                    <Link href={`/${country}/search`}>
                         <Btn size="lg" variant="primary" iconRight="arrow">
                             {dict.home.finalCta.ctaSearch}
                         </Btn>
                     </Link>
-                    <Link href={`/${country}/como-funciona`}>
+                    <Link href={`/${country}/how-it-works`}>
                         <Btn size="lg" variant="secondary">
                             {dict.home.finalCta.ctaDemo}
                         </Btn>

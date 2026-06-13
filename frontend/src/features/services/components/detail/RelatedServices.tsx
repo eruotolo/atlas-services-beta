@@ -48,7 +48,7 @@ export function RelatedServices({
                         {dict.serviceDetail.relatedTitle}
                     </h2>
                     <Link
-                        href={`/${country}/buscar?c=${encodeURIComponent(category)}`}
+                        href={`/${country}/search?c=${encodeURIComponent(category)}`}
                         className="inline-flex items-center gap-1 text-[13px]"
                         style={{ color: 'var(--sub)' }}
                     >
@@ -61,7 +61,7 @@ export function RelatedServices({
                     {services.slice(0, 4).map((s) => (
                         <Link
                             key={s.id}
-                            href={`/${country}/servicio/${s.slug}`}
+                            href={`/${country}/service/${s.slug}`}
                             className="rounded-[11px] border bg-bg p-4 transition-shadow hover:shadow-sm"
                             style={{ borderColor: 'var(--line)' }}
                         >

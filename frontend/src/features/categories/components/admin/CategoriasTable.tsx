@@ -6,6 +6,7 @@ import { Edit2, Plus, Trash2 } from 'lucide-react';
 
 import { eliminarCategoria, toggleActivoCategoria } from '@/features/categories/actions';
 
+import { Pill } from '@/shared/components/hireeo';
 import Modal from '@/shared/components/admin/Modal';
 import type { Column } from '@/shared/components/ui/data-table';
 import { DataTable } from '@/shared/components/ui/data-table';
@@ -126,14 +127,12 @@ export default function CategoriasTable({ result }: CategoriasTableProps) {
                 <button
                     type="button"
                     onClick={() => handleToggleActivo(categoria.id)}
-                    className={`cursor-pointer rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 ${
-                        categoria.activo
-                            ? 'bg-brand/5 text-brand hover:bg-brand/10'
-                            : 'bg-tint text-muted hover:bg-tint/80'
-                    }`}
+                    className="cursor-pointer transition-all hover:scale-105"
                     title={categoria.activo ? 'Click para desactivar' : 'Click para activar'}
                 >
-                    {categoria.activo ? 'Activa' : 'Inactiva'}
+                    <Pill tone={categoria.activo ? 'success' : 'default'}>
+                        {categoria.activo ? 'Activa' : 'Inactiva'}
+                    </Pill>
                 </button>
             ),
         },

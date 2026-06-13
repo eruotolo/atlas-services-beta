@@ -9,26 +9,26 @@ const DEFAULT_COUNTRY = 'cl';
 const BYPASS_PREFIXES = ['/api', '/_next', '/favicon', '/manifest', '/robots', '/sitemap'];
 
 const LEGACY_PATHS = [
-    '/buscar',
-    '/publicar',
+    '/search',
+    '/publish',
     '/login',
-    '/registro',
-    '/perfil',
-    '/servicio',
-    '/suscripcion-pro',
+    '/register',
+    '/profile',
+    '/service',
+    '/pricing',
     '/unauthorized',
     '/admin',
-    '/como-funciona',
-    '/contacto',
-    '/privacidad',
-    '/terminos',
-    '/ayuda',
-    '/quienes-somos',
+    '/how-it-works',
+    '/contact',
+    '/privacy',
+    '/terms',
+    '/help',
+    '/about-us',
 ];
 
 const routeRoles: Record<string, string[]> = {
     '/admin': ['SuperAdministrador'],
-    '/perfil': ['Usuario', 'SuperAdministrador'],
+    '/profile': ['Usuario', 'SuperAdministrador'],
 };
 
 function checkAccess(userRoles: string[], requiredRoles: string[]): boolean {
@@ -105,15 +105,15 @@ export default async function proxy(req: NextRequest) {
         }
     }
 
-    if (pathWithoutCountry.startsWith('/perfil')) {
+    if (pathWithoutCountry.startsWith('/profile')) {
         if (!token) return NextResponse.redirect(new URL(`/${firstSegment}/login`, req.url));
         const userRoles = (token.roles as string[]) ?? [];
-        if (!checkAccess(userRoles, routeRoles['/perfil'])) {
+        if (!checkAccess(userRoles, routeRoles['/profile'])) {
             return NextResponse.redirect(new URL(`/${firstSegment}/unauthorized`, req.url));
         }
     }
 
-    if (pathWithoutCountry.startsWith('/publicar') && !token) {
+    if (pathWithoutCountry.startsWith('/publish') && !token) {
         return NextResponse.redirect(new URL(`/${firstSegment}/login`, req.url));
     }
 
@@ -122,7 +122,7 @@ export default async function proxy(req: NextRequest) {
         if (userRoles.includes('SuperAdministrador')) {
             return NextResponse.redirect(new URL(`/${firstSegment}/admin`, req.url));
         }
-        return NextResponse.redirect(new URL(`/${firstSegment}/perfil`, req.url));
+        return NextResponse.redirect(new URL(`/${firstSegment}/profile`, req.url));
     }
 
     const response = NextResponse.next();

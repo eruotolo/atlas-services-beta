@@ -126,8 +126,8 @@ export async function actualizarPerfil(formData: FormData) {
             { token },
         );
 
-        revalidatePath('/perfil');
-        revalidatePath('/perfil/ajustes');
+        revalidatePath('/profile');
+        revalidatePath('/profile/ajustes');
         return { success: true };
     } catch (error) {
         console.error('Error al actualizar perfil:', error);
@@ -185,7 +185,7 @@ export async function crearServicioPropio(data: OwnServiceInput) {
             { token },
         );
 
-        revalidatePath('/perfil');
+        revalidatePath('/profile');
         return { success: true, servicio: result };
     } catch (error) {
         console.error('Error al crear servicio:', error);
@@ -218,7 +218,7 @@ export async function actualizarServicioPropio(data: OwnServiceUpdateInput) {
             { token },
         );
 
-        revalidatePath('/perfil');
+        revalidatePath('/profile');
         return { success: true, servicio: result };
     } catch (error) {
         console.error('Error al actualizar servicio:', error);
@@ -233,7 +233,7 @@ export async function eliminarServicioPropio(id: string) {
     try {
         await apiClient.delete(`/services/${id}`, { token });
 
-        revalidatePath('/perfil');
+        revalidatePath('/profile');
         return { success: true };
     } catch (error) {
         console.error('Error al eliminar servicio:', error);
@@ -248,7 +248,7 @@ export async function toggleActivoServicioPropio(id: string) {
     try {
         await apiClient.patch(`/services/${id}/toggle-owner`, {}, { token });
 
-        revalidatePath('/perfil');
+        revalidatePath('/profile');
         return { success: true };
     } catch (error) {
         console.error('Error al cambiar estado servicio:', error);

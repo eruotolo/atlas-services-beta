@@ -19,10 +19,10 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
     const { regionLabel } = useCountry();
     const [countdown, setCountdown] = useState(10);
 
-    // Countdown automático a /servicio/[slug]
+    // Countdown automático a /service/[slug]
     useEffect(() => {
         if (countdown === 0) {
-            router.push(link(`/servicio/${slug}`));
+            router.push(link(`/service/${slug}`));
             return;
         }
 
@@ -78,7 +78,7 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
                 </button>
 
                 <button
-                    onClick={() => router.push(link(`/servicio/${slug}`))}
+                    onClick={() => router.push(link(`/service/${slug}`))}
                     className="btn-primary flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-2xl px-6 py-4"
                     type="button"
                 >

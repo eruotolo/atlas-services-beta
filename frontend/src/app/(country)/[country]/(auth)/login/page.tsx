@@ -21,7 +21,7 @@ export default function LoginPage(): ReactElement {
     const searchParams = useSearchParams();
     const params = useParams();
     const country = (params?.country as string) ?? 'cl';
-    const callbackUrl = searchParams.get('callbackUrl') || `/${country}/perfil`;
+    const callbackUrl = searchParams.get('callbackUrl') || `/${country}/profile`;
     const passwordId = useId();
     const { toast } = useToast();
 
@@ -138,7 +138,7 @@ export default function LoginPage(): ReactElement {
                             onChange={(e) => setKeepSession(e.target.checked)}
                         />
                         <Link
-                            href={`/${country}/contacto`}
+                            href={`/${country}/contact`}
                             className="font-semibold"
                             style={{ color: 'var(--accent)' }}
                         >
@@ -209,7 +209,7 @@ export default function LoginPage(): ReactElement {
                 >
                     ¿Primera vez en Hireeo?{' '}
                     <Link
-                        href={`/${country}/registro`}
+                        href={`/${country}/register`}
                         className="font-semibold"
                         style={{ color: 'var(--ink)' }}
                     >

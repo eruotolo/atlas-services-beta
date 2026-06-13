@@ -8,7 +8,7 @@ import { Calendar, CreditCard, DollarSign, TrendingUp } from 'lucide-react';
 
 import type { Column } from '@/shared/components/ui/data-table';
 import { DataTable } from '@/shared/components/ui/data-table';
-import { Pill } from '@/shared/components/hireeo';
+import { Avatar, Pill } from '@/shared/components/hireeo';
 import { calcularIngresoNeto } from '@/shared/lib/utils';
 
 import type { SuscripcionWithDetails } from '../../types/paymentTypes';
@@ -107,13 +107,16 @@ export default function PagosTable({ result }: PagosTableProps) {
         {
             header: 'Cliente / Servicio',
             cell: (pago) => (
-                <div>
-                    <p className="font-bold text-ink">
-                        {pago.servicio.usuario.nombre}
-                    </p>
-                    <p className="text-xs text-muted">
-                        {pago.servicio.titulo}
-                    </p>
+                <div className="flex items-center gap-2.5">
+                    <Avatar name={pago.servicio.usuario.nombre} size={28} />
+                    <div>
+                        <p className="font-bold text-ink">
+                            {pago.servicio.usuario.nombre}
+                        </p>
+                        <p className="text-xs text-muted">
+                            {pago.servicio.titulo}
+                        </p>
+                    </div>
                 </div>
             ),
         },
