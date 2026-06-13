@@ -1,5 +1,6 @@
 'use client';
 
+import type { Country } from '@/features/geo/types/geoTypes';
 import { actualizarServicio, crearServicio } from '@/features/services/actions';
 import { Field, Select } from '@/shared/components/hireeo';
 
@@ -16,6 +17,7 @@ interface AdminServicioFormProps {
     servicio?: Servicio;
     usuarios: Usuario[];
     categorias: Categoria[];
+    countries?: Country[];
     onSuccess: () => void;
     onCancel: () => void;
 }
@@ -24,6 +26,7 @@ export default function AdminServicioForm({
     servicio,
     usuarios,
     categorias,
+    countries = [],
     onSuccess,
     onCancel,
 }: AdminServicioFormProps) {
@@ -56,6 +59,7 @@ export default function AdminServicioForm({
         <ServicioFormBase
             servicio={servicio}
             categorias={categorias}
+            countries={countries}
             onSubmit={handleSubmit}
             onSuccess={onSuccess}
             onCancel={onCancel}

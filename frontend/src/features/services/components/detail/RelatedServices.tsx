@@ -31,26 +31,20 @@ export function RelatedServices({
 
     return (
         <section
-            className="border-t"
-            style={{ borderColor: 'var(--line)' }}
+            className="border-t border-line"
         >
             <div className="mx-auto max-w-site px-6 py-10 sm:px-10 lg:px-14">
                 <div className="mb-5 flex items-end justify-between gap-4">
                     <h2
-                        className="m-0"
+                        className="m-0 font-medium tracking-[-0.02em] text-ink"
                         style={{
-                            fontSize: 22,
-                            fontWeight: 500,
-                            letterSpacing: '-0.02em',
-                            color: 'var(--ink)',
-                        }}
+                            fontSize: 22}} 
                     >
                         {dict.serviceDetail.relatedTitle}
                     </h2>
                     <Link
-                        href={`/${country}/buscar?c=${encodeURIComponent(category)}`}
-                        className="inline-flex items-center gap-1 text-[13px]"
-                        style={{ color: 'var(--sub)' }}
+                        href={`/${country}/search?c=${encodeURIComponent(category)}`}
+                        className="inline-flex items-center gap-1 text-[13px] text-sub"
                     >
                         {dict.serviceDetail.relatedViewAll}
                         <Icon name="arrow" size={12} />
@@ -61,20 +55,17 @@ export function RelatedServices({
                     {services.slice(0, 4).map((s) => (
                         <Link
                             key={s.id}
-                            href={`/${country}/servicio/${s.slug}`}
-                            className="rounded-[11px] border bg-bg p-4 transition-shadow hover:shadow-sm"
-                            style={{ borderColor: 'var(--line)' }}
+                            href={`/${country}/service/${s.slug}`}
+                            className="rounded-[11px] border bg-bg p-4 transition-shadow hover:shadow-sm border-line"
                         >
                             <Avatar name={s.userName} size={40} />
                             <div
-                                className="mt-3 text-[14px] font-semibold"
-                                style={{ color: 'var(--ink)' }}
+                                className="mt-3 text-[14px] font-semibold text-ink"
                             >
                                 {s.userName}
                             </div>
                             <div
-                                className="mt-0.5 text-[12px]"
-                                style={{ color: 'var(--sub)' }}
+                                className="mt-0.5 text-[12px] text-sub"
                             >
                                 {s.category} · {s.commune}
                             </div>
@@ -86,8 +77,7 @@ export function RelatedServices({
                                     count={s.reviewsCount}
                                 />
                                 <Mono
-                                    className="text-[12px] font-semibold"
-                                    style={{ color: 'var(--ink)' }}
+                                    className="text-[12px] font-semibold text-ink"
                                 >
                                     {formatPrice(s.price, locale, currencySymbol)}
                                 </Mono>

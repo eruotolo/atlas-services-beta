@@ -111,7 +111,7 @@ export default function DashboardCharts({ porTipo, topServicios }: DashboardChar
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* Pie chart: Interactions by type */}
             <div className="rounded-xl border border-line bg-bg p-6">
-                <h3 className="mb-4 font-mono text-sm font-black tracking-widest text-muted uppercase">
+                <h3 className="mb-4 font-mono text-[10.5px] font-semibold tracking-[0.14em] text-muted uppercase">
                     Interacciones por Tipo
                 </h3>
 
@@ -146,7 +146,7 @@ export default function DashboardCharts({ porTipo, topServicios }: DashboardChar
                                     <span className="text-xs font-semibold text-sub">
                                         {item.label}
                                     </span>
-                                    <span className="ml-auto text-xs font-black text-ink">
+                                    <span className="ml-auto text-xs font-semibold tabular-nums text-ink">
                                         {item.value.toLocaleString()}
                                     </span>
                                 </div>
@@ -162,7 +162,7 @@ export default function DashboardCharts({ porTipo, topServicios }: DashboardChar
 
             {/* Bar chart: Top services */}
             <div className="rounded-xl border border-line bg-bg p-6">
-                <h3 className="mb-4 font-mono text-sm font-black tracking-widest text-muted uppercase">
+                <h3 className="mb-4 font-mono text-[10.5px] font-semibold tracking-[0.14em] text-muted uppercase">
                     Top Servicios Más Vistos
                 </h3>
 

@@ -1,6 +1,7 @@
 'use client';
+import { Btn } from '@/shared/components/hireeo';
 
-import { Check, Sparkles, Star } from 'lucide-react';
+import { Check, Sparkles, Star } from '@/shared/components/icons';
 
 interface Paso3NivelServicioProps {
     onSelectBasico: () => void;
@@ -103,13 +104,9 @@ export default function Paso3NivelServicio({
                         </li>
                     </ul>
 
-                    <button
-                        type="button"
-                        onClick={onSelectPremium}
-                        className="btn-primary w-full cursor-pointer rounded-2xl px-6 py-4 text-sm"
-                    >
+                    <Btn variant="primary" type="button" onClick={onSelectPremium}>
                         Continuar con Premium ✨
-                    </button>
+                    </Btn>
                 </div>
             </div>
 

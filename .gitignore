@@ -73,3 +73,4 @@ docker-database/postgres-data/
 # Prototipo de diseño (referencia, no parte del código fuente)
 NuevoHireeoApp/
 Nuevo Hireeo App.zip
+.gstack/

@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 
 import { Btn, Icon, Mono } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
 
 type Props = { params: Promise<{ country: string }> };
 
@@ -38,7 +39,11 @@ export default async function UnauthorizedPage({ params }: Props): Promise<React
                         color: 'var(--ink)',
                     }}
                 >
-                    No puedes ver esto.
+                    <AnimatedRotatingText
+                        delay={300}
+                        speed={40}
+                        segments={[{ text: 'No puedes ver esto.' }]}
+                    />
                 </h1>
 
                 <p
@@ -53,7 +58,7 @@ export default async function UnauthorizedPage({ params }: Props): Promise<React
                     <Btn variant="primary" iconRight="arrow" href={`/${country}`}>
                         Volver al inicio
                     </Btn>
-                    <Btn variant="secondary" icon="mail" href={`/${country}/contacto`}>
+                    <Btn variant="secondary" icon="mail" href={`/${country}/contact`}>
                         Contactar soporte
                     </Btn>
                 </div>

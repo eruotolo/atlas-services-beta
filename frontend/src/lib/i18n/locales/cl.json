@@ -1,0 +1,1337 @@
+{
+    "nav": {
+        "search": "Buscar Servicio",
+        "publish": "Ofrecer Servicio",
+        "login": "Entrar",
+        "adminPanel": "Panel Admin",
+        "memberPro": "Miembro Pro",
+        "searchMobile": "Buscar",
+        "howItWorks": "Cómo funciona",
+        "pricing": "Precios",
+        "about": "Empresa",
+        "startCta": "Empezar"
+    },
+    "home": {
+        "hero2": {
+            "badge": "Nuevo",
+            "badgeText": "Hireeo 2.0 — agente IA para servicios",
+            "titleBefore": "Tu próximo servicio empieza",
+            "titleAccent": "aquí",
+            "titleAfter": ".",
+            "subtitle": "Hireeo conecta a personas y empresas con los profesionales que sostienen la operación cotidiana. Una API, cinco países, miles de oficios.",
+            "ctaSearch": "Buscar un profesional",
+            "ctaProfessional": "Soy profesional",
+            "kbdHint": "navegar · búsqueda",
+            "trustedLabel": "OPERANDO EN",
+            "previewFiltersLabel": "FILTROS",
+            "previewResultsTitle": "profesionales disponibles",
+            "previewResultsHint": "Ordenado por tiempo de respuesta",
+            "previewContact": "Contactar"
+        },
+        "product": {
+            "eyebrow": "— PRODUCTO",
+            "title": "Diseñado para resolver, no para buscar.",
+            "lead": "Hireeo no es un directorio. Es una capa de coordinación entre quien necesita algo y quien sabe hacerlo. La IA entiende el contexto, el sistema agenda, el pago se ejecuta en la moneda local del país."
+        },
+        "features": {
+            "f1Title": "Match por contexto",
+            "f1Desc": "La intención del pedido se parsea con LLM. Categoría, urgencia y zona se detectan automáticamente.",
+            "f2Title": "Cobertura geográfica",
+            "f2Desc": "Localidades reales por país. Routing, moneda y pasarela cambian solos según la IP del visitante.",
+            "f3Title": "Reputación verificable",
+            "f3Desc": "Calificaciones con foto del trabajo, antecedentes revisados y verificación de identidad.",
+            "f4Title": "Pagos locales",
+            "f4Desc": "MercadoPago en CL/AR/UY. Stripe en ES/US. Sin pasarela extranjera ni conversión cara.",
+            "f5Title": "Chat directo",
+            "f5Desc": "Mensajería 1:1 con el profesional. Sin formularios intermedios ni llamadas perdidas.",
+            "f6Title": "Hireeo para empresas",
+            "f6Desc": "API y panel administrativo para gestionar mantenimiento en multi-sede a escala."
+        },
+        "categories2": {
+            "eyebrow": "— CATEGORÍAS",
+            "title": "Todo oficio, indexado.",
+            "viewAll": "Ver todas",
+            "profilesSuffix": "perfiles"
+        },
+        "categoriesTabs": {
+            "viewAllPrefix": "Ver todos los profesionales en",
+            "tabs": [
+                {
+                    "label": "Hogar & Casa",
+                    "icon": "home",
+                    "query": "Hogar"
+                },
+                {
+                    "label": "Limpieza",
+                    "icon": "sparkle",
+                    "query": "Limpieza"
+                },
+                {
+                    "label": "Jardín & Exteriores",
+                    "icon": "leaf",
+                    "query": "Exteriores"
+                },
+                {
+                    "label": "Cuidado Infantil",
+                    "icon": "baby",
+                    "query": "Cuidado Infantil"
+                },
+                {
+                    "label": "Mascotas",
+                    "icon": "dog",
+                    "query": "Mascotas"
+                },
+                {
+                    "label": "Reparaciones",
+                    "icon": "hammer",
+                    "query": "Reparaciones"
+                },
+                {
+                    "label": "Eventos",
+                    "icon": "cam",
+                    "query": "Eventos"
+                },
+                {
+                    "label": "Plagas",
+                    "icon": "bug",
+                    "query": "Plagas"
+                },
+                {
+                    "label": "Belleza",
+                    "icon": "user",
+                    "query": "Belleza"
+                },
+                {
+                    "label": "Transporte",
+                    "icon": "truck",
+                    "query": "Fletes"
+                },
+                {
+                    "label": "Profesionales",
+                    "icon": "briefcase",
+                    "query": "Legal"
+                }
+            ],
+            "cards": {
+                "Hogar": [
+                    {
+                        "label": "Limpieza del Hogar",
+                        "query": "Limpieza",
+                        "image": "https://loremflickr.com/600/800/cleaning?lock=1"
+                    },
+                    {
+                        "label": "Gasfitería",
+                        "query": "gasfiteria",
+                        "image": "https://loremflickr.com/600/800/plumbing?lock=2"
+                    },
+                    {
+                        "label": "Electricidad",
+                        "query": "electricidad",
+                        "image": "https://loremflickr.com/600/800/electrician?lock=3"
+                    },
+                    {
+                        "label": "Pintura",
+                        "query": "pintura",
+                        "image": "https://loremflickr.com/600/800/painting,wall?lock=4"
+                    },
+                    {
+                        "label": "Mudanzas",
+                        "query": "mudanzas",
+                        "image": "https://loremflickr.com/600/800/moving,boxes?lock=5"
+                    },
+                    {
+                        "label": "Carpintería",
+                        "query": "carpinteria",
+                        "image": "https://loremflickr.com/600/800/carpentry?lock=6"
+                    }
+                ],
+                "Limpieza": [
+                    {
+                        "label": "Limpieza General",
+                        "query": "Limpieza",
+                        "image": "https://loremflickr.com/600/800/cleaning,house?lock=7"
+                    },
+                    {
+                        "label": "Limpieza Profunda",
+                        "query": "Limpieza",
+                        "image": "https://loremflickr.com/600/800/scrubbing?lock=8"
+                    },
+                    {
+                        "label": "Lavado de Alfombras",
+                        "query": "Limpieza",
+                        "image": "https://loremflickr.com/600/800/carpet,cleaning?lock=9"
+                    },
+                    {
+                        "label": "Limpieza de Ventanas",
+                        "query": "Limpieza",
+                        "image": "https://loremflickr.com/600/800/window,cleaning?lock=10"
+                    },
+                    {
+                        "label": "Limpieza Fin de Obra",
+                        "query": "Limpieza",
+                        "image": "https://loremflickr.com/600/800/construction,cleaning?lock=11"
+                    },
+                    {
+                        "label": "Limpieza de Tapices",
+                        "query": "Limpieza",
+                        "image": "https://loremflickr.com/600/800/upholstery?lock=12"
+                    }
+                ],
+                "Exteriores": [
+                    {
+                        "label": "Paisajismo",
+                        "query": "Paisajismo",
+                        "image": "https://loremflickr.com/600/800/landscaping?lock=13"
+                    },
+                    {
+                        "label": "Corte de Césped",
+                        "query": "corte-cesped",
+                        "image": "https://loremflickr.com/600/800/lawnmower?lock=14"
+                    },
+                    {
+                        "label": "Poda de Árboles",
+                        "query": "Paisajismo",
+                        "image": "https://loremflickr.com/600/800/tree,pruning?lock=15"
+                    },
+                    {
+                        "label": "Riego",
+                        "query": "Paisajismo",
+                        "image": "https://loremflickr.com/600/800/irrigation?lock=16"
+                    },
+                    {
+                        "label": "Mantenimiento de Patios",
+                        "query": "Paisajismo",
+                        "image": "https://loremflickr.com/600/800/patio?lock=17"
+                    },
+                    {
+                        "label": "Limpieza de Piscinas",
+                        "query": "Piscinas",
+                        "image": "https://loremflickr.com/600/800/swimmingpool?lock=18"
+                    }
+                ],
+                "Cuidado Infantil": [
+                    {
+                        "label": "Niñeras",
+                        "query": "nineras",
+                        "image": "https://loremflickr.com/600/800/babysitter?lock=19"
+                    },
+                    {
+                        "label": "Tutorías Escolares",
+                        "query": "nineras",
+                        "image": "https://loremflickr.com/600/800/tutoring?lock=20"
+                    },
+                    {
+                        "label": "Cuidado Nocturno",
+                        "query": "nineras",
+                        "image": "https://loremflickr.com/600/800/sleeping,baby?lock=21"
+                    },
+                    {
+                        "label": "Cuidado de Adultos",
+                        "query": "cuidado-adultos",
+                        "image": "https://loremflickr.com/600/800/elderly,care?lock=22"
+                    },
+                    {
+                        "label": "Acompañante Terapéutico",
+                        "query": "cuidado-adultos",
+                        "image": "https://loremflickr.com/600/800/therapy?lock=23"
+                    },
+                    {
+                        "label": "Enfermería a Domicilio",
+                        "query": "cuidado-adultos",
+                        "image": "https://loremflickr.com/600/800/nurse?lock=24"
+                    }
+                ],
+                "Mascotas": [
+                    {
+                        "label": "Pet Sitting",
+                        "query": "mascotas",
+                        "image": "https://loremflickr.com/600/800/petsitting?lock=25"
+                    },
+                    {
+                        "label": "Paseo de Perros",
+                        "query": "mascotas",
+                        "image": "https://loremflickr.com/600/800/dogwalker?lock=26"
+                    },
+                    {
+                        "label": "Peluquería Canina",
+                        "query": "mascotas",
+                        "image": "https://loremflickr.com/600/800/doggrooming?lock=27"
+                    },
+                    {
+                        "label": "Adiestramiento",
+                        "query": "mascotas",
+                        "image": "https://loremflickr.com/600/800/dogtraining?lock=28"
+                    },
+                    {
+                        "label": "Visitas a Domicilio",
+                        "query": "mascotas",
+                        "image": "https://loremflickr.com/600/800/veterinarian?lock=29"
+                    },
+                    {
+                        "label": "Cuidado de Gatos",
+                        "query": "mascotas",
+                        "image": "https://loremflickr.com/600/800/cat?lock=30"
+                    }
+                ],
+                "Reparaciones": [
+                    {
+                        "label": "Reparaciones Generales",
+                        "query": "Reparaciones",
+                        "image": "https://loremflickr.com/600/800/handyman?lock=31"
+                    },
+                    {
+                        "label": "Línea Blanca",
+                        "query": "linea-blanca",
+                        "image": "https://loremflickr.com/600/800/appliancerepair?lock=32"
+                    },
+                    {
+                        "label": "Climatización",
+                        "query": "climatizacion",
+                        "image": "https://loremflickr.com/600/800/hvac?lock=33"
+                    },
+                    {
+                        "label": "Techos",
+                        "query": "techos",
+                        "image": "https://loremflickr.com/600/800/roofing?lock=34"
+                    },
+                    {
+                        "label": "Cerrajero",
+                        "query": "cerrajeria",
+                        "image": "https://loremflickr.com/600/800/locksmith?lock=35"
+                    },
+                    {
+                        "label": "Electrónica",
+                        "query": "Reparaciones",
+                        "image": "https://loremflickr.com/600/800/electronicsrepair?lock=36"
+                    }
+                ],
+                "Eventos": [
+                    {
+                        "label": "Fotografía",
+                        "query": "Eventos",
+                        "image": "https://loremflickr.com/600/800/photography?lock=37"
+                    },
+                    {
+                        "label": "Catering",
+                        "query": "Eventos",
+                        "image": "https://loremflickr.com/600/800/catering?lock=38"
+                    },
+                    {
+                        "label": "DJs",
+                        "query": "Eventos",
+                        "image": "https://loremflickr.com/600/800/dj?lock=39"
+                    },
+                    {
+                        "label": "Animadores",
+                        "query": "Eventos",
+                        "image": "https://loremflickr.com/600/800/party,entertainment?lock=40"
+                    },
+                    {
+                        "label": "Garzones",
+                        "query": "Eventos",
+                        "image": "https://loremflickr.com/600/800/waiter?lock=41"
+                    },
+                    {
+                        "label": "Decoración",
+                        "query": "Eventos",
+                        "image": "https://loremflickr.com/600/800/event,decoration?lock=42"
+                    }
+                ],
+                "Plagas": [
+                    {
+                        "label": "Fumigación",
+                        "query": "Plagas",
+                        "image": "https://loremflickr.com/600/800/pestcontrol?lock=43"
+                    },
+                    {
+                        "label": "Desratización",
+                        "query": "Plagas",
+                        "image": "https://loremflickr.com/600/800/rat?lock=44"
+                    },
+                    {
+                        "label": "Insectos",
+                        "query": "Plagas",
+                        "image": "https://loremflickr.com/600/800/insect?lock=45"
+                    },
+                    {
+                        "label": "Aves",
+                        "query": "Plagas",
+                        "image": "https://loremflickr.com/600/800/bird?lock=46"
+                    },
+                    {
+                        "label": "Termitas",
+                        "query": "Plagas",
+                        "image": "https://loremflickr.com/600/800/termite?lock=47"
+                    },
+                    {
+                        "label": "Manejo Preventivo",
+                        "query": "Plagas",
+                        "image": "https://loremflickr.com/600/800/exterminator?lock=48"
+                    }
+                ],
+                "Belleza": [
+                    {
+                        "label": "Peluquería",
+                        "query": "Belleza",
+                        "image": "https://loremflickr.com/600/800/hairsalon?lock=49"
+                    },
+                    {
+                        "label": "Maquillaje",
+                        "query": "Belleza",
+                        "image": "https://loremflickr.com/600/800/makeup?lock=50"
+                    },
+                    {
+                        "label": "Manicure",
+                        "query": "Belleza",
+                        "image": "https://loremflickr.com/600/800/manicure?lock=51"
+                    },
+                    {
+                        "label": "Masajes",
+                        "query": "Belleza",
+                        "image": "https://loremflickr.com/600/800/massage?lock=52"
+                    },
+                    {
+                        "label": "Cuidado Facial",
+                        "query": "Belleza",
+                        "image": "https://loremflickr.com/600/800/facial?lock=53"
+                    },
+                    {
+                        "label": "Depilación",
+                        "query": "Belleza",
+                        "image": "https://loremflickr.com/600/800/waxing?lock=54"
+                    }
+                ],
+                "Fletes": [
+                    {
+                        "label": "Fletes y Mudanzas",
+                        "query": "Fletes",
+                        "image": "https://loremflickr.com/600/800/moving,truck?lock=55"
+                    },
+                    {
+                        "label": "Transporte de Carga",
+                        "query": "Fletes",
+                        "image": "https://loremflickr.com/600/800/freight?lock=56"
+                    },
+                    {
+                        "label": "Despacho Rápido",
+                        "query": "Fletes",
+                        "image": "https://loremflickr.com/600/800/delivery?lock=57"
+                    },
+                    {
+                        "label": "Encomiendas",
+                        "query": "Fletes",
+                        "image": "https://loremflickr.com/600/800/parcel?lock=58"
+                    },
+                    {
+                        "label": "Logística",
+                        "query": "Fletes",
+                        "image": "https://loremflickr.com/600/800/logistics?lock=59"
+                    },
+                    {
+                        "label": "Vehículos Especiales",
+                        "query": "Fletes",
+                        "image": "https://loremflickr.com/600/800/towtruck?lock=60"
+                    }
+                ],
+                "Legal": [
+                    {
+                        "label": "Asesoría Legal",
+                        "query": "Legal",
+                        "image": "https://loremflickr.com/600/800/lawyer?lock=61"
+                    },
+                    {
+                        "label": "Contadores",
+                        "query": "Legal",
+                        "image": "https://loremflickr.com/600/800/accountant?lock=62"
+                    },
+                    {
+                        "label": "Notaría",
+                        "query": "Legal",
+                        "image": "https://loremflickr.com/600/800/notary?lock=63"
+                    },
+                    {
+                        "label": "Consultoría",
+                        "query": "Legal",
+                        "image": "https://loremflickr.com/600/800/consulting?lock=64"
+                    },
+                    {
+                        "label": "Traducciones",
+                        "query": "Legal",
+                        "image": "https://loremflickr.com/600/800/translation?lock=65"
+                    },
+                    {
+                        "label": "Trámites",
+                        "query": "Legal",
+                        "image": "https://loremflickr.com/600/800/paperwork?lock=66"
+                    }
+                ]
+            }
+        },
+        "stats": {
+            "proCount": "38.500+",
+            "proLabel": "Profesionales activos",
+            "rating": "4,8 ★",
+            "ratingLabel": "Calificación promedio",
+            "responseTime": "12 min",
+            "responseLabel": "Respuesta media",
+            "jobs": "184k",
+            "jobsLabel": "Trabajos completados"
+        },
+        "pricing": {
+            "eyebrow": "— PRECIOS",
+            "title": "Simple. Sin sorpresas.",
+            "subtitle": "Para personas, siempre gratis. Para profesionales, opcional.",
+            "personasTier": "Personas",
+            "personasPrice": "$0",
+            "personasSub": "gratis siempre",
+            "personasCta": "Empezar a buscar",
+            "personasF1": "Búsqueda ilimitada",
+            "personasF2": "Chat directo con profesionales",
+            "personasF3": "Calificación de servicios",
+            "personasF4": "Soporte por chat",
+            "proTier": "Profesionales · Pro",
+            "proPrice": "$9.900",
+            "proSub": "CLP / mes · CLP $99.000/año",
+            "proCta": "Probar 14 días",
+            "proBadge": "RECOMENDADO",
+            "proF1": "Posición destacada",
+            "proF2": "Insignia verificado",
+            "proF3": "Alertas instantáneas",
+            "proF4": "Stats avanzadas",
+            "proF5": "Sin comisión por trabajo",
+            "empresasTier": "Empresas",
+            "empresasPrice": "Custom",
+            "empresasSub": "Conversamos",
+            "empresasCta": "Hablar con ventas",
+            "empresasF1": "API + webhooks",
+            "empresasF2": "Multi-sede",
+            "empresasF3": "SLA dedicado",
+            "empresasF4": "Account manager",
+            "empresasF5": "Reportes BI"
+        },
+        "finalCta": {
+            "titleBefore": "Resolver tarda",
+            "titleAfter": "menos de lo que crees.",
+            "subtitle": "Prueba Hireeo gratis. Sin tarjeta, sin compromisos, sin comisión.",
+            "ctaSearch": "Buscar ahora",
+            "ctaDemo": "Ver demo"
+        }
+    },
+    "search": {
+        "pageTitle": "Buscar Servicios",
+        "filters": "Filtros",
+        "clearFilters": "Limpiar",
+        "clearAllFilters": "Limpiar todos los filtros",
+        "category": "Categoría",
+        "all": "Todos",
+        "region": "Región",
+        "allRegions": "Todas las regiones",
+        "city": "Ciudad",
+        "allCities": "Todas las ciudades",
+        "placeholder": "Buscar por nombre, categoría, descripción...",
+        "searchButton": "Buscar",
+        "results": "resultados",
+        "noResults": "No encontramos resultados",
+        "noResultsHint": "Intenta buscando con palabras más generales...",
+        "viewLessCategories": "Ver menos categorías",
+        "viewAllCategories": "Ver todas las categorías",
+        "breadcrumbHome": "Hireeo",
+        "breadcrumbAll": "Todos los servicios",
+        "professionalsFound": "profesionales encontrados",
+        "topRatedHint": "mejor calificados",
+        "showingPrefix": "mostrando",
+        "prepositionIn": "en",
+        "defaultTitle": "Todos los servicios",
+        "multipleCategoriesSuffix": "categorías",
+        "filtersActive": "filtros activos",
+        "viewList": "Lista",
+        "viewMap": "Mapa",
+        "mapComingSoon": "Próximamente",
+        "sortLabel": "Ordenar",
+        "sortRating": "Mejor calificación",
+        "sortNearest": "Más cercanos",
+        "sortPriceAsc": "Precio: menor a mayor",
+        "sortPriceDesc": "Precio: mayor a menor",
+        "groupAvailability": "Disponibilidad",
+        "groupRating": "Calificación",
+        "groupVerification": "Verificación",
+        "groupPrice": "Precio referencia",
+        "availabilityToday": "Hoy",
+        "availabilityTomorrow": "Mañana",
+        "availabilityThisWeek": "Esta semana",
+        "availabilityTwoWeeks": "Próx. 2 semanas",
+        "ratingAny": "Cualquiera",
+        "rating45": "≥ 4.5★",
+        "rating40": "≥ 4.0★",
+        "rating35": "≥ 3.5★",
+        "verifAny": "Cualquiera",
+        "verifVerified": "Verificado",
+        "verifPro": "Pro",
+        "verifTop": "Top 5%",
+        "priceMin": "mín",
+        "priceMax": "máx",
+        "tierPro": "Pro",
+        "tierVerified": "Verificado",
+        "priceFrom": "desde",
+        "priceVisit": "visita",
+        "contactCta": "Contactar",
+        "saveCta": "Guardar",
+        "paginationShowing": "Mostrando",
+        "paginationOf": "de",
+        "paginationNext": "Siguiente",
+        "paginationPrev": "Anterior",
+        "sponsorLabel": "SPONSOR",
+        "locationLabel": "Comuna o Región",
+        "currentLocation": "Ubicación Actual",
+        "descriptionPlaceholder": "Describe el problema (ej: tengo una fuga en el baño)",
+        "useCurrentLocationTitle": "Usar mi ubicación actual",
+        "noCitiesFound": "No se encontraron ciudades con ese nombre.",
+        "capitalCity": "Ciudad Capital"
+    },
+    "service": {
+        "featured": "Destacado",
+        "from": "Desde",
+        "requestQuote": "Solicitar Cotización"
+    },
+    "serviceDetail": {
+        "subnavSave": "Guardar",
+        "subnavShare": "Compartir",
+        "heroProfession": "profesional",
+        "heroSince": "Trabajando desde",
+        "heroResponseTime": "Responde rápido",
+        "heroCompletion": "trabajos completados",
+        "heroDistance": "de tu ubicación",
+        "galleryMore": "+ {n} más",
+        "tabAbout": "Sobre el profesional",
+        "tabServices": "Servicios y precios",
+        "tabReviews": "Reseñas",
+        "tabAvailability": "Disponibilidad",
+        "tabPortfolio": "Portfolio",
+        "aboutTitle": "Sobre",
+        "pricingTitle": "Servicios y precios",
+        "pricingDurationLabel": "duración estimada",
+        "pricingReferenceHint": "Los precios son referenciales — el profesional confirmará antes de empezar.",
+        "reviewsTitle": "Reseñas",
+        "reviewsOf": "de",
+        "reviewsViewAll": "Ver todas las reseñas",
+        "reviewsEmpty": "Aún no hay reseñas para este servicio.",
+        "reviewsEmptyHint": "¡Sé el primero en dejar una reseña!",
+        "bookingFrom": "Desde",
+        "bookingPerVisit": "visita",
+        "bookingAvailableToday": "Disponible hoy",
+        "bookingServiceLabel": "Servicio",
+        "bookingWhenLabel": "Cuándo",
+        "bookingAddressLabel": "Dirección",
+        "bookingDisclaimer": "No pagas nada todavía. Habla con el profesional, confirma el alcance, y luego se procesa el pago.",
+        "bookingRequestCta": "Solicitar este servicio",
+        "bookingChatCta": "Chat",
+        "bookingCallCta": "Llamar",
+        "reviewsLeaveCta": "Dejar tu reseña",
+        "statRespondsIn": "responde",
+        "statCompletion": "completa",
+        "statExperience": "experiencia",
+        "trustLabel": "VERIFICACIÓN",
+        "trustIdentity": "Identidad verificada",
+        "trustBackground": "Antecedentes revisados",
+        "trustCertification": "Certificaciones vigentes",
+        "trustContact": "Email y teléfono verificados",
+        "relatedTitle": "Otros profesionales similares",
+        "relatedViewAll": "Ver todos"
+    },
+    "publish": {
+        "step": "Paso",
+        "steps": {
+            "yourData": "Tus Datos",
+            "yourTrade": "Tu Oficio",
+            "level": "Nivel",
+            "duration": "Duración",
+            "payment": "Pago",
+            "success": "¡Éxito!"
+        },
+        "basicLevel": "Básico",
+        "alwaysFree": "SIEMPRE GRATIS",
+        "premiumLevel": "Premium",
+        "recommended": "RECOMENDADO",
+        "moreClients": "Aumenta tus clientes",
+        "normalListing": "Aparece en los listados normales",
+        "directContact": "Contacto telefónico directo",
+        "featuredListing": "Aparece destacado (Primer lugar)",
+        "proSeal": "Sello de confianza Pro",
+        "prioritySearch": "Prioridad máxima en búsquedas",
+        "publishFree": "Publicar Gratis",
+        "continuePremium": "Continuar con Premium",
+        "changeLevelAnytime": "Puedes cambiar de nivel cuando quieras"
+    },
+    "footer": {
+        "taglineShort": "Infraestructura para coordinar servicios manuales en 5 países.",
+        "platform": "Producto",
+        "aboutUs": "Quiénes somos",
+        "howItWorks": "Cómo funciona",
+        "proSubscriptions": "Precios",
+        "helpCenter": "Centro de ayuda",
+        "terms": "Términos",
+        "privacy": "Privacidad",
+        "cookies": "Cookies",
+        "contact": "Contacto",
+        "resourcesLabel": "Recursos",
+        "countriesLabel": "Países",
+        "companyLabel": "Compañía",
+        "api": "API",
+        "businesses": "Empresas",
+        "documentation": "Documentación",
+        "changelog": "Changelog",
+        "blog": "Blog",
+        "statusPage": "Estado",
+        "careers": "Carreras",
+        "press": "Prensa",
+        "systemNormal": "Todos los sistemas operativos",
+        "copyrightLine": "© 2026 HIREEO INC · BUILT FOR LATAM"
+    },
+    "common": {
+        "loading": "Cargando...",
+        "error": "Error",
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "back": "Atrás",
+        "next": "Siguiente",
+        "close": "Cerrar"
+    },
+    "chatbot": {
+        "title": "Asistente Hireeo",
+        "closeLabel": "Cerrar asistente",
+        "openLabel": "Abrir asistente de Hireeo",
+        "description": "Describe lo que necesitas y te encontramos el profesional ideal.",
+        "placeholder": "Ej: \"Se me rompió una cañería y hay agua por todos lados…\"",
+        "searchManually": "Buscar manualmente",
+        "analyzing": "Analizando…",
+        "searchBtn": "Buscar servicio",
+        "locationError": "No pudimos obtener tu ubicación. Te mostramos resultados generales.",
+        "searchWithoutLocation": "Buscar sin ubicación",
+        "goBack": "Volver",
+        "foundA": "Encontramos un",
+        "gettingLocation": "Obteniendo tu ubicación…",
+        "goWithoutLocation": "Ir sin ubicación",
+        "noResults": "Sin resultados por ahora",
+        "noProvidersOf": "No encontramos proveedores de",
+        "viewCategoryPrefix": "Ver categoría",
+        "startOver": "Empezar de nuevo",
+        "fallbackError": "No pude identificar el servicio. Intenta de nuevo."
+    },
+    "auth": {
+        "login": {
+            "title": "Bienvenido de vuelta.",
+            "subtitle": "Inicia sesión en tu cuenta Hireeo.",
+            "emailLabel": "Correo",
+            "emailPlaceholder": "tu@correo.com",
+            "passwordLabel": "Contraseña",
+            "passwordHint": "Mínimo 8 caracteres",
+            "keepSession": "Mantener sesión",
+            "forgotPassword": "¿Olvidaste tu contraseña?",
+            "loadingBtn": "Validando…",
+            "loginBtn": "Ingresar",
+            "orWith": "O CON",
+            "googleLoading": "Conectando…",
+            "googleBtn": "Google",
+            "appleBtn": "Apple",
+            "microsoftBtn": "Microsoft",
+            "noAccount": "¿Primera vez en Hireeo?",
+            "createAccount": "Crear cuenta →",
+            "showPassword": "Mostrar contraseña",
+            "hidePassword": "Ocultar contraseña",
+            "invalidCredentials": "Credenciales inválidas",
+            "comingSoon": "estará disponible pronto."
+        },
+        "registro": {
+            "eyebrow": "— CREAR CUENTA",
+            "title": "Empieza en Hireeo.",
+            "subtitle": "Sin tarjeta, sin compromiso. Verificación en 24 horas.",
+            "nameLabel": "Nombre completo",
+            "namePlaceholder": "Juan Pérez",
+            "phoneLabel": "Teléfono / WhatsApp",
+            "emailLabel": "Correo",
+            "emailPlaceholder": "tu@correo.com",
+            "passwordLabel": "Contraseña",
+            "passwordHint": "Mín. 8 caracteres, una mayúscula, un número",
+            "termsPrefix": "Acepto los",
+            "termsLink": "Términos",
+            "privacyLink": "Política de Privacidad",
+            "termsSuffix": ". Entiendo que mis datos se procesan en LATAM.",
+            "pendingBtn": "Creando cuenta…",
+            "submitBtn": "Crear cuenta",
+            "hasAccount": "¿Ya tienes cuenta?",
+            "loginLink": "Ingresar →",
+            "showPassword": "Mostrar contraseña",
+            "hidePassword": "Ocultar contraseña"
+        }
+    },
+    "account": {
+        "profile": {
+            "metaTitle": "Mi Perfil",
+            "breadcrumb1": "Mi cuenta",
+            "breadcrumb2": "Resumen",
+            "greetingPrefix": "Hola",
+            "subStats": "Tienes {services} servicios publicados y {reviews} reseñas recibidas.",
+            "settingsBtn": "Ajustes",
+            "publishBtn": "Publicar servicio",
+            "statServices": "Servicios",
+            "statServicesLabel": "publicados",
+            "statReviews": "Reseñas",
+            "statReviewsLabel": "recibidas",
+            "statPremium": "Premium",
+            "statPremiumLabel": "destacados",
+            "statStatus": "Estado",
+            "statStatusPro": "Pro",
+            "statStatusFree": "Free",
+            "statStatusActive": "plan activo",
+            "statStatusBasic": "plan básico",
+            "myServices": "Mis servicios",
+            "newBtn": "Nuevo",
+            "statsTitle": "Estadísticas por servicio",
+            "statsSubtitle": "Vistas, contactos y conversiones",
+            "proTag": "HIREEO PRO",
+            "proHeadline": "Destaca tus servicios y aparece primero.",
+            "proDescription": "Pro te permite destacar servicios, recibir alertas instantáneas y aparecer primero en las búsquedas de tu zona.",
+            "proCta": "Ver planes Pro →",
+            "proStat1N": "+3,4×",
+            "proStat1L": "MÁS VISTAS",
+            "proStat2N": "+5×",
+            "proStat2L": "MÁS CLICS",
+            "proStat3N": "Top 8%",
+            "proStat3L": "EN TU CATEGORÍA",
+            "proStat4N": "Alertas",
+            "proStat4L": "INSTANTÁNEAS"
+        },
+        "settings": {
+            "metaTitle": "Ajustes de Perfil",
+            "breadcrumb2": "Ajustes",
+            "title": "Ajustes de perfil",
+            "subtitle": "Actualiza tu información personal y contacto."
+        },
+        "publish": {
+            "metaTitle": "Publicar Servicio",
+            "breadcrumb2": "Publicar servicio",
+            "title": "Nuevo servicio",
+            "subtitle": "Completa los pasos para publicar y empezar a recibir contactos."
+        },
+        "favorites": {
+            "metaTitle": "Favoritos",
+            "breadcrumb2": "Favoritos",
+            "title": "Mis favoritos"
+        },
+        "messages": {
+            "metaTitle": "Mensajes",
+            "breadcrumb2": "Mensajes",
+            "title": "Mis mensajes"
+        }
+    },
+    "admin": {
+        "sidebar": {
+            "sectionOps": "OPERACIÓN",
+            "sectionCatalog": "CATÁLOGO",
+            "sectionPayments": "PAGOS",
+            "overview": "Resumen",
+            "services": "Servicios",
+            "users": "Usuarios",
+            "ratings": "Calificaciones",
+            "interactions": "Interacciones",
+            "categories": "Categorías",
+            "sponsors": "Sponsors",
+            "prices": "Precios Premium",
+            "payments": "Pagos",
+            "signOutLabel": "Cerrar sesión"
+        },
+        "overview": {
+            "metaTitle": "Panel de Administración",
+            "breadcrumb1": "Admin",
+            "breadcrumb2": "Resumen",
+            "title": "Resumen general",
+            "subtitle": "Estado de la plataforma, ingresos y actividad reciente.",
+            "statServices": "Servicios Publicados",
+            "statUsers": "Usuarios Registrados",
+            "statInteractions": "Total Interacciones",
+            "statSponsors": "Sponsors Activos"
+        }
+    },
+    "pages": {
+        "quienesSomos": {
+            "meta": {
+                "title": "Quiénes somos · Hireeo",
+                "description": "Hireeo construye infraestructura para los oficios que sostienen el día a día."
+            },
+            "hero": {
+                "eyebrow": "— EMPRESA",
+                "title": "Construimos infraestructura para los oficios que sostienen el día a día.",
+                "subtitle": "Hireeo nació en Castro, Chiloé, en 2024. Una conversación entre un gasfíter sin clientes y un programador con la caldera rota. La pregunta fue: ¿por qué cuesta tanto encontrarse?"
+            },
+            "numbers": [
+                [
+                    "2024",
+                    "Fundación"
+                ],
+                [
+                    "5",
+                    "Países activos"
+                ],
+                [
+                    "38.500",
+                    "Profesionales"
+                ],
+                [
+                    "184k",
+                    "Trabajos hechos"
+                ]
+            ],
+            "principles": {
+                "eyebrow": "— PRINCIPIOS",
+                "title": "Lo que no negociamos.",
+                "items": [
+                    {
+                        "title": "El oficio en portada",
+                        "desc": "Cada perfil muestra trabajo terminado. No vendemos fotos de stock, vendemos resultados."
+                    },
+                    {
+                        "title": "Sin comisión sobre el trabajo",
+                        "desc": "El dinero del servicio nunca pasa por nosotros. La relación económica es entre cliente y profesional."
+                    },
+                    {
+                        "title": "Hecho en LATAM",
+                        "desc": "Pasarela local, moneda local, idioma local. No somos un producto traducido — pensamos en español."
+                    },
+                    {
+                        "title": "Datos como producto, no como mercancía",
+                        "desc": "No vendemos datos de usuarios. Las decisiones se toman con métricas agregadas y anónimas."
+                    },
+                    {
+                        "title": "Verificación es obligación",
+                        "desc": "Identidad, referencias y antecedentes revisados a mano por nuestro equipo de operaciones."
+                    },
+                    {
+                        "title": "Pequeño por elección",
+                        "desc": "Equipo de 18 personas. Crecemos lento, escuchamos rápido."
+                    }
+                ]
+            },
+            "team": {
+                "eyebrow": "— EQUIPO",
+                "title": "18 personas. 3 países.",
+                "ctaText": "Buscamos 4 personas más",
+                "ctaLink": "carreras",
+                "members": [
+                    {
+                        "name": "Erick Ruotolo",
+                        "role": "CEO · Castro"
+                    },
+                    {
+                        "name": "Camila Soto",
+                        "role": "Producto · Santiago"
+                    },
+                    {
+                        "name": "Diego Vargas",
+                        "role": "Eng · Buenos Aires"
+                    },
+                    {
+                        "name": "Paula Riveros",
+                        "role": "Diseño · Valdivia"
+                    },
+                    {
+                        "name": "Federico Lima",
+                        "role": "Datos · Montevideo"
+                    },
+                    {
+                        "name": "Sara González",
+                        "role": "Ops · Madrid"
+                    },
+                    {
+                        "name": "Tomás Vera",
+                        "role": "Eng · Santiago"
+                    },
+                    {
+                        "name": "Lucía Pena",
+                        "role": "Marketing · BA"
+                    },
+                    {
+                        "name": "Rodrigo Iturra",
+                        "role": "Pagos · Santiago"
+                    },
+                    {
+                        "name": "Andrea Quezada",
+                        "role": "Soporte · Castro"
+                    }
+                ],
+                "moreLabel": "+ 08",
+                "moreDesc": "en operaciones, growth y seguridad",
+                "joinLabel": "JOIN US →"
+            }
+        },
+        "ayuda": {
+            "meta": {
+                "title": "Centro de Ayuda - Preguntas Frecuentes",
+                "description": "Respuestas a las preguntas más comunes sobre Hireeo. Cómo encontrar profesionales, cómo publicar servicios, precios, verificación y más."
+            },
+            "header": {
+                "title": "Centro de Ayuda",
+                "subtitle": "Todo lo que necesitas saber sobre cómo encontrar y publicar servicios profesionales"
+            },
+            "cta": {
+                "title": "¿No encontraste tu respuesta?",
+                "subtitle": "Nuestro equipo está disponible para ayudarte",
+                "button": "Contactar Soporte"
+            },
+            "faqs": [
+                {
+                    "q": "¿Cómo encuentro un profesional cerca de mí?",
+                    "a": [
+                        {
+                            "type": "p",
+                            "text": "Para encontrar un profesional cerca de ti:"
+                        },
+                        {
+                            "type": "ol",
+                            "items": [
+                                "Ve a hireeo.app/search",
+                                "Selecciona la categoría que necesitas",
+                                "Filtra por tu zona",
+                                "Verás perfiles verificados con calificaciones, precios y contacto directo"
+                            ]
+                        },
+                        {
+                            "type": "note",
+                            "text": "Puedes contactar por WhatsApp o teléfono sin intermediación. Todos los profesionales están verificados y tienen reseñas de usuarios."
+                        }
+                    ]
+                },
+                {
+                    "q": "¿Cuánto cuesta publicar un servicio en Hireeo?",
+                    "a": [
+                        {
+                            "type": "p-bold-green",
+                            "text": "Publicar un servicio es completamente GRATIS para empezar."
+                        },
+                        {
+                            "type": "p",
+                            "text": "Solo necesitas crear una cuenta y llenar el formulario con tu oficio. Los planes Premium opcionales van desde:"
+                        },
+                        {
+                            "type": "ul",
+                            "items": [
+                                "Plan mensual (1 mes)",
+                                "Plan trimestral (3 meses - Más popular)",
+                                "Plan anual (12 meses con descuento)"
+                            ]
+                        },
+                        {
+                            "type": "note",
+                            "text": "El plan Premium te da prioridad en búsquedas, sello de verificación Pro y soporte 24/7."
+                        }
+                    ]
+                },
+                {
+                    "q": "¿Los profesionales en Hireeo están verificados?",
+                    "a": [
+                        {
+                            "type": "p-bold-blue",
+                            "text": "Sí, todos los profesionales están verificados."
+                        },
+                        {
+                            "type": "p",
+                            "text": "Cada proveedor tiene:"
+                        },
+                        {
+                            "type": "ul",
+                            "items": [
+                                "Identidad verificada mediante documentación",
+                                "Sistema de calificaciones públicas (estrellas y reseñas)",
+                                "Historial de trabajos visible",
+                                "Sello \"Pro\" para proveedores Premium"
+                            ]
+                        },
+                        {
+                            "type": "note",
+                            "text": "Las reseñas son públicas y no pueden ser eliminadas."
+                        }
+                    ]
+                },
+                {
+                    "q": "¿En qué países opera Hireeo?",
+                    "a": [
+                        {
+                            "type": "p-bold",
+                            "text": "Hireeo opera en 5 países:"
+                        },
+                        {
+                            "type": "ul-grid",
+                            "items": [
+                                "✓ Chile",
+                                "✓ Argentina",
+                                "✓ Uruguay",
+                                "✓ España",
+                                "✓ Estados Unidos"
+                            ]
+                        },
+                        {
+                            "type": "note",
+                            "text": "Puedes filtrar servicios por región y localidad en el buscador de cada país."
+                        }
+                    ]
+                },
+                {
+                    "q": "¿Necesito un profesional urgente, cómo lo contacto?",
+                    "a": [
+                        {
+                            "type": "p-bold-red",
+                            "text": "Para emergencias:"
+                        },
+                        {
+                            "type": "ol",
+                            "items": [
+                                "Busca el tipo de profesional en hireeo.app",
+                                "Filtra por tu zona",
+                                "Verás teléfonos y WhatsApp directos",
+                                "Contacta directamente sin intermediarios"
+                            ]
+                        },
+                        {
+                            "type": "note",
+                            "text": "Muchos profesionales ofrecen servicio de emergencia 24/7."
+                        }
+                    ]
+                },
+                {
+                    "q": "¿Cómo funciona el pago en Hireeo?",
+                    "a": [
+                        {
+                            "type": "p-bold-green",
+                            "text": "Hireeo NO cobra comisiones ni intermedia pagos."
+                        },
+                        {
+                            "type": "p",
+                            "text": "El pago se acuerda directamente entre el cliente y el proveedor."
+                        },
+                        {
+                            "type": "ol",
+                            "items": [
+                                "Solicita cotización gratis",
+                                "Acuerda precio y forma de pago",
+                                "Paga directamente al proveedor después del trabajo"
+                            ]
+                        },
+                        {
+                            "type": "note",
+                            "text": "Recomendamos pagar después de verificar la calidad del servicio."
+                        }
+                    ]
+                }
+            ]
+        },
+        "comoFunciona": {
+            "meta": {
+                "title": "¿Cómo funciona Hireeo?",
+                "description": "Hireeo es una capa de coordinación entre ti y los profesionales que arreglan, instalan, pintan y trasladan."
+            },
+            "hero": {
+                "eyebrow": "— CÓMO FUNCIONA",
+                "titleBefore": "Resolver lo cotidiano,",
+                "titleAfter": "sin la fricción de siempre.",
+                "subtitle": "Hireeo es una capa de coordinación entre ti y los profesionales que arreglan, instalan, pintan y trasladan. La explicación, paso por paso."
+            },
+            "steps": [
+                {
+                    "n": "01",
+                    "title": "Cuéntanos lo que necesitas",
+                    "desc": "En lenguaje natural — como se lo dirías a un amigo. Ej: \"se rompió la cañería del baño, necesito alguien hoy\".",
+                    "meta": "Sin formularios. La IA detecta categoría, zona y urgencia.",
+                    "shot": "chat"
+                },
+                {
+                    "n": "02",
+                    "title": "Recibes tres propuestas",
+                    "desc": "Seleccionamos profesionales por reputación, disponibilidad y proximidad. Cada uno trae foto, calificación real y precio referencial.",
+                    "meta": "Respuesta promedio: 12 minutos.",
+                    "shot": "list"
+                },
+                {
+                    "n": "03",
+                    "title": "Acuerda y resuelve",
+                    "desc": "Conversa directo por chat, confirma precio y horario. Paga con la pasarela local de tu país. Califica al terminar.",
+                    "meta": "MercadoPago en CL/AR/UY · Stripe en ES/US.",
+                    "shot": "pay"
+                }
+            ],
+            "faq": {
+                "eyebrow": "— PREGUNTAS",
+                "title": "Antes de empezar.",
+                "items": [
+                    [
+                        "¿Cobran comisión por trabajo?",
+                        "No. Hireeo nunca toca el dinero del trabajo. El pago se hace directo al profesional vía pasarela local."
+                    ],
+                    [
+                        "¿Qué es un profesional verificado?",
+                        "Validamos identidad oficial, referencias y antecedentes. La insignia aparece junto al perfil."
+                    ],
+                    [
+                        "¿Funciona en mi país?",
+                        "Sí en Chile, Argentina, Uruguay, España y Estados Unidos. Pronto sumamos Perú y Colombia."
+                    ],
+                    [
+                        "¿Y si no aparece nadie?",
+                        "En 24h tu solicitud queda visible para todos los pros de la zona. Si nadie responde, te avisamos."
+                    ],
+                    [
+                        "¿Cómo califico un servicio?",
+                        "Al cerrar el trabajo recibes un email con el link de calificación."
+                    ]
+                ]
+            }
+        },
+        "contacto": {
+            "title": "Hablemos de",
+            "titleHighlight": "tu próxima oportunidad",
+            "subtitle": "Estamos aquí para ayudarte a resolver tus dudas o escuchar tus sugerencias.",
+            "email": "Correo",
+            "whatsapp": "WhatsApp Soporte",
+            "office": "Oficina",
+            "officeValue": "Operación 100% Remota",
+            "form": {
+                "name": "Tu Nombre",
+                "namePlaceholder": "Ej: Juan Pérez",
+                "email": "Tu Correo",
+                "emailPlaceholder": "ejemplo@correo.com",
+                "phone": "Tu Celular",
+                "phonePlaceholder": "+56 9 1234 5678",
+                "subject": "Asunto",
+                "subjectOptions": [
+                    "Suscripción Pro",
+                    "Quiero publicitar",
+                    "Reportar Usuario",
+                    "Soporte Técnico",
+                    "Otro"
+                ],
+                "message": "Mensaje",
+                "messagePlaceholder": "¿En qué podemos ayudarte?",
+                "submit": "Enviar Mensaje",
+                "sending": "Enviando...",
+                "success": "¡Mensaje enviado con éxito! Te responderemos pronto.",
+                "defaultSubject": "Suscripción Pro"
+            }
+        },
+        "terminos": {
+            "title": "Términos y Condiciones",
+            "lastUpdated": "Última actualización: 14 de enero de 2026",
+            "sections": [
+                {
+                    "title": "1. Aceptación de los términos",
+                    "content": "Al acceder, navegar, publicar un servicio o suscribirte a un plan en Hireeo, aceptas estos Términos y Condiciones en su totalidad. Si no estás de acuerdo, no uses la plataforma."
+                },
+                {
+                    "title": "2. Naturaleza del servicio",
+                    "content": "Hireeo es un directorio digital para conectar a personas con proveedores de servicios locales. No somos intermediarios, no participamos en los contratos, no cobramos comisiones por trabajos ni garantizamos la calidad, legalidad, seguridad o resultados de los servicios prestados."
+                },
+                {
+                    "title": "3. Publicación y planes Premium",
+                    "items": [
+                        "La publicación básica es gratuita.",
+                        "Los planes Premium son pagos y otorgan prioridad en búsquedas, sello \"Pro\" y mayor visibilidad.",
+                        "Duración fija: No hay renovación automática.",
+                        "Pagos: Procesados de forma segura mediante pasarelas certificadas.",
+                        "Cancelación y reembolsos: No se realizan reembolsos por períodos no utilizados una vez iniciado el servicio."
+                    ]
+                },
+                {
+                    "title": "4. Obligaciones de los usuarios",
+                    "intro": "Debes:",
+                    "items": [
+                        "Proporcionar información verdadera, exacta y actualizada.",
+                        "Contar con los permisos legales necesarios para tu oficio.",
+                        "No publicar contenido ilegal, fraudulento o que vulnere derechos de terceros."
+                    ]
+                },
+                {
+                    "title": "5. Limitación de responsabilidad",
+                    "content": "En la máxima medida permitida por la ley aplicable, Hireeo no será responsable por daños, pérdidas, reclamos o problemas derivados del uso de la plataforma."
+                },
+                {
+                    "title": "6. Modificaciones y terminación",
+                    "content": "Podemos modificar estos términos (te notificaremos por email o en el sitio). Nos reservamos el derecho de suspender o eliminar cuentas por incumplimientos graves."
+                },
+                {
+                    "title": "7. Ley aplicable y contacto",
+                    "content": "Para consultas: legal@hireeo.app"
+                }
+            ],
+            "footer": "Gracias por ser parte de esta iniciativa. ¡Nos ayudamos entre todos!"
+        },
+        "privacidad": {
+            "title": "Política de Privacidad",
+            "lastUpdated": "Última actualización: 14 de enero de 2026",
+            "sections": [
+                {
+                    "title": "Responsable",
+                    "content": "Hireeo es el responsable del tratamiento de tus datos personales."
+                },
+                {
+                    "title": "Datos recolectados",
+                    "items": [
+                        "Identificatorios: nombre, correo electrónico, teléfono/WhatsApp.",
+                        "De servicio: zona, categoría, descripción, fotos.",
+                        "Técnicos: dirección IP, tipo de dispositivo, cookies de sesión."
+                    ]
+                },
+                {
+                    "title": "Finalidades",
+                    "items": [
+                        "Publicar tu perfil para contacto directo de clientes.",
+                        "Gestionar cuentas, procesar pagos Premium y enviar notificaciones relevantes.",
+                        "Mejorar la seguridad y funcionalidad de la plataforma."
+                    ]
+                },
+                {
+                    "title": "Base legal",
+                    "content": "Consentimiento expreso al publicar o suscribirte, y cumplimiento de la normativa local aplicable en tu país."
+                },
+                {
+                    "title": "Compartición",
+                    "items": [
+                        "Datos públicos (nombre, teléfono, zona) se muestran en tu perfil.",
+                        "Correo electrónico permanece privado.",
+                        "No vendemos ni compartimos datos para fines comerciales con terceros."
+                    ]
+                },
+                {
+                    "title": "Tus derechos",
+                    "content": "Puedes acceder, rectificar, cancelar o bloquear tus datos escribiendo a privacidad@hireeo.app."
+                },
+                {
+                    "title": "Seguridad",
+                    "content": "Usamos encriptación SSL y medidas técnicas adecuadas."
+                },
+                {
+                    "title": "Cookies",
+                    "content": "Solo cookies esenciales de sesión para mantenerte logueado."
+                },
+                {
+                    "title": "Contacto",
+                    "content": "privacidad@hireeo.app"
+                }
+            ],
+            "footer": "Tu confianza es importante para nosotros. Gracias por usar Hireeo."
+        }
+    },
+    "wizard": {
+        "problemLabel": "¿Qué necesitas?",
+        "problemPlaceholder": "Ej: necesito un electricista para instalar un enchufe",
+        "urgencyLabel": "¿Cuándo lo necesitas?",
+        "urgencyUrgent": "Urgente",
+        "urgencyUrgentSub": "Hoy o mañana",
+        "urgencyWeek": "Esta semana",
+        "urgencyWeekSub": "Tengo unos días",
+        "urgencyWhenever": "Sin urgencia",
+        "urgencyWheneverSub": "Cuando sea",
+        "locationLabel": "¿Dónde?",
+        "locationPlaceholder": "Ciudad o zona",
+        "locationSkip": "Sin preferencia de zona",
+        "locationSearch": "Buscar profesionales",
+        "back": "Volver",
+        "noCitiesFound": "No se encontraron resultados"
+    }
+}

@@ -41,29 +41,22 @@ export function ServiceReviewsSummary({
 
     return (
         <div
-            className="mb-4 grid gap-8 rounded-xl border p-5"
+            className="mb-4 grid gap-8 rounded-xl border p-5 border-line bg-tint"
             style={{
-                gridTemplateColumns: 'minmax(140px, 180px) minmax(0, 1fr)',
-                borderColor: 'var(--line)',
-                background: 'var(--tint)',
-            }}
+                gridTemplateColumns: 'minmax(140px, 180px) minmax(0, 1fr)'}} 
         >
             <div>
                 <div
-                    className="leading-none"
+                    className="leading-none font-medium tracking-tighter text-ink"
                     style={{
-                        fontSize: 42,
-                        fontWeight: 500,
-                        letterSpacing: '-0.04em',
-                        color: 'var(--ink)',
-                    }}
+                        fontSize: 42}} 
                 >
                     {rating.toFixed(1).replace('.', ',')}
                 </div>
                 <div className="mt-1.5">
                     <Stars rating={rating} size={14} />
                 </div>
-                <div className="mt-1.5 text-[12px]" style={{ color: 'var(--sub)' }}>
+                <div className="mt-1.5 text-[12px] text-sub">
                     {dict.serviceDetail.reviewsOf} {totalReviews}{' '}
                     {dict.search.professionalsFound.replace('profesionales', 'calificaciones')}
                 </div>
@@ -76,24 +69,20 @@ export function ServiceReviewsSummary({
                         className="grid items-center gap-2"
                         style={{ gridTemplateColumns: '16px minmax(0, 1fr) 30px' }}
                     >
-                        <Mono className="text-[11px]" style={{ color: 'var(--sub)' }}>
+                        <Mono className="text-[11px] text-sub">
                             {row.stars}
                         </Mono>
                         <div
-                            className="relative h-1.5 overflow-hidden rounded-full"
-                            style={{ background: 'var(--line)' }}
+                            className="relative h-1.5 overflow-hidden rounded-full bg-line"
                         >
                             <div
-                                className="absolute inset-y-0 left-0 rounded-full"
+                                className="absolute inset-y-0 left-0 rounded-full bg-ink"
                                 style={{
-                                    width: `${row.percent}%`,
-                                    background: 'var(--ink)',
-                                }}
+                                    width: `${row.percent}%`}} 
                             />
                         </div>
                         <Mono
-                            className="text-right text-[11px]"
-                            style={{ color: 'var(--sub)' }}
+                            className="text-right text-[11px] text-sub"
                         >
                             {row.percent}%
                         </Mono>

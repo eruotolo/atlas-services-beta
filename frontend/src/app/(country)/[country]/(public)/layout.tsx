@@ -4,6 +4,8 @@ import { getServerSession } from 'next-auth';
 
 import Footer from '@/shared/components/layout/Footer';
 import Navbar from '@/shared/components/layout/Navbar';
+import { ChatbotWidget } from '@/shared/components/hireeo/ui/ChatbotWidget';
+import { FloatingChatWidget } from '@/shared/components/hireeo/ui/FloatingChatWidget';
 import { SubscriptionLevel } from '@/shared/types/common';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
@@ -34,6 +36,8 @@ export default async function PublicLayout({
             <Navbar user={currentUser} />
             <main className="page-fade-in flex-grow">{children}</main>
             <Footer />
+            <ChatbotWidget />
+            {currentUser && <FloatingChatWidget />}
         </div>
     );
 }

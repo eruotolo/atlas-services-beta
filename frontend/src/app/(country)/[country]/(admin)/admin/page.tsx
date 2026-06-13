@@ -1,16 +1,16 @@
-import { Eye, Hammer, Megaphone, Users } from 'lucide-react';
-
-import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
 import { getInteracciones, getInteraccionesMetricas } from '@/features/analytics/actions';
 import DashboardCharts from '@/features/analytics/components/admin/DashboardCharts';
 import RecentActivity from '@/features/analytics/components/admin/RecentActivity';
 import { getAdminServices } from '@/features/services/actions/queries';
 import { getTodasSponsors } from '@/features/sponsors/actions/queries';
 import { getAdminUsers } from '@/features/users/actions';
-import CountryPaymentToggle from '@/features/geo/components/admin/CountryPaymentToggle';
+import CountryPaymentToggle from '@/features/configuration/countries/components/CountryPaymentToggle/CountryPaymentToggle';
 import { getCountryConfig } from '@/features/geo/actions/queries';
-import { PageHeader, Pill } from '@/shared/components/hireeo';
+import { PageHeader, Pill, SectionLabel, Stat } from '@/shared/components/hireeo';
+import type { HireIconName } from '@/shared/components/hireeo/icons';
 import { formatCurrency } from '@/shared/lib/utils';
+import { getDictionary } from '@/lib/i18n/getDictionary';
+import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
 
 interface DashboardStats {
     servicios: number;
@@ -57,11 +57,7 @@ async function getDashboardStats(): Promise<DashboardStats> {
             ingresosBrutos: formatCurrency(0),
             ingresosNetos: formatCurrency(0),
             sponsorsActivos: 0,
-            metricas: {
-                totalGlobal: 0,
-                porTipo: {},
-                topServicios: [],
-            },
+            metricas: { totalGlobal: 0, porTipo: {}, topServicios: [] },
         };
     }
 }
@@ -79,87 +75,109 @@ type Props = { params: Promise<{ country: string }> };
 export default async function AdminOverviewPage({ params }: Props) {
     const { country } = await params;
     const countryName = COUNTRY_SEO_CONFIG[country]?.countryName ?? country.toUpperCase();
-    const [stats, recent, countryData] = await Promise.all([getDashboardStats(), getRecentInteractions(), getCountryConfig(country)]);
+    const dictionary = await getDictionary(country);
+    
+    const [stats, recent, countryData] = await Promise.all([
+        getDashboardStats(), 
+        getRecentInteractions(), 
+        getCountryConfig(country)
+    ]);
 
-    const statsCards = [
+    const dict = dictionary.admin.overview;
+
+    const statsCards: Array<{ label: string; value: string; sub: string; icon: HireIconName }> = [
         {
-            label: 'Servicios Publicados',
-            value: stats.servicios,
-            icon: Hammer,
-            color: 'text-brand',
-            bg: 'bg-brand/10',
+            label: dict.statServices,
+            value: stats.servicios.toLocaleString(),
+            sub: countryName,
+            icon: 'hammer',
         },
         {
-            label: 'Usuarios Registrados',
-            value: stats.usuarios,
-            icon: Users,
-            color: 'text-green-600 dark:text-green-400',
-            bg: 'bg-green-500/10',
+            label: dict.statUsers,
+            value: stats.usuarios.toLocaleString(),
+            sub: countryName,
+            icon: 'users',
         },
         {
-            label: 'Total Interacciones',
+            label: dict.statInteractions,
             value: stats.metricas.totalGlobal.toLocaleString(),
-            icon: Eye,
-            color: 'text-indigo-600 dark:text-indigo-400',
-            bg: 'bg-indigo-500/10',
+            sub: 'vistas y contactos',
+            icon: 'eye',
         },
         {
-            label: 'Sponsors Activos',
-            value: stats.sponsorsActivos,
-            icon: Megaphone,
-            color: 'text-amber-600 dark:text-amber-400',
-            bg: 'bg-amber-500/10',
+            label: dict.statSponsors,
+            value: stats.sponsorsActivos.toLocaleString(),
+            sub: 'campañas activas',
+            icon: 'bell',
         },
     ];
 
     return (
         <>
             <PageHeader
-                breadcrumb={['Admin', 'Resumen']}
-                title="Resumen general"
-                subtitle="Estado de la plataforma, ingresos y actividad reciente."
+                breadcrumb={[dict.breadcrumb1, dict.breadcrumb2]}
+                title={dict.title}
+                subtitle={dict.subtitle}
                 actions={
-                    <Pill tone="accent" icon="globe">
-                        {countryName}
-                    </Pill>
-                }
-            />
-            <div style={{ padding: 28 }}>
-                <div className="animate-in fade-in space-y-8 duration-500">
-                    
-                    {/* Admin Actions */}
-                    <div className="max-w-md">
+                    <div className="flex items-center gap-3">
                         <CountryPaymentToggle 
                             countryCode={country} 
                             initialStatus={countryData?.paymentsEnabled ?? true} 
                         />
+                        <Pill tone="accent" icon="globe">
+                            {countryName}
+                        </Pill>
                     </div>
+                }
+            />
+            <div className="w-full p-7">
+                <div className="animate-in fade-in slide-in-from-bottom-4 flex flex-col gap-8 duration-700">
+                    
+                    {/* 1. Métricas (Top Row) */}
+                    <section className="stagger-item">
+                        <div className="mb-5">
+                            <SectionLabel>{dict.breadcrumb2}</SectionLabel>
+                        </div>
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                            {statsCards.map((stat) => (
+                                <Stat
+                                    key={stat.label}
+                                    label={stat.label}
+                                    value={stat.value}
+                                    sub={stat.sub}
+                                    icon={stat.icon}
+                                />
+                            ))}
+                        </div>
+                    </section>
 
-                    <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
-                        {statsCards.map((stat) => (
-                            <div
-                                key={stat.label}
-                                className="rounded-[2rem] border border-line bg-bg p-6 shadow-sm transition-all hover:shadow-md dark:shadow-none"
-                            >
-                                <div
-                                    className={`mb-4 flex h-12 w-12 items-center justify-center rounded-2xl ${stat.bg} ${stat.color}`}
-                                >
-                                    <stat.icon size={24} />
+                    {/* 2. Bento Grid Central: Gráficos y Actividad */}
+                    <div className="grid grid-cols-1 gap-8 xl:grid-cols-12">
+                        {/* Columna Izquierda: Gráficos (8 columnas) */}
+                        <div className="xl:col-span-8">
+                            <section className="stagger-item h-full rounded-2xl border border-line bg-bg/80 p-6 shadow-sm backdrop-blur-md transition-all dark:bg-tint/40">
+                                <div className="mb-6">
+                                    <SectionLabel>Interacciones y Rendimiento</SectionLabel>
                                 </div>
-                                <p className="text-xs font-black tracking-widest text-muted uppercase">
-                                    {stat.label}
-                                </p>
-                                <h4 className="mt-1 text-2xl font-black text-ink">{stat.value}</h4>
-                            </div>
-                        ))}
+                                <DashboardCharts
+                                    porTipo={stats.metricas.porTipo}
+                                    topServicios={stats.metricas.topServicios}
+                                />
+                            </section>
+                        </div>
+
+                        {/* Columna Derecha: Actividad Reciente (4 columnas) */}
+                        <div className="xl:col-span-4">
+                            <section className="stagger-item h-full rounded-2xl border border-line bg-bg/80 p-6 shadow-sm backdrop-blur-md transition-all dark:bg-tint/40">
+                                <div className="mb-6">
+                                    <SectionLabel>Actividad Reciente</SectionLabel>
+                                </div>
+                                <div className="rounded-xl border border-line/50 bg-tint/30 p-4 shadow-inner dark:bg-tint-warm/10">
+                                    <RecentActivity interactions={recent.data} />
+                                </div>
+                            </section>
+                        </div>
                     </div>
-
-                    <DashboardCharts
-                        porTipo={stats.metricas.porTipo}
-                        topServicios={stats.metricas.topServicios}
-                    />
-
-                    <RecentActivity interactions={recent.data} />
                 </div>
             </div>
         </>

@@ -13,7 +13,8 @@
         "db:seed": "pnpm --filter backend db:seed"
     },
     "devDependencies": {
-        "concurrently": "^9.1.2"
+        "concurrently": "^9.1.2",
+        "shadcn": "^4.11.0"
     },
     "pnpm": {
         "onlyBuiltDependencies": [

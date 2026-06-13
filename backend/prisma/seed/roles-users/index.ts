@@ -5,13 +5,13 @@ import * as bcrypt from 'bcrypt';
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL as string });
 const prisma = new PrismaClient({ adapter });
 
-async function assignRole(userId: string, roleId: string) {
+async function assignRole(userId: string, roleId: string, countryId?: string) {
     const existing = await prisma.userRole.findFirst({
-        where: { userId, roleId, countryId: null },
+        where: { userId, roleId, countryId: countryId ?? null },
     });
     if (!existing) {
         await prisma.userRole.create({
-            data: { userId, roleId },
+            data: { userId, roleId, countryId: countryId ?? null },
         });
     }
 }
@@ -20,58 +20,46 @@ export async function seedRolesUsers() {
     console.log('👥 Creando roles...');
 
     const roleSuperAdmin = await prisma.role.upsert({
-        where: { name: 'SuperAdministrador' },
+        where: { name: 'SuperAdmin' },
         update: {},
-        create: { name: 'SuperAdministrador', active: true },
+        create: { name: 'SuperAdmin', active: true },
     });
 
-    const roleUsuario = await prisma.role.upsert({
-        where: { name: 'Usuario' },
+    await prisma.role.upsert({
+        where: { name: 'Admin' },
         update: {},
-        create: { name: 'Usuario', active: true },
+        create: { name: 'Admin', active: true },
     });
 
-    console.log('  ✓ Roles creados: SuperAdministrador, Usuario');
-
-    console.log('👤 Creando usuario SuperAdmin...');
-    const hashedPassword = await bcrypt.hash('Bicho_026772', 12);
-
-    const adminUser = await prisma.user.upsert({
-        where: { email: 'edgardoruotolo@gmail.com' },
+    await prisma.role.upsert({
+        where: { name: 'Professional' },
         update: {},
-        create: {
-            email: 'edgardoruotolo@gmail.com',
-            password: hashedPassword,
-            name: 'Edgardo Ruotolo',
-        },
+        create: { name: 'Professional', active: true },
     });
 
-    await assignRole(adminUser.id, roleSuperAdmin.id);
-    console.log('  ✓ Usuario SuperAdmin creado y rol asignado');
-
-    console.log('👤 Creando Test Users para E2E...');
-    const testAdminUser = await prisma.user.upsert({
-        where: { email: 'test-admin@chiloeservicios.cl' },
+    await prisma.role.upsert({
+        where: { name: 'Client' },
         update: {},
-        create: {
-            email: 'test-admin@chiloeservicios.cl',
-            password: await bcrypt.hash('TestPassword123!', 12),
-            name: 'Test Administrator',
-        },
+        create: { name: 'Client', active: true },
     });
 
-    await assignRole(testAdminUser.id, roleSuperAdmin.id);
+    console.log('  ✓ Roles creados: SuperAdmin, Admin, Professional, Client');
 
-    const testUserUser = await prisma.user.upsert({
-        where: { email: 'test-user@chiloeservicios.cl' },
-        update: {},
-        create: {
-            email: 'test-user@chiloeservicios.cl',
-            password: await bcrypt.hash('TestPassword123!', 12),
-            name: 'Test Regular User',
-        },
-    });
+    console.log('👤 Creando SuperAdministradores...');
 
-    await assignRole(testUserUser.id, roleUsuario.id);
-    console.log('  ✓ Test users para E2E creados y roles asignados');
+    const users = [
+        { name: 'Edgardo Ruotolo', email: 'edgardoruotolo@gmail.com', password: 'Bicho@026772' },
+        { name: 'Luis Nuñez',      email: 'nluis@outlook.com',         password: 'Nexus@2026'  },
+    ];
+
+    for (const u of users) {
+        const hashed = await bcrypt.hash(u.password, 12);
+        const user = await prisma.user.upsert({
+            where: { email: u.email },
+            update: { name: u.name },
+            create: { email: u.email, password: hashed, name: u.name },
+        });
+        await assignRole(user.id, roleSuperAdmin.id);
+        console.log(`  ✓ ${u.name} (${u.email})`);
+    }
 }

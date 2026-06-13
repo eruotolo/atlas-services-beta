@@ -62,8 +62,8 @@ export async function POST(request: NextRequest) {
                 serviceId,
                 durationMonths: String(durationMonths),
             },
-            success_url: `${baseUrl}/${countryCode}/perfil?payment=success`,
-            cancel_url: `${baseUrl}/${countryCode}/suscripcion-pro?payment=cancelled`,
+            success_url: `${baseUrl}/${countryCode}/profile?payment=success`,
+            cancel_url: `${baseUrl}/${countryCode}/pricing?payment=cancelled`,
         });
 
         return NextResponse.json({ url: session.url });

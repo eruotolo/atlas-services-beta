@@ -65,30 +65,30 @@ function FooterColumn({ title, links }: FooterColumnProps): ReactElement {
 
 function buildProductLinks(link: (path: string) => string, dict: Dictionary): FooterColumnProps['links'] {
     return [
-        { label: dict.nav.search, href: link('/buscar') },
-        { label: dict.footer.howItWorks, href: link('/como-funciona') },
-        { label: dict.footer.proSubscriptions, href: link('/suscripcion-pro') },
-        { label: dict.footer.businesses, href: link('/contacto') },
-        { label: dict.footer.api, href: link('/contacto') },
+        { label: dict.nav.search, href: link('/search') },
+        { label: dict.footer.howItWorks, href: link('/how-it-works') },
+        { label: dict.footer.proSubscriptions, href: link('/pricing') },
+        { label: dict.footer.businesses, href: link('/contact') },
+        { label: dict.footer.api, href: link('/contact') },
     ];
 }
 
 function buildResourceLinks(link: (path: string) => string, dict: Dictionary): FooterColumnProps['links'] {
     return [
-        { label: dict.footer.helpCenter, href: link('/ayuda') },
-        { label: dict.footer.documentation, href: link('/ayuda') },
-        { label: dict.footer.changelog, href: link('/ayuda') },
-        { label: dict.footer.blog, href: link('/ayuda') },
-        { label: dict.footer.statusPage, href: link('/ayuda') },
+        { label: dict.footer.helpCenter, href: link('/help') },
+        { label: dict.footer.documentation, href: link('/help') },
+        { label: dict.footer.changelog, href: link('/help') },
+        { label: dict.footer.blog, href: link('/help') },
+        { label: dict.footer.statusPage, href: link('/help') },
     ];
 }
 
 function buildCompanyLinks(link: (path: string) => string, dict: Dictionary): FooterColumnProps['links'] {
     return [
-        { label: dict.footer.aboutUs, href: link('/quienes-somos') },
-        { label: dict.footer.careers, href: link('/quienes-somos') },
-        { label: dict.footer.press, href: link('/quienes-somos') },
-        { label: dict.footer.contact, href: link('/contacto') },
+        { label: dict.footer.aboutUs, href: link('/about-us') },
+        { label: dict.footer.careers, href: link('/about-us') },
+        { label: dict.footer.press, href: link('/about-us') },
+        { label: dict.footer.contact, href: link('/contact') },
     ];
 }
 
@@ -152,21 +152,21 @@ const Footer: React.FC = (): ReactElement => {
                     <Mono>{dict.footer.copyrightLine}</Mono>
                     <div className="flex flex-wrap items-center gap-5">
                         <Link
-                            href={link('/terminos')}
+                            href={link('/terms')}
                             className="transition-colors hover:opacity-80"
                             style={{ color: 'var(--sub)' }}
                         >
                             {dict.footer.terms}
                         </Link>
                         <Link
-                            href={link('/privacidad')}
+                            href={link('/privacy')}
                             className="transition-colors hover:opacity-80"
                             style={{ color: 'var(--sub)' }}
                         >
                             {dict.footer.privacy}
                         </Link>
                         <Link
-                            href={link('/privacidad')}
+                            href={link('/privacy')}
                             className="transition-colors hover:opacity-80"
                             style={{ color: 'var(--sub)' }}
                         >

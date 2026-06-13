@@ -46,6 +46,19 @@
 /* Configuración de variante Dark para Tailwind v4 basada en clase */
 @variant dark (&:where(.dark, .dark *));
 
+/* ── Sileo — colores del sistema de diseño de Hireeo ──────────────────────── */
+:root {
+    --sileo-state-success: #16a34a;
+    --sileo-state-error:   #d04545;
+    --sileo-state-warning: #e0a82e;
+    --sileo-state-info:    #2d4e8f;
+    --sileo-state-action:  #2d4e8f;
+}
+
+[data-sileo-description] {
+    color: #5b5b5b;
+}
+
 :root {
     /* Neutros */
     --ink: #0a0a0a;
@@ -120,7 +133,7 @@
     }
 
     .form-label {
-        @apply mb-2 block text-sm font-bold text-sub;
+        @apply mb-1.5 block text-[12px] font-semibold tracking-[-0.005em] text-ink;
     }
 
     .form-select-with-icon {
@@ -204,16 +217,6 @@
 @keyframes fabExit {
     from { transform: scale(1) rotate(0deg); opacity: 1; }
     to   { transform: scale(0) rotate(90deg); opacity: 0; }
-}
-
-@keyframes toastIn {
-    from { transform: translateX(120%); opacity: 0; }
-    to   { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes toastOut {
-    from { transform: translateX(0); opacity: 1; }
-    to   { transform: translateX(120%); opacity: 0; }
 }
 
 @keyframes sheetUp {
@@ -313,45 +316,6 @@
     animation: fabExit 0.25s ease-in forwards;
 }
 
-.toast-container {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    pointer-events: none;
-}
-.toast {
-    pointer-events: auto;
-    animation: toastIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    backdrop-filter: blur(16px) saturate(180%);
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: 16px;
-    padding: 14px 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-    max-width: 360px;
-}
-.dark .toast {
-    background: rgba(19, 19, 22, 0.92);
-    border-color: rgba(255, 255, 255, 0.06);
-    color: var(--ink);
-}
-.toast.exiting {
-    animation: toastOut 0.3s ease-in forwards;
-}
-.toast-success { border-left: 4px solid var(--success); }
-.toast-error   { border-left: 4px solid var(--danger); }
-.toast-info    { border-left: 4px solid var(--accent); }
-
 .bottom-sheet-backdrop {
     position: fixed;
     inset: 0;
@@ -415,8 +379,7 @@
     .page-fade-in,
     .hero-word-enter,
     .hero-word-exit,
-    .scroll-top-fab,
-    .toast {
+    .scroll-top-fab {
         animation: none !important;
         opacity: 1 !important;
         transform: none !important;

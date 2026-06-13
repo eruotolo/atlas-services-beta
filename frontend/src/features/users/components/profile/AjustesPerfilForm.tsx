@@ -1,12 +1,13 @@
 ﻿'use client';
 
-import { useRef, useState, type ChangeEvent, type FormEvent, type ReactElement } from 'react';
+import { useState, type FormEvent, type ReactElement } from 'react';
 
 import NextImage from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { actualizarPassword, actualizarPerfil } from '@/features/users/actions';
 import { Btn, Card, Field, Icon, Input, Mono } from '@/shared/components/hireeo';
+import { ImageDropzone } from '@/shared/components/ImageDropzone';
 
 interface AjustesPerfilFormProps {
     usuario: {
@@ -42,7 +43,6 @@ function cropToSquare(img: HTMLImageElement): Promise<File | null> {
 
 export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps): ReactElement {
     const router = useRouter();
-    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const [loadingInfo, setLoadingInfo] = useState<boolean>(false);
     const [infoError, setInfoError] = useState<string>('');
@@ -54,8 +54,8 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps): 
     const [passError, setPassError] = useState<string>('');
     const [passSuccess, setPassSuccess] = useState<string>('');
 
-    async function handleFileChange(e: ChangeEvent<HTMLInputElement>): Promise<void> {
-        const file = e.target.files?.[0];
+    async function handleAvatarDropped(files: File[]): Promise<void> {
+        const file = files[0];
         if (!file) return;
         if (file.size > MAX_AVATAR_BYTES) {
             setInfoError('La imagen no puede pesar más de 2 MB.');
@@ -137,19 +137,17 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps): 
 
                     <header className="flex items-center gap-3">
                         <div
-                            className="inline-flex h-9 w-9 items-center justify-center rounded-md"
-                            style={{ background: 'var(--tint)' }}
+                            className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-tint"
                         >
                             <Icon name="user" size={16} />
                         </div>
                         <div>
                             <h2
-                                className="m-0 text-[15px] font-semibold"
-                                style={{ color: 'var(--ink)' }}
+                                className="m-0 text-[15px] font-semibold text-ink"
                             >
                                 Información general
                             </h2>
-                            <Mono className="mt-0.5 text-[10.5px]" style={{ color: 'var(--sub)' }}>
+                            <Mono className="mt-0.5 text-[10.5px] text-sub">
                                 Cómo te ven los clientes.
                             </Mono>
                         </div>
@@ -181,8 +179,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps): 
                     <div className="flex flex-col items-start gap-6 md:flex-row">
                         <div className="flex flex-col items-center gap-2">
                             <div
-                                className="relative h-24 w-24 overflow-hidden rounded-xl border"
-                                style={{ background: 'var(--tint)', borderColor: 'var(--line)' }}
+                                className="relative h-24 w-24 overflow-hidden rounded-xl border bg-tint border-line"
                             >
                                 {previewUrl ? (
                                     <NextImage
@@ -194,35 +191,18 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps): 
                                     />
                                 ) : (
                                     <div
-                                        className="flex h-full w-full items-center justify-center text-3xl font-medium"
-                                        style={{ color: 'var(--muted)' }}
+                                        className="flex h-full w-full items-center justify-center text-3xl font-medium text-muted"
                                     >
                                         {usuario.nombre.charAt(0).toUpperCase()}
                                     </div>
                                 )}
-                                <button
-                                    type="button"
-                                    onClick={() => fileInputRef.current?.click()}
-                                    aria-label="Cambiar avatar"
-                                    className="absolute right-1 bottom-1 inline-flex h-7 w-7 items-center justify-center rounded-md"
-                                    style={{ background: 'var(--ink)', color: 'var(--bg)' }}
-                                >
-                                    <Icon name="cam" size={12} stroke="var(--bg)" />
-                                </button>
                             </div>
-                            <input
-                                ref={fileInputRef}
-                                type="file"
-                                accept="image/*"
-                                className="hidden"
-                                onChange={handleFileChange}
+                            <ImageDropzone
+                                maxSizeMB={MAX_AVATAR_BYTES / (1024 * 1024)}
+                                onFilesAccepted={handleAvatarDropped}
+                                label="Arrastra tu foto o haz clic"
+                                description="PNG, JPG · Máx 2 MB"
                             />
-                            <Mono
-                                className="text-[9.5px]"
-                                style={{ color: 'var(--muted)', letterSpacing: '0.08em' }}
-                            >
-                                PNG, JPG · MÁX 2MB
-                            </Mono>
                         </div>
 
                         <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
@@ -259,8 +239,7 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps): 
                     </div>
 
                     <div
-                        className="flex justify-end border-t pt-4"
-                        style={{ borderColor: 'var(--line)' }}
+                        className="flex justify-end border-t pt-4 border-line"
                     >
                         <Btn
                             type="submit"
@@ -278,19 +257,17 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps): 
                 <form onSubmit={handleUpdatePassword} className="flex flex-col gap-5">
                     <header className="flex items-center gap-3">
                         <div
-                            className="inline-flex h-9 w-9 items-center justify-center rounded-md"
-                            style={{ background: 'var(--tint)' }}
+                            className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-tint"
                         >
                             <Icon name="key" size={16} />
                         </div>
                         <div>
                             <h2
-                                className="m-0 text-[15px] font-semibold"
-                                style={{ color: 'var(--ink)' }}
+                                className="m-0 text-[15px] font-semibold text-ink"
                             >
                                 Seguridad
                             </h2>
-                            <Mono className="mt-0.5 text-[10.5px]" style={{ color: 'var(--sub)' }}>
+                            <Mono className="mt-0.5 text-[10.5px] text-sub">
                                 Cambiá tu contraseña.
                             </Mono>
                         </div>

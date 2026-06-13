@@ -8,14 +8,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Rutas estáticas principales
     const routes = [
         '',
-        '/buscar',
+        '/search',
         '/login',
-        '/registro',
-        '/publicar',
-        '/como-funciona',
-        '/ayuda',
-        '/contacto',
-        '/suscripcion-pro',
+        '/register',
+        '/publish',
+        '/how-it-works',
+        '/help',
+        '/contact',
+        '/pricing',
     ].map((route) => ({
         url: `${baseUrl}${route}`,
         lastModified: new Date(),
@@ -27,7 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const services = await getAllPublicServices();
 
     const serviceRoutes = services.map((service) => ({
-        url: `${baseUrl}/servicio/${service.slug}`,
+        url: `${baseUrl}/service/${service.slug}`,
         lastModified: new Date(),
         changeFrequency: 'weekly' as const,
         priority: service.isPremium ? 0.9 : 0.7,

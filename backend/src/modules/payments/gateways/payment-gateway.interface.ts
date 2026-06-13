@@ -31,4 +31,6 @@ export interface WebhookVerifyResult {
     eventType?: string;
     resourceId?: string;
     status?: string;
+    error?: string;
+    event?: any;
 }

@@ -1,6 +1,14 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { SponsorCategory } from '@prisma/client';
-import { IsDateString, IsEnum, IsOptional, IsString, IsUrl, MaxLength } from 'class-validator';
+import {
+    IsBoolean,
+    IsDateString,
+    IsEnum,
+    IsOptional,
+    IsString,
+    IsUrl,
+    MaxLength,
+} from 'class-validator';
 
 export class CreateSponsorDto {
     @ApiProperty()
@@ -25,7 +33,26 @@ export class CreateSponsorDto {
     @IsString()
     descripcion?: string;
 
+    @ApiPropertyOptional()
+    @IsOptional()
+    @IsDateString()
+    fechaInicio?: string;
+
     @ApiProperty()
     @IsDateString()
     fechaFin: string;
+
+    @ApiPropertyOptional({ default: true })
+    @IsOptional()
+    @IsBoolean()
+    activo?: boolean;
+
+    @ApiPropertyOptional({
+        description: 'Código de país donde se publica; null/omitido = global',
+        example: 'cl',
+        nullable: true,
+    })
+    @IsOptional()
+    @IsString()
+    countryCode?: string | null;
 }

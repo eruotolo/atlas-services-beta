@@ -42,24 +42,23 @@ export function ServiceSubNav({
 
     return (
         <div
-            className="border-b"
-            style={{ borderColor: 'var(--line)', background: 'var(--bg)' }}
+            className="border-b border-line bg-bg"
         >
             <div className="mx-auto flex max-w-site flex-col gap-3 px-6 py-3.5 sm:px-10 lg:px-14 md:flex-row md:items-center md:justify-between">
                 <nav
-                    className="flex flex-wrap items-center gap-1.5 text-[12px]"
+                    className="flex flex-wrap items-center gap-1.5 text-[12px] text-sub"
                     aria-label="breadcrumb"
-                    style={{ color: 'var(--sub)' }}
+                    
                 >
                     <Link href={`/${country}`}>{dict.search.breadcrumbHome}</Link>
                     <Icon name="chevronRight" size={10} stroke="var(--muted)" />
                     <span>{breadcrumbPlace}</span>
                     <Icon name="chevronRight" size={10} stroke="var(--muted)" />
-                    <Link href={`/${country}/buscar?c=${encodeURIComponent(category)}`}>
+                    <Link href={`/${country}/search?c=${encodeURIComponent(category)}`}>
                         {category}
                     </Link>
                     <Icon name="chevronRight" size={10} stroke="var(--muted)" />
-                    <span className="font-semibold" style={{ color: 'var(--ink)' }}>
+                    <span className="font-semibold text-ink">
                         {professionalName}
                     </span>
                 </nav>
@@ -73,7 +72,7 @@ export function ServiceSubNav({
                     <ShareButton
                         title={serviceTitle}
                         text={serviceDescription}
-                        url={`/${country}/servicio/${serviceSlug}`}
+                        url={`/${country}/service/${serviceSlug}`}
                     />
                 </div>
             </div>

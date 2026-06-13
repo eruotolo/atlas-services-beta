@@ -5,6 +5,8 @@ import {
     NotFoundException,
 } from '@nestjs/common';
 
+import { whereServiceCountry } from '@common/utils/where-service-country';
+
 import { PrismaService } from '../../prisma/prisma.service';
 import { ServicesService } from '../services/services.service';
 
@@ -20,18 +22,19 @@ export class RatingsService {
     ) {}
 
     async findAll(dto: QueryRatingsDto) {
-        const { page = 1, limit = 10, query } = dto;
+        const { page = 1, limit = 10, query, countryCode } = dto;
         const skip = (page - 1) * limit;
-        const where = query
-            ? {
-                  OR: [
-                      { user: { name: { contains: query, mode: 'insensitive' as const } } },
-                      { user: { email: { contains: query, mode: 'insensitive' as const } } },
-                      { service: { title: { contains: query, mode: 'insensitive' as const } } },
-                      { comment: { contains: query, mode: 'insensitive' as const } },
-                  ],
-              }
-            : {};
+        const where = {
+            ...whereServiceCountry(countryCode),
+            ...(query && {
+                OR: [
+                    { user: { name: { contains: query, mode: 'insensitive' as const } } },
+                    { user: { email: { contains: query, mode: 'insensitive' as const } } },
+                    { service: { title: { contains: query, mode: 'insensitive' as const } } },
+                    { comment: { contains: query, mode: 'insensitive' as const } },
+                ],
+            }),
+        };
 
         const [items, total] = await Promise.all([
             this.prisma.rating.findMany({

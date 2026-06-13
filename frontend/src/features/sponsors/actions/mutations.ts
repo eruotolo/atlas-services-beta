@@ -26,6 +26,7 @@ export async function crearSponsor(data: SponsorInput) {
                 fechaInicio: validated.fechaInicio,
                 fechaFin: validated.fechaFin,
                 activo: validated.activo,
+                countryCode: validated.countryCode ?? null,
             },
             { token },
         );
@@ -56,6 +57,7 @@ export async function actualizarSponsor(data: SponsorUpdateInput) {
                 fechaInicio: validated.fechaInicio,
                 fechaFin: validated.fechaFin,
                 activo: validated.activo,
+                countryCode: validated.countryCode ?? null,
             },
             { token },
         );
@@ -82,14 +84,12 @@ export async function eliminarSponsor(id: string) {
     }
 }
 
-export async function toggleActivoSponsor(id: string) {
+export async function toggleActivoSponsor(id: string, activo: boolean) {
     const token = await getAuthToken();
     if (!token) return { error: 'No autorizado' };
 
     try {
-        // En un escenario real, asumiendo que el backend admite un toggle o fetch de estado
-        // aquí hacemos un update de patch como mock. Ideal crear endpoint especifico de toggle en backend.
-        await apiClient.patch(`/sponsors/${id}`, { activo: null }, { token }); 
+        await apiClient.patch(`/sponsors/${id}`, { activo }, { token });
 
         revalidatePath('/admin/sponsors');
         return { success: true };

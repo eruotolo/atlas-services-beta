@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
-import { X } from 'lucide-react';
+import { X } from '@/shared/components/icons';
 
 interface ModalProps {
     isOpen: boolean;
@@ -12,6 +13,12 @@ interface ModalProps {
 }
 
 export default function Modal({ isOpen, onClose, title, children }: ModalProps) {
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     useEffect(() => {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
@@ -23,7 +30,7 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
         };
     }, [isOpen]);
 
-    if (!isOpen) return null;
+    if (!isOpen || !mounted) return null;
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -32,34 +39,38 @@ export default function Modal({ isOpen, onClose, title, children }: ModalProps) 
         }
     };
 
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center">
+    return createPortal(
+        <div className="fixed inset-0 z-[100] flex items-center justify-center">
             {/* Overlay */}
             <button
                 type="button"
-                className="absolute inset-0 cursor-pointer border-none bg-black/50 p-0 outline-none"
+                className="absolute inset-0 cursor-pointer border-none bg-black/40 p-0 outline-none backdrop-blur-sm transition-opacity"
                 onClick={onClose}
                 onKeyDown={handleKeyDown}
                 aria-label="Cerrar modal"
             />
 
             {/* Modal */}
-            <div className="relative z-10 mx-4 w-full max-w-4xl overflow-hidden rounded-2xl border border-line bg-bg shadow-xl">
-                <div className="flex items-center justify-between p-8 pb-4">
-                    <h2 className="text-2xl font-black text-ink">{title}</h2>
+            <div className="relative z-10 mx-4 w-full max-w-4xl animate-in zoom-in-95 fade-in overflow-hidden rounded-2xl border border-white/20 bg-bg/95 shadow-2xl backdrop-blur-xl duration-200 dark:border-white/10 dark:bg-tint/90">
+                <div className="flex h-14 items-center justify-between border-b border-line/50 px-6">
+                    <h2 className="text-[17px] font-semibold tracking-tight text-ink">
+                        {title}
+                    </h2>
                     <button
                         type="button"
                         onClick={onClose}
-                        className="cursor-pointer rounded-xl p-2 text-muted transition-colors hover:bg-tint hover:text-ink"
+                        aria-label="Cerrar"
+                        className="cursor-pointer rounded-full p-2 text-muted transition-colors hover:bg-line/50 hover:text-ink"
                     >
-                        <X size={24} />
+                        <X size={18} />
                     </button>
                 </div>
 
-                <div className="scrollbar-custom mr-2 max-h-[85vh] overflow-y-auto px-8 pr-4 pb-8">
+                <div className="scrollbar-custom mr-1 max-h-[80vh] overflow-y-auto px-6 py-6">
                     {children}
                 </div>
             </div>
-        </div>
+        </div>,
+        document.body
     );
 }

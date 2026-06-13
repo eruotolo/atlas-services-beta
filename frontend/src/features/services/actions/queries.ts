@@ -185,10 +185,12 @@ export const getServicioBySlug = cache(async (slug: string) => {
     }
 });
 
-export const getAdminServices = cache(async (page = 1, limit = 10, search?: string) => {
+export const getAdminServices = cache(
+    async (page = 1, limit = 10, search?: string, countryCode?: string) => {
     try {
         const params: Record<string, string | number | undefined> = { page, limit };
         if (search) params.query = search;
+        if (countryCode) params.countryCode = countryCode;
 
         const qs = buildQueryString(params as Record<string, string | number | boolean>);
 
@@ -243,5 +245,22 @@ export const getAdminServices = cache(async (page = 1, limit = 10, search?: stri
             data: [],
             meta: { total: 0, page: 1, limit: 10, totalPages: 0 },
         };
+    }
+    },
+);
+
+import { getAuthToken } from '@/shared/lib/auth/getAuthToken';
+
+export const getUserServices = cache(async (userId: string) => {
+    try {
+        const token = await getAuthToken();
+        const response = await apiClient.get<BackendServiceDto[]>(`/users/${userId}/services`, {
+            revalidate: 0,
+            token,
+        });
+        return (response ?? []).map(mapServiceDto);
+    } catch (error) {
+        console.error('Error fetching user services:', error);
+        return [];
     }
 });

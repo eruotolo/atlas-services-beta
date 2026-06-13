@@ -1,64 +1,121 @@
-import type { ComponentType } from 'react';
+'use client';
 
-import dynamic from 'next/dynamic';
+import {
+    Award,
+    Battery,
+    Bug,
+    Cake,
+    Camera,
+    Car,
+    ChefHat,
+    Clipboard,
+    Database,
+    Disc,
+    Dog,
+    Droplets,
+    Dumbbell,
+    FileText,
+    Footprints,
+    GraduationCap,
+    Hammer,
+    Hand,
+    HardHat,
+    Heart,
+    Home,
+    Key,
+    Languages,
+    Laptop,
+    Leaf,
+    Mail,
+    Monitor,
+    MoreHorizontal,
+    Music,
+    Paintbrush,
+    Palette,
+    Phone,
+    Salad,
+    Scale,
+    Scissors,
+    Smartphone,
+    Sparkles,
+    Square,
+    Stethoscope,
+    Syringe,
+    Thermometer,
+    Trash,
+    Truck,
+    User,
+    Utensils,
+    Waves,
+    Wifi,
+    Zap,
+} from '@/shared/components/icons';
+import type { IconProps, SvgIconComponent } from '@/shared/components/icons';
 
-import type { LucideProps } from 'lucide-react';
-import dynamicIconImports from 'lucide-react/dynamicIconImports';
+const CATEGORY_ICON_MAP: Record<string, SvgIconComponent> = {
+    Award,
+    Battery,
+    Bug,
+    Cake,
+    Camera,
+    Car,
+    ChefHat,
+    Clipboard,
+    Database,
+    Disc,
+    Dog,
+    Droplets,
+    Dumbbell,
+    FileText,
+    Footprints,
+    GraduationCap,
+    Hammer,
+    Hand,
+    HardHat,
+    Heart,
+    Home,
+    Key,
+    Languages,
+    Laptop,
+    Leaf,
+    Mail,
+    Monitor,
+    MoreHorizontal,
+    Music,
+    Paintbrush,
+    Palette,
+    Phone,
+    Salad,
+    Scale,
+    Scissors,
+    Smartphone,
+    Sparkles,
+    Square,
+    Stethoscope,
+    Syringe,
+    Thermometer,
+    Trash,
+    Truck,
+    User,
+    Utensils,
+    Waves,
+    Wifi,
+    Zap,
+};
 
-// Tipo para las claves de iconos disponibles en Lucide (kebab-case)
-export type CategoryIconName = keyof typeof dynamicIconImports;
+export type CategoryIconName = keyof typeof CATEGORY_ICON_MAP;
 
-// Utilidad: PascalCase -> kebab-case (DB -> Lucide)
-// Ej: "ArrowRight" -> "arrow-right"
-function toKebabCase(str: string): string {
-    return str.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-}
+export const ICON_NAMES = Object.keys(CATEGORY_ICON_MAP) as CategoryIconName[];
 
-// Utilidad: kebab-case -> PascalCase (Lucide -> UI/DB)
-// Ej: "arrow-right" -> "ArrowRight"
-function toPascalCase(str: string): string {
-    return str.replace(/(^\w|-\w)/g, (clear) => clear.replace(/-/, '').toUpperCase());
-}
-
-// Lista de nombres en PascalCase para la UI (simula el antiguo Object.keys(categoryIconMap))
-export const ICON_NAMES = Array.from(new Set(Object.keys(dynamicIconImports).map(toPascalCase)));
-
-interface IconProps extends Omit<LucideProps, 'name'> {
+interface CategoryIconComponentProps extends Omit<IconProps, 'name'> {
     name: string | null | undefined;
 }
 
-// Cache para almacenar los componentes creados por dynamic()
-const iconCache: Record<string, ComponentType<LucideProps>> = {};
-
-/**
- * Componente optimizado que carga dinámicamente el icono solicitado.
- * Evita cargar todos los iconos en el bundle inicial.
- * Usa caché para evitar recrear el componente en cada render.
- */
-export const CategoryIcon = ({ name, ...props }: IconProps) => {
-    const iconName = name || 'MoreHorizontal';
-    const kebabName = toKebabCase(iconName);
-
-    // Si ya existe en caché, retornarlo directamente
-    if (iconCache[kebabName]) {
-        const Icon = iconCache[kebabName];
-        return <Icon {...props} />;
-    }
-
-    // Si no existe, intentar cargarlo
-    const dynamicIconImport =
-        // biome-ignore lint/suspicious/noExplicitAny: Importación dinámica
-        (dynamicIconImports as Record<string, () => Promise<any>>)[kebabName] ||
-        dynamicIconImports['more-horizontal'];
-
-    // Crear el componente dinámico y guardarlo en caché
-    const IconComponent = dynamic(dynamicIconImport);
-    iconCache[kebabName] = IconComponent;
-
-    return <IconComponent {...props} />;
+export const CategoryIcon = ({ name, ...props }: CategoryIconComponentProps) => {
+    const Icon = CATEGORY_ICON_MAP[name ?? ''] ?? MoreHorizontal;
+    return <Icon {...props} />;
 };
 
-// Listado íntegro de categorías basado en el seed (Mantenido por compatibilidad y seeders)
 export const ALL_CATEGORIES_DATA = [
     { nombre: 'Gasfitería / Fontanería', slug: 'gasfiteria', icono: 'Droplets' },
     { nombre: 'Electricidad e Iluminación', slug: 'electricidad', icono: 'Zap' },

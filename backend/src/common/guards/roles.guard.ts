@@ -17,13 +17,15 @@ export class RolesGuard implements CanActivate {
         if (!requiredRoles || requiredRoles.length === 0) return true;
 
         const { user } = context.switchToHttp().getRequest<RequestWithUser>();
-        
-        // Mapeo de roles en base de datos a roles requeridos por controladores
+
+        if (user?.roles?.includes('SuperAdmin')) return true;
+
         const normalizedUserRoles = user?.roles?.flatMap((role) => {
-            if (role === 'SuperAdministrador') return ['SuperAdministrador', 'admin', 'superadmin'];
-            if (role === 'Administrador') return ['Administrador', 'admin'];
+            if (role === 'Admin') return ['Admin', 'admin'];
+            if (role === 'Professional') return ['Professional', 'provider'];
+            if (role === 'Client') return ['Client', 'client'];
             return [role];
-        }) || [];
+        }) ?? [];
 
         return requiredRoles.some((role) => normalizedUserRoles.includes(role));
     }

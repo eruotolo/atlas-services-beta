@@ -4,10 +4,12 @@ import {
     ArrowLeft,
     ArrowRight,
     ArrowUpRight,
+    Baby,
     Bell,
     Bookmark,
     Briefcase,
     Brush,
+    Bug,
     Calendar,
     Camera,
     Check,
@@ -17,19 +19,25 @@ import {
     Clock,
     CreditCard,
     Crown,
+    Dog,
     Download,
     Droplets,
+    Edit2,
     ExternalLink,
     Eye,
+    FileText,
     Filter,
     Globe,
     Hammer,
     Heart,
+    Home,
     Inbox,
     Info,
     Key,
+    Languages,
     LayoutDashboard,
-    Link as LinkIcon,
+    Leaf,
+    Link,
     LogOut,
     Mail,
     MapPin,
@@ -46,6 +54,7 @@ import {
     Search,
     Send,
     Settings,
+    Share2,
     Shield,
     ShieldCheck,
     Sparkles,
@@ -61,18 +70,12 @@ import {
     Wind,
     X,
     Zap,
-    Leaf,
-    Bug,
-    Baby,
-    Dog,
-    Home,
-    type LucideIcon,
-} from 'lucide-react';
+} from '@/shared/components/icons';
+import type { SvgIconComponent } from '@/shared/components/icons';
 
 /**
- * Mapeo del icon-set del prototipo Hireeo (HIcon) a componentes de lucide-react.
- * Los nombres a la izquierda son los del DS original; los componentes a la derecha
- * son los más cercanos visualmente disponibles en Lucide.
+ * Mapeo del icon-set del prototipo Hireeo (HIcon) a componentes SVG inline.
+ * Los nombres a la izquierda son los del DS original.
  */
 export const HIRE_ICONS = {
     arrow: ArrowRight,
@@ -135,7 +138,7 @@ export const HIRE_ICONS = {
     paperclip: Paperclip,
     phone: Phone,
     mail: Mail,
-    link: LinkIcon,
+    link: Link,
     refresh: RefreshCw,
     pause: Pause,
     leaf: Leaf,
@@ -143,7 +146,9 @@ export const HIRE_ICONS = {
     baby: Baby,
     dog: Dog,
     home: Home,
-} as const satisfies Record<string, LucideIcon>;
+    fileText: FileText,
+    languages: Languages,
+} as const satisfies Record<string, SvgIconComponent>;
 
 export type HireIconName = keyof typeof HIRE_ICONS;
 
