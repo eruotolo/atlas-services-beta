@@ -586,7 +586,8 @@
         "descriptionPlaceholder": "Describe the problem (e.g., I have a water leak)",
         "useCurrentLocationTitle": "Use my current location",
         "noCitiesFound": "No cities found with that name.",
-        "capitalCity": "City"
+        "capitalCity": "City",
+        "locationError": "We could not get your location. Please check your browser location permissions."
     },
     "service": {
         "featured": "Featured",

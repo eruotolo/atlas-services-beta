@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import type { ReactElement } from 'react';
 
+import Link from 'next/link';
+
 import { getDictionary } from '@/lib/i18n/getDictionary';
 import { Avatar, Icon, Mono, SectionLabel } from '@/shared/components/hireeo';
 import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
@@ -211,7 +213,7 @@ export default async function QuienesSomosPage({
                             {dict.team.moreDesc}
                         </div>
                     </div>
-                    <a
+                    <Link
                         href={`/${country}/contact`}
                         className="flex items-center justify-center rounded-[10px] border p-4 text-center transition-colors hover:bg-tint"
                         style={{
@@ -226,7 +228,7 @@ export default async function QuienesSomosPage({
                         >
                             {dict.team.joinLabel}
                         </Mono>
-                    </a>
+                    </Link>
                 </div>
             </section>
         </div>

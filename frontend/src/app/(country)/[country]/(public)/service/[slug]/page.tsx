@@ -18,6 +18,7 @@ import {
 import { getFilteredServices, getServicioBySlug } from '@/features/services/actions';
 
 import { getDictionary } from '@/lib/i18n/getDictionary';
+import { ChatMensajes } from '@/shared/components/hireeo/ui/ChatMensajes';
 
 const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://www.hireeo.app';
 
@@ -267,6 +268,7 @@ export default async function ServiceDetailPage({ params }: Props) {
                 currencySymbol={countryConfig.currencySymbol}
                 locale={countryConfig.locale}
             />
+            <ChatMensajes />
         </>
     );
 }

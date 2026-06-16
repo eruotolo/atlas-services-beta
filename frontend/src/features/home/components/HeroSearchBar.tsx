@@ -86,25 +86,41 @@ export function HeroSearchBar({ country }: Props): ReactElement {
         }
     };
 
-    const handleGeolocation = () => {
-        if (!('geolocation' in navigator)) return;
+    const handleGeolocation = (e?: React.MouseEvent) => {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        if (typeof window === 'undefined' || !('geolocation' in navigator)) return;
         setIsLocating(true);
         navigator.geolocation.getCurrentPosition(
-            (position) => {
-                setCoords({
-                    lat: position.coords.latitude,
-                    lng: position.coords.longitude,
-                });
-                setLocation(s.currentLocation);
+            async (position) => {
+                const { latitude, longitude } = position.coords;
+                setCoords({ lat: latitude, lng: longitude });
                 setSelectedLocality(null);
-                setIsLocating(false);
                 setShowDropdown(false);
+                try {
+                    const lang = country === 'us' ? 'en' : 'es';
+                    const res = await fetch(
+                        `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
+                        { headers: { 'Accept-Language': lang } }
+                    );
+                    const data = await res.json() as { address?: Record<string, string> };
+                    const addr = data.address ?? {};
+                    const city = addr.city ?? addr.town ?? addr.village ?? addr.municipality ?? addr.county ?? '';
+                    const countryName = addr.country ?? '';
+                    setLocation(city && countryName ? `${countryName}, ${city}` : s.currentLocation);
+                } catch {
+                    setLocation(s.currentLocation);
+                }
+                setIsLocating(false);
             },
             (error) => {
                 console.warn('Geolocalización fallida', error);
                 setIsLocating(false);
+                alert(s.locationError || 'No pudimos obtener tu ubicación');
             },
-            { timeout: 10000, enableHighAccuracy: false }
+            { timeout: 10000, enableHighAccuracy: false, maximumAge: 300000 }
         );
     };
 

@@ -1,6 +1,7 @@
 packages:
   - 'frontend'
   - 'backend'
+  - 'appmobile'
 allowBuilds:
   '@nestjs/core': true
   '@prisma/engines': true

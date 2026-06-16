@@ -1,15 +1,26 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Btn, Icon, Avatar, Mono } from '@/shared/components/hireeo';
+import { Btn, Icon, Mono } from '@/shared/components/hireeo';
 import { apiClient } from '@/lib/api/apiClient';
+
+interface ServiceItem {
+    id: string;
+    slug: string;
+    title: string;
+    description: string;
+    category: string;
+    image: string | null;
+    isPremium: boolean;
+}
 
 export function MyServiceItem({
     service,
     countryCode,
 }: {
-    service: any;
+    service: ServiceItem;
     countryCode: string;
 }) {
     const router = useRouter();
@@ -36,10 +47,10 @@ export function MyServiceItem({
             {/* Image placeholder or real image */}
             <div className="h-40 w-full bg-tint border-b border-line overflow-hidden relative">
                 {service.image ? (
-                    <img src={service.image} alt={service.title} className="w-full h-full object-cover" />
+                    <Image src={service.image} alt={service.title} fill className="object-cover" />
                 ) : (
                     <div className="flex h-full items-center justify-center text-muted">
-                        <Icon name="image" size={32} />
+                        <Icon name="cam" size={32} />
                     </div>
                 )}
             </div>
@@ -72,6 +83,7 @@ export function MyServiceItem({
                             Editar
                         </Btn>
                         <button
+                            type="button"
                             onClick={handleDelete}
                             disabled={isDeleting}
                             className="flex h-8 w-8 items-center justify-center rounded-md border border-red-200 bg-red-50 text-red-600 transition-colors hover:bg-red-100 disabled:opacity-50 cursor-pointer"

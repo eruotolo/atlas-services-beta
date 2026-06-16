@@ -113,10 +113,6 @@ export default async function proxy(req: NextRequest) {
         }
     }
 
-    if (pathWithoutCountry.startsWith('/publish') && !token) {
-        return NextResponse.redirect(new URL(`/${firstSegment}/login`, req.url));
-    }
-
     if (pathWithoutCountry === '/login' && token) {
         const userRoles = (token.roles as string[]) ?? [];
         if (userRoles.includes('SuperAdministrador')) {

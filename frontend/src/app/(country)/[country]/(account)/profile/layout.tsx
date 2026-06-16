@@ -8,7 +8,6 @@ import { getDictionary } from '@/lib/i18n/getDictionary';
 import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
 import { getProfilePageData } from '@/features/users/actions';
 import { UserSidebar } from '@/features/users/components/account/UserSidebar';
-import { FloatingChatWidget } from '@/shared/components/hireeo/ui/FloatingChatWidget';
 
 export const metadata: Metadata = {
     title: 'Mi Perfil',
@@ -67,7 +66,6 @@ export default async function ProfileLayout({
                 />
                 <main className="min-w-0">{children}</main>
             </div>
-            <FloatingChatWidget />
         </div>
     );
 }
