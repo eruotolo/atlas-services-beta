@@ -1,4 +1,6 @@
 'use client';
+import Link from 'next/link';
+
 import { Btn } from '@/shared/components/hireeo';
 
 import { useEffect, useId, useState } from 'react';
@@ -656,14 +658,14 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                         className="text-sm text-sub"
                     >
                         Declaro que la información proporcionada es verdadera y acepto las{' '}
-                        <a
-                            href="/terms"
+                        <Link
+                            href={`/${countryCode}/terms`}
                             target="_blank"
                             className="font-bold text-brand hover:underline"
                             rel="noopener"
                         >
                             condiciones de publicación
-                        </a>
+                        </Link>
                         .
                     </label>
                 </div>

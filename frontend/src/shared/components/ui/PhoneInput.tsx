@@ -7,43 +7,9 @@ import { Check, ChevronDown, Search } from '@/shared/components/icons';
 const COUNTRIES = [
     { code: 'CL', name: 'Chile', dial: '+56', flag: '🇨🇱', placeholder: '9 1234 5678' },
     { code: 'AR', name: 'Argentina', dial: '+54', flag: '🇦🇷', placeholder: '9 11 1234 5678' },
-    { code: 'PE', name: 'Perú', dial: '+51', flag: '🇵🇪', placeholder: '912 345 678' },
-    { code: 'CO', name: 'Colombia', dial: '+57', flag: '🇨🇴', placeholder: '300 123 4567' },
-    { code: 'MX', name: 'México', dial: '+52', flag: '🇲🇽', placeholder: '55 1234 5678' },
+    { code: 'UY', name: 'Uruguay', dial: '+598', flag: '🇺🇾', placeholder: '99 123 456' },
     { code: 'ES', name: 'España', dial: '+34', flag: '🇪🇸', placeholder: '612 34 56 78' },
     { code: 'US', name: 'Estados Unidos', dial: '+1', flag: '🇺🇸', placeholder: '202 555 0123' },
-    { code: 'VE', name: 'Venezuela', dial: '+58', flag: '🇻🇪', placeholder: '412 123 4567' },
-    { code: 'BR', name: 'Brasil', dial: '+55', flag: '🇧🇷', placeholder: '11 91234 5678' },
-    { code: 'UY', name: 'Uruguay', dial: '+598', flag: '🇺🇾', placeholder: '99 123 456' },
-
-    // Países adicionales muy comunes en Latam y usuarios hispanohablantes
-    { code: 'EC', name: 'Ecuador', dial: '+593', flag: '🇪🇨', placeholder: '99 123 4567' },
-    { code: 'BO', name: 'Bolivia', dial: '+591', flag: '🇧🇴', placeholder: '701 234 567' },
-    { code: 'PY', name: 'Paraguay', dial: '+595', flag: '🇵🇾', placeholder: '981 234 567' },
-    { code: 'CR', name: 'Costa Rica', dial: '+506', flag: '🇨🇷', placeholder: '8312 3456' },
-    { code: 'PA', name: 'Panamá', dial: '+507', flag: '🇵🇦', placeholder: '6123 4567' },
-    {
-        code: 'DO',
-        name: 'República Dominicana',
-        dial: '+1',
-        flag: '🇩🇴',
-        placeholder: '809 123 4567',
-    }, // comparte +1 con US
-    { code: 'GT', name: 'Guatemala', dial: '+502', flag: '🇬🇹', placeholder: '1234 5678' },
-    { code: 'SV', name: 'El Salvador', dial: '+503', flag: '🇸🇻', placeholder: '7123 4567' },
-    { code: 'HN', name: 'Honduras', dial: '+504', flag: '🇭🇳', placeholder: '9123 4567' },
-    { code: 'NI', name: 'Nicaragua', dial: '+505', flag: '🇳🇮', placeholder: '8123 4567' },
-
-    // Europa y otros frecuentes
-    { code: 'PT', name: 'Portugal', dial: '+351', flag: '🇵🇹', placeholder: '912 345 678' },
-    { code: 'IT', name: 'Italia', dial: '+39', flag: '🇮🇹', placeholder: '340 123 4567' },
-    { code: 'FR', name: 'Francia', dial: '+33', flag: '🇫🇷', placeholder: '6 12 34 56 78' },
-    { code: 'DE', name: 'Alemania', dial: '+49', flag: '🇩🇪', placeholder: '1521 1234567' },
-    { code: 'GB', name: 'Reino Unido', dial: '+44', flag: '🇬🇧', placeholder: '7400 123456' },
-    { code: 'CA', name: 'Canadá', dial: '+1', flag: '🇨🇦', placeholder: '416 123 4567' }, // comparte +1
-
-    // Algunos más globales / populares en dropdowns
-    { code: 'CU', name: 'Cuba', dial: '+53', flag: '🇨🇺', placeholder: '5 123 4567' },
 ];
 
 interface PhoneInputProps {
@@ -134,17 +100,17 @@ export default function PhoneInput({
             )}
 
             <div
-                className={`flex h-[38px] items-center overflow-hidden rounded-lg border bg-bg transition-colors focus-within:border-ink ${
+                className={`flex h-[50px] items-center overflow-hidden rounded-2xl border bg-bg transition-colors focus-within:border-ink ${
                     error ? 'border-red-500' : 'border-line'
                 }`}
             >
                 <button
                     type="button"
                     onClick={() => setIsOpen(!isOpen)}
-                    className="flex h-full shrink-0 items-center gap-1.5 border-r border-line px-3 py-2 hover:bg-tint focus:outline-none"
+                    className="flex h-full shrink-0 items-center gap-1.5 border-r border-line px-4 py-2 hover:bg-tint focus:outline-none"
                 >
                     <span className="text-base">{selectedCountry.flag}</span>
-                    <span className="text-[13px] font-semibold text-sub">
+                    <span className="text-sm font-semibold text-sub">
                         {selectedCountry.dial}
                     </span>
                     <ChevronDown size={14} className="text-muted" />
@@ -156,7 +122,7 @@ export default function PhoneInput({
                     value={phoneNumber}
                     onChange={handlePhoneChange}
                     placeholder={selectedCountry.placeholder}
-                    className="h-full w-full bg-transparent px-3 py-2 text-[13px] text-ink placeholder:text-muted focus:outline-none"
+                    className="h-full w-full bg-transparent px-4 py-2 text-base text-ink placeholder:text-muted focus:outline-none"
                 />
 
                 <input type="hidden" name={name} value={fullValue} required={required} />

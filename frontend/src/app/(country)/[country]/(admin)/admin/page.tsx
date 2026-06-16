@@ -11,6 +11,7 @@ import type { HireIconName } from '@/shared/components/hireeo/icons';
 import { formatCurrency } from '@/shared/lib/utils';
 import { getDictionary } from '@/lib/i18n/getDictionary';
 import { COUNTRY_SEO_CONFIG } from '@/features/geo/lib/countryUtils';
+import { ChatMensajes } from '@/shared/components/hireeo/ui/ChatMensajes';
 
 interface DashboardStats {
     servicios: number;
@@ -180,6 +181,7 @@ export default async function AdminOverviewPage({ params }: Props) {
                     </div>
                 </div>
             </div>
+            <ChatMensajes />
         </>
     );
 }

@@ -20,7 +20,7 @@ type Message = any;      // Lo ideal sería exportar MessageItem de queries
 /*  Componente Principal                                              */
 /* ------------------------------------------------------------------ */
 
-export function FloatingChatWidget(): ReactElement | null {
+export function ChatMensajes(): ReactElement | null {
     const pathname = usePathname();
     const router = useRouter();
     const { data: session } = useSession();

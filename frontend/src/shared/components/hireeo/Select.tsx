@@ -1,4 +1,4 @@
-﻿import type { ReactElement, ReactNode, SelectHTMLAttributes } from 'react';
+import type { ReactElement, ReactNode, SelectHTMLAttributes } from 'react';
 
 import { Icon } from './Icon';
 import type { HireIconName } from './icons';
@@ -11,22 +11,22 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 export function Select({ icon, className, children, ...rest }: SelectProps): ReactElement {
     return (
         <div
-            className="relative flex items-center rounded-lg border bg-bg transition-colors focus-within:border-ink"
+            className="relative flex items-center rounded-2xl border bg-bg transition-colors focus-within:border-ink"
             style={{ borderColor: 'var(--line)' }}
         >
             {icon ? (
                 <span
-                    className="pointer-events-none absolute left-3 inline-flex"
+                    className="pointer-events-none absolute left-4 inline-flex"
                     style={{ color: 'var(--muted)' }}
                 >
-                    <Icon name={icon} size={14} />
+                    <Icon name={icon} size={18} />
                 </span>
             ) : null}
             <select
                 className={[
-                    'w-full appearance-none bg-transparent py-2 text-[13px] outline-none',
-                    icon ? 'pl-9' : 'pl-3',
-                    'pr-9',
+                    'w-full appearance-none bg-transparent py-3 text-base outline-none',
+                    icon ? 'pl-12' : 'pl-4',
+                    'pr-10',
                     className,
                 ]
                     .filter(Boolean)
@@ -37,10 +37,10 @@ export function Select({ icon, className, children, ...rest }: SelectProps): Rea
                 {children}
             </select>
             <span
-                className="pointer-events-none absolute right-3 inline-flex"
+                className="pointer-events-none absolute right-4 inline-flex"
                 style={{ color: 'var(--muted)' }}
             >
-                <Icon name="chevronDown" size={14} />
+                <Icon name="chevronDown" size={18} />
             </span>
         </div>
     );

@@ -10,11 +10,14 @@ import { getSponsorStandardRandom } from '@/features/sponsors/actions';
 
 import { searchLocalitiesByCountry } from '@/features/geo/actions/queries';
 import { getDictionary } from '@/lib/i18n/getDictionary';
+import { ChatMensajes } from '@/shared/components/hireeo/ui/ChatMensajes';
 
 async function resolveCoordsToLocality(lat: string, lng: string, countryCode: string): Promise<{ regionCode: string; localitySlug: string } | null> {
     try {
-        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`, {
-            headers: { 'User-Agent': 'AtlasServicesSearch/1.0' },
+        const roundedLat = Number(lat).toFixed(3);
+        const roundedLng = Number(lng).toFixed(3);
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${roundedLat}&lon=${roundedLng}`, {
+            headers: { 'User-Agent': 'HireeoApp/1.0 (soporte@hireeo.com)' },
             next: { revalidate: 86400 }
         });
         if (!res.ok) return null;
@@ -138,20 +141,23 @@ export default async function CountrySearchPage({ params: routeParams, searchPar
         ]);
 
     return (
-        <SearchPageClient
-            dict={dict}
-            country={country}
-            initialQuery={query}
-            initialCategory={categoryParam}
-            initialRegion={regionParam}
-            initialLocality={localityParam}
-            regions={regions}
-            sponsor={sponsor}
-            services={services}
-            categories={categories}
-            totalCount={totalCount}
-            totalPages={totalPages}
-            currentPage={currentPage}
-        />
+        <>
+            <SearchPageClient
+                dict={dict}
+                country={country}
+                initialQuery={query}
+                initialCategory={categoryParam}
+                initialRegion={regionParam}
+                initialLocality={localityParam}
+                regions={regions}
+                sponsor={sponsor}
+                services={services}
+                categories={categories}
+                totalCount={totalCount}
+                totalPages={totalPages}
+                currentPage={currentPage}
+            />
+            <ChatMensajes />
+        </>
     );
 }
