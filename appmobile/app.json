@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "appmobile",
+    "slug": "appmobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "appmobile",
+    "userInterfaceStyle": "automatic",
+    "web": {
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-splash-screen",
+      "expo-font",
+      "expo-secure-store",
+      "expo-localization",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Hireeo necesita tu ubicación para mostrarte servicios cercanos.",
+          "locationWhenInUsePermission": "Hireeo necesita tu ubicación para mostrarte servicios cercanos.",
+          "isIosBackgroundLocationEnabled": false,
+          "isAndroidBackgroundLocationEnabled": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Hireeo necesita acceso a tus fotos para actualizar tu imagen de perfil.",
+          "cameraPermission": "Hireeo necesita la cámara para tomar tu foto de perfil."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "color": "#1E40AF"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

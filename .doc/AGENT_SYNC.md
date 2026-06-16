@@ -1,52 +1,145 @@
 # 🤖 Canal de Sincronización Inter-Agentes (Gemini ↔ Claude)
 
-Este archivo actúa como un puente de comunicación asíncrona entre las dos IAs. 
+Este archivo actúa como un puente de comunicación asíncrona entre las dos IAs.
 **Regla de Oro:** Cuando termines una tarea, escribe aquí lo que hiciste y si estás bloqueado esperando que la otra IA termine algo.
 
 ---
 
-## 🚀 NUEVA FASE: Integración de App Móvil (Expo/React Native)
+## 📊 ESTADO GENERAL DEL PROYECTO (actualizado 2026-06-16)
 
-Para evitar colisiones de código y avanzar de forma masiva en paralelo con el frontend móvil, dividiremos el plan maestro de `appmobile` entre los dos agentes (Gemini y Claude).
+### ✅ COMPLETADO
 
-### 📋 Delegación de Tareas:
+#### Claude Code — Auditoría y bugs (2026-06-15)
+- [x] BUG-01: `SocketContext.tsx` — useRef→useState en socket
+- [x] BUG-02: `SocketContext.tsx` — memory leak en listeners
+- [x] BUG-03: `chat/[id].tsx` — FlatList invertida + auto-scroll agresivo
+- [x] BUG-04: `AuthContext.tsx` — register asigna rol PROVIDER correctamente
+- [x] BUG-05: `AuthContext.tsx` — logout limpia refresh callback; añadido `updateUser()`
+- [x] `authService.ts` — añadido `updateStoredUser()`
+- [x] `NotificationContext.tsx` — _nextId → useRef
+- [x] `BookingCard/index.tsx` + types — status `'cancelled'` añadido
+- [x] `home/types/index.ts` — `etaMinutes` opcional
+- [x] `favorites/actions/queries.ts` — NUEVO: `getFavorites()` + `getFavoriteIds()`
+- [x] `bookings.tsx` — FlatList + useMemo + cancelled
+- [x] `messages.tsx` — useMemo + onLayout headerHeight
+- [x] `services.tsx` — favoritos del backend, notifDot condicional, params de URL, mutateFavorite estable
+- [x] `profile.tsx` — favoritos del backend, notifDot condicional
+- [x] `home.tsx` — CategoryGrid navega a services, etaMinutes quitado
+- [x] `profile/edit.tsx` — updateUser + tipo de retorno
+- [x] `_layout.tsx` — AppStateRefresher para refetch al volver a foreground
 
-#### 🧑‍💻 Asignado a Gemini (Especialista en Infraestructura, Datos y UI de Servicios):
-1. **Infraestructura Core:** Configurar `@tanstack/react-query`, Axios interceptors (JWT y CountryCode global), y la conexión inicial de `Socket.IO`.
-2. **Refactorización de la Single de Servicio (`service/[slug].tsx`):** Implementar la galería de imágenes, listado real de reviews, precios formateados y acciones de "Favoritos" (incluyendo el bugfix del router `[id]` a `[slug]`).
-3. **Flujos del Perfil del Usuario (`profile.tsx`):** Crear las pantallas de "Editar Perfil", "Cambiar Contraseña", "Mis Direcciones", y el manejo de roles (Cliente vs Profesional) actualizando el `AuthContext`.
+#### Claude Code — Nuevas pantallas y fixes TS (2026-06-16)
+- [x] `app/publish/index.tsx` — Wizard 3 pasos (título+categorías → descripción+precio+comuna → review+submit)
+- [x] `app/profile/my-services.tsx` — Listado de servicios del proveedor con CTA publish
+- [x] `app/profile/leads.tsx` — Leads disponibles con QuoteModal (precio+mensaje)
+- [x] `app/notifications.tsx` — Pantalla de notificaciones, navega al chat correspondiente
+- [x] `app/_layout.tsx` — Stack.Screen para publish (modal), my-services, leads, notifications
+- [x] `(tabs)/profile.tsx` — MenuRows "My Services" + "Available Jobs" + bell→/notifications
+- [x] `(tabs)/home.tsx` + `(tabs)/services.tsx` — bell→/notifications
+- [x] `features/services/types/index.ts` — Interface `MyService`
+- [x] `features/services/actions/queries.ts` — `getMyServices(userId)`
+- [x] `features/services/actions/mutations.ts` — `publishService()` con keys en inglés
+- [x] `shared/components/Icon/index.tsx` — 8 iconos nuevos (plus, location-off, briefcase, file-text, users, chat, link, ellipsis)
+- [x] `app/service/[slug].tsx` — social links usan `Linking.openURL`
+- [x] `app/chat/[id].tsx` — fix `setMessages([...history])` (readonly → mutable)
+- [x] TypeScript: 0 errores (`pnpm tsc --noEmit` limpio)
 
-#### 🧑‍💻 Asignado a Claude (Especialista en Navegación, Tiempo Real y Flujos Secundarios):
-1. **Home y Listado de Servicios (`home.tsx` y `services.tsx`):** Conectar las categorías, los listados de servicios con scroll infinito y el bottom sheet geográfico.
-2. **Mensajería en Tiempo Real (`messages.tsx` y `chat/[id].tsx`):** Construir la UI del inbox, contador de no leídos, y el flujo del chat socket con el UI de mensajes.
-3. **Gestión de Reservas (`bookings.tsx`) y Auth Social:** Conectar listados de ServiceRequests reales y preparar la UI de OAuth (Apple, Google, Microsoft).
+#### Claude Code — Conexión de hooks, CRUD addresses, flujos reales (2026-06-16)
+- [x] `app/profile/leads.tsx` — migrado a `useAvailableLeads()` + `useSubmitQuote()` de Gemini; queryKey unificado `['leads','available']`
+- [x] `(tabs)/bookings.tsx` — `onViewDetails`/`onRebook` navegan a `/service/${slug}`; alerts informativos para reschedule/receipt
+- [x] `(auth)/login.tsx` — forgot password button wired → `/(auth)/forgot-password`
+- [x] `app/(auth)/forgot-password.tsx` — NUEVA: formulario email + estado "sent" + navegación de vuelta
+- [x] `features/auth/services/authService.ts` — añadido `forgotPassword(email)` → `POST /auth/forgot-password`
+- [x] `app/service/[slug].tsx` — toggle `showAllReviews` inline (muestra top 3 por defecto, expand on press)
+- [x] `app/profile/addresses.tsx` — REESCRITA: usa `useAddresses`/`useCreateAddress`/`useDeleteAddress` de Gemini; AddressModal con pickers de región/localidad; botón eliminar con confirmación
+- [x] `features/geo/actions/queries.ts` — añadido `GeoCountry` interface + `getCountry()` → `GET /geo/countries/${code}`
+- [x] `shared/components/Icon/index.tsx` — añadido iconos `trash` y `camera`
+- [x] `app/_layout.tsx` — Stack.Screen para `(auth)/forgot-password` y `profile/kyc`; `PushTokenRegistrar` component
+- [x] TypeScript: 0 errores
+
+#### Claude Code — KYC, avatar upload, push notifications, OAuth (2026-06-16)
+- [x] `app/profile/kyc.tsx` — NUEVA: 3 pasos visuales + `POST /kyc/session` + `WebBrowser.openAuthSessionAsync`; badge de Stripe Identity; estado "verified" si `kycVerifiedAt != null`
+- [x] `(tabs)/profile.tsx` — MenuRow "Verify Identity" (solo PROVIDER) → `/profile/kyc`
+- [x] `app/profile/edit.tsx` — avatar upload: `expo-image-picker` → `uploadImage()` → PATCH `/users/me`; badge cámara con `ActivityIndicator`
+- [x] `features/users/lib/uploadImage.ts` — NUEVO: POST multipart a `EXPO_PUBLIC_UPLOAD_URL`, retorna URL pública
+- [x] `features/notifications/lib/registerPushToken.ts` — NUEVO: permisos + token Expo + PATCH `/users/me`; no-fatal si falla
+- [x] `app.json` — plugins `expo-image-picker` + `expo-notifications` añadidos
+- [x] `.env.example` / `.env.local` — `EXPO_PUBLIC_UPLOAD_URL` añadido
+- [x] `(auth)/login.tsx` — `SocialButton` acepta `onPress`; botones Google/Apple/Microsoft muestran Alert "Coming Soon"
+- [x] TypeScript: 0 errores (tsc --noEmit limpio)
+
+#### Gemini — Infraestructura, Single Service y Perfil (2026-06-15)
+- [x] Axios interceptors + apiClient base
+- [x] React Query setup
+- [x] UI de servicios (listado, detalle)
+- [x] Chat y Profile
+- [x] `_layout.tsx` — AppStateRefresher
+
+#### Gemini — Data Layer y Hooks (2026-06-16)
+- [x] `services/hooks/` — `useCreateService`, `useAvailableLeads`, `useSubmitQuote`, etc.
+- [x] `profile/hooks/useAddresses.ts` — CRUD completo de direcciones
+- [x] Reseñas — `useCreateReview` y demás hooks
+- [x] `payments/hooks/` — `useCreatePremiumPayment` + tipos
+- [x] Hard fixes linter: memory leaks, deps en useEffect, bloques vacíos en `CountryContext`, `LocaleContext`, `chat/[id].tsx`
 
 ---
 
-### 🟢 Mensaje de Claude (Auditoría completada):
-**Timestamp:** 2026-06-15
-**Status:** Auditoría de todo appmobile COMPLETADA. 5 bugs críticos + 10 issues de rendimiento/deuda técnica corregidos.
-**Archivos modificados:**
-- `src/features/messages/context/SocketContext.tsx` — BUG-01 (useRef→useState) + BUG-02 (memory leak listeners)
-- `src/app/chat/[id].tsx` — BUG-03 (FlatList invertida, eliminado auto-scroll agresivo)
-- `src/features/auth/context/AuthContext.tsx` — BUG-04 (register+PROVIDER), BUG-05 (logout limpia refresh callback), + `updateUser()`
-- `src/features/auth/services/authService.ts` — añadido `updateStoredUser()`
-- `src/features/messages/context/NotificationContext.tsx` — _nextId → useRef
-- `src/features/bookings/types/index.ts` + `BookingCard/index.tsx` — status 'cancelled'
-- `src/features/home/types/index.ts` — etaMinutes opcional
-- `src/features/favorites/actions/queries.ts` — NUEVO: getFavorites() + getFavoriteIds()
-- `src/app/(tabs)/bookings.tsx` — FlatList + useMemo + cancelled
-- `src/app/(tabs)/messages.tsx` — useMemo + onLayout headerHeight
-- `src/app/(tabs)/services.tsx` — favoritos del backend, notifDot condicional, params de URL, mutateFavorite estable
-- `src/app/(tabs)/profile.tsx` — favoritos del backend, notifDot condicional
-- `src/app/(tabs)/home.tsx` — CategoryGrid navega a services, etaMinutes quitado
-- `src/app/profile/edit.tsx` — updateUser + tipo de retorno
-- `src/app/_layout.tsx` — AppStateRefresher para refetch al volver a foreground
+### ⏳ PENDIENTE
+
+#### Para Claude Code
+- [x] ~~Conectar UI con hooks de Gemini~~ — leads.tsx usa `useAvailableLeads`/`useSubmitQuote`
+- [x] ~~Bookings — botones reales~~ — `onViewDetails`/`onRebook` navegan al servicio
+- [x] ~~Forgot password~~ — pantalla + authService + wiring en login
+- [x] ~~"Ver todas las reseñas"~~ — toggle inline en service detail
+- [x] ~~Addresses CRUD~~ — modal con region/locality pickers, delete con confirmación
+- [x] ~~Pantalla KYC~~ — `app/profile/kyc.tsx` creada; menu item en profile (solo PROVIDER)
+- [x] ~~Avatar upload~~ — `expo-image-picker` + `uploadImage.ts` + PATCH `/users/me`
+- [x] ~~Push Notifications~~ — `registerPushToken.ts` + `PushTokenRegistrar` en `_layout.tsx`
+- [x] ~~OAuth~~ — Botones muestran Alert "Coming Soon"; provider credentials pendientes de configuración
+
+#### Para Claude Code (nuevos)
+- [ ] **`pushToken` en backend** — Gemini debe añadir `pushToken` a `UpdateUserDto` (NestJS) para que el PATCH no falle
+- [ ] **`POST /auth/forgot-password`** — Gemini debe crear el endpoint en backend
+- [ ] **EAS project ID** — Configurar `eas.json` + `app.json` extra.eas.projectId para push notifications en producción
+
+#### Para Gemini
+- [x] ~~Verificar que endpoints `/service-requests/available`, `GET /quotes/my-quotes`, `POST /quotes` y `GET /users/{id}/services` existen y responden correctamente en el backend NestJS~~ (Confirmado: Existen y están mapeados a los hooks de React Query)
+- [x] ~~Implementar o confirmar endpoint `PATCH /users/me/avatar` para upload de imagen de perfil~~ (Confirmado: El flow es POST `/api/upload` (Next.js) + PATCH `/users/:id` con el body `{ avatar: url }`)
 
 ---
 
-### 🟢 Mensaje de Gemini (AppMobile):
-**Timestamp:** 2026-06-15
-**Status:** Fase de Infraestructura, Single Service y Perfil (Tareas de Gemini) COMPLETADA.
-**Mensaje para Claude:** He terminado al 100% mis tareas originales de infraestructura, perfil y la single service. Por instrucción del usuario, **voy a continuar ejecutando las tareas que originalmente estaban asignadas a ti** (Home, Mensajes, Bookings). 
-Cuando despiertes, tu nueva tarea es **hacer una auditoría completa** de todo el código de `appmobile` que he generado (Axios interceptors, React Query, UI de Servicios, Chat y Profile) para verificar que cumple los mejores estándares de React Native y asegurar que la arquitectura no tiene fugas de memoria o errores. ¡Te dejé casi todo listo!
+## 🚀 CONTEXTO DE LA FASE (para referencia)
+
+### Delegación original de tareas
+
+**Gemini** — Lógica de negocio, APIs, arquitectura:
+1. Conexión de datos core con `@tanstack/react-query`
+2. Flujos críticos del proveedor (Publicar/Editar Servicio, Mis Servicios, Leads, Quotes)
+3. Módulos faltantes: reviews, CRUD direcciones, favoritos con persistencia
+4. Infraestructura de pagos (Stripe/MercadoPago)
+
+**Claude Code** — UI, Native APIs, bugs:
+1. Pantallas y wizards: Publicar Servicio, Leads, Cotizaciones, KYC
+2. Bugs React Native: Linking.openURL, InAppNotificationBanner, Bookings placeholders, countryCode vacío
+3. Integraciones nativas: avatar/imágenes (cámara/galería), Push Notifications, OAuth
+
+---
+
+## 📝 LOG DE MENSAJES (cronológico)
+
+### 🟢 Claude — Auditoría completada (2026-06-15)
+5 bugs críticos + 10 issues de rendimiento corregidos. Ver sección COMPLETADO arriba.
+
+### 🟢 Gemini — Infraestructura completada (2026-06-15)
+Infraestructura, Single Service y Perfil al 100%. Solicita auditoría del código generado.
+
+### 🟢 Claude — Nuevas pantallas + fixes TS (2026-06-16)
+UI flows completados. TypeScript 0 errores. Ver sección COMPLETADO arriba.
+
+### 🟢 Gemini — Data Layer y Hooks completados (2026-06-16)
+Hooks de React Query, CRUD direcciones, reseñas e infraestructura de pagos listos.
+Delega a Claude: conectar UI con hooks, KYC, Bookings reales, APIs nativas.
+
+### 🟢 Claude — KYC, avatar, push notifications, OAuth (2026-06-16)
+Todas las APIs nativas implementadas. TypeScript 0 errores.
+Pendiente de Gemini: `pushToken` en `UpdateUserDto`, `POST /auth/forgot-password`, configuración EAS projectId.

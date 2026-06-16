@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+    <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+    <title>Hireeo - Home Services Prototype</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
+        <script id="tailwind-config">
+            tailwind.config = {
+            darkMode: "class",
+            theme: {
+            extend: {
+            "colors": {
+            "on-secondary-fixed": "#00184a",
+            "surface-bright": "#faf8ff",
+            "tertiary-fixed-dim": "#ffb787",
+            "surface-container": "#eeedf3",
+            "on-primary-fixed-variant": "#2a4482",
+            "secondary-container": "#83a2fe",
+            "error-container": "#ffdad6",
+            "on-tertiary-container": "#dd915e",
+            "tertiary-fixed": "#ffdcc7",
+            "primary-container": "#1a3673",
+            "surface-container-highest": "#e3e2e8",
+            "on-tertiary-fixed": "#311300",
+            "secondary-fixed-dim": "#b3c5ff",
+            "on-secondary-container": "#05358b",
+            "on-secondary-fixed-variant": "#1a4197",
+            "surface-variant": "#e3e2e8",
+            "on-error-container": "#93000a",
+            "secondary-fixed": "#dbe1ff",
+            "surface": "#faf8ff",
+            "on-surface-variant": "#444650",
+            "on-tertiary": "#ffffff",
+            "on-primary": "#ffffff",
+            "on-primary-fixed": "#001848",
+            "inverse-on-surface": "#f1f0f6",
+            "on-tertiary-fixed-variant": "#6f380b",
+            "on-primary-container": "#89a1e5",
+            "error": "#ba1a1a",
+            "primary-fixed-dim": "#b2c5ff",
+            "surface-container-high": "#e9e7ed",
+            "on-surface": "#1a1b20",
+            "on-error": "#ffffff",
+            "on-secondary": "#ffffff",
+            "background": "#faf8ff",
+            "primary-fixed": "#dae2ff",
+            "inverse-primary": "#b2c5ff",
+            "surface-tint": "#435c9b",
+            "tertiary-container": "#5e2b00",
+            "on-background": "#1a1b20",
+            "surface-dim": "#dad9df",
+            "surface-container-lowest": "#ffffff",
+            "outline": "#757781",
+            "tertiary": "#3d1a00",
+            "surface-container-low": "#f4f3f9",
+            "secondary": "#385ab0",
+            "inverse-surface": "#2f3035",
+            "outline-variant": "#c4c6d1",
+            "primary": "#002058"
+        },
+            "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+        },
+            "spacing": {
+            "gutter": "16px",
+            "margin-desktop": "auto",
+            "container-max": "1200px",
+            "unit": "4px",
+            "margin-mobile": "20px",
+            "margin-tablet": "32px"
+        },
+            "fontFamily": {
+            "display-lg-mobile": ["Inter"],
+            "body-base": ["Inter"],
+            "headline-md": ["Inter"],
+            "display-lg": ["Inter"],
+            "label-caps": ["Inter"],
+            "body-sm": ["Inter"]
+        },
+            "fontSize": {
+            "display-lg-mobile": ["26px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "body-base": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "display-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+        }
+        }
+        }
+        }
+        </script>
+        <style>
+            .no-scrollbar::-webkit-scrollbar { display: none; }
+            .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+            .glass-nav { @apply bg-surface/80 backdrop-blur-2xl; -webkit-backdrop-filter: blur(20px); }
+            .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+            .material-symbols-outlined.fill { font-variation-settings: 'FILL' 1; }
+            .typing-pulse .dot { animation: typingPulse 1.4s infinite ease-in-out both; }
+            @keyframes typingPulse { 0%, 100% { opacity: 0.4; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1); } }
+            .floating-input:focus + .floating-label,
+            .floating-input:not(:placeholder-shown) + .floating-label {
+            top: 0; font-size: 12px; color: #1a3673; background-color: #faf8ff;
+        }
+        </style>
+        <style>
+            body {
+            min-height: max(884px, 100dvh);
+        }
+        </style>
+    </head>
+    <body class="bg-background text-on-background font-body-base antialiased">
+    <div id="root"></div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/history@5/umd/history.development.js"></script>
+    <script src="https://unpkg.com/react-router@6.3.0/umd/react-router.development.js"></script>
+    <script src="https://unpkg.com/react-router-dom@6.3.0/umd/react-router-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+        const { createRoot } = ReactDOM;
+        const { MemoryRouter, Routes, Route, Link, useNavigate, useLocation } = ReactRouterDOM;
+
+        // --- Components ---
+
+        const BottomNav = () => {
+        const location = useLocation();
+        const isActive = (path) => location.pathname === path;
+        const navItems = [
+    { path: '/', label: 'Home', icon: 'home' },
+    { path: '/services', label: 'Services', icon: 'handyman' },
+    { path: '/messages', label: 'Messages', icon: 'chat_bubble' },
+    { path: '/bookings', label: 'Bookings', icon: 'calendar_today' },
+    { path: '/profile', label: 'Profile', icon: 'person' },
+        ];
+
+        return (
+        <nav className="md:hidden glass-nav text-primary fixed bottom-0 left-0 w-full z-50 rounded-t-xl border-t border-white/20 shadow-[0px_-4px_20px_rgba(26,54,115,0.12)]">
+        <div className="flex justify-around items-center h-20 px-4 pb-safe w-full">
+    {navItems.map((item) => (
+        <Link
+        key={item.path}
+            to={item.path}
+            className={`flex flex-col items-center justify-center transition-all duration-300 w-16 group ${isActive(item.path) ? 'text-primary scale-110' : 'text-on-surface-variant opacity-70'}`}
+    >
+        <div className={`${isActive(item.path) ? 'bg-primary/10' : ''} px-4 py-1 rounded-full mb-1 group-active:scale-90 transition-transform relative`}>
+            <span className={`material-symbols-outlined ${isActive(item.path) ? 'fill' : ''}`}>{item.icon}</span>
+            {item.label === 'Messages' && <span className="absolute top-1 right-3 w-2 h-2 bg-error rounded-full border border-surface"></span>}
+        </div>
+        <span className={`font-label-caps text-[10px] ${isActive(item.path) ? 'font-bold' : ''}`}>{item.label}</span>
+    </Link>
+    ))}
+    </div>
+</nav>
+);
+};
+
+const DesktopHeader = () => (
+<header className="fixed top-0 left-0 w-full z-50 bg-surface/90 backdrop-blur-xl border-b border-surface-container-highest shadow-sm">
+    <div className="max-w-container-max mx-margin-desktop w-full">
+        <div className="flex items-center justify-between px-margin-mobile md:px-margin-tablet py-4 w-full">
+            <Link to="/" className="flex items-center gap-2">
+                <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAMXWMzy50777yRsbTs1wMHMzhlWVt6VqFlkre0svFpH7Ro4VtqEUKfVVIaDmcUNI6weFhFF7gDAvqVw9Q3zfNu8tC5Ds826HC6_bXdCAaudiZnJRJ-qqpyacy4KY8dg0kqkhoIFp7DoCo8htoCVxa6-hi_nhXrCwbvHGYLpdflyFIS5pJBtYtIU7vEfHO1D79s681WbGNk073sVcPNP1IoACipYNX53Wcm4bOE2hJQBn8nOJvRoEzHaWRScBj1WpBQPUJXIOUz_8" alt="Hireeo Logo" className="h-8 w-auto object-contain" />
+            </Link>
+            <nav className="hidden md:flex items-center gap-6">
+                {['Home', 'Services', 'Messages', 'Bookings', 'Profile'].map((item) => (
+                    <Link
+                        key={item}
+                        to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                        className="text-on-surface-variant hover:bg-surface-container-low transition-colors px-3 py-2 rounded-lg font-medium"
+                    >
+                        {item}
+                    </Link>
+                ))}
+            </nav>
+            <button className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors active:scale-95">
+                <span className="material-symbols-outlined text-primary">notifications</span>
+            </button>
+        </div>
+    </div>
+</header>
+);
+
+// --- Pages ---
+
+const HomePage = () => (
+<div className="pb-24 md:pb-0">
+    <DesktopHeader />
+    <main className="pt-20 px-margin-mobile md:px-margin-tablet max-w-container-max mx-margin-desktop w-full">
+        <div className="md:hidden mt-4 mb-6">
+            <h1 className="font-display-lg-mobile text-display-lg-mobile text-primary mb-1">Good morning, <span className="font-normal">Isabella!</span></h1>
+            <button className="flex items-center gap-1 text-on-surface-variant font-body-sm bg-surface-container-low px-3 py-1.5 rounded-full w-max">
+                <span className="material-symbols-outlined text-primary text-[18px] fill">location_on</span>
+                <span>Santiago, Chile</span>
+                <span className="material-symbols-outlined text-[18px]">expand_more</span>
+            </button>
+        </div>
+        <div className="hidden md:flex justify-between items-end mt-8 mb-8">
+            <div>
+                <h1 className="font-display-lg text-display-lg text-primary mb-2">Good morning, Isabella!</h1>
+                <p className="text-on-surface-variant text-body-base">Find the best home services near Santiago, Chile.</p>
+            </div>
+        </div>
+
+        <div className="relative w-full mb-8">
+            <div className="flex items-center bg-surface-container-lowest border border-outline-variant/30 rounded-xl shadow-sm px-4 py-3">
+                <span className="material-symbols-outlined text-outline mr-3">search</span>
+                <input className="flex-1 bg-transparent border-none focus:ring-0 text-body-base p-0" placeholder="Search for any home service..." type="text" />
+                <button className="ml-3 pl-3 border-l border-outline-variant/30 text-primary">
+                    <span className="material-symbols-outlined">tune</span>
+                </button>
+            </div>
+        </div>
+
+        <section className="mb-10">
+            <div className="flex overflow-x-auto no-scrollbar md:grid md:grid-cols-4 lg:grid-cols-6 gap-4 pb-4">
+                {[
+                    { name: 'Electrician', icon: 'electric_bolt' },
+                    { name: 'Plumbing', icon: 'plumbing' },
+                    { name: 'Carpentry', icon: 'carpenter' },
+                    { name: 'Cleaning', icon: 'cleaning_services' },
+                    { name: 'Painting', icon: 'format_paint' },
+                    { name: 'More', icon: 'more_horiz' },
+                ].map((cat) => (
+                    <Link to="/services" key={cat.name} className="flex flex-col items-center justify-center min-w-[88px] gap-2 group">
+                        <div className="w-16 h-16 rounded-2xl bg-surface-container-lowest shadow-[0px_4px_20px_rgba(26,54,115,0.08)] flex items-center justify-center group-hover:scale-105 transition-all">
+                            <span className="material-symbols-outlined text-[32px] text-primary fill">{cat.icon}</span>
+                        </div>
+                        <span className="font-body-sm text-on-surface text-center">{cat.name}</span>
+                    </Link>
+                ))}
+            </div>
+        </section>
+
+        <section className="mb-12">
+            <div className="flex items-center justify-between mb-4">
+                <h2 className="font-headline-md text-primary">Featured Services</h2>
+                <Link to="/services" className="text-secondary font-body-sm font-semibold hover:underline">See all</Link>
+            </div>
+            <div className="flex overflow-x-auto no-scrollbar gap-4 pb-6 -mx-margin-mobile px-margin-mobile md:mx-0 md:px-0">
+                {[
+                    { title: 'AC Installation', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA3wX83hTkokP7iGgi6Rn2quRLs5E418McOeuAQhr8YhNMeI6KTe9OM0qfZ3h8QXM4Xd9v_qh8jZbT9RpAc2j1AErVNcMiMIJXrX7tI4g_XAaO7Q8qBnJeFJKp7E4MbExkpb4NDIYUlMsFftdd_Bu70NXwO99u0UvJIHyejRAJBLKSCiTmxrPMhdAMdpeJ3lsd4tVp6CcpDzGqGh7LsI3VLZWca6OekejmI1PawaCG9M-Od0xm_U0qKrQlMmev5dRlZd3Vo3MTrZfM', rating: '4.9', count: '312', price: '$75' },
+                    { title: 'Bathroom Repair', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuATcY6WhyRoQfVOPiMVgFoQ4Jr7dYxU4vrEG-0Jin3yhPfhS8I6Y2NvNq83431GNVcvypOoGCPxRcLqzVFeO4QgAMMOGvLxeb9y6nSl_cWfQokxQJeQiAPrhWoDfcGGlkP0Q8bQ2ddW-i2aa5JF1stYx6uNJLz4vmKvjhxBnOh2qE1btWe4GYl6ysuKxJFJ2LhcxIyTwnn5TqmuGjsfDv0QaKUPPN3p5kXNIvQueVWk3Ng1I_YlgRoXCA2wxUOuTefslap6q9nXreI', rating: '4.8', count: '255', price: '$60' },
+                    { title: 'Wall Painting', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBy1BS2FWQdI5CzHcctiG6_XG1kUcJVBjHnbJLR_Nqe81S7m8ejCTSyaiNeDQVY-csqgO6AkIz5KPyMGb01ZE0IlR2L4nxYh2l_FPr75PFtCJVaKI6bVqd3-dyjZjtXH2x9Vg8NpKquBFxzpmy0gBBQVjtbjEPpltKQTbMgZhVnnDR-YXC-4QY_oxPNo8I3e-0Dta2xtamzv7KPhuUoyhh8hR2CWou3xQhPBOeFgbsNkVWdvkiJBnHjWUK3eTsGNPVKAnwxlo_p3pw', rating: '4.9', count: '189', price: '$120' }
+                ].map((service, i) => (
+                    <Link to="/service/1" key={i} className="min-w-[240px] md:min-w-[280px] bg-surface-container-lowest rounded-xl shadow-[0px_4px_20px_rgba(26,54,115,0.08)] overflow-hidden flex flex-col">
+                        <div className="h-36 w-full relative bg-surface-container">
+                            <img alt={service.title} className="w-full h-full object-cover" src={service.img} />
+                        </div>
+                        <div className="p-4 flex flex-col flex-1">
+                            <h3 className="font-headline-md text-body-base font-semibold text-on-surface mb-1 truncate">{service.title}</h3>
+                            <div className="flex items-center gap-1 mb-4">
+                                <span className="material-symbols-outlined text-[16px] text-amber-500 fill">star</span>
+                                <span className="font-body-sm font-semibold text-on-surface">{service.rating}</span>
+                                <span className="font-body-sm text-on-surface-variant">({service.count})</span>
+                            </div>
+                            <div className="mt-auto flex items-center justify-between">
+                                <span className="bg-primary-container text-white font-body-sm px-4 py-2 rounded-lg">Book Now</span>
+                                <span className="font-body-sm text-on-surface font-semibold">From {service.price}</span>
+                            </div>
+                        </div>
+                    </Link>
+                ))}
+            </div>
+        </section>
+    </main>
+    <div className="fixed bottom-24 right-4 md:bottom-8 md:right-8 bg-primary-container text-white rounded-2xl shadow-lg p-4 w-[calc(100%-32px)] md:w-80 flex items-center gap-4 z-40 transform hover:-translate-y-1 cursor-pointer">
+        <div className="relative w-12 h-12 bg-white/10 rounded-full flex items-center justify-center shrink-0">
+            <span className="material-symbols-outlined fill">electric_bolt</span>
+            <span className="absolute top-0 right-0 w-3 h-3 bg-cyan-400 rounded-full animate-ping"></span>
+            <span className="absolute top-0 right-0 w-3 h-3 bg-cyan-400 rounded-full"></span>
+        </div>
+        <div className="flex-1 min-w-0">
+            <p className="font-label-caps text-label-caps text-cyan-200 mb-1 uppercase">En Route • 10 Mins</p>
+            <p className="font-body-sm font-semibold truncate">Electrician arriving soon</p>
+        </div>
+        <span className="material-symbols-outlined text-white/50">chevron_right</span>
+    </div>
+    <BottomNav />
+</div>
+);
+
+const ServicesPage = () => {
+const categories = ['Electricians', 'Plumbers', 'Carpenters', 'Cleaners', 'Painters', 'All Services'];
+const experts = [
+    { name: 'Marcus Vance', title: 'Master Electrician', rating: '4.9', reviews: '128', price: '$85', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD8PodAjb9umPgafXM_emeBExsCiKZd-xNENfAYZiVvSolblKw4v5Mxb1ONQgDqha4G_EqB59lAP3sLiLB-rCIgfwAdRKhjHNF_RzFXuTVoVwZhdQL6vNQaxsPyS6oJz5K9QdCJjkgxM_tXFrqzLeP-MwZLNtDv9AIPxU2l6PdfQegpv9QTmnMdMXLGFvjhd8AzT5Lachk27BKuIk1axQf6HF9UTLFdJxgQy2wHpXYBdbkHiI1xjbyl0oqIoV-cvuLG3Yir1yqTIDU' },
+    { name: 'Elena Rodriguez', title: 'Emergency Plumbing', rating: '4.8', reviews: '94', price: '$90', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCvJuFDz_uZqQoAZkcqxGY1Gqix_TN2wXjS02VMgobIoUb76UnUp0tcX3wMYewejm8cy6wGZzfw1SDOoAqRDNXU7q_ITRaTRO2TyrO-d9pSPcPGm2kcCaWPBR_2nqs9BH9D_o8nYATLvMwXaYUrYshOgw-LHaJP4Phd23zwKIkUxKFIW7DhG6Jg9YfR4hyCoVbkzzsVBe0r2pxYokP6vHNEXOojPaopIj1tFX0Y4YCT8e_KlMFqLiUAT7H2VcbLnMxyCWA1JW9dV48' },
+    { name: 'Sarah Jenkins', title: 'Deep Cleaning', rating: '5.0', reviews: '215', price: '$45', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAnMoEgwuDUZ5Y0edYGsmYXPY89JocFdytOAACevfhMK_Q3oMdyscslJbbuUXw9vTP9zd8H-SCHIeVRokQU3c5NdlWGmTntY5XqNrmOIuNHEF6rolTKdExWJ6X1AThj_gHHj2Ank1lvz2KXJGC5FU2uc9QrpYQiwHGR11u4povu9AjRNR0bdTnwT0ckZdt4toe-OTF7uHVKLJPijusuTv6YVwDmbfJ-U_dp_d5fPAwsX0FNyrCaou7aOrh--ErgFOlwxE9TCBSK3FQ' }
+];
+
+return (
+    <div className="pb-24">
+        <DesktopHeader />
+        <main className="max-w-container-max mx-margin-desktop w-full pt-6 md:pt-20">
+            <section className="px-margin-mobile md:px-margin-tablet mb-8">
+                <h1 className="font-display-lg-mobile md:font-display-lg text-primary mb-2">Find your expert.</h1>
+                <p className="font-body-base text-on-surface-variant mb-6">Trusted professionals for every home project.</p>
+                <div className="relative w-full mb-8">
+                    <div className="flex items-center bg-surface-container-lowest border border-outline-variant/30 rounded-xl shadow-sm px-4 py-3">
+                        <span className="material-symbols-outlined text-outline mr-3">search</span>
+                        <input className="flex-1 bg-transparent border-none focus:ring-0 text-body-base" placeholder="Search for any home service..." type="text" />
+                    </div>
+                </div>
+            </section>
+            <section className="px-margin-mobile md:px-margin-tablet mb-8">
+                <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
+                    {categories.map((cat, i) => (
+                        <button key={cat} className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-label-caps whitespace-nowrap transition-all ${i === 0 ? 'bg-primary-container text-on-primary-container' : 'bg-surface-container-high text-on-surface-variant'}`}>
+                            {cat}
+                        </button>
+                    ))}
+                </div>
+            </section>
+            <section className="px-margin-mobile md:px-margin-tablet pb-12">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter">
+                    {experts.map((expert, i) => (
+                        <Link to="/service/1" key={i} className="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group flex flex-col border border-surface-container-highest/50">
+                            <div className="relative h-48 w-full overflow-hidden">
+                                <img className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src={expert.img} />
+                                <div className="absolute top-3 right-3 bg-surface-container-lowest/80 backdrop-blur-md rounded-full p-2 text-outline">
+                                    <span className="material-symbols-outlined text-[20px]">favorite</span>
+                                </div>
+                                <div className="absolute bottom-3 left-3 bg-surface-container-lowest/90 backdrop-blur-md px-3 py-1 rounded-full flex items-center gap-1 shadow-sm">
+                                    <span className="material-symbols-outlined fill text-secondary text-[16px]">star</span>
+                                    <span className="font-label-caps text-on-surface font-bold">{expert.rating}</span>
+                                    <span className="font-label-caps text-on-surface-variant font-normal">({expert.reviews})</span>
+                                </div>
+                            </div>
+                            <div className="p-4 flex flex-col flex-1">
+                                <div className="flex justify-between items-start mb-1">
+                                    <h3 className="font-headline-md text-primary">{expert.name}</h3>
+                                    {i === 0 || i === 2 ? <span className="bg-secondary-fixed text-on-secondary-fixed px-2 py-0.5 rounded font-label-caps text-[10px] uppercase">Top Rated</span> : null}
+                                </div>
+                                <p className="font-body-sm text-on-surface-variant mb-4">{expert.title}</p>
+                                <div className="mt-auto flex items-center justify-between">
+                                    <div className="flex flex-col">
+                                        <span className="font-label-caps text-[10px] text-outline uppercase">Starting at</span>
+                                        <span className="font-body-base text-on-surface font-bold">{expert.price}<span className="font-body-sm text-on-surface-variant font-normal">/hr</span></span>
+                                    </div>
+                                    <button className="bg-primary text-on-primary px-4 py-2 rounded-lg font-label-caps hover:bg-primary-container transition-colors">Book Now</button>
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+            </section>
+        </main>
+        <BottomNav />
+    </div>
+);
+};
+
+const ServiceDetailPage = () => {
+const navigate = useNavigate();
+return (
+    <main className="relative min-h-screen pb-[120px] max-w-md mx-auto bg-surface-container-lowest shadow-2xl overflow-hidden">
+        <div className="relative h-[397px] w-full bg-surface-container-high">
+            <img className="object-cover w-full h-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBplcsJyi99zP_Ujrlh1mJ1UPfiX1aBHV-aFAjD55D9cP_UWnC_Tzf3DEasi7BRnncPouoXwkhA1xFsM1IdwFArdXoBk39H65VI0hlAjugYT01cx5fvHCBd1gTA7BtH5ViKTpryNFs1ZbbZl8d0IVKiPY_no-BwMc3bQKs0UPr5XBEMum1B8udwz68BaqKsOhjcpuxskqMWhyje0mM-CWfN4Gew5qYrFyuz7ql46cm3ph9HLq_mYVEA7VlZJ14d9UHG_x8bbOgcTos" />
+            <div className="absolute top-0 left-0 w-full p-margin-mobile flex justify-between z-10 pt-8 items-center">
+                <button onClick={() => navigate(-1)} className="w-10 h-10 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-center text-on-surface shadow-sm">
+                    <span className="material-symbols-outlined text-xl">arrow_back</span>
+                </button>
+                <div className="flex gap-3">
+                    <button className="w-10 h-10 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-center text-on-surface shadow-sm"><span className="material-symbols-outlined text-xl">ios_share</span></button>
+                    <button className="w-10 h-10 rounded-full bg-surface-container-lowest/90 backdrop-blur-md flex items-center justify-center text-on-surface shadow-sm"><span className="material-symbols-outlined text-xl">favorite</span></button>
+                </div>
+            </div>
+        </div>
+        <div className="relative -mt-6 bg-surface-container-lowest rounded-t-[1.5rem] px-margin-mobile pt-4 pb-8 z-20">
+            <div className="w-12 h-1.5 bg-outline-variant/50 rounded-full mx-auto mb-6"></div>
+            <h1 className="font-display-lg-mobile text-on-surface mb-5">Expert Electrical Installation</h1>
+            <div className="flex items-center gap-4 mb-6">
+                <img className="w-12 h-12 rounded-full object-cover border-2 border-surface-container-highest" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALH2-MDj4rgwtVyJtQFv5ssmz7usM0XDjHqdFUdXusvBp3rQpb0tkmJGe_o9OtJeV_6IqpLYOQhj72r1uzF4iTa7zFIDXylLaHToi8g4iffhn1GmQMSfumJscQdqeymZ3iph3OnWE2TgcUaDo0Qp5ga2KSbDt_TSL_9fmNw8wAfB4np33MbF1LK5lZWPFQgSf3CCJ26LWjXhru05bA-5lWFzr-fX6rHLOfutYytkNAIDWbq0YO5VGSaOqbK4n1EWeBDiuxIqy7GVQ" />
+                <div className="flex-1">
+                    <h2 className="font-headline-md text-on-surface">Mark Stevens</h2>
+                    <div className="flex items-center gap-1.5 text-body-sm mt-0.5">
+                        <span className="material-symbols-outlined text-tertiary-fixed-dim text-base fill">star</span>
+                        <span className="font-bold text-on-surface">4.9</span>
+                        <span className="text-on-surface-variant">(142 Reviews)</span>
+                    </div>
+                </div>
+            </div>
+            <div className="text-body-sm text-on-surface-variant mb-4">Service: <span className="text-on-surface font-medium">Residential Electrician</span> • Location: San Francisco, CA</div>
+            <div className="text-primary-container font-display-lg-mobile mb-8">$95 <span className="text-body-base font-normal text-on-surface-variant">/ hour</span></div>
+            <div className="mb-8">
+                <h3 className="font-headline-md text-on-surface mb-3">About the Professional</h3>
+                <p className="text-body-sm text-on-surface-variant leading-relaxed">Expert Electrical Installation is a professional, outstanding and smart home professor of home electrical over years. Mark brings over 15 years of licensed experience to every job.</p>
+            </div>
+            <div className="grid grid-cols-1 gap-y-4 mb-8">
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low">
+                    <span className="material-symbols-outlined text-primary-container">electrical_services</span>
+                    <span className="text-body-base font-medium">Outlets & Switches</span>
+                </div>
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-surface-container-low">
+                    <span className="material-symbols-outlined text-primary-container">home_iot_device</span>
+                    <span className="text-body-base font-medium">Smart Home Setup</span>
+                </div>
+            </div>
+            <button className="w-full bg-primary-container text-on-primary py-4 rounded-xl font-headline-md flex items-center justify-center gap-2 shadow-md">Hire Now <span className="material-symbols-outlined">arrow_forward</span></button>
+        </div>
+    </main>
+);
+};
+
+const MessagesPage = () => (
+<div className="bg-background min-h-screen flex flex-col pb-24">
+    <header className="bg-surface/90 backdrop-blur-xl sticky top-0 z-40 border-b border-surface-container-highest shadow-sm px-margin-mobile py-6 pt-safe-top">
+        <div className="h-8 w-auto flex items-center">
+            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL1z4lwkgynu8mA_rMRFwDS1l4WELNMHA8R1nwS-ncc-dORv7Z-2XH18wcNMfbIfnMz0T1K9M5ZJ4yDwu8e3OLJHI6ymIXlurEdiR1u-roCXlQc5W3gG7RMvR0NS1HTUg0IiEgYoVlXML8qNpe7IYUvDg3ITVcypNvmbLQ0kitqIX6boNHSSkoZN0QrtywCUGhXlVkl-0aSyJkj39jKt689S4kloRkPjYCPCDQjZtsESCbQTa7Nm8ZNs7ZMoMqLHL7EOtuay02vtU" alt="Hireeo Logo" className="h-6 w-auto object-contain" />
+        </div>
+        <div className="mt-4 relative">
+            <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl">search</span>
+            <input className="w-full bg-surface-container-low border-none rounded-xl py-3 pl-10 pr-4 text-on-surface placeholder:text-on-surface-variant/70 focus:ring-2 focus:ring-primary/20" placeholder="Search conversations" type="text" />
+        </div>
+    </header>
+    <main className="flex-1 overflow-y-auto w-full max-w-container-max mx-margin-desktop">
+        <ul className="flex flex-col">
+            {[
+                { name: 'Electrician John', time: '11:45 AM', msg: 'Got it, see you at 10 AM.', unread: 2, online: true, img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDnn88eQo6ZNpiQd0ig1do6Nwr4QqhUPmq0IXSJCCWTxxLTjlgMJfovZD2uXmo-RRWAAVJA0eliJwNTOB8T_hG53ItEb299p4I5MD4OkveIw58eV1FPhB1KvCgp6jw2-1TjIkQ3Qc18NurTaSp6oVhzl9t0gALUPkBXA_EWTVVqsn-7OH6LM-bUIh7qau_3tECnO5KGiJSfIZy1isFm8b-H-WKXvypmuhLI_OoN8uvks8gBrcBSqmwhY4EmoN2iFiapGjhKLMlnfM8' },
+                { name: 'Plumber Sarah', time: '10:30 AM', msg: 'Okay, I will send the quote shortly.', status: 'seen', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA_kFrQhrBwtC38iYbjtXRBDg-_Vsi0PDY14bDaQ05yYPYwzNP6-198gs6a3mvyPiMEQ_IEWrxrzdZdVSRfIN5EohXhs-dlRmgkApddrYsuhGbnxfYYcfIO2vSuKm3SWQsVmri5I8X3Bg36dfcIHUE3a5ygbKofZUeRanIM0Quzoe0sxTrM3txIcXMC73M2JjKJvLN2_90cHASbMxx8ZmxOa13frjfMJHYLsjXN1BW-i6qBG61_o8gbbh9v8kjkYWBFqyaplCurDlk' },
+                { name: 'Handyman Mike', time: 'Yesterday', msg: 'Thanks for the booking!', unread: 1, img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBWcmX1nZa-iGJmlyV9_zWrczn4BD030mN6gHExiVuPA0R0OuRPJb8XaWI2-cRYBd6MCKB-cPhTcsSgkRlaQtwDsYi6ofzLMYDy3qqITVqdtD6ktFWXkk47pwsIMJJKfNJFhftSdxPf1xuir5CgWfg8S7WUh8PE3C_7lZrFMSkL8yHgfj9_FcfrVG2fv11sORbOeWcLg6xlv-R8ytjT_NTgvJJro68XIwNepkwFZg8Z8S_ihYnE6aeR7c5ucLqT7x4F3zUtSYRznhI' },
+                { name: 'Cleaner David', time: 'Yesterday', typing: true, online: true, img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA0oUtLZlRTzq9uq_ztGVtVlNhjAcfT3-yvvgVEtUYKCwdNSKTteH4tvH47LbhrhUzF9hyENE0-jnC35VrKa2h06pXvZuXgjNyGZ5isGQ_sqyiCKwNFZMafJ0YwZqh03tCkkUSLffWm3Ku3NuIHxnkVzFtyWc2AnQK6qJRvY3cpffGYWKt7rd79vP3sePAwK7Iry0JVmwcMFouLlXK-gFZ6iJz11EPRieX2s9hYpU7ZpObcRE2NfIld9JhIlHcwQrnHPldJL9ivYtY' }
+            ].map((chat, i) => (
+                <li key={i} className="border-b border-surface-container-high last:border-none">
+                    <div className="flex items-center gap-4 px-margin-mobile py-4 hover:bg-surface-container-low transition-colors active:scale-[0.98]">
+                        <div className="relative flex-none">
+                            <img className="w-14 h-14 rounded-full object-cover shadow-sm" src={chat.img} />
+                            {chat.online && <span className="absolute bottom-0 right-0 w-3.5 h-3.5 bg-emerald-500 border-2 border-surface rounded-full"></span>}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                            <div className="flex justify-between items-baseline mb-1">
+                                <h2 className="font-headline-md text-[18px] leading-tight text-on-surface truncate pr-2">{chat.name}</h2>
+                                <span className={`text-xs ${chat.unread ? 'text-primary font-bold' : 'text-on-surface-variant'}`}>{chat.time}</span>
+                            </div>
+                            <div className="flex items-center justify-between gap-2">
+                                {chat.typing ? (
+                                    <div className="flex items-center gap-2">
+                                        <div className="flex items-center gap-1 bg-surface-container-high rounded-full px-2 py-1 h-6 typing-pulse">
+                                            <span className="w-1.5 h-1.5 bg-primary/60 rounded-full dot"></span>
+                                            <span className="w-1.5 h-1.5 bg-primary/60 rounded-full dot" style={{animationDelay: '-0.32s'}}></span>
+                                            <span className="w-1.5 h-1.5 bg-primary/60 rounded-full dot" style={{animationDelay: '-0.16s'}}></span>
+                                        </div>
+                                        <p className="font-body-sm text-primary/80 italic">Typing...</p>
+                                    </div>
+                                ) : (
+                                    <p className={`font-body-base truncate ${chat.unread ? 'font-medium text-on-surface' : 'text-on-surface-variant'}`}>{chat.msg}</p>
+                                )}
+                                {chat.unread && <span className="bg-primary-container text-on-primary-container font-label-caps text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold">{chat.unread}</span>}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            ))}
+        </ul>
+    </main>
+    <BottomNav />
+</div>
+);
+
+const BookingsPage = () => {
+const [activeTab, setActiveTab] = useState('upcoming');
+const upcoming = [
+    { name: 'Electrician John', date: 'Tomorrow, 10:00 AM', status: 'Confirmed', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCYghoOhA71rJx2944cKaPX9MU4xfqzwSlJXO1nkoe3vU178B9VFBixYre2THCZtMYIYRSnvJpwkUWAzBY1m6kTLB8pDu3CCiWVdSxm06t6nvAQNIWjS1CsxqYMpm9YI6kUnKjn-hzLOyMi4E4tCidtbuMq2OoZ12IwoihxovEoCsrMdFtqH2EVOKNBsuq0xZNfHETrdeq5InOfrTxCPjVmaXDqAtF2LgU8fTpyrHrKlraqeAjyZAS0k7Wg4MyY-ywaEEVNOqlFIJM' },
+    { name: 'Plumber Sarah', date: 'Friday, Oct 25, 2:00 PM', status: 'In Progress', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDfBBQTcA7_ZPKumTdxaLNR1WYyBzb6aH7gKU-foIpZ_B6StE6TDcnSKNv7vwh5f0nTGq8dW69_BIAn7jm25pCzPbv3Ku5u5JGjBM-AQ4MEHkovVWIt_X80fgkjD2F3WNJmNIXd8_7eLLGBs_O3IBuiT96Nxd105YjTSn2SBFwk0lWLQ8cX5XA22KB2DFsizt6_gRxhrS5bQx1rnIAYFBJqPdbblm3WZPPlaQI7hTfBETZ2l8CAKkkafZJlJUfJGEH9LimM1GNB5t8' }
+];
+const past = [
+    { name: 'Painter Mike', date: 'Oct 12, 2024, 09:00 AM', status: 'Completed', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDAsZwuypSnwxc3gGiMFvSHAfzSX-gOjA1rNi25aA3XNYv1JT9fsJ-K8TQzpydK77VK1jCNgAhFFOmXTmbjcdxlCw0amWTtetBX6cqcvkHOwI3fAV-dASNdxEMcqlWogtinLVUeFBBa6VlKRSemyHa-PvsHkuqQ2FRagQbfHDOMYfu25QwFkZFG0QS0h8IpHgVYpIJAftFKSoj6ScLVG9CLugnUwvZ-Da5CzIztkwEzIleMjp4DIFIyd50OS-l1g1IpcXmxaCN9s4U' },
+    { name: 'Carpenter David', date: 'Oct 08, 2024, 02:00 PM', status: 'Completed', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA5n1BaRhQ97oO82GgnGiFtu1UrlLapEQUy3OgpRSMQQCQ77UdlYQ8S1uEDxKI4MqGfCIQHsD9oRS0YCc_bmNVtf76bV6ku3D9_4eOq8E9po1g5aZPawCQrrFXog9LTm5YumuQGNHivc5rdnLl1IbSmiOpvbrZ_RkVf-fMol0eZUMwOxZLBXaz10ut13wLRl4_wWFWZqeRG-gUe7AywS6H5GEOEBhWZO8zxMIlxZg0SCyR24vqp0cxIvbknXaZ-U1QX_6U7vLFmWT4' }
+];
+
+return (
+    <div className="pb-24">
+        <DesktopHeader />
+        <main className="max-w-[1200px] mx-margin-desktop px-margin-mobile md:px-margin-tablet py-6 md:pt-24">
+            <h1 className="font-display-lg-mobile md:text-display-lg text-on-background mb-4">My Bookings</h1>
+            <div className="flex p-1 bg-surface-container rounded-lg max-w-sm mb-6">
+                <button onClick={() => setActiveTab('upcoming')} className={`flex-1 py-2 px-4 rounded-md font-body-sm font-semibold transition-all ${activeTab === 'upcoming' ? 'bg-surface shadow-sm text-primary' : 'text-on-surface-variant'}`}>Upcoming</button>
+                <button onClick={() => setActiveTab('past')} className={`flex-1 py-2 px-4 rounded-md font-body-sm font-semibold transition-all ${activeTab === 'past' ? 'bg-surface shadow-sm text-primary' : 'text-on-surface-variant'}`}>Past</button>
+            </div>
+
+            <div className="space-y-4">
+                {(activeTab === 'upcoming' ? upcoming : past).map((booking, i) => (
+                    <div key={i} className="bg-surface-container-lowest rounded-xl p-5 shadow-sm border border-surface-container-low relative overflow-hidden group">
+                        <div className="flex justify-between items-start mb-4">
+                            <div className="flex items-center gap-4">
+                                <div className="w-14 h-14 rounded-full overflow-hidden bg-surface-container shrink-0">
+                                    <img className="w-full h-full object-cover" src={booking.img} />
+                                </div>
+                                <div>
+                                    <h3 className="font-headline-md text-headline-md-mobile text-on-surface">{booking.name}</h3>
+                                    <p className="font-body-sm text-on-surface-variant flex items-center gap-1 mt-0.5">
+                                        <span className="material-symbols-outlined text-[16px]">calendar_today</span> {booking.date}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className={`px-3 py-1 rounded-full font-label-caps text-label-caps flex items-center gap-1.5 border ${booking.status === 'Confirmed' ? 'bg-primary-container text-on-primary-container border-primary-container/20' : booking.status === 'Completed' ? 'bg-[#dcfce7] text-[#16a34a] border-[#16a34a]/20' : 'bg-[#fef3c7] text-[#92400e] border-[#fcd34d]/50'}`}>
+                                {booking.status === 'Completed' ? <span className="material-symbols-outlined text-[14px]">check_circle</span> : <span className="w-2 h-2 rounded-full bg-current"></span>}
+                                {booking.status}
+                            </div>
+                        </div>
+                        <div className="mt-5 pt-4 border-t border-outline-variant/30 flex justify-end gap-3">
+                            {activeTab === 'upcoming' ? (
+                                <>
+                                    <button className="px-4 py-2 rounded-lg font-body-sm font-semibold border border-outline-variant text-on-surface">Reschedule</button>
+                                    <button className="px-4 py-2 rounded-lg font-body-sm font-semibold bg-primary-container text-white">View Details</button>
+                                </>
+                            ) : (
+                                <>
+                                    <button className="px-4 py-2 rounded-lg font-body-sm font-semibold border border-outline-variant text-on-surface">View Receipt</button>
+                                    <button className="px-4 py-2 rounded-lg font-body-sm font-semibold bg-primary-container text-white">Rebook</button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </main>
+        <BottomNav />
+    </div>
+);
+};
+
+const ProfilePage = () => {
+const navigate = useNavigate();
+return (
+    <div className="pb-24">
+        <DesktopHeader />
+        <main className="max-w-container-max mx-margin-desktop px-margin-mobile md:px-margin-tablet pt-24">
+            <section className="flex flex-col items-center mt-8 mb-12">
+                <div className="relative w-28 h-28 rounded-full shadow-lg ring-4 ring-surface-container-lowest overflow-hidden mb-5">
+                    <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVvpLrBE5t7VfWwQJRVREUdzYobTk4ZwSuO5w7SOjR07rpX8xNyk-hsF7B2xY7Me1_PKT0vNAWwmEnANgTizPP2JsM6e7xpXtYS0KklWHqb268-WrBwAxKhtvn3nOx-r84NGeQMI2hwxkyEoNVAHIrqzoQEtXQDfBcrb-geWJTtSe77bsuw8R4P4NYK4JXxAzjrcXMKA5-lSgu__vB5AOH2qlC7RrPr7tEiyws5cN4iMCyDWT0KJ3Fnl45FLLuV6bJjn3f7xI2wKE" />
+                </div>
+                <h2 className="font-display-lg text-primary mb-3">Isabella</h2>
+                <div className="flex items-center gap-2 bg-surface-container-lowest px-5 py-2.5 rounded-full shadow-sm border border-surface-container-high">
+                    <span className="material-symbols-outlined text-secondary fill">verified</span>
+                    <span className="font-label-caps text-primary uppercase">Verified · Trust Score 99</span>
+                </div>
+            </section>
+            <section className="bg-surface-container-lowest rounded-xl shadow-sm border border-surface-container-high overflow-hidden flex flex-col mb-8">
+                {[
+                    { label: 'My Bookings', icon: 'work_history', color: 'bg-primary-fixed/30', path: '/bookings' },
+                    { label: 'Payment Methods', icon: 'credit_card', color: 'bg-secondary-fixed/30', sub: 'Manage cards & Stripe accounts' },
+                    { label: 'Addresses', icon: 'home_pin', color: 'bg-surface-variant' },
+                    { label: 'Support', icon: 'support_agent', color: 'bg-surface-variant' },
+                    { label: 'Settings', icon: 'settings', color: 'bg-surface-variant' }
+                ].map((item, i) => (
+                    <Link
+                        to={item.path || '#'}
+                        key={i}
+                        className="flex items-center p-5 border-b border-surface-container-high hover:bg-surface-container-low transition-colors group last:border-none"
+                    >
+                        <div className={`w-10 h-10 rounded-full ${item.color} flex items-center justify-center mr-4 group-hover:scale-105 transition-transform`}>
+                            <span className="material-symbols-outlined text-primary-container">{item.icon}</span>
+                        </div>
+                        <div className="flex-1">
+                            <p className="font-headline-md text-body-base text-on-surface">{item.label}</p>
+                            {item.sub && <p className="font-body-sm text-on-surface-variant mt-0.5">{item.sub}</p>}
+                        </div>
+                        <span className="material-symbols-outlined text-outline-variant group-hover:text-primary">chevron_right</span>
+                    </Link>
+                ))}
+            </section>
+            <div className="px-2">
+                <button onClick={() => navigate('/login')} className="w-full py-4 rounded-xl border-1.5 border-outline-variant text-error font-headline-md hover:bg-error-container hover:border-error transition-all flex items-center justify-center gap-2">
+                    <span className="material-symbols-outlined">logout</span> Log Out
+                </button>
+            </div>
+        </main>
+        <BottomNav />
+    </div>
+);
+};
+
+const LoginPage = () => {
+const navigate = useNavigate();
+const [showPassword, setShowPassword] = useState(false);
+
+return (
+    <div className="bg-surface text-on-surface min-h-screen flex flex-col md:justify-center md:items-center p-margin-mobile">
+        <main className="w-full max-w-[480px] bg-surface md:bg-surface-container-lowest md:rounded-2xl md:shadow-lg md:p-8">
+            <div className="flex flex-col items-center mt-8 mb-12">
+                <img alt="Hireeo Logo" className="h-12 w-auto mb-6 object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDAMXWMzy50777yRsbTs1wMHMzhlWVt6VqFlkre0svFpH7Ro4VtqEUKfVVIaDmcUNI6weFhFF7gDAvqVw9Q3zfNu8tC5Ds826HC6_bXdCAaudiZnJRJ-qqpyacy4KY8dg0kqkhoIFp7DoCo8htoCVxa6-hi_nhXrCwbvHGYLpdflyFIS5pJBtYtIU7vEfHO1D79s681WbGNk073sVcPNP1IoACipYNX53Wcm4bOE2hJQBn8nOJvRoEzHaWRScBj1WpBQPUJXIOUz_8" />
+                <h1 className="font-display-lg text-on-background text-center">Welcome back!</h1>
+            </div>
+            <form className="flex flex-col gap-6" onSubmit={(e) => { e.preventDefault(); navigate('/'); }}>
+                <div className="relative w-full">
+                    <input className="floating-input w-full bg-transparent border border-outline rounded-lg px-4 py-4 focus:outline-none focus:ring-0 peer" id="email" placeholder=" " required type="email" />
+                    <label className="floating-label" htmlFor="email">Email Address</label>
+                </div>
+                <div className="relative w-full">
+                    <input className="floating-input w-full bg-transparent border border-outline rounded-lg px-4 py-4 pr-12 focus:outline-none focus:ring-0 peer" id="password" placeholder=" " required type={showPassword ? "text" : "password"} />
+                    <label className="floating-label" htmlFor="password">Password</label>
+                    <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant">
+                        <span className="material-symbols-outlined">{showPassword ? 'visibility_off' : 'visibility'}</span>
+                    </button>
+                </div>
+                <div className="flex justify-end">
+                    <a href="#" className="font-body-sm text-primary hover:underline">Forgot Password?</a>
+                </div>
+                <button className="w-full bg-primary-container text-white rounded-xl py-4 font-headline-md shadow-md active:scale-[0.98] transition-transform" type="submit">Log In</button>
+            </form>
+            <div className="flex items-center gap-4 my-8">
+                <div className="flex-1 h-px bg-outline-variant"></div>
+                <span className="font-body-sm text-on-surface-variant">Or continue with</span>
+                <div className="flex-1 h-px bg-outline-variant"></div>
+            </div>
+            <div className="flex flex-col gap-4 mb-8">
+                {['Google', 'Apple', 'Microsoft'].map(brand => (
+                    <button key={brand} className="w-full flex items-center justify-center gap-3 border-1.5 border-outline-variant rounded-xl py-3 font-semibold hover:bg-surface-container-low transition-colors">
+                        <span className="material-symbols-outlined">{brand === 'Google' ? 'g_mobiledata' : brand === 'Apple' ? 'apps' : 'window'}</span>
+                        Continue with {brand}
+                    </button>
+                ))}
+            </div>
+            <p className="text-center font-body-sm text-on-surface-variant mb-8">
+                Don't have an account? <a href="#" className="text-primary font-semibold hover:underline">Sign Up</a>
+            </p>
+        </main>
+    </div>
+);
+};
+
+// --- App Layout ---
+
+const App = () => {
+return (
+    <MemoryRouter>
+        <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/service/:id" element={<ServiceDetailPage />} />
+            <Route path="/messages" element={<MessagesPage />} />
+            <Route path="/bookings" element={<BookingsPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+        </Routes>
+    </MemoryRouter>
+);
+};
+
+const root = createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
