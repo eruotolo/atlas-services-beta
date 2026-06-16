@@ -84,25 +84,31 @@ export function ChatIA({ bottomOffset = 16 }: ChatIAProps): React.JSX.Element {
 
     return (
         <>
-            <Pressable
-                onPress={() => setAbierto(true)}
-                accessibilityLabel="Abrir asistente de Hireeo"
-                accessibilityRole="button"
-                className="absolute right-4 w-14 h-14 rounded-full bg-primary items-center justify-center"
-                style={({ pressed }) => [
-                    {
-                        bottom: bottomOffset,
-                        shadowColor: Colors.primary,
-                        shadowOffset: { width: 0, height: 4 },
-                        shadowOpacity: 0.35,
-                        shadowRadius: 10,
-                        elevation: 10,
-                    },
-                    pressed ? { transform: [{ scale: 0.92 }] } : undefined,
-                ]}
+            <View
+                style={{
+                    position: 'absolute',
+                    bottom: bottomOffset,
+                    right: 16,
+                    shadowColor: Colors.primary,
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.35,
+                    shadowRadius: 10,
+                    elevation: 10,
+                    zIndex: 20,
+                }}
             >
-                <Icon name="sparkles" size={22} color={Colors.onPrimary} />
-            </Pressable>
+                <Pressable
+                    onPress={() => setAbierto(true)}
+                    accessibilityLabel="Abrir asistente de Hireeo"
+                    accessibilityRole="button"
+                    className="w-14 h-14 rounded-full bg-primary items-center justify-center"
+                    style={({ pressed }) =>
+                        pressed ? { transform: [{ scale: 0.92 }] } : undefined
+                    }
+                >
+                    <Icon name="sparkle" size={22} color={Colors.onPrimary} />
+                </Pressable>
+            </View>
 
             <Modal
                 visible={abierto}
