@@ -18,6 +18,7 @@ import { SearchBar } from '@/shared/components/SearchBar';
 import { CategoryGrid } from '@/features/home/components/CategoryGrid';
 import { FeaturedCarousel } from '@/features/home/components/FeaturedCarousel';
 import { ActiveBookingBanner } from '@/features/home/components/ActiveBookingBanner';
+import { ChatIA } from '@/features/chatbot/components/ChatIA';
 import { CountrySelectorSheet } from '@/features/country/components/CountrySelectorSheet';
 import { useAuth } from '@/features/auth/context/AuthContext';
 import { useAuthGate } from '@/features/auth/hooks/useAuthGate';
@@ -221,6 +222,8 @@ export default function HomeScreen(): React.JSX.Element {
                     />
                 </View>
             )}
+
+            <ChatIA bottomOffset={isAuthenticated && activeBooking != null ? 88 : 16} />
 
             <CountrySelectorSheet
                 visible={selectorVisible}

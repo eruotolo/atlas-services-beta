@@ -7,6 +7,7 @@ import { ApiKeyGuard } from '@common/guards/api-key.guard';
 
 import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { ChatbotModule } from './modules/chatbot/chatbot.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { FavoritesModule } from './modules/favorites/favorites.module';
 import { GeoModule } from './modules/geo/geo.module';
@@ -56,6 +57,7 @@ import { KycModule } from './modules/kyc/kyc.module';
         NotificationsModule,
         EscrowModule,
         KycModule,
+        ChatbotModule,
     ],
     providers: [
         {
