@@ -1,0 +1,199 @@
+{
+  "home": {
+    "salutation_morning": "Good morning",
+    "salutation_afternoon": "Good afternoon",
+    "salutation_evening": "Good evening",
+    "greeting_guest": "%{salutation}! 👋",
+    "greeting_user": "%{salutation}, %{name}! 👋",
+    "what_do_you_need": "What do you need?",
+    "search_placeholder": "Search services...",
+    "change_location": "Change location",
+    "see_all": "See all",
+    "featured_services": "Featured Services"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back!",
+      "email": "Email Address",
+      "password": "Password",
+      "show_password": "Show",
+      "hide_password": "Hide",
+      "forgot_password": "Forgot Password?",
+      "cta": "Log In",
+      "no_account": "Don't have an account? ",
+      "sign_up_link": "Sign Up",
+      "or_continue_with": "Or continue with",
+      "google": "Continue with Google",
+      "apple": "Continue with Apple",
+      "microsoft": "Continue with Microsoft",
+      "error_empty": "Please complete email and password.",
+      "error_invalid": "Email or password is incorrect.",
+      "error_server": "Could not connect to the server. Check your connection."
+    },
+    "signup": {
+      "title": "Create your account",
+      "name": "Full name",
+      "email": "Email Address",
+      "phone": "Phone (optional)",
+      "password": "Password",
+      "cta": "Create account",
+      "have_account": "Already have an account? ",
+      "login_link": "Log In",
+      "error_empty": "Please complete name, email and password.",
+      "error_server": "Could not create account. Please try again."
+    }
+  },
+  "onboarding": {
+    "tagline": "Find high-trust professionals or offer your services instantly.",
+    "select_profile": "Select your profile type:",
+    "continue_as": "Continue as %{role}   →",
+    "login_link": "Already have an account? Log In",
+    "client": {
+      "title": "Client / Homeowner",
+      "label": "Client",
+      "description": "I want to hire trusted pros for cleaning, repairs, plumbing & more."
+    },
+    "professional": {
+      "title": "Service Professional",
+      "label": "Professional",
+      "description": "I am a handyman, cleaner, electrician, etc. and want to earn money."
+    }
+  },
+  "gate": {
+    "book": {
+      "title": "Create your account to book",
+      "body": "Sign up for free to book this service and manage your requests."
+    },
+    "message": {
+      "title": "Create your account to message",
+      "body": "Log in or sign up to chat with this professional."
+    },
+    "publish": {
+      "title": "Publish your service for free",
+      "body": "Create your professional account and start receiving requests."
+    },
+    "register_cta": "Sign Up",
+    "have_account": "Already have an account? ",
+    "login_link": "Log In"
+  },
+  "messages": {
+    "title": "Messages",
+    "search_placeholder": "Search conversations",
+    "empty": "No conversations found.",
+    "typing": "Typing...",
+    "no_conversations": "No conversations yet",
+    "start_conversation": "Contact a professional to start a conversation",
+    "sign_in_to_view": "Sign in to view your messages",
+    "type_message": "Type a message..."
+  },
+  "chat": {
+    "title": "Chat",
+    "send": "Send",
+    "online": "Online",
+    "offline": "Offline",
+    "typing": "Typing..."
+  },
+  "bookings": {
+    "title": "My Bookings",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "reschedule": "Reschedule",
+    "view_details": "View Details",
+    "view_receipt": "View Receipt",
+    "rebook": "Rebook",
+    "empty": "No bookings found.",
+    "no_upcoming": "No upcoming bookings",
+    "no_past": "No past bookings",
+    "sign_in_to_view": "Sign in to view your bookings",
+    "auth_required": "Sign in to view your bookings",
+    "status": {
+      "confirmed": "Confirmed",
+      "in_progress": "In Progress",
+      "completed": "Completed",
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "cancelled": "Cancelled"
+    }
+  },
+  "profile": {
+    "verified": "Verified · Trust Score 99",
+    "guest": "Guest",
+    "sign_in": "Sign In",
+    "favorites": "Favorite Services",
+    "see_all": "See All",
+    "edit_profile": "Edit Profile",
+    "change_password": "Change Password",
+    "my_services": "My Services",
+    "available_jobs": "Available Jobs",
+    "verify_identity": "Verify Identity",
+    "provider_mode": "Provider Mode",
+    "my_bookings": "My Bookings",
+    "payments": "Payment Methods",
+    "payments_subtitle": "Manage cards & accounts",
+    "addresses": "Addresses",
+    "support": "Support",
+    "settings": "Settings",
+    "logout": "Log Out",
+    "logout_confirm_title": "Log Out",
+    "logout_confirm_body": "Are you sure you want to log out?",
+    "cancel": "Cancel"
+  },
+  "tabs": {
+    "home": "Home",
+    "services": "Services",
+    "messages": "Messages",
+    "bookings": "Bookings",
+    "profile": "Profile"
+  },
+  "categories": {
+    "all": "All Services",
+    "electric": "Electrician",
+    "electric_plural": "Electricians",
+    "plumbing": "Plumbing",
+    "plumbing_plural": "Plumbers",
+    "carpentry": "Carpentry",
+    "carpentry_plural": "Carpenters",
+    "cleaning": "Cleaning",
+    "cleaning_plural": "Cleaners",
+    "painting": "Painting",
+    "painting_plural": "Painters",
+    "more": "More"
+  },
+  "services": {
+    "headline": "Find your expert.",
+    "subline": "Trusted professionals for every home project.",
+    "empty": "No professionals found.",
+    "error": "Could not load. Check your connection.",
+    "top_rated": "Top Rated",
+    "starting_at": "Starting at"
+  },
+  "common": {
+    "book_now": "Book Now"
+  },
+  "service_detail": {
+    "per_hour": "/ hour",
+    "about_professional": "About the Professional",
+    "service_details": "Service Details",
+    "reviews": "Reviews",
+    "see_all": "See All",
+    "service_label": "Service: ",
+    "location_label": "Location: ",
+    "hire_now": "Hire Now"
+  },
+  "geo": {
+    "select_region": "Select region",
+    "select_locality": "Select locality",
+    "all_regions": "All regions",
+    "filter": "Filter",
+    "apply_filters": "Apply filters",
+    "clear_filters": "Clear filters"
+  },
+  "country_selector": {
+    "title": "Region & Language",
+    "language": "LANGUAGE",
+    "country": "COUNTRY",
+    "apply": "Apply",
+    "spanish": "Español",
+    "english": "English"
+  }
+}
