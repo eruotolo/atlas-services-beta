@@ -178,8 +178,18 @@ next-atlas-services/
 │   ├── modules/ (geo, auth, users, services, categories, prices, subscriptions, sponsors, ratings, payments, interactions)
 │   └── common/ (guards, decorators, filters)
 ├── docker-database/
+├── appmobile/               # Expo SDK 54, React Native 0.81.5, expo-router 6
 └── .doc/
 ```
+
+## 3b. Configuración Técnica (appmobile)
+
+- **CSS / estilos**: **NativeWind v4** (`nativewind@4.2.5`) — usa `className` en lugar de `StyleSheet.create`. **NUNCA** agregar `StyleSheet` a archivos de `appmobile/src/`.
+- NativeWind v4 usa **Tailwind CSS v3** internamente (≠ Tailwind v4). El config es `appmobile/tailwind.config.js`.
+- Tokens de color: `src/shared/constants/colors.ts` es la única fuente de verdad; `tailwind.config.js` los replica (mantener sincronizados manualmente si se agregan tokens).
+- Excepciones donde se mantiene `style={{...}}` inline: sombras/elevation, valores calculados en runtime, animaciones de Animated/Reanimated, callbacks de `Pressable` `({ pressed }) =>`.
+- `contentContainerClassName` en `ScrollView` en lugar de `contentContainerStyle` para estilos estáticos.
+- Iconos: MCP `icons0` obligatorio (no Lucide, no Heroicons).
 
 ## 4. Gestión de Paquetes
 **SIEMPRE usar `pnpm`**. Nunca npm ni yarn.

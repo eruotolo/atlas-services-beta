@@ -586,7 +586,8 @@
         "descriptionPlaceholder": "Describe el problema (ej: tengo una fuga de agua)",
         "useCurrentLocationTitle": "Usar mi ubicación",
         "noCitiesFound": "No se encontraron ciudades con ese nombre.",
-        "capitalCity": "Capital"
+        "capitalCity": "Capital",
+        "locationError": "No pudimos obtener tu ubicación. Verifica los permisos en tu navegador."
     },
     "service": {
         "featured": "Destacado",

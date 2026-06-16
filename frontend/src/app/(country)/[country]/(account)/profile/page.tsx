@@ -13,6 +13,7 @@ import MisServicios from '@/features/users/components/profile/MisServicios';
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { Avatar, Btn, Card, Mono, Pill, Stat } from '@/shared/components/hireeo';
+import { ChatMensajes } from '@/shared/components/hireeo/ui/ChatMensajes';
 
 export const metadata: Metadata = {
     title: 'Mi Perfil',
@@ -342,6 +343,7 @@ export default async function ProfilePage({ params }: Props) {
                     </div>
                 ) : null}
             </div>
+            <ChatMensajes />
         </>
     );
 }

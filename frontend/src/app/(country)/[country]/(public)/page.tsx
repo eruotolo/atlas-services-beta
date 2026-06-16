@@ -11,6 +11,7 @@ import {
 } from '@/features/home/components';
 import { getDictionary } from '@/lib/i18n/getDictionary';
 import { mockServices } from '@/shared/lib/mockData';
+import { ChatIA } from '@/shared/components/hireeo/ui/ChatIA';
 
 export default async function CountryHomePage({
     params,
@@ -46,6 +47,7 @@ export default async function CountryHomePage({
             <StatsSection dict={dict} />
             <PricingSection country={country} dict={dict} />
             <FinalCtaSection country={country} dict={dict} />
+            <ChatIA />
         </>
     );
 }
