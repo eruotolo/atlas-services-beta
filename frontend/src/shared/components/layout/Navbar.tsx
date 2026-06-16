@@ -29,8 +29,6 @@ const Navbar: React.FC<NavbarProps> = ({ user }: NavbarProps): ReactElement => {
         { href: link('/search'), label: dict.nav.search },
         { href: link('/how-it-works'), label: dict.nav.howItWorks },
         { href: link('/pricing'), label: dict.nav.pricing },
-        { href: link('/about-us'), label: dict.nav.about },
-        { href: link('/publish'), label: dict.home.hero2.ctaProfessional },
     ];
 
     return (

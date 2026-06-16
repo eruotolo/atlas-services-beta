@@ -2,6 +2,7 @@
 
 import { type ReactElement, useEffect, useRef, useState } from 'react';
 
+import Link from 'next/link';
 import { useParams, useRouter, usePathname } from 'next/navigation';
 
 import { detectarServicio, type DetectarServicioResult } from '@/features/chatbot/actions';
@@ -95,12 +96,12 @@ function CuerpoInicio({
                     <Icon name="alert" size={13} className="mt-0.5 shrink-0" />
                     <span>
                         {error}{' '}
-                        <a
+                        <Link
                             href={`/${country}/search`}
                             className="underline hover:no-underline"
                         >
                             Buscar manualmente
-                        </a>
+                        </Link>
                     </span>
                 </div>
             ) : null}
@@ -176,12 +177,12 @@ function CuerpoGeolocalizando({
                         <Icon name="pin" size={11} />
                         <span>Obteniendo tu ubicación…</span>
                     </div>
-                    <a
+                    <Link
                         href={`/${country}/search?c=${encodeURIComponent(deteccion.categoriaNombre ?? '')}`}
                         className="text-[11px] text-gray-400 underline hover:text-gray-600 hover:no-underline"
                     >
                         Ir sin ubicación
-                    </a>
+                    </Link>
                 </>
             )}
         </div>
@@ -237,19 +238,13 @@ function CuerpoSinProveedores({
 }
 
 /* ------------------------------------------------------------------ */
-/*  ChatbotWidget                                                       */
+/*  ChatIA                                                              */
 /* ------------------------------------------------------------------ */
 
-export function ChatbotWidget(): ReactElement | null {
+export function ChatIA(): ReactElement | null {
     const params = useParams();
-    const pathname = usePathname();
     const country = (params?.country as string) ?? 'cl';
     const router = useRouter();
-
-    // Si estamos en la página de búsqueda o detalle del servicio, ocultar este widget
-    if (pathname?.includes('/search') || pathname?.includes('/service')) {
-        return null;
-    }
 
     const [abierto, setAbierto] = useState(false);
     const [paso, setPaso] = useState<Paso>('inicio');

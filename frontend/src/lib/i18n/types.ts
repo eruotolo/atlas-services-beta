@@ -178,6 +178,7 @@ export interface Dictionary {
         useCurrentLocationTitle: string;
         noCitiesFound: string;
         capitalCity: string;
+        locationError: string;
     };
     service: {
         featured: string;

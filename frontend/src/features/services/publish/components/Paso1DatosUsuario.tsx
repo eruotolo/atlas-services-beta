@@ -11,6 +11,11 @@ import { verificarOCrearUsuario } from '@/features/services/publish/actions';
 
 import PhoneInput from '@/shared/components/ui/PhoneInput';
 
+import { useParams } from 'next/navigation';
+import { signIn } from 'next-auth/react';
+import { Mono } from '@/shared/components/hireeo';
+import { AppleIcon, GoogleIcon, MicrosoftIcon } from '@/features/auth/components/OAuthBrandIcons';
+
 interface Usuario {
     id: string;
     nombre: string;
@@ -25,9 +30,45 @@ interface Paso1DatosUsuarioProps {
 export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps) {
     const id = useId();
     const [loading, setLoading] = useState(false);
+    const [googleLoading, setGoogleLoading] = useState<boolean>(false);
+    const [appleLoading, setAppleLoading] = useState<boolean>(false);
+    const [microsoftLoading, setMicrosoftLoading] = useState<boolean>(false);
+    const anyProviderLoading = googleLoading || appleLoading || microsoftLoading;
+
     const [error, setError] = useState('');
     const [mensaje, setMensaje] = useState('');
     const [debeIniciarSesion, setDebeIniciarSesion] = useState(false);
+
+    const params = useParams();
+    const country = (params?.country as string) ?? 'cl';
+    const callbackUrl = `/${country}/publish`;
+
+    async function handleGoogleSignIn(): Promise<void> {
+        setGoogleLoading(true);
+        try {
+            await signIn('google', { callbackUrl });
+        } finally {
+            setGoogleLoading(false);
+        }
+    }
+
+    async function handleAppleSignIn(): Promise<void> {
+        setAppleLoading(true);
+        try {
+            await signIn('apple', { callbackUrl });
+        } finally {
+            setAppleLoading(false);
+        }
+    }
+
+    async function handleMicrosoftSignIn(): Promise<void> {
+        setMicrosoftLoading(true);
+        try {
+            await signIn('azure-ad', { callbackUrl });
+        } finally {
+            setMicrosoftLoading(false);
+        }
+    }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -77,7 +118,57 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                 </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="space-y-6">
+                <div className="grid grid-cols-3 gap-3">
+                    <Btn
+                        type="button"
+                        variant="secondary"
+                        size="lg"
+                        onClick={handleGoogleSignIn}
+                        disabled={googleLoading || loading || anyProviderLoading}
+                        className="w-full justify-center px-0"
+                        title="Continuar con Google"
+                    >
+                        <GoogleIcon size={18} />
+                        <span>Google</span>
+                    </Btn>
+
+                    <Btn
+                        type="button"
+                        variant="secondary"
+                        size="lg"
+                        onClick={handleAppleSignIn}
+                        disabled={appleLoading || loading || anyProviderLoading}
+                        className="w-full justify-center px-0"
+                        title="Continuar con Apple"
+                    >
+                        <AppleIcon size={18} />
+                        <span>Apple</span>
+                    </Btn>
+
+                    <Btn
+                        type="button"
+                        variant="secondary"
+                        size="lg"
+                        onClick={handleMicrosoftSignIn}
+                        disabled={microsoftLoading || loading || anyProviderLoading}
+                        className="w-full justify-center px-0"
+                        title="Continuar con Microsoft"
+                    >
+                        <MicrosoftIcon size={18} />
+                        <span>Microsoft</span>
+                    </Btn>
+                </div>
+
+                <div className="my-6 flex items-center gap-3">
+                    <div className="h-px flex-1 bg-line" />
+                    <Mono className="text-[11px] tracking-widest text-muted">
+                        O USA TU EMAIL
+                    </Mono>
+                    <div className="h-px flex-1 bg-line" />
+                </div>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
                 {error && (
                     <div className="rounded-2xl border border-red-100 bg-red-50 p-4">
                         <div className="mb-3 flex items-start gap-3">
@@ -200,6 +291,7 @@ export default function Paso1DatosUsuario({ onSuccess }: Paso1DatosUsuarioProps)
                     Al continuar, aceptas que crearemos una cuenta para ti si aún no tienes una
                 </p>
             </form>
+            </div>
         </div>
     );
 }

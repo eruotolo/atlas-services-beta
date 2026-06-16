@@ -24,7 +24,7 @@ export function HomeCategories({ categoriesTabs }: Props): ReactElement {
         <div className="w-full mt-14">
             {/* Top Navigation Row */}
             <div
-                className="mb-8 flex items-center justify-center gap-10 overflow-x-auto border-b pb-6"
+                className="mb-8 flex items-center justify-center gap-10 overflow-x-auto border-b py-6"
                 style={{ borderColor: 'var(--line)', scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
             >
                 {categoriesTabs.tabs.map((tab) => {
@@ -34,21 +34,27 @@ export function HomeCategories({ categoriesTabs }: Props): ReactElement {
                             type="button"
                             key={tab.label}
                             onClick={() => setActiveTab(tab.query)}
-                            className="group flex flex-col items-center gap-2.5 min-w-max transition-colors"
-                            style={{ color: isActive ? 'var(--accent)' : 'var(--sub)' }}
+                            className={`group flex cursor-pointer flex-col items-center gap-2.5 min-w-max transition-colors ${
+                                isActive ? 'text-[var(--accent)]' : 'text-[var(--sub)] hover:text-[var(--accent)]'
+                            }`}
                         >
                             <div
-                                className="flex h-[52px] w-[52px] items-center justify-center rounded-full transition-transform group-hover:scale-105"
-                                style={{
-                                    background: isActive ? 'var(--accent)' : 'var(--tint)',
-                                    border: isActive ? 'none' : '1px solid var(--line)',
-                                }}
+                                className={`flex h-[52px] w-[52px] items-center justify-center rounded-full transition-all group-hover:scale-105 group-hover:bg-[var(--accent)] group-hover:border-transparent ${
+                                    isActive
+                                        ? 'bg-[var(--accent)] border-transparent'
+                                        : 'bg-[var(--tint)] border-[var(--line)] border'
+                                }`}
                             >
-                                <Icon name={tab.icon as HireIconName} size={22} color={isActive ? 'white' : 'var(--sub)'} />
+                                <Icon 
+                                    name={tab.icon as HireIconName} 
+                                    size={22} 
+                                    className={`transition-colors group-hover:text-white ${isActive ? 'text-white' : 'text-[var(--sub)]'}`} 
+                                />
                             </div>
                             <span
-                                className="text-[13px] transition-colors"
-                                style={{ color: isActive ? 'var(--ink)' : 'var(--sub)', fontWeight: isActive ? 700 : 500 }}
+                                className={`text-[13px] transition-colors group-hover:text-[var(--ink)] ${
+                                    isActive ? 'text-[var(--ink)] font-bold' : 'text-[var(--sub)] font-medium'
+                                }`}
                             >
                                 {tab.label}
                             </span>
