@@ -1,6 +1,6 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import helmet from 'helmet';
 
@@ -17,17 +17,18 @@ async function bootstrap() {
     const configService = app.get(ConfigService);
     const port = configService.get<number>('PORT', 4000);
     const nodeEnv = configService.get<string>('NODE_ENV', 'development');
-    const frontendUrl = configService.get<string>('FRONTEND_URL', 'http://localhost:3000');
+    const rawOrigins = configService.get<string>('FRONTEND_URL', 'http://localhost:3000');
+    const allowedOrigins = rawOrigins.split(',').map((o) => o.trim());
 
     // Seguridad: headers HTTP seguros
     app.use(helmet());
 
-    // CORS: solo permite el origen del frontend
+    // CORS: permite todos los orígenes configurados en FRONTEND_URL (separados por coma)
     app.enableCors({
-        origin: frontendUrl,
+        origin: allowedOrigins.length === 1 ? allowedOrigins[0] : allowedOrigins,
         credentials: true,
         methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-        allowedHeaders: ['Content-Type', 'Authorization'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'x-api-key'],
     });
 
     // Prefijo global para la API
@@ -40,7 +41,7 @@ async function bootstrap() {
     app.useGlobalFilters(new PrismaExceptionFilter());
 
     // Interceptor global: elimina campos sensibles (password, etc.)
-    app.useGlobalInterceptors(new SerializeInterceptor());
+    app.useGlobalInterceptors(new SerializeInterceptor(app.get(Reflector)));
 
     // Validación global de DTOs
     app.useGlobalPipes(

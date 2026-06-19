@@ -19,4 +19,9 @@ export class QueryRatingsDto {
     @IsOptional()
     @IsString()
     query?: string;
+
+    @ApiPropertyOptional({ description: 'Filtrar por código de país', example: 'cl' })
+    @IsOptional()
+    @IsString()
+    countryCode?: string;
 }

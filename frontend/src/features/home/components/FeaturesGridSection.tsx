@@ -1,0 +1,93 @@
+import type { ReactElement } from 'react';
+
+import type { Dictionary } from '@/lib/i18n/types';
+import { Icon, Mono, SectionLabel } from '@/shared/components/hireeo';
+import { AnimatedRotatingText } from '@/shared/components/hireeo/ui/AnimatedRotatingText';
+import type { HireIconName } from '@/shared/components/hireeo/icons';
+
+interface FeaturesGridSectionProps {
+    dict: Dictionary;
+}
+
+interface Feature {
+    n: string;
+    title: string;
+    desc: string;
+    icon: HireIconName;
+}
+
+function buildFeatures(dict: Dictionary): readonly Feature[] {
+    const f = dict.home.features;
+    return [
+        { n: '01', title: f.f1Title, desc: f.f1Desc, icon: 'sparkle' },
+        { n: '02', title: f.f2Title, desc: f.f2Desc, icon: 'globe' },
+        { n: '03', title: f.f3Title, desc: f.f3Desc, icon: 'shield' },
+        { n: '04', title: f.f4Title, desc: f.f4Desc, icon: 'card' },
+        { n: '05', title: f.f5Title, desc: f.f5Desc, icon: 'chat' },
+        { n: '06', title: f.f6Title, desc: f.f6Desc, icon: 'briefcase' },
+    ];
+}
+
+export function FeaturesGridSection({ dict }: FeaturesGridSectionProps): ReactElement {
+    const features = buildFeatures(dict);
+    return (
+        <section className="border-t border-line bg-bg">
+            <div className="mx-auto max-w-site px-6 py-20 sm:px-10 lg:px-14">
+                <div className="mb-12 grid grid-cols-1 gap-12 md:grid-cols-[0.7fr_1fr] md:gap-20">
+                    <div>
+                        <SectionLabel>{dict.home.product.eyebrow}</SectionLabel>
+                        <h2
+                            className="m-0 mt-3.5 text-ink font-medium tracking-tighter text-[clamp(32px,4vw,48px)] leading-[0.98]"
+                        >
+                            <AnimatedRotatingText
+                                delay={200}
+                                speed={40}
+                                segments={[{ text: dict.home.product.title }]}
+                            />
+                        </h2>
+                    </div>
+                    <div
+                        className="pt-3.5 text-[16px] leading-[1.6] text-sub"
+                    >
+                        {dict.home.product.lead}
+                    </div>
+                </div>
+
+                <div
+                    className="grid grid-cols-1 border-t border-line sm:grid-cols-2 md:grid-cols-3"
+                >
+                    {features.map((f, i) => (
+                        <div
+                            key={f.n}
+                            className="border-b border-r border-line p-6 md:p-8 [&:nth-child(3n)]:border-r-0"
+                        >
+                            <div className="mb-6 flex items-center justify-between">
+                                <Mono
+                                    className="text-[11px] text-sub tracking-[0.08em]"
+                                >
+                                    {f.n}
+                                </Mono>
+                                <div
+                                    className="inline-flex h-[30px] w-[30px] items-center justify-center rounded-md bg-tint"
+                                >
+                                    <Icon name={f.icon} size={14} />
+                                </div>
+                            </div>
+                            <h3
+                                className="m-0 mb-1.5 text-ink font-semibold text-[17.5px] tracking-[-0.01em]"
+                            >
+                                {f.title}
+                            </h3>
+                            <p
+                                className="m-0 text-[13.5px] leading-[1.55]"
+                                style={{ color: 'var(--sub)' }}
+                            >
+                                {f.desc}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}

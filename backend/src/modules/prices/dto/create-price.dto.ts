@@ -1,16 +1,15 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsBoolean, IsIn, IsInt, IsNumber, IsOptional, IsPositive, IsString, IsUUID } from 'class-validator';
-
-const DURACIONES_VALIDAS = [1, 3, 6, 9, 12] as const;
+import { IsBoolean, IsInt, IsNumber, IsOptional, IsPositive, IsString, IsUUID, Max, Min } from 'class-validator';
 
 export class CreatePriceDto {
     @ApiProperty({ description: 'ID del país al que pertenece este precio' })
     @IsUUID()
     countryId: string;
 
-    @ApiProperty({ enum: DURACIONES_VALIDAS })
+    @ApiProperty({ description: 'Duración en meses (1–12)', minimum: 1, maximum: 12 })
     @IsInt()
-    @IsIn(DURACIONES_VALIDAS)
+    @Min(1)
+    @Max(12)
     duracionMeses: number;
 
     @ApiProperty({ example: 9990 })

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-import { Check, ChevronDown, Search, Tag, X } from 'lucide-react';
+import { Check, ChevronDown, Search, Tag, X } from '@/shared/components/icons';
 
 interface Categoria {
     id: string;
@@ -71,7 +71,7 @@ export default function CategoriaMultiSelect({
             <div className="relative">
                 <Tag
                     size={18}
-                    className="pointer-events-none absolute top-3.5 left-4 z-10 text-gray-400 dark:text-gray-600"
+                    className="pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-muted"
                 />
                 {/* biome-ignore lint/a11y/useSemanticElements: Necesario usar div en lugar de button para evitar botones anidados (chips tienen botones de eliminar) */}
                 <div
@@ -85,10 +85,8 @@ export default function CategoriaMultiSelect({
                             setIsOpen(!isOpen);
                         }
                     }}
-                    className={`w-full cursor-pointer appearance-none rounded-2xl border border-gray-200 bg-white py-3 pr-12 pl-12 text-left focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none ${
-                        disabled
-                            ? 'cursor-wait bg-gray-100 dark:bg-gray-900'
-                            : 'dark:border-white/5 dark:bg-gray-800'
+                    className={`w-full cursor-pointer appearance-none rounded-2xl border border-line bg-bg py-3 pr-10 pl-10 text-left text-base transition-colors focus:border-ink focus:outline-none ${
+                        disabled ? 'cursor-wait bg-tint' : ''
                     }`}
                 >
                     {selectedCategorias.length > 0 ? (
@@ -96,7 +94,7 @@ export default function CategoriaMultiSelect({
                             {selectedCategorias.map((cat) => (
                                 <span
                                     key={cat.id}
-                                    className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-1 text-xs font-medium text-brand-hover dark:bg-brand-marino/30 dark:text-brand-light"
+                                    className="inline-flex items-center gap-1 rounded-lg bg-brand/10 px-2 py-0.5 text-xs font-medium text-brand-hover"
                                 >
                                     {cat.nombre}
                                     <button
@@ -105,7 +103,7 @@ export default function CategoriaMultiSelect({
                                             e.stopPropagation();
                                             handleRemove(cat.id);
                                         }}
-                                        className="hover:text-brand-marino dark:hover:text-brand-light"
+                                        className="hover:text-brand-marino"
                                         aria-label={`Eliminar ${cat.nombre}`}
                                     >
                                         <X size={12} />
@@ -114,14 +112,14 @@ export default function CategoriaMultiSelect({
                             ))}
                         </div>
                     ) : (
-                        <span className="text-gray-900 dark:text-white">
+                        <span className="text-ink">
                             Selecciona hasta {maxSelections} categorías
                         </span>
                     )}
                 </div>
                 <ChevronDown
                     size={18}
-                    className={`pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-gray-400 transition-transform dark:text-gray-600 ${
+                    className={`pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-muted transition-transform ${
                         isOpen ? 'rotate-180' : ''
                     }`}
                 />
@@ -143,24 +141,24 @@ export default function CategoriaMultiSelect({
 
             {/* Dropdown */}
             {isOpen && (
-                <div className="absolute z-50 mt-2 w-full rounded-2xl border border-gray-200 bg-white shadow-lg dark:border-white/10 dark:bg-gray-900 dark:shadow-none">
+                <div className="absolute z-50 mt-2 w-full rounded-2xl border border-line bg-bg shadow-lg">
                     {/* Input de búsqueda */}
-                    <div className="border-b border-gray-200 p-3 dark:border-white/5">
+                    <div className="border-b border-line p-3">
                         <div className="relative">
                             <Search
                                 size={18}
-                                className="absolute top-1/2 left-3 -translate-y-1/2 text-gray-400"
+                                className="absolute top-1/2 left-3 -translate-y-1/2 text-muted"
                             />
                             <input
                                 type="text"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                                 placeholder="Buscar categoría..."
-                                className="w-full rounded-xl border border-gray-200 py-2 pr-3 pl-10 text-sm focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                                className="w-full rounded-xl border border-line py-2 pr-3 pl-10 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none"
                             />
                         </div>
                         {values.length > 0 && (
-                            <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
+                            <p className="mt-2 text-xs text-muted">
                                 {values.length} de {maxSelections} seleccionadas
                             </p>
                         )}
@@ -179,24 +177,24 @@ export default function CategoriaMultiSelect({
                                         type="button"
                                         onClick={() => !isDisabled && handleToggle(cat.id)}
                                         disabled={isDisabled}
-                                        className={`flex w-full cursor-pointer items-center justify-between px-4 py-3 text-left text-sm transition-colors hover:bg-brand/5 disabled:cursor-not-allowed disabled:opacity-50 dark:hover:bg-brand/10 ${
+                                        className={`flex w-full cursor-pointer items-center justify-between px-4 py-3 text-left text-sm transition-colors hover:bg-brand/5 disabled:cursor-not-allowed disabled:opacity-50 ${
                                             isSelected
-                                                ? 'bg-brand/5 font-semibold text-brand-hover dark:bg-brand-marino/40 dark:text-brand-light'
-                                                : 'text-gray-900 dark:text-gray-300'
+                                                ? 'bg-brand/5 font-semibold text-brand-hover'
+                                                : 'text-ink'
                                         }`}
                                     >
                                         <span>{cat.nombre}</span>
                                         {isSelected && (
                                             <Check
                                                 size={16}
-                                                className="text-brand-hover dark:text-brand-light"
+                                                className="text-brand-hover"
                                             />
                                         )}
                                     </button>
                                 );
                             })
                         ) : (
-                            <div className="px-4 py-3 text-center text-sm text-gray-500 dark:text-gray-500">
+                            <div className="px-4 py-3 text-center text-sm text-muted">
                                 No se encontraron categorías
                             </div>
                         )}

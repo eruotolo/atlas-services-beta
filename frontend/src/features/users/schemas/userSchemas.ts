@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { RedSocialSchema } from '@/features/services/schemas/servicioSchemas';
+import { RedSocialSchema } from '@/features/services/schemas/serviceSchemas';
 
 // Password validation logic matching original: min 8, 1 uppercase, 1 special char
 export const passwordSchema = z
@@ -9,12 +9,18 @@ export const passwordSchema = z
     .regex(/[A-Z]/, 'La contraseña debe contener al menos una letra mayúscula')
     .regex(/[!@#$%^&*(),.?":{}|<>]/, 'La contraseña debe contener al menos un carácter especial');
 
+// Asignación de rol: el rol Administrador requiere countryCode (país que administra)
+export const roleAssignmentSchema = z.object({
+    roleId: z.string().min(1),
+    countryCode: z.string().length(2).optional(),
+});
+
 export const userCreateSchema = z.object({
     email: z.string().email('Email inválido'),
     nombre: z.string().min(2, 'El nombre es requerido'),
     password: passwordSchema,
     telefono: z.string().optional().nullable(),
-    roles: z.array(z.string()).min(1, 'Debe seleccionar al menos un rol'),
+    roles: z.array(roleAssignmentSchema).min(1, 'Debe seleccionar al menos un rol'),
 });
 
 export const userUpdateSchema = z.object({
@@ -23,7 +29,7 @@ export const userUpdateSchema = z.object({
     nombre: z.string().min(2, 'El nombre es requerido'),
     password: passwordSchema.optional().or(z.literal('')),
     telefono: z.string().optional().nullable(),
-    roles: z.array(z.string()).min(1, 'Debe seleccionar al menos un rol'),
+    roles: z.array(roleAssignmentSchema).min(1, 'Debe seleccionar al menos un rol'),
 });
 
 export const profileUpdateSchema = z.object({

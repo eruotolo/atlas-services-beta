@@ -1,15 +1,13 @@
-'use client';
+﻿'use client';
 
-import { useRef, useState } from 'react';
+import { useState, type FormEvent, type ReactElement } from 'react';
 
 import NextImage from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { ArrowLeft, Camera, Key, Loader2, Save, User } from 'lucide-react';
-
 import { actualizarPassword, actualizarPerfil } from '@/features/users/actions';
-import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
+import { Btn, Card, Field, Icon, Input, Mono } from '@/shared/components/hireeo';
+import { ImageDropzone } from '@/shared/components/ImageDropzone';
 
 interface AjustesPerfilFormProps {
     usuario: {
@@ -21,74 +19,61 @@ interface AjustesPerfilFormProps {
     };
 }
 
-export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
-    const router = useRouter();
-    const link = useCountryLink();
-    const fileInputRef = useRef<HTMLInputElement>(null);
+const AVATAR_SIZE = 500;
+const MAX_AVATAR_BYTES = 2 * 1024 * 1024;
 
-    // States for Profile Info
-    const [loadingInfo, setLoadingInfo] = useState(false);
-    const [infoError, setInfoError] = useState('');
-    const [infoSuccess, setInfoSuccess] = useState('');
+function cropToSquare(img: HTMLImageElement): Promise<File | null> {
+    return new Promise((resolve) => {
+        const canvas = document.createElement('canvas');
+        canvas.width = AVATAR_SIZE;
+        canvas.height = AVATAR_SIZE;
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return resolve(null);
+
+        const min = Math.min(img.width, img.height);
+        const sx = (img.width - min) / 2;
+        const sy = (img.height - min) / 2;
+        ctx.drawImage(img, sx, sy, min, min, 0, 0, AVATAR_SIZE, AVATAR_SIZE);
+
+        canvas.toBlob((blob) => {
+            resolve(blob ? new File([blob], 'avatar.png', { type: 'image/png' }) : null);
+        }, 'image/png');
+    });
+}
+
+export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps): ReactElement {
+    const router = useRouter();
+
+    const [loadingInfo, setLoadingInfo] = useState<boolean>(false);
+    const [infoError, setInfoError] = useState<string>('');
+    const [infoSuccess, setInfoSuccess] = useState<string>('');
     const [previewUrl, setPreviewUrl] = useState<string | null>(usuario.avatar);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-    // States for Password
-    const [loadingPass, setLoadingPass] = useState(false);
-    const [passError, setPassError] = useState('');
-    const [passSuccess, setPassSuccess] = useState('');
+    const [loadingPass, setLoadingPass] = useState<boolean>(false);
+    const [passError, setPassError] = useState<string>('');
+    const [passSuccess, setPassSuccess] = useState<string>('');
 
-    const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
+    async function handleAvatarDropped(files: File[]): Promise<void> {
+        const file = files[0];
         if (!file) return;
-
-        // Validar tamaño
-        if (file.size > 2 * 1024 * 1024) {
-            setInfoError('La imagen no puede pesar más de 2MB');
+        if (file.size > MAX_AVATAR_BYTES) {
+            setInfoError('La imagen no puede pesar más de 2 MB.');
             return;
         }
-
-        // Procesar imagen para recorte cuadrado 500x500
         const img = document.createElement('img');
         img.src = URL.createObjectURL(file);
-        img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const size = 500;
-            canvas.width = size;
-            canvas.height = size;
-            const ctx = canvas.getContext('2d');
-            if (!ctx) return;
-
-            // Calcular dimensiones para el recorte central (square crop)
-            let sx;
-            let sy;
-            let sWidth;
-            let sHeight;
-            if (img.width > img.height) {
-                sHeight = img.height;
-                sWidth = img.height;
-                sx = (img.width - img.height) / 2;
-                sy = 0;
-            } else {
-                sWidth = img.width;
-                sHeight = img.width;
-                sx = 0;
-                sy = (img.height - img.width) / 2;
+        img.onload = async () => {
+            const cropped = await cropToSquare(img);
+            if (cropped) {
+                setSelectedFile(cropped);
+                setPreviewUrl(URL.createObjectURL(cropped));
+                setInfoError('');
             }
-
-            ctx.drawImage(img, sx, sy, sWidth, sHeight, 0, 0, size, size);
-
-            canvas.toBlob((blob) => {
-                if (blob) {
-                    const processedFile = new File([blob], 'avatar.png', { type: 'image/png' });
-                    setSelectedFile(processedFile);
-                    setPreviewUrl(URL.createObjectURL(blob));
-                }
-            }, 'image/png');
         };
-    };
+    }
 
-    async function handleUpdateProfile(e: React.FormEvent<HTMLFormElement>) {
+    async function handleUpdateProfile(e: FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
         setLoadingInfo(true);
         setInfoError('');
@@ -104,17 +89,17 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
             if (result.error) {
                 setInfoError(result.error);
             } else {
-                setInfoSuccess('Perfil actualizado correctamente');
+                setInfoSuccess('Perfil actualizado correctamente.');
                 router.refresh();
             }
-        } catch (_err) {
-            setInfoError('Error al procesar la solicitud');
+        } catch {
+            setInfoError('Error al procesar la solicitud.');
         } finally {
             setLoadingInfo(false);
         }
     }
 
-    async function handleUpdatePassword(e: React.FormEvent<HTMLFormElement>) {
+    async function handleUpdatePassword(e: FormEvent<HTMLFormElement>): Promise<void> {
         e.preventDefault();
         setLoadingPass(true);
         setPassError('');
@@ -131,246 +116,207 @@ export default function AjustesPerfilForm({ usuario }: AjustesPerfilFormProps) {
                 newPassword,
                 confirmPassword,
             });
-
             if (result.error) {
                 setPassError(result.error);
             } else {
-                setPassSuccess('Contraseña actualizada correctamente');
+                setPassSuccess('Contraseña actualizada correctamente.');
                 e.currentTarget.reset();
             }
-        } catch (_err) {
-            setPassError('Error al procesar la solicitud');
+        } catch {
+            setPassError('Error al procesar la solicitud.');
         } finally {
             setLoadingPass(false);
         }
     }
 
     return (
-        <div className="animate-in fade-in space-y-8 transition-colors duration-300 duration-500">
-            <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
-                <div className="flex items-center gap-4">
-                    <Link
-                        href={link('/perfil')}
-                        className="rounded-xl border border-gray-100 bg-white p-2.5 text-gray-400 shadow-sm transition-all hover:border-brand/20 hover:text-brand dark:border-white/10 dark:bg-gray-900 dark:text-gray-500 dark:hover:text-brand-light"
-                    >
-                        <ArrowLeft size={18} />
-                    </Link>
-                    <div>
-                        <h1 className="text-2xl font-black tracking-tight text-gray-900 md:text-3xl dark:text-white">
-                            Ajustes de Perfil
-                        </h1>
-                        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                            Gestiona tu información personal y seguridad
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.6fr_1fr]">
+            <Card padding={28}>
+                <form onSubmit={handleUpdateProfile} className="flex flex-col gap-6">
+                    <input type="hidden" name="userId" value={usuario.id} />
 
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-                {/* Info Personal & Avatar */}
-                <div className="space-y-6 lg:col-span-8">
-                    <form
-                        onSubmit={handleUpdateProfile}
-                        className="space-y-8 rounded-3xl border border-gray-100 bg-white p-6 shadow-sm md:p-10 dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl"
-                    >
-                        <input type="hidden" name="userId" value={usuario.id} />
-                        <div className="flex items-center gap-3 border-b border-gray-50 pb-6 dark:border-white/5">
-                            <div className="rounded-lg bg-brand/5 p-2 text-brand dark:bg-brand/10 dark:text-brand-light">
-                                <User size={20} />
-                            </div>
-                            <h2 className="text-lg font-black text-gray-900 dark:text-white">
-                                Información General
+                    <header className="flex items-center gap-3">
+                        <div
+                            className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-tint"
+                        >
+                            <Icon name="user" size={16} />
+                        </div>
+                        <div>
+                            <h2
+                                className="m-0 text-[15px] font-semibold text-ink"
+                            >
+                                Información general
                             </h2>
+                            <Mono className="mt-0.5 text-[10.5px] text-sub">
+                                Cómo te ven los clientes.
+                            </Mono>
+                        </div>
+                    </header>
+
+                    {infoError ? (
+                        <div
+                            className="rounded-md px-3 py-2 text-[12.5px] font-semibold"
+                            style={{
+                                background: 'var(--danger-soft)',
+                                color: 'var(--danger)',
+                            }}
+                        >
+                            {infoError}
+                        </div>
+                    ) : null}
+                    {infoSuccess ? (
+                        <div
+                            className="rounded-md px-3 py-2 text-[12.5px] font-semibold"
+                            style={{
+                                background: 'var(--success-soft)',
+                                color: 'var(--success)',
+                            }}
+                        >
+                            {infoSuccess}
+                        </div>
+                    ) : null}
+
+                    <div className="flex flex-col items-start gap-6 md:flex-row">
+                        <div className="flex flex-col items-center gap-2">
+                            <div
+                                className="relative h-24 w-24 overflow-hidden rounded-xl border bg-tint border-line"
+                            >
+                                {previewUrl ? (
+                                    <NextImage
+                                        src={previewUrl}
+                                        alt="Avatar"
+                                        fill
+                                        sizes="96px"
+                                        className="object-cover"
+                                    />
+                                ) : (
+                                    <div
+                                        className="flex h-full w-full items-center justify-center text-3xl font-medium text-muted"
+                                    >
+                                        {usuario.nombre.charAt(0).toUpperCase()}
+                                    </div>
+                                )}
+                            </div>
+                            <ImageDropzone
+                                maxSizeMB={MAX_AVATAR_BYTES / (1024 * 1024)}
+                                onFilesAccepted={handleAvatarDropped}
+                                label="Arrastra tu foto o haz clic"
+                                description="PNG, JPG · Máx 2 MB"
+                            />
                         </div>
 
-                        {infoError && (
-                            <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm font-medium text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
-                                {infoError}
-                            </div>
-                        )}
-                        {infoSuccess && (
-                            <div className="rounded-xl border border-green-100 bg-green-50 p-4 text-sm font-medium text-green-600 dark:border-green-900/30 dark:bg-green-900/20 dark:text-green-400">
-                                {infoSuccess}
-                            </div>
-                        )}
-
-                        <div className="flex flex-col items-start gap-10 md:flex-row">
-                            {/* Avatar Upload */}
-                            <div className="mx-auto flex flex-col items-center gap-4 md:mx-0">
-                                <div className="group relative">
-                                    <div className="flex h-32 w-32 items-center justify-center overflow-hidden rounded-[2rem] border-4 border-white bg-gray-50 shadow-2xl dark:border-gray-900 dark:bg-gray-800">
-                                        {previewUrl ? (
-                                            <div className="relative h-full w-full">
-                                                <NextImage
-                                                    src={previewUrl}
-                                                    alt="Avatar"
-                                                    fill
-                                                    className="object-cover"
-                                                />
-                                            </div>
-                                        ) : (
-                                            <span className="text-4xl font-black text-gray-200 dark:text-gray-700">
-                                                {usuario.nombre.charAt(0).toUpperCase()}
-                                            </span>
-                                        )}
-                                    </div>
-                                    <button
-                                        type="button"
-                                        onClick={() => fileInputRef.current?.click()}
-                                        className="btn-primary absolute -right-1 -bottom-1 cursor-pointer rounded-xl p-3 group-hover:scale-110 active:scale-95"
-                                    >
-                                        <Camera size={18} />
-                                    </button>
-                                </div>
-                                <input
-                                    type="file"
-                                    ref={fileInputRef}
-                                    className="hidden"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                />
-                                <div className="text-center">
-                                    <p className="text-[9px] font-black tracking-widest text-gray-400 uppercase dark:text-gray-500">
-                                        PNG, JPG Max 2MB
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="grid w-full flex-grow grid-cols-1 gap-5 md:grid-cols-2">
-                                <div className="md:col-span-2">
-                                    <span className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500">
-                                        Nombre Completo
-                                    </span>
-                                    <input
+                        <div className="grid w-full grid-cols-1 gap-4 md:grid-cols-2">
+                            <div className="md:col-span-2">
+                                <Field label="Nombre completo">
+                                    <Input
+                                        icon="user"
                                         type="text"
                                         name="nombre"
                                         defaultValue={usuario.nombre}
                                         required
-                                        className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
                                     />
-                                </div>
-                                <div>
-                                    <span className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500">
-                                        Email (Privado)
-                                    </span>
-                                    <input
-                                        type="email"
-                                        value={usuario.email}
-                                        disabled
-                                        className="w-full cursor-not-allowed rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium text-gray-400 outline-none dark:border-white/5 dark:bg-gray-900 dark:text-gray-600"
-                                    />
-                                </div>
-                                <div>
-                                    <span className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500">
-                                        Teléfono
-                                    </span>
-                                    <input
-                                        type="tel"
-                                        name="telefono"
-                                        defaultValue={usuario.telefono || ''}
-                                        placeholder="+56 9 ..."
-                                        className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
-                                    />
-                                </div>
+                                </Field>
                             </div>
+                            <Field label="Email" hint="Privado, no visible en tu perfil">
+                                <Input
+                                    icon="mail"
+                                    type="email"
+                                    value={usuario.email}
+                                    readOnly
+                                    disabled
+                                />
+                            </Field>
+                            <Field label="Teléfono / WhatsApp">
+                                <Input
+                                    icon="phone"
+                                    type="tel"
+                                    name="telefono"
+                                    defaultValue={usuario.telefono ?? ''}
+                                    placeholder="+56 9 …"
+                                />
+                            </Field>
                         </div>
+                    </div>
 
-                        <div className="flex justify-end border-t border-gray-50 pt-6 dark:border-white/5">
-                            <button
-                                type="submit"
-                                disabled={loadingInfo}
-                                className="btn-primary flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl px-8 py-3.5 text-sm active:scale-95 disabled:opacity-50 md:w-auto"
-                            >
-                                {loadingInfo ? (
-                                    <Loader2 className="animate-spin" size={18} />
-                                ) : (
-                                    <Save size={18} />
-                                )}
-                                Guardar Cambios
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                {/* Password Change */}
-                <div className="space-y-6 lg:col-span-4">
-                    <form
-                        onSubmit={handleUpdatePassword}
-                        className="space-y-6 rounded-3xl border border-gray-100 bg-white p-6 shadow-sm md:p-8 dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl"
+                    <div
+                        className="flex justify-end border-t pt-4 border-line"
                     >
-                        <div className="flex items-center gap-3 border-b border-gray-50 pb-6 dark:border-white/5">
-                            <div className="rounded-lg bg-gray-50 p-2 text-gray-900 dark:bg-gray-800 dark:text-gray-100">
-                                <Key size={20} />
-                            </div>
-                            <h2 className="text-lg font-black text-gray-900 dark:text-white">
+                        <Btn
+                            type="submit"
+                            variant="primary"
+                            icon="check"
+                            disabled={loadingInfo}
+                        >
+                            {loadingInfo ? 'Guardando…' : 'Guardar cambios'}
+                        </Btn>
+                    </div>
+                </form>
+            </Card>
+
+            <Card padding={28}>
+                <form onSubmit={handleUpdatePassword} className="flex flex-col gap-5">
+                    <header className="flex items-center gap-3">
+                        <div
+                            className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-tint"
+                        >
+                            <Icon name="key" size={16} />
+                        </div>
+                        <div>
+                            <h2
+                                className="m-0 text-[15px] font-semibold text-ink"
+                            >
                                 Seguridad
                             </h2>
+                            <Mono className="mt-0.5 text-[10.5px] text-sub">
+                                Cambiá tu contraseña.
+                            </Mono>
                         </div>
+                    </header>
 
-                        {passError && (
-                            <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm font-medium text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
-                                {passError}
-                            </div>
-                        )}
-                        {passSuccess && (
-                            <div className="rounded-xl border border-green-100 bg-green-50 p-4 text-sm font-medium text-green-600 dark:border-green-900/30 dark:bg-green-900/20 dark:text-green-400">
-                                {passSuccess}
-                            </div>
-                        )}
-
-                        <div className="space-y-4">
-                            <div>
-                                <span className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500">
-                                    Contraseña Actual
-                                </span>
-                                <input
-                                    type="password"
-                                    name="currentPassword"
-                                    required
-                                    className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
-                                />
-                            </div>
-                            <div className="border-t border-gray-50 pt-2 dark:border-white/5">
-                                <span className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500">
-                                    Nueva Contraseña
-                                </span>
-                                <input
-                                    type="password"
-                                    name="newPassword"
-                                    required
-                                    className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
-                                />
-                            </div>
-                            <div>
-                                <span className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500">
-                                    Confirmar Nueva
-                                </span>
-                                <input
-                                    type="password"
-                                    name="confirmPassword"
-                                    required
-                                    className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-3 text-sm font-medium transition-all outline-none focus:border-brand focus:bg-white focus:ring-4 focus:ring-brand/10 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:focus:bg-gray-800"
-                                />
-                            </div>
+                    {passError ? (
+                        <div
+                            className="rounded-md px-3 py-2 text-[12.5px] font-semibold"
+                            style={{
+                                background: 'var(--danger-soft)',
+                                color: 'var(--danger)',
+                            }}
+                        >
+                            {passError}
                         </div>
-
-                        <div className="pt-4">
-                            <button
-                                type="submit"
-                                disabled={loadingPass}
-                                className="flex w-full cursor-pointer items-center justify-center gap-3 rounded-xl bg-gray-900 px-6 py-3.5 text-sm font-black text-white shadow-lg transition-all hover:bg-black active:scale-95 disabled:opacity-50 dark:bg-gray-100 dark:text-gray-900 dark:hover:bg-white"
-                            >
-                                {loadingPass ? (
-                                    <Loader2 className="animate-spin" size={18} />
-                                ) : (
-                                    <Key size={18} />
-                                )}
-                                Cambiar
-                            </button>
+                    ) : null}
+                    {passSuccess ? (
+                        <div
+                            className="rounded-md px-3 py-2 text-[12.5px] font-semibold"
+                            style={{
+                                background: 'var(--success-soft)',
+                                color: 'var(--success)',
+                            }}
+                        >
+                            {passSuccess}
                         </div>
-                    </form>
-                </div>
-            </div>
+                    ) : null}
+
+                    <Field label="Contraseña actual">
+                        <Input icon="key" type="password" name="currentPassword" required />
+                    </Field>
+                    <Field label="Nueva contraseña" hint="Mín. 8 caracteres">
+                        <Input icon="key" type="password" name="newPassword" required />
+                    </Field>
+                    <Field label="Confirmar nueva">
+                        <Input icon="key" type="password" name="confirmPassword" required />
+                    </Field>
+
+                    <Btn
+                        type="submit"
+                        variant="primary"
+                        icon="key"
+                        disabled={loadingPass}
+                        className="w-full justify-center"
+                    >
+                        {loadingPass ? 'Cambiando…' : 'Cambiar contraseña'}
+                    </Btn>
+                </form>
+            </Card>
         </div>
     );
 }

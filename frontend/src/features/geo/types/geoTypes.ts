@@ -8,6 +8,7 @@ export interface Country {
     gateway: 'MERCADOPAGO' | 'STRIPE';
     regionLabel: string;
     localityLabel: string;
+    paymentsEnabled: boolean;
     active: boolean;
 }
 

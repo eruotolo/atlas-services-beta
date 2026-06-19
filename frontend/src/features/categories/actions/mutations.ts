@@ -17,6 +17,7 @@ export async function crearCategoria(data: CategoryInput) {
             '/categories',
             {
                 nombre: validated.nombre,
+                nombreEn: validated.nombreEn ?? null,
                 slug: validated.nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
                 icono: validated.icono,
                 orden: validated.orden,
@@ -42,6 +43,7 @@ export async function actualizarCategoria(data: CategoryUpdateInput) {
             `/categories/${validated.id}`,
             {
                 nombre: validated.nombre,
+                nombreEn: validated.nombreEn ?? null,
                 slug: validated.nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''),
                 icono: validated.icono,
                 orden: validated.orden,
@@ -73,12 +75,11 @@ export async function eliminarCategoria(id: string) {
     }
 }
 
-export async function toggleActivoCategoria(id: string) {
+export async function toggleActivoCategoria(id: string, activo: boolean) {
     const token = await getAuthToken();
 
     try {
-        // Obtenemos el estado actual y enviamos el toggle
-        await apiClient.patch(`/categories/${id}`, { activo: null }, { token });
+        await apiClient.patch(`/categories/${id}`, { activo }, { token });
 
         revalidatePath('/admin/categorias');
         return { success: true };

@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { CheckCircle2, Eye, Home, PartyPopper } from 'lucide-react';
+import { CheckCircle2, Eye, Home, PartyPopper, ArrowRight } from '@/shared/components/icons';
+import { Btn } from '@/shared/components/hireeo';
+
+import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
+import { useCountry } from '@/lib/providers/CountryProvider';
 
 interface PasoExitoBasicoProps {
     slug: string;
@@ -12,12 +16,14 @@ interface PasoExitoBasicoProps {
 
 export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
     const router = useRouter();
+    const link = useCountryLink();
+    const { regionLabel } = useCountry();
     const [countdown, setCountdown] = useState(10);
 
-    // Countdown automático a /servicio/[slug]
+    // Countdown automático a /service/[slug]
     useEffect(() => {
         if (countdown === 0) {
-            router.push(`/servicio/${slug}`);
+            router.push(link(`/service/${slug}`));
             return;
         }
 
@@ -26,36 +32,36 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
         }, 1000);
 
         return () => clearInterval(timer);
-    }, [countdown, router, slug]);
+    }, [countdown, router, slug, link]);
 
     return (
         <div className="flex flex-col items-center justify-center bg-transparent py-12 text-center">
             {/* Ícono de éxito */}
-            <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+            <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-green-100 text-green-600">
                 <CheckCircle2 size={64} />
             </div>
 
             {/* Título */}
-            <h2 className="mb-4 text-4xl font-black text-gray-900 dark:text-white">
+            <h2 className="mb-4 text-4xl font-black text-ink">
                 ¡Servicio Publicado!
             </h2>
 
             {/* Mensaje de éxito */}
-            <div className="mb-8 flex items-center justify-center gap-2 text-xl font-medium text-green-600 dark:text-green-400">
+            <div className="mb-8 flex items-center justify-center gap-2 text-xl font-medium text-green-600">
                 <PartyPopper size={24} />
                 <span>Tu servicio ya está visible para clientes</span>
             </div>
 
-            <p className="mb-12 max-w-md text-gray-600 dark:text-gray-400">
-                Tu anuncio básico gratuito ha sido publicado exitosamente. Los clientes de Chiloé ya
+            <p className="mb-12 max-w-md text-sub">
+                Tu anuncio básico gratuito ha sido publicado exitosamente. Los clientes de tu {regionLabel.toLowerCase()} ya
                 pueden encontrarte y contactarte.
             </p>
 
             {/* Countdown */}
-            <div className="mb-8 rounded-2xl bg-gray-50 px-8 py-4 dark:bg-gray-800">
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            <div className="mb-8 rounded-2xl bg-tint px-8 py-4">
+                <p className="text-sm font-medium text-muted">
                     Serás redirigido a tu servicio en{' '}
-                    <span className="font-black text-brand dark:text-brand-light">
+                    <span className="font-black text-brand">
                         {countdown} segundos
                     </span>
                 </p>
@@ -64,22 +70,23 @@ export default function PasoExitoBasico({ slug }: PasoExitoBasicoProps) {
             {/* Botones de acción */}
             <div className="flex w-full max-w-md flex-col gap-4 sm:flex-row">
                 <button
-                    onClick={() => router.push('/')}
-                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-2xl bg-gray-100 px-6 py-4 font-bold text-gray-700 transition-all hover:bg-gray-200 active:scale-95 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                    onClick={() => router.push(link(''))}
+                    className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-2xl bg-tint px-6 py-4 font-bold text-sub transition-all hover:bg-line active:scale-95"
                     type="button"
                 >
                     <Home size={20} />
                     Volver al inicio
                 </button>
 
-                <button
-                    onClick={() => router.push(`/servicio/${slug}`)}
-                    className="btn-primary flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-2xl px-6 py-4"
+                <Btn
                     type="button"
+                    onClick={() => router.push(link(`/service/${slug}`))}
+                    variant="primary"
+                    className="flex-1"
                 >
                     <Eye size={20} />
                     Ver servicio
-                </button>
+                </Btn>
             </div>
         </div>
     );

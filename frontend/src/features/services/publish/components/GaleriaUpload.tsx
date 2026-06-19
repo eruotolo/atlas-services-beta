@@ -1,10 +1,11 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useState } from 'react';
 
 import Image from 'next/image';
 
-import { Image as ImageIcon, X } from 'lucide-react';
+import { X } from '@/shared/components/icons';
+import { ImageDropzone } from '@/shared/components/ImageDropzone';
 
 interface ImageData {
     id: string;
@@ -27,30 +28,14 @@ export default function GaleriaUpload({
     label,
     description,
 }: GaleriaUploadProps) {
-    const inputId = useId();
     const [imagenes, setImagenes] = useState<ImageData[]>([]);
     const [error, setError] = useState<string>('');
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(e.target.files || []);
-        const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    const handleFilesAccepted = (files: File[]): void => {
+        const remaining = maxImages - imagenes.length;
+        if (remaining <= 0) return;
 
-        // Validar tipo y peso
-        for (const file of files) {
-            if (!validImageTypes.includes(file.type)) {
-                setError(`${file.name} no es un tipo válido`);
-                return;
-            }
-            if (file.size > maxSizeMB * 1024 * 1024) {
-                setError(`${file.name} supera ${maxSizeMB}MB`);
-                return;
-            }
-        }
-
-        // No exceder maxImages
-        const filesToAdd = files.slice(0, maxImages - imagenes.length);
-
-        // Generar previews para los nuevos archivos
+        const filesToAdd = files.slice(0, remaining);
         const newImageData: ImageData[] = [];
         let loadedCount = 0;
 
@@ -58,25 +43,20 @@ export default function GaleriaUpload({
             const id = crypto.randomUUID();
             const reader = new FileReader();
             reader.onloadend = () => {
-                newImageData.push({
-                    id,
-                    file,
-                    preview: reader.result as string,
-                });
+                newImageData.push({ id, file, preview: reader.result as string });
                 loadedCount++;
                 if (loadedCount === filesToAdd.length) {
                     const updatedImagenes = [...imagenes, ...newImageData];
                     setImagenes(updatedImagenes);
                     onImagesChange(updatedImagenes.map((img) => img.file));
+                    setError('');
                 }
             };
             reader.readAsDataURL(file);
         });
-
-        setError('');
     };
 
-    const handleRemove = (id: string) => {
+    const handleRemove = (id: string): void => {
         const newImagenes = imagenes.filter((img) => img.id !== id);
         setImagenes(newImagenes);
         onImagesChange(newImagenes.map((img) => img.file));
@@ -84,34 +64,20 @@ export default function GaleriaUpload({
 
     return (
         <div>
-            <label
-                htmlFor={inputId}
-                className="mb-2 block text-sm font-bold text-gray-700 dark:text-gray-300"
-            >
-                {label}
-            </label>
+            <p className="mb-2 text-sm font-bold text-sub">{label}</p>
             <div className="space-y-4">
-                <div className="relative">
-                    <ImageIcon
-                        size={18}
-                        className="pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-gray-400 dark:text-gray-600"
-                    />
-                    <input
-                        type="file"
-                        id={inputId}
-                        multiple
-                        accept="image/jpeg,image/jpg,image/png,image/webp"
-                        onChange={handleFileChange}
-                        disabled={imagenes.length >= maxImages}
-                        className="form-input pr-4 pl-12 file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-3 file:text-sm file:font-semibold file:text-brand-hover hover:file:bg-brand/10 disabled:cursor-not-allowed disabled:bg-gray-100 dark:file:bg-brand-marino/30 dark:file:text-brand-light"
-                    />
-                </div>
-
-                {error && (
-                    <div className="flex items-start gap-2 text-sm text-red-600 dark:text-red-400">
-                        <span>{error}</span>
-                    </div>
-                )}
+                <ImageDropzone
+                    multiple
+                    maxSizeMB={maxSizeMB}
+                    disabled={imagenes.length >= maxImages}
+                    onFilesAccepted={handleFilesAccepted}
+                    error={error}
+                    label="Arrastra imágenes o haz clic para seleccionar"
+                    description={
+                        description ??
+                        `JPG, PNG, WEBP · Máx. ${maxSizeMB} MB por imagen`
+                    }
+                />
 
                 {imagenes.length > 0 && (
                     <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -122,7 +88,7 @@ export default function GaleriaUpload({
                                     alt={`Preview ${idx + 1}`}
                                     width={300}
                                     height={128}
-                                    className="h-32 w-full rounded-xl border border-gray-200 object-cover dark:border-white/10"
+                                    className="h-32 w-full rounded-xl border border-line object-cover"
                                 />
                                 <button
                                     type="button"
@@ -137,7 +103,7 @@ export default function GaleriaUpload({
                     </div>
                 )}
 
-                <p className="text-xs text-gray-500 dark:text-gray-500">
+                <p className="text-xs text-muted">
                     {imagenes.length}/{maxImages} imágenes | Máximo {maxSizeMB}MB cada una
                     {description && ` | ${description}`}
                 </p>

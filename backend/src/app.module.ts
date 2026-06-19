@@ -7,6 +7,7 @@ import { ApiKeyGuard } from '@common/guards/api-key.guard';
 
 import { AuthModule } from './modules/auth/auth.module';
 import { CategoriesModule } from './modules/categories/categories.module';
+import { ChatbotModule } from './modules/chatbot/chatbot.module';
 import { ChatModule } from './modules/chat/chat.module';
 import { FavoritesModule } from './modules/favorites/favorites.module';
 import { GeoModule } from './modules/geo/geo.module';
@@ -19,6 +20,12 @@ import { SponsorsModule } from './modules/sponsors/sponsors.module';
 import { SubscriptionsModule } from './modules/subscriptions/subscriptions.module';
 import { UsersModule } from './modules/users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { ServiceRequestsModule } from './modules/service-requests/service-requests.module';
+import { QuotesModule } from './modules/quotes/quotes.module';
+import { CrmModule } from './modules/crm/crm.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { EscrowModule } from './modules/escrow/escrow.module';
+import { KycModule } from './modules/kyc/kyc.module';
 
 @Module({
     imports: [
@@ -44,6 +51,13 @@ import { PrismaModule } from './prisma/prisma.module';
         InteractionsModule,
         FavoritesModule,
         ChatModule,
+        ServiceRequestsModule,
+        QuotesModule,
+        CrmModule,
+        NotificationsModule,
+        EscrowModule,
+        KycModule,
+        ChatbotModule,
     ],
     providers: [
         {

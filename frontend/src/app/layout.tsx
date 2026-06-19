@@ -1,24 +1,35 @@
-import { Inter } from 'next/font/google';
+import { Geist, Geist_Mono, Instrument_Serif } from 'next/font/google';
 
 import type { Metadata } from 'next';
-import { getServerSession } from 'next-auth';
 import { headers } from 'next/headers';
 
-import Footer from '@/shared/components/layout/Footer';
-import Navbar from '@/shared/components/layout/Navbar';
-import ScrollToTop from '@/shared/components/ui/ScrollToTop';
-import { ToastProvider } from '@/shared/components/ui/ToastProvider';
-import { SubscriptionLevel } from '@/shared/types/common';
+import { Toaster } from 'sileo';
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import ScrollToTop from '@/shared/components/ui/ScrollToTop';
+
 import { Providers } from '@/lib/providers/Providers';
 
 import './globals.css';
 
-const inter = Inter({
+const geistSans = Geist({
     subsets: ['latin'],
-    variable: '--font-inter',
-    weight: ['300', '400', '500', '600', '700'],
+    variable: '--font-geist',
+    weight: ['300', '400', '500', '600', '700', '800', '900'],
+    display: 'swap',
+});
+
+const geistMono = Geist_Mono({
+    subsets: ['latin'],
+    variable: '--font-geist-mono',
+    weight: ['400', '500', '600'],
+    display: 'swap',
+});
+
+const instrumentSerif = Instrument_Serif({
+    subsets: ['latin'],
+    variable: '--font-instrument-serif',
+    weight: ['400'],
+    style: ['normal', 'italic'],
     display: 'swap',
 });
 
@@ -113,25 +124,8 @@ export default async function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const [session, headersList] = await Promise.all([
-        getServerSession(authOptions),
-        headers(),
-    ]);
+    const headersList = await headers();
     const lang = headersList.get('x-hireeo-lang') ?? 'es';
-
-    const currentUser = session?.user
-        ? {
-              id: session.user.id,
-              email: session.user.email || '',
-              name: session.user.name || '',
-              role: session.user.roles?.includes('SuperAdministrador')
-                  ? ('admin' as const)
-                  : ('usuario' as const),
-              subscription:
-                  (session.user.nivelSuscripcion as unknown as SubscriptionLevel) ||
-                  SubscriptionLevel.BASICO,
-          }
-        : null;
 
     const webSiteSchema = {
         '@context': 'https://schema.org',
@@ -142,7 +136,7 @@ export default async function RootLayout({
         description: siteConfig.description,
         potentialAction: {
             '@type': 'SearchAction',
-            target: `${siteConfig.url}/cl/buscar?q={search_term_string}`,
+            target: `${siteConfig.url}/cl/search?q={search_term_string}`,
             'query-input': 'required name=search_term_string',
         },
         inLanguage: 'es',
@@ -167,7 +161,11 @@ export default async function RootLayout({
     };
 
     return (
-        <html lang={lang} suppressHydrationWarning>
+        <html
+            lang={lang}
+            suppressHydrationWarning
+            className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
+        >
             <head>
                 <link rel="preconnect" href="https://www.googletagmanager.com" />
                 <link rel="preconnect" href="https://www.google-analytics.com" />
@@ -198,7 +196,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     }}
                 />
             </head>
-            <body className={`${inter.className} antialiased`}>
+            <body className={`${geistSans.className} antialiased`}>
                 <noscript>
                     <iframe
                         src="https://www.googletagmanager.com/ns.html?id=GTM-PT2PFWF9"
@@ -219,14 +217,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
                 />
                 <Providers>
-                    <ToastProvider>
-                        <div className="flex min-h-screen flex-col">
-                            <Navbar user={currentUser} />
-                            <main className="page-fade-in flex-grow">{children}</main>
-                            <Footer />
-                        </div>
-                        <ScrollToTop />
-                    </ToastProvider>
+                    {children}
+                    <ScrollToTop />
+                    <Toaster position="top-right" options={{ roundness: 16 }} />
                 </Providers>
             </body>
         </html>

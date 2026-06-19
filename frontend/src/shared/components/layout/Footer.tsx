@@ -1,226 +1,185 @@
 'use client';
 
-import { useState } from 'react';
-
-import type React from 'react';
-
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
+import type { ReactElement } from 'react';
 
-import { FaHeart, FaInstagram, FaWhatsapp, FaYoutube } from 'react-icons/fa';
-
+import { useCountryLink } from '@/features/geo/hooks/useCountryLink';
+import type { Dictionary } from '@/lib/i18n/types';
 import { useDictionary } from '@/lib/i18n/useDictionary';
+import { Mono, SectionLabel } from '@/shared/components/hireeo';
 
 import Logo from './Logo';
 
 const COUNTRY_OPTIONS = [
-    { code: 'cl', flag: '🇨🇱', name: 'Chile' },
-    { code: 'ar', flag: '🇦🇷', name: 'Argentina' },
-    { code: 'uy', flag: '🇺🇾', name: 'Uruguay' },
-    { code: 'es', flag: '🇪🇸', name: 'España' },
-    { code: 'us', flag: '🇺🇸', name: 'United States' },
+    { code: 'cl', name: 'Chile' },
+    { code: 'ar', name: 'Argentina' },
+    { code: 'uy', name: 'Uruguay' },
+    { code: 'es', name: 'España' },
+    { code: 'us', name: 'United States' },
 ] as const;
 
-const Footer: React.FC = () => {
+interface FooterColumnProps {
+    title: string;
+    links: ReadonlyArray<{ label: string; href?: string; onClick?: () => void; active?: boolean }>;
+}
+
+function FooterColumn({ title, links }: FooterColumnProps): ReactElement {
+    return (
+        <div>
+            <SectionLabel className="mb-3.5">{title}</SectionLabel>
+            <ul className="m-0 list-none space-y-2.5 p-0">
+                {links.map((l) => (
+                    <li key={l.label}>
+                        {l.href ? (
+                            <Link
+                                href={l.href}
+                                className="text-[13.5px] transition-colors hover:opacity-80"
+                                style={{
+                                    color: l.active ? 'var(--ink)' : 'var(--sub)',
+                                    fontWeight: l.active ? 600 : 500,
+                                }}
+                            >
+                                {l.label}
+                            </Link>
+                        ) : (
+                            <button
+                                type="button"
+                                onClick={l.onClick}
+                                className="cursor-pointer bg-transparent p-0 text-left text-[13.5px] transition-colors hover:opacity-80"
+                                style={{
+                                    color: l.active ? 'var(--ink)' : 'var(--sub)',
+                                    fontWeight: l.active ? 600 : 500,
+                                    fontFamily: 'inherit',
+                                }}
+                            >
+                                {l.label}
+                            </button>
+                        )}
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+}
+
+function buildProductLinks(link: (path: string) => string, dict: Dictionary): FooterColumnProps['links'] {
+    return [
+        { label: dict.nav.search, href: link('/search') },
+        { label: dict.footer.howItWorks, href: link('/how-it-works') },
+        { label: dict.footer.proSubscriptions, href: link('/pricing') },
+        { label: dict.footer.businesses, href: link('/contact') },
+        { label: dict.footer.api, href: link('/contact') },
+    ];
+}
+
+function buildResourceLinks(link: (path: string) => string, dict: Dictionary): FooterColumnProps['links'] {
+    return [
+        { label: dict.footer.helpCenter, href: link('/help') },
+        { label: dict.footer.documentation, href: link('/help') },
+        { label: dict.footer.changelog, href: link('/help') },
+        { label: dict.footer.blog, href: link('/help') },
+        { label: dict.footer.statusPage, href: link('/help') },
+    ];
+}
+
+function buildCompanyLinks(link: (path: string) => string, dict: Dictionary): FooterColumnProps['links'] {
+    return [
+        { label: dict.footer.aboutUs, href: link('/about-us') },
+        { label: dict.footer.careers, href: link('/about-us') },
+        { label: dict.footer.press, href: link('/about-us') },
+        { label: dict.footer.contact, href: link('/contact') },
+    ];
+}
+
+const Footer: React.FC = (): ReactElement => {
     const params = useParams();
     const router = useRouter();
     const country = (params?.country as string) ?? 'cl';
     const dict = useDictionary();
-    const [showCountryMenu, setShowCountryMenu] = useState(false);
-
-    const currentCountry = COUNTRY_OPTIONS.find((o) => o.code === country) ?? COUNTRY_OPTIONS[0];
+    const link = useCountryLink();
 
     function handleCountryChange(newCountry: string): void {
         // biome-ignore lint/suspicious/noDocumentCookie: Cookie Store API no disponible en todos los navegadores
         document.cookie = `hireeo_country=${newCountry}; path=/; max-age=31536000; SameSite=Lax`;
-        setShowCountryMenu(false);
         router.push(`/${newCountry}`);
     }
 
+    const countryLinks: FooterColumnProps['links'] = COUNTRY_OPTIONS.map((opt) => ({
+        label: opt.name,
+        onClick: () => handleCountryChange(opt.code),
+        active: opt.code === country,
+    }));
+
     return (
-        <footer className="border-border bg-background border-t pt-16 pb-8">
-            <div className="mx-auto max-w-site px-4 sm:px-6 lg:px-8">
-                <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-4">
-                    <div className="col-span-1 md:col-span-1">
-                        <div className="mb-6 opacity-80 transition-opacity hover:opacity-100">
-                            <Logo className="h-10 w-auto" />
+        <footer
+            className="border-t"
+            style={{ borderColor: 'var(--line)', background: 'var(--tint)' }}
+        >
+            <div className="mx-auto max-w-site px-6 pt-16 pb-7 sm:px-10 lg:px-14">
+                <div className="mb-11 grid grid-cols-2 gap-10 md:grid-cols-[1.5fr_repeat(4,1fr)]">
+                    <div className="col-span-2 md:col-span-1">
+                        <div className="mb-4">
+                            <Logo className="h-6 w-auto" />
                         </div>
-                        <p className="pr-4 text-sm leading-relaxed text-gray-600 dark:text-gray-500">
-                            {dict.footer.tagline}
-                        </p>
-
-                        <div className="mt-6 flex gap-4">
-                            <a
-                                href="https://www.instagram.com/hireeo/"
-                                className="text-gray-400 transition-colors hover:text-brand dark:hover:text-brand-light"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <FaInstagram size={20} />
-                            </a>
-                            <a
-                                href="https://wa.me/56929540906?text=Hola,%20que%20tal?"
-                                className="text-gray-400 transition-colors hover:text-green-600 dark:hover:text-green-400"
-                                aria-label="WhatsApp"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <FaWhatsapp size={20} />
-                            </a>
-                            <a
-                                href="https://www.youtube.com/@Hireeo"
-                                className="text-gray-400 transition-colors hover:text-red-600 dark:hover:text-red-400"
-                                aria-label="YouTube"
-                                target="_blank"
-                                rel="noopener"
-                            >
-                                <FaYoutube size={20} />
-                            </a>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h4 className="mb-6 text-xs font-bold tracking-widest text-brand text-gray-900 uppercase dark:text-gray-100">
-                            {dict.footer.platform}
-                        </h4>
-                        <ul className="space-y-4 text-sm text-gray-600 dark:text-gray-500">
-                            <li>
-                                <Link
-                                    href={`/${country}/quienes-somos`}
-                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
-                                >
-                                    {dict.footer.aboutUs}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href={`/${country}/como-funciona`}
-                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
-                                >
-                                    {dict.footer.howItWorks}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href={`/${country}/publicar`}
-                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
-                                >
-                                    {dict.footer.publishService}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href={`/${country}/suscripcion-pro`}
-                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
-                                >
-                                    {dict.footer.proSubscriptions}
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h4 className="mb-6 text-xs font-bold tracking-widest text-brand text-gray-900 uppercase dark:text-gray-100">
-                            {dict.footer.support}
-                        </h4>
-                        <ul className="space-y-4 text-sm text-gray-600 dark:text-gray-500">
-                            <li>
-                                <Link
-                                    href={`/${country}/ayuda`}
-                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
-                                >
-                                    {dict.footer.helpCenter}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href={`/${country}/terminos`}
-                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
-                                >
-                                    {dict.footer.terms}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href={`/${country}/privacidad`}
-                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
-                                >
-                                    {dict.footer.privacy}
-                                </Link>
-                            </li>
-                            <li>
-                                <Link
-                                    href={`/${country}/contacto`}
-                                    className="font-medium transition-colors hover:text-brand dark:hover:text-brand-light"
-                                >
-                                    {dict.footer.contact}
-                                </Link>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div className="border-border bg-muted rounded-[2rem] border p-6">
-                        <h4 className="mb-4 text-sm font-bold text-brand-marino italic dark:text-brand-light">
-                            {dict.footer.proCalloutTitle}
-                        </h4>
-                        <p className="mb-4 text-xs leading-relaxed text-brand-hover dark:text-brand-light">
-                            {dict.footer.proCalloutDesc}
-                        </p>
-                        <Link
-                            href={`/${country}/publicar`}
-                            className="text-[10px] font-black tracking-tighter text-brand uppercase hover:underline dark:text-brand-light"
+                        <p
+                            className="m-0 max-w-[240px] text-[13px] leading-[1.5]"
+                            style={{ color: 'var(--sub)' }}
                         >
-                            {dict.footer.proCalloutCta}
-                        </Link>
+                            {dict.footer.taglineShort}
+                        </p>
                     </div>
+
+                    <FooterColumn
+                        title={dict.footer.platform}
+                        links={buildProductLinks(link, dict)}
+                    />
+                    <FooterColumn
+                        title={dict.footer.resourcesLabel}
+                        links={buildResourceLinks(link, dict)}
+                    />
+                    <FooterColumn title={dict.footer.countriesLabel} links={countryLinks} />
+                    <FooterColumn
+                        title={dict.footer.companyLabel}
+                        links={buildCompanyLinks(link, dict)}
+                    />
                 </div>
 
-                <div className="border-border flex flex-col items-center justify-between gap-4 border-t pt-8 text-[10px] font-bold tracking-widest text-gray-500 uppercase md:flex-row dark:text-gray-600">
-                    <p>
-                        {dict.footer.rights} © 2026{' '}
-                        <a
-                            href="https://crowadvance.com/"
-                            target="_blank"
-                            rel="noopener"
-                            className="hover:text-brand dark:hover:text-brand-light"
+                <div
+                    className="flex flex-col items-start justify-between gap-3 border-t pt-5 text-[12px] md:flex-row md:items-center"
+                    style={{ borderColor: 'var(--line)', color: 'var(--sub)' }}
+                >
+                    <Mono>{dict.footer.copyrightLine}</Mono>
+                    <div className="flex flex-wrap items-center gap-5">
+                        <Link
+                            href={link('/terms')}
+                            className="transition-colors hover:opacity-80"
+                            style={{ color: 'var(--sub)' }}
                         >
-                            Crow Advance
-                        </a>
-                    </p>
-
-
-                    <div className="relative">
-                        <button
-                            type="button"
-                            onClick={() => setShowCountryMenu((prev) => !prev)}
-                            className="flex cursor-pointer items-center gap-1.5 rounded-lg px-2 py-1 transition-colors hover:text-brand dark:hover:text-brand-light"
-                            aria-label={dict.footer.changeCountry}
+                            {dict.footer.terms}
+                        </Link>
+                        <Link
+                            href={link('/privacy')}
+                            className="transition-colors hover:opacity-80"
+                            style={{ color: 'var(--sub)' }}
                         >
-                            <span>{currentCountry.flag}</span>
-                            <span>{currentCountry.name}</span>
-                            <span className="text-[8px]">▾</span>
-                        </button>
-
-                        {showCountryMenu && (
-                            <ul className="bg-background border-border absolute right-0 bottom-full mb-2 w-40 overflow-hidden rounded-xl border shadow-lg">
-                                {COUNTRY_OPTIONS.map((opt) => (
-                                    <li key={opt.code}>
-                                        <button
-                                            type="button"
-                                            onClick={() => handleCountryChange(opt.code)}
-                                            className={`flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-left text-xs normal-case tracking-normal transition-colors hover:bg-brand/5 dark:hover:bg-gray-800 ${
-                                                opt.code === country
-                                                    ? 'font-black text-brand dark:text-brand-light'
-                                                    : 'font-medium text-gray-700 dark:text-gray-300'
-                                            }`}
-                                        >
-                                            <span>{opt.flag}</span>
-                                            <span>{opt.name}</span>
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                            {dict.footer.privacy}
+                        </Link>
+                        <Link
+                            href={link('/privacy')}
+                            className="transition-colors hover:opacity-80"
+                            style={{ color: 'var(--sub)' }}
+                        >
+                            {dict.footer.cookies}
+                        </Link>
+                        <span className="inline-flex items-center gap-1.5">
+                            <span
+                                aria-hidden
+                                className="inline-block h-1.5 w-1.5 rounded-full"
+                                style={{ background: 'var(--success)' }}
+                            />
+                            {dict.footer.systemNormal}
+                        </span>
                     </div>
                 </div>
             </div>

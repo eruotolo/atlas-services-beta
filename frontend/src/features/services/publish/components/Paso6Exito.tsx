@@ -4,7 +4,8 @@ import { useEffect, useState } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { ArrowRight, CheckCircle2, PartyPopper } from 'lucide-react';
+import { ArrowRight, CheckCircle2, PartyPopper } from '@/shared/components/icons';
+import { Btn } from '@/shared/components/hireeo';
 
 export default function Paso6Exito() {
     const router = useRouter();
@@ -13,7 +14,7 @@ export default function Paso6Exito() {
     // Efecto para el contador
     useEffect(() => {
         if (countdown === 0) {
-            router.push('/perfil');
+            router.push('/profile');
             return;
         }
 
@@ -26,41 +27,41 @@ export default function Paso6Exito() {
 
     return (
         <div className="flex flex-col items-center justify-center bg-transparent py-12 text-center">
-            <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+            <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-green-100 text-green-600">
                 <CheckCircle2 size={64} />
             </div>
 
-            <h2 className="mb-4 text-4xl font-black text-gray-900 dark:text-white">
+            <h2 className="mb-4 text-4xl font-black text-ink">
                 ¡Pago Exitoso!
             </h2>
 
-            <div className="mb-8 flex items-center justify-center gap-2 text-xl font-medium text-brand dark:text-brand-light">
+            <div className="mb-8 flex items-center justify-center gap-2 text-xl font-medium text-brand">
                 <PartyPopper size={24} />
                 <span>Tu servicio ya es Premium y está destacado</span>
             </div>
 
-            <p className="mb-12 max-w-md text-gray-600 dark:text-gray-400">
+            <p className="mb-12 max-w-md text-sub">
                 Hemos recibido tu pago correctamente. Tu anuncio aparecerá en los primeros lugares
                 de búsqueda de inmediato.
             </p>
 
-            <div className="mb-8 rounded-2xl bg-gray-50 px-8 py-4 dark:bg-gray-800">
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+            <div className="mb-8 rounded-2xl bg-tint px-8 py-4">
+                <p className="text-sm font-medium text-muted">
                     Serás redirigido a tu perfil en{' '}
-                    <span className="font-black text-brand dark:text-brand-light">
+                    <span className="font-black text-brand">
                         {countdown} segundos
                     </span>
                 </p>
             </div>
 
-            <button
+            <Btn
                 type="button"
-                onClick={() => router.push('/perfil')}
-                className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-8 py-4"
+                onClick={() => router.push('/profile')}
+                variant="primary"
             >
                 Ir a mi Perfil ahora
                 <ArrowRight size={20} />
-            </button>
+            </Btn>
         </div>
     );
 }

@@ -26,13 +26,16 @@ function mapSponsorFull(s: BackendSponsorDto) {
         activo: s.active,
         fechaInicio: new Date(s.startDate),
         fechaFin: new Date(s.endDate),
+        pais: s.country ? { codigo: s.country.code, nombre: s.country.name } : null,
     };
 }
 
-export const getTodasSponsors = cache(async (page = 1, limit = 10, search?: string) => {
+export const getTodasSponsors = cache(
+    async (page = 1, limit = 10, search?: string, countryCode?: string) => {
     try {
         let path = `/sponsors?page=${page}&limit=${limit}`;
         if (search) path += `&query=${encodeURIComponent(search)}`;
+        if (countryCode) path += `&countryCode=${encodeURIComponent(countryCode)}`;
 
         const response = await apiClient.get<BackendPaginatedResponse<BackendSponsorDto>>(path, {
             revalidate: 0,
@@ -54,7 +57,8 @@ export const getTodasSponsors = cache(async (page = 1, limit = 10, search?: stri
             meta: { total: 0, page: 1, limit: 10, totalPages: 0 },
         };
     }
-});
+    },
+);
 
 export const getSponsorsSenior = cache(async (countryCode = 'cl') => {
     try {

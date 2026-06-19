@@ -1,6 +1,6 @@
 import type React from 'react';
 
-import { Eye, Mail, MessageSquare, Phone } from 'lucide-react';
+import { Eye, Mail, MessageSquare, Phone } from '@/shared/components/icons';
 
 export const getInteraccionIcon = (tipo: string): React.ReactNode => {
     switch (tipo) {
@@ -13,7 +13,7 @@ export const getInteraccionIcon = (tipo: string): React.ReactNode => {
         case 'WHATSAPP':
             return <MessageSquare size={16} className="text-green-600" />;
         default:
-            return <Eye size={16} className="text-gray-500" />;
+            return <Eye size={16} className="text-muted" />;
     }
 };
 

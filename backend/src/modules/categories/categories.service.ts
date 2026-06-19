@@ -9,6 +9,7 @@ import type { UpdateCategoryDto } from './dto/update-category.dto';
 const CATEGORY_SELECT = {
     id: true,
     name: true,
+    nameEn: true,
     slug: true,
     icon: true,
     order: true,
@@ -19,16 +20,38 @@ const CATEGORY_SELECT = {
 export class CategoriesService {
     constructor(private readonly prisma: PrismaService) {}
 
-    findAll(countryCode?: string) {
-        const where: Prisma.ServiceCategoryWhereInput = countryCode
-            ? { active: true, OR: [{ countryCode: null }, { countryCode: countryCode.toLowerCase() }] }
+    async findAll(countryCode?: string) {
+        const normalizedCode = countryCode?.toLowerCase();
+        const where: Prisma.ServiceCategoryWhereInput = normalizedCode
+            ? { active: true, OR: [{ countryCode: null }, { countryCode: normalizedCode }] }
             : { active: true };
 
-        return this.prisma.serviceCategory.findMany({
+        const categories = await this.prisma.serviceCategory.findMany({
             where,
             orderBy: { order: 'asc' },
-            select: CATEGORY_SELECT,
+            select: {
+                ...CATEGORY_SELECT,
+                _count: {
+                    select: {
+                        services: normalizedCode
+                            ? {
+                                  where: {
+                                      service: {
+                                          active: true,
+                                          country: { code: normalizedCode },
+                                      },
+                                  },
+                              }
+                            : { where: { service: { active: true } } },
+                    },
+                },
+            },
         });
+
+        return categories.map(({ _count, ...rest }) => ({
+            ...rest,
+            serviceCount: _count.services,
+        }));
     }
 
     async findById(id: string) {
@@ -44,6 +67,7 @@ export class CategoriesService {
         return this.prisma.serviceCategory.create({
             data: {
                 name: dto.nombre,
+                nameEn: dto.nombreEn ?? null,
                 slug: dto.slug,
                 icon: dto.icono,
                 order: dto.orden,
@@ -59,6 +83,7 @@ export class CategoriesService {
             where: { id },
             data: {
                 ...(dto.nombre && { name: dto.nombre }),
+                ...(dto.nombreEn !== undefined && { nameEn: dto.nombreEn || null }),
                 ...(dto.slug && { slug: dto.slug }),
                 ...(dto.icono !== undefined && { icon: dto.icono }),
                 ...(dto.orden !== undefined && { order: dto.orden }),

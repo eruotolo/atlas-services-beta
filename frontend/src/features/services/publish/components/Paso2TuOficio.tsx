@@ -1,4 +1,7 @@
 'use client';
+import Link from 'next/link';
+
+import { Btn } from '@/shared/components/hireeo';
 
 import { useEffect, useId, useState } from 'react';
 
@@ -10,14 +13,14 @@ import {
     DollarSign,
     FileText,
     Globe,
-    Image as ImageIcon,
     Mail,
     MapPin,
     Plus,
     Sparkles,
     Trash2,
     User,
-} from 'lucide-react';
+} from '@/shared/components/icons';
+import { ImageDropzone } from '@/shared/components/ImageDropzone';
 
 import { getCategorias } from '@/features/categories/actions';
 import { LocalitySelect } from '@/features/geo/components/LocalitySelect';
@@ -34,7 +37,7 @@ interface Usuario {
     id: string;
     nombre: string;
     email: string;
-    telefono?: string | null;
+    phone?: string | null;
 }
 
 interface Paso2TuOficioProps {
@@ -71,7 +74,6 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
 
     const tituloId = useId();
     const descripcionId = useId();
-    const imagenPrincipalId = useId();
     const precioId = useId();
     const declaracionId = useId();
 
@@ -114,8 +116,8 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
             setNombreContacto(usuario.nombre);
             setEmailContacto(usuario.email);
 
-            if (usuario.telefono) {
-                setTelefonoContacto(usuario.telefono);
+            if (usuario.phone) {
+                setTelefonoContacto(usuario.phone);
             } else {
                 // Si no hay teléfono en las props (posible sesión antigua), buscarlo
                 getUsuarioById(usuario.id).then((u) => {
@@ -193,22 +195,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
         cargarCategorias();
     }, []);
 
-    function handleImagenPrincipalChange(e: React.ChangeEvent<HTMLInputElement>) {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-        if (!validTypes.includes(file.type)) {
-            setError('Tipo de archivo no válido. Solo JPG, PNG y WEBP');
-            return;
-        }
-
-        const MAX_SIZE = 3 * 1024 * 1024; // 3MB
-        if (file.size > MAX_SIZE) {
-            setError('La imagen no puede superar 3MB');
-            return;
-        }
-
+    function handleImagenPrincipalFile(file: File): void {
         setImagenPrincipal(file);
         setError('');
 
@@ -311,20 +298,20 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
     return (
         <div>
             <div className="mb-6 text-center md:mb-8">
-                <h2 className="mb-1 text-2xl font-black text-gray-900 md:text-3xl dark:text-white">
+                <h2 className="mb-1 text-2xl font-black text-ink md:text-3xl">
                     ¡Ya Casi Listo!
                 </h2>
-                <p className="text-sm text-gray-600 md:text-base dark:text-gray-400">
+                <p className="text-sm text-sub md:text-base">
                     Ahora cuéntanos sobre tu oficio
                 </p>
-                <p className="mt-2 text-sm font-medium text-brand dark:text-brand-light">
+                <p className="mt-2 text-sm font-medium text-brand">
                     Hola, {usuario.nombre} 👋
                 </p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                 {error && (
-                    <div className="flex items-start gap-3 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
+                    <div className="flex items-start gap-3 rounded-2xl border border-red-100 bg-red-50 p-4 text-sm text-red-600">
                         <AlertCircle size={20} className="mt-0.5 shrink-0" />
                         <span>{error}</span>
                     </div>
@@ -333,14 +320,14 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                 <div>
                     <label
                         htmlFor={tituloId}
-                        className="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-300"
+                        className="mb-1.5 block text-sm font-bold text-sub"
                     >
                         Título de tu Servicio
                     </label>
                     <div className="relative">
                         <Briefcase
                             size={18}
-                            className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+                            className="absolute top-1/2 left-4 -translate-y-1/2 text-muted"
                         />
                         <input
                             type="text"
@@ -356,7 +343,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                 </div>
 
                 <div>
-                    <div className="mb-1.5 text-sm font-bold text-gray-700 dark:text-gray-300">
+                    <div className="mb-1.5 text-sm font-bold text-sub">
                         Categorías (máximo 3)
                     </div>
                     <CategoriaMultiSelect
@@ -373,7 +360,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                     <div className="mb-1.5 flex items-center justify-between">
                         <label
                             htmlFor={descripcionId}
-                            className="text-sm font-bold text-gray-700 dark:text-gray-300"
+                            className="text-sm font-bold text-sub"
                         >
                             Descripción
                         </label>
@@ -392,7 +379,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                     <div className="relative">
                         <FileText
                             size={18}
-                            className="absolute top-4 left-4 text-gray-400 dark:text-gray-600"
+                            className="absolute top-4 left-4 text-muted"
                         />
                         <textarea
                             id={descripcionId}
@@ -405,34 +392,25 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                             className="form-input pr-4 pl-12"
                         />
                     </div>
-                    <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                    <p className="mt-1.5 text-xs text-muted">
                         💡 Tip: Escribe un título y selecciona categorías, luego usa el botón de IA
                         para generar una descripción profesional
                     </p>
                 </div>
 
                 <div>
-                    <label
-                        htmlFor={imagenPrincipalId}
-                        className="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-300"
-                    >
+                    <p className="mb-1.5 text-sm font-bold text-sub">
                         Imagen del Servicio *
-                    </label>
+                    </p>
                     <div className="space-y-3">
-                        <div className="relative">
-                            <ImageIcon
-                                size={18}
-                                className="pointer-events-none absolute top-1/2 left-4 z-10 -translate-y-1/2 text-gray-400 dark:text-gray-600"
-                            />
-                            <input
-                                type="file"
-                                id={imagenPrincipalId}
-                                accept="image/jpeg,image/jpg,image/png,image/webp"
-                                onChange={handleImagenPrincipalChange}
-                                required
-                                className="form-input pr-4 pl-12 file:mr-4 file:rounded-full file:border-0 file:bg-brand/5 file:px-4 file:py-3 file:text-xs file:font-bold file:text-brand-hover hover:file:bg-brand/10"
-                            />
-                        </div>
+                        <ImageDropzone
+                            maxSizeMB={3}
+                            onFilesAccepted={(files) => {
+                                if (files[0]) handleImagenPrincipalFile(files[0]);
+                            }}
+                            label="Arrastra la imagen del servicio o haz clic para seleccionar"
+                            description="JPG, PNG, WEBP · Máx. 3 MB"
+                        />
                         {imagenPrincipalPreview && (
                             <div className="mt-2">
                                 <Image
@@ -440,11 +418,11 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                                     alt="Preview imagen principal"
                                     width={800}
                                     height={160}
-                                    className="h-40 w-full rounded-xl border border-gray-200 object-cover dark:border-white/10"
+                                    className="h-40 w-full rounded-xl border border-line object-cover"
                                 />
                             </div>
                         )}
-                        <p className="text-[10px] text-gray-500 dark:text-gray-500">
+                        <p className="text-[10px] text-muted">
                             Máximo 1 imagen (JPG, PNG, WEBP), tamaño máximo 3MB.
                         </p>
                     </div>
@@ -454,14 +432,14 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                     <div>
                         <label
                             htmlFor={precioId}
-                            className="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-300"
+                            className="mb-1.5 block text-sm font-bold text-sub"
                         >
                             Precio Base (CLP)
                         </label>
                         <div className="relative">
                             <DollarSign
                                 size={18}
-                                className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+                                className="absolute top-1/2 left-4 -translate-y-1/2 text-muted"
                             />
                             <input
                                 type="number"
@@ -475,14 +453,14 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                                 className="form-input pr-4 pl-12"
                             />
                         </div>
-                        <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                        <p className="mt-1.5 text-xs text-muted">
                             0 es igual a "Solicita Cotización"
                         </p>
                     </div>
 
                     <div>
-                        <div className="mb-1.5 flex items-center gap-2 text-sm font-bold text-gray-700 dark:text-gray-300">
-                            <MapPin size={16} className="text-gray-400" />
+                        <div className="mb-1.5 flex items-center gap-2 text-sm font-bold text-sub">
+                            <MapPin size={16} className="text-muted" />
                             Ubicación
                         </div>
                         <LocalitySelect
@@ -506,22 +484,22 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                 {/* Datos de Contacto */}
                 <div>
                     <div className="mb-4 flex items-center justify-between">
-                        <div className="text-sm font-bold text-gray-700 dark:text-gray-300">
+                        <div className="text-sm font-bold text-sub">
                             Datos de Contacto para el Cliente
                         </div>
                     </div>
 
-                    <div className="mb-4 flex items-center gap-3 rounded-2xl border border-gray-100 bg-gray-50 p-4 dark:border-gray-800 dark:bg-gray-800/50">
+                    <div className="mb-4 flex items-center gap-3 rounded-2xl border border-line bg-tint p-4">
                         <input
                             type="checkbox"
                             id={usarDatosUsuarioId}
                             checked={usarDatosUsuario}
                             onChange={(e) => setUsarDatosUsuario(e.target.checked)}
-                            className="h-4 w-4 cursor-pointer rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-600 dark:bg-gray-700"
+                            className="h-4 w-4 cursor-pointer rounded border-line text-brand focus:ring-brand"
                         />
                         <label
                             htmlFor={usarDatosUsuarioId}
-                            className="cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-300"
+                            className="cursor-pointer text-sm font-medium text-sub"
                         >
                             Usar mis datos de registro ({usuario.nombre})
                         </label>
@@ -531,14 +509,14 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                         <div>
                             <label
                                 htmlFor={nombreContactoId}
-                                className="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-300"
+                                className="mb-1.5 block text-sm font-bold text-sub"
                             >
                                 Nombre de Contacto
                             </label>
                             <div className="relative">
                                 <User
                                     size={18}
-                                    className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+                                    className="absolute top-1/2 left-4 -translate-y-1/2 text-muted"
                                 />
                                 <input
                                     type="text"
@@ -556,14 +534,14 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                             <div>
                                 <label
                                     htmlFor={emailContactoId}
-                                    className="mb-1.5 block text-sm font-bold text-gray-700 dark:text-gray-300"
+                                    className="mb-1.5 block text-sm font-bold text-sub"
                                 >
                                     Email de Contacto
                                 </label>
                                 <div className="relative">
                                     <Mail
                                         size={18}
-                                        className="absolute top-1/2 left-4 -translate-y-1/2 text-gray-400 dark:text-gray-600"
+                                        className="absolute top-1/2 left-4 -translate-y-1/2 text-muted"
                                     />
                                     <input
                                         type="email"
@@ -594,13 +572,13 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                 {/* Redes Sociales */}
                 <div>
                     <div className="mb-3 flex items-center justify-between">
-                        <div className="text-sm font-bold text-gray-700 dark:text-gray-300">
+                        <div className="text-sm font-bold text-sub">
                             Redes Sociales / Sitio Web (Opcional)
                         </div>
                         <button
                             type="button"
                             onClick={agregarRedSocial}
-                            className="flex items-center gap-1 rounded-lg bg-brand/5 px-3 py-1.5 text-xs font-bold text-brand hover:bg-brand/10 dark:bg-brand/10 dark:text-brand-light dark:hover:bg-brand-marino/40"
+                            className="flex items-center gap-1 rounded-lg bg-brand/5 px-3 py-1.5 text-xs font-bold text-brand hover:bg-brand/10"
                         >
                             <Plus size={14} />
                             Agregar
@@ -608,12 +586,12 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                     </div>
 
                     {redesSociales.length === 0 ? (
-                        <div className="rounded-2xl border border-dashed border-gray-200 p-6 text-center dark:border-gray-700">
+                        <div className="rounded-2xl border border-dashed border-line p-6 text-center">
                             <Globe
                                 size={32}
-                                className="mx-auto mb-2 text-gray-300 dark:text-gray-600"
+                                className="mx-auto mb-2 text-muted"
                             />
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-muted">
                                 No has agregado redes sociales. ¡Agrega tu Instagram o sitio web
                                 para que te conozcan mejor!
                             </p>
@@ -647,7 +625,7 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                                     <button
                                         type="button"
                                         onClick={() => eliminarRedSocial(red.id)}
-                                        className="rounded-xl border border-gray-200 p-2 text-gray-400 hover:bg-red-50 hover:text-red-600 dark:border-white/5 dark:text-gray-500 dark:hover:bg-red-900/20 dark:hover:text-red-400"
+                                        className="rounded-xl border border-line p-2 text-muted hover:bg-red-50 hover:text-red-600"
                                     >
                                         <Trash2 size={18} />
                                     </button>
@@ -657,11 +635,11 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                     )}
                 </div>
 
-                <div className="rounded-2xl border border-brand/5 bg-brand/5/30 p-5 dark:border-brand-marino/30 dark:bg-brand/10">
-                    <h4 className="mb-1 text-sm font-bold text-brand-marino dark:text-brand-light">
+                <div className="rounded-2xl border border-brand/5 bg-brand/5/30 p-5">
+                    <h4 className="mb-1 text-sm font-bold text-brand-marino">
                         ¿Qué sigue?
                     </h4>
-                    <ul className="space-y-1 text-xs text-brand-hover dark:text-brand-light">
+                    <ul className="space-y-1 text-xs text-brand-hover">
                         <li>• Podrás elegir entre publicación básica o premium</li>
                         <li>• Los clientes podrán contactarte por teléfono</li>
                     </ul>
@@ -673,32 +651,28 @@ export default function Paso2TuOficio({ usuario, onSuccess }: Paso2TuOficioProps
                         id={declaracionId}
                         name="declaracion"
                         required
-                        className="mt-1 h-4 w-4 cursor-pointer rounded border-gray-300 text-brand focus:ring-brand dark:border-gray-700 dark:bg-gray-800"
+                        className="mt-1 h-4 w-4 cursor-pointer rounded border-line text-brand focus:ring-brand"
                     />
                     <label
                         htmlFor={declaracionId}
-                        className="text-sm text-gray-600 dark:text-gray-400"
+                        className="text-sm text-sub"
                     >
                         Declaro que la información proporcionada es verdadera y acepto las{' '}
-                        <a
-                            href="/terminos"
+                        <Link
+                            href={`/${countryCode}/terms`}
                             target="_blank"
-                            className="font-bold text-brand hover:underline dark:text-brand-light"
+                            className="font-bold text-brand hover:underline"
                             rel="noopener"
                         >
                             condiciones de publicación
-                        </a>
+                        </Link>
                         .
                     </label>
                 </div>
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-primary w-full cursor-pointer rounded-2xl px-6 py-4 disabled:opacity-50"
-                >
+                <Btn variant="primary" type="submit" disabled={loading}>
                     {loading ? 'Guardando...' : 'Siguiente Paso'}
-                </button>
+                </Btn>
             </form>
         </div>
     );

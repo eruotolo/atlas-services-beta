@@ -2,9 +2,10 @@
 
 import { getInteraccionIcon, getInteraccionLabel } from '@/features/analytics/utils';
 
-import type { Column } from '@/shared/components/ui/data-table';
-import { DataTable } from '@/shared/components/ui/data-table';
-import { useDataTable } from '@/shared/components/ui/data-table/useDataTable';
+import { Pill } from '@/shared/components/hireeo';
+import { ColumnDef } from '@tanstack/react-table';
+import { DataTable } from '@/shared/components/DataTable';
+import { useDataTable } from '@/shared/components/DataTable/useDataTable';
 
 interface Interaccion {
     id: string;
@@ -38,15 +39,15 @@ export default function InteraccionesTable({ result }: InteraccionesTableProps) 
     const { currentPage, searchValue, isPending, handlePageChange, handleSearchChange } =
         useDataTable();
 
-    const columns: Column<Interaccion>[] = [
+    const columns: ColumnDef<Interaccion>[] = [
         {
             header: 'Tipo',
-            cell: (item) => (
+            cell: ({ row: { original: item } }) => (
                 <div className="flex items-center gap-2">
-                    <div className="rounded-lg bg-gray-50 p-2 dark:bg-gray-800">
+                    <div className="rounded-lg bg-tint p-2">
                         {getInteraccionIcon(item.tipo)}
                     </div>
-                    <span className="text-sm font-bold text-gray-700 dark:text-gray-300">
+                    <span className="text-sm font-semibold text-sub">
                         {getInteraccionLabel(item.tipo)}
                     </span>
                 </div>
@@ -54,12 +55,12 @@ export default function InteraccionesTable({ result }: InteraccionesTableProps) 
         },
         {
             header: 'Servicio',
-            cell: (item) => (
+            cell: ({ row: { original: item } }) => (
                 <div>
-                    <div className="text-sm font-medium text-gray-900 dark:text-white">
+                    <div className="text-sm font-medium text-ink">
                         {item.servicio.titulo}
                     </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                    <div className="text-xs text-muted">
                         de {item.servicio.usuario.nombre}
                     </div>
                 </div>
@@ -67,29 +68,27 @@ export default function InteraccionesTable({ result }: InteraccionesTableProps) 
         },
         {
             header: 'Usuario (Actor)',
-            cell: (item) => (
+            cell: ({ row: { original: item } }) => (
                 <div>
                     {item.usuario ? (
                         <>
-                            <div className="text-sm font-medium text-gray-900 dark:text-white">
+                            <div className="text-sm font-medium text-ink">
                                 {item.usuario.nombre}
                             </div>
-                            <div className="text-xs text-gray-500 dark:text-gray-400">
+                            <div className="text-xs text-muted">
                                 {item.usuario.email}
                             </div>
                         </>
                     ) : (
-                        <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-400">
-                            Visitante
-                        </span>
+                        <Pill tone="default">Visitante</Pill>
                     )}
                 </div>
             ),
         },
         {
             header: 'Fecha',
-            cell: (item) => (
-                <span className="text-xs text-gray-500 dark:text-gray-400">
+            cell: ({ row: { original: item } }) => (
+                <span className="text-xs text-muted">
                     {new Date(item.createdAt).toLocaleString('es-CL')}
                 </span>
             ),

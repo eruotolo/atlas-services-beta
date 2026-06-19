@@ -1,6 +1,8 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InteractionType } from '@prisma/client';
 
+import { whereServiceCountry } from '@common/utils/where-service-country';
+
 import { PrismaService } from '../../prisma/prisma.service';
 import { ServicesService } from '../services/services.service';
 
@@ -24,18 +26,24 @@ export class InteractionsService {
         });
     }
 
-    async findAllPaginated(page: number = 1, limit: number = 20, query?: string) {
+    async findAllPaginated(
+        page: number = 1,
+        limit: number = 20,
+        query?: string,
+        countryCode?: string,
+    ) {
         const skip = (page - 1) * limit;
-        const where = query
-            ? {
-                  OR: [
-                      { serviceId: query },
-                      { type: Object.values(InteractionType).includes(query.toUpperCase() as InteractionType)
-                          ? (query.toUpperCase() as InteractionType)
-                          : undefined },
-                  ].filter((c) => c !== undefined),
-              }
-            : {};
+        const where = {
+            ...whereServiceCountry(countryCode),
+            ...(query && {
+                OR: [
+                    { serviceId: query },
+                    { type: Object.values(InteractionType).includes(query.toUpperCase() as InteractionType)
+                        ? (query.toUpperCase() as InteractionType)
+                        : undefined },
+                ].filter((c) => c !== undefined),
+            }),
+        };
 
         const [items, total] = await Promise.all([
             this.prisma.interaction.findMany({
@@ -61,15 +69,18 @@ export class InteractionsService {
         };
     }
 
-    async getMetricas() {
+    async getMetricas(countryCode?: string) {
+        const where = whereServiceCountry(countryCode);
         const [totalGlobal, porTipoRaw, topServiciosRaw] = await Promise.all([
-            this.prisma.interaction.count(),
+            this.prisma.interaction.count({ where }),
             this.prisma.interaction.groupBy({
                 by: ['type'],
+                where,
                 _count: { type: true },
             }),
             this.prisma.interaction.groupBy({
                 by: ['serviceId'],
+                where,
                 _count: { serviceId: true },
                 orderBy: { _count: { serviceId: 'desc' } },
                 take: 10,

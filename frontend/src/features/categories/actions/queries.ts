@@ -6,14 +6,20 @@ import { apiClient } from '@/lib/api/apiClient';
 import type { BackendCategoryDto } from '@/lib/api/backendTypes';
 import { getAuthToken } from '@/shared/lib/auth/getAuthToken';
 
-function mapCategoryDto(c: BackendCategoryDto) {
+// Países cuyo public se muestra en inglés → usan nameEn si existe
+const ENGLISH_COUNTRIES = new Set(['us']);
+
+function mapCategoryDto(c: BackendCategoryDto, countryCode?: string) {
+    const useEnglish = countryCode ? ENGLISH_COUNTRIES.has(countryCode.toLowerCase()) : false;
     return {
         id: c.id,
-        nombre: c.name,
+        nombre: useEnglish && c.nameEn ? c.nameEn : c.name,
+        nombreEn: c.nameEn ?? null,
         slug: c.slug,
         icono: c.icon ?? null,
         orden: c.order,
         activo: c.active,
+        serviceCount: c.serviceCount,
     };
 }
 
@@ -26,18 +32,21 @@ export const getCategorias = cache(async (countryCode = 'cl') => {
                 tags: [`categorias-${countryCode}`],
             },
         );
-        return (Array.isArray(response) ? response : []).map(mapCategoryDto);
+        return (Array.isArray(response) ? response : []).map((c) =>
+            mapCategoryDto(c, countryCode),
+        );
     } catch (error) {
         console.error('Error fetching categories:', error);
         return [];
     }
 });
 
-export const getAdminCategorias = cache(async (page = 1, limit = 12, search?: string) => {
+export const getAdminCategorias = cache(async (page = 1, limit = 12, search?: string, countryCode?: string) => {
     try {
         const token = await getAuthToken();
         const qs = new URLSearchParams({ page: String(page), limit: String(limit) });
         if (search) qs.set('query', search);
+        if (countryCode) qs.set('countryCode', countryCode);
 
         const response = await apiClient.get<{
             items?: BackendCategoryDto[];
@@ -50,7 +59,7 @@ export const getAdminCategorias = cache(async (page = 1, limit = 12, search?: st
 
         const items = response.items ?? response.data ?? [];
         return {
-            data: items.map(mapCategoryDto),
+            data: items.map((c) => mapCategoryDto(c, countryCode)),
             meta: {
                 total: response.total,
                 page: response.page,
@@ -73,7 +82,9 @@ export const getTopCategories = cache(async (countryCode = 'cl') => {
                 tags: [`categorias-top-${countryCode}`],
             },
         );
-        return (Array.isArray(response) ? response.slice(0, 4) : []).map(mapCategoryDto);
+        return (Array.isArray(response) ? response.slice(0, 4) : []).map((c) =>
+            mapCategoryDto(c, countryCode),
+        );
     } catch (error) {
         console.error('Error fetching top categories:', error);
         return [];

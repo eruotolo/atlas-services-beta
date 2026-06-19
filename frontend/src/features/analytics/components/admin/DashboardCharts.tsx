@@ -69,11 +69,9 @@ function ChartTooltip({ active, payload }: { active?: boolean; payload?: Array<{
     if (!active || !payload?.length) return null;
     const p = payload[0];
     return (
-        <div className="rounded-xl border border-gray-200 bg-white px-3 py-2 text-xs font-semibold shadow-lg dark:border-white/10 dark:bg-gray-900">
-            <span className="text-gray-500 dark:text-gray-400">
-                {p.payload.label ?? p.payload.titulo}
-            </span>
-            <span className="ml-2 text-gray-900 dark:text-white">{p.value.toLocaleString()}</span>
+        <div className="rounded-xl border border-line bg-bg px-3 py-2 text-xs font-semibold shadow-lg">
+            <span className="text-muted">{p.payload.label ?? p.payload.titulo}</span>
+            <span className="ml-2 text-ink">{p.value.toLocaleString()}</span>
         </div>
     );
 }
@@ -99,11 +97,11 @@ export default function DashboardCharts({ porTipo, topServicios }: DashboardChar
     if (!mounted) {
         return (
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-                <div className="flex h-[320px] items-center justify-center rounded-[2rem] border border-gray-100 bg-white dark:border-white/10 dark:bg-gray-900/40">
-                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-brand" />
+                <div className="flex h-[320px] items-center justify-center rounded-xl border border-line bg-bg">
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-line border-t-accent" />
                 </div>
-                <div className="flex h-[320px] items-center justify-center rounded-[2rem] border border-gray-100 bg-white dark:border-white/10 dark:bg-gray-900/40">
-                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-300 border-t-brand" />
+                <div className="flex h-[320px] items-center justify-center rounded-xl border border-line bg-bg">
+                    <div className="h-8 w-8 animate-spin rounded-full border-2 border-line border-t-accent" />
                 </div>
             </div>
         );
@@ -112,8 +110,8 @@ export default function DashboardCharts({ porTipo, topServicios }: DashboardChar
     return (
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* Pie chart: Interactions by type */}
-            <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                <h3 className="mb-4 text-sm font-black tracking-widest text-gray-400 uppercase dark:text-gray-500">
+            <div className="rounded-xl border border-line bg-bg p-6">
+                <h3 className="mb-4 font-mono text-[10.5px] font-semibold tracking-[0.14em] text-muted uppercase">
                     Interacciones por Tipo
                 </h3>
 
@@ -145,10 +143,10 @@ export default function DashboardCharts({ porTipo, topServicios }: DashboardChar
                                         className="h-3 w-3 rounded-full"
                                         style={{ backgroundColor: item.color }}
                                     />
-                                    <span className="text-xs font-semibold text-gray-600 dark:text-gray-400">
+                                    <span className="text-xs font-semibold text-sub">
                                         {item.label}
                                     </span>
-                                    <span className="ml-auto text-xs font-black text-gray-900 dark:text-white">
+                                    <span className="ml-auto text-xs font-semibold tabular-nums text-ink">
                                         {item.value.toLocaleString()}
                                     </span>
                                 </div>
@@ -156,15 +154,15 @@ export default function DashboardCharts({ porTipo, topServicios }: DashboardChar
                         </div>
                     </div>
                 ) : (
-                    <p className="py-16 text-center text-sm text-gray-400 italic dark:text-gray-600">
+                    <p className="py-16 text-center text-sm text-muted italic">
                         Sin datos de interacciones aún
                     </p>
                 )}
             </div>
 
             {/* Bar chart: Top services */}
-            <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none">
-                <h3 className="mb-4 text-sm font-black tracking-widest text-gray-400 uppercase dark:text-gray-500">
+            <div className="rounded-xl border border-line bg-bg p-6">
+                <h3 className="mb-4 font-mono text-[10.5px] font-semibold tracking-[0.14em] text-muted uppercase">
                     Top Servicios Más Vistos
                 </h3>
 
@@ -176,7 +174,7 @@ export default function DashboardCharts({ porTipo, topServicios }: DashboardChar
                                 type="category"
                                 dataKey="titulo"
                                 width={140}
-                                tick={{ fontSize: 11, fill: '#9CA3AF' }}
+                                tick={{ fontSize: 11, fill: '#8E8E8E' }}
                                 tickLine={false}
                                 axisLine={false}
                             />
@@ -189,14 +187,14 @@ export default function DashboardCharts({ porTipo, topServicios }: DashboardChar
                                 {topData.map((_, idx) => (
                                     <Cell
                                         key={`bar-${idx}`}
-                                        fill={idx === 0 ? '#3B82F6' : idx === 1 ? '#60A5FA' : '#93C5FD'}
+                                        fill={idx === 0 ? '#2D4E8F' : idx === 1 ? '#5B8FD4' : '#A9C7E8'}
                                     />
                                 ))}
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
                 ) : (
-                    <p className="py-16 text-center text-sm text-gray-400 italic dark:text-gray-600">
+                    <p className="py-16 text-center text-sm text-muted italic">
                         Sin datos de servicios aún
                     </p>
                 )}

@@ -48,6 +48,14 @@ enum PaymentGateway {
     STRIPE
 }
 
+enum ServiceRequestStatus {
+    PENDING
+    QUOTED
+    ACCEPTED
+    COMPLETED
+    CANCELLED
+}
+
 // ─── Models ───────────────────────────────────────────────────────────────────
 
 model Country {
@@ -61,6 +69,7 @@ model Country {
     regionLabel   String
     localityLabel String
     active        Boolean        @default(true)
+    paymentsEnabled Boolean      @default(true)
     createdAt     DateTime       @default(now())
     updatedAt     DateTime       @updatedAt
 
@@ -69,6 +78,7 @@ model Country {
     premiumPrices PremiumPrice[]
     sponsors      Sponsor[]
     userRoles     UserRole[]
+    addresses     Address[]
 
     @@map("countries")
 }
@@ -85,6 +95,7 @@ model GeoRegion {
     country    Country       @relation(fields: [countryId], references: [id])
     localities GeoLocality[]
     services   Service[]
+    addresses  Address[]
 
     @@unique([countryId, code])
     @@index([countryId])
@@ -102,6 +113,7 @@ model GeoLocality {
 
     region   GeoRegion @relation(fields: [regionId], references: [id])
     services Service[]
+    addresses Address[]
 
     @@unique([regionId, slug])
     @@index([regionId])
@@ -125,6 +137,16 @@ model User {
     favorites             Favorite[]
     clientConversations   Conversation[] @relation("clientConversations")
     providerConversations Conversation[] @relation("providerConversations")
+    serviceRequests       ServiceRequest[]
+    quotes                Quote[]
+    addresses             Address[]
+
+    googleId    String? @unique
+    appleId     String? @unique
+    microsoftId String? @unique
+
+    isKycVerified Boolean   @default(false)
+    kycVerifiedAt DateTime?
 
     @@map("users")
 }
@@ -162,6 +184,7 @@ model UserRole {
 model ServiceCategory {
     id          String   @id @default(uuid())
     name        String
+    nameEn      String?
     slug        String
     icon        String?
     order       Int      @default(0)
@@ -170,7 +193,8 @@ model ServiceCategory {
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
 
-    services ServiceCategoryMap[]
+    services        ServiceCategoryMap[]
+    serviceRequests ServiceRequest[]
 
     @@unique([slug, countryCode])
     @@map("service_categories")
@@ -247,7 +271,7 @@ model Rating {
     userId        String
     stars         Int
     comment       String?       @db.Text
-    status        CommentStatus @default(ACTIVE)
+    status        CommentStatus @default(PENDING)
     ownerResponse String?       @db.Text
     respondedAt   DateTime?
     createdAt     DateTime      @default(now())
@@ -415,4 +439,77 @@ model Message {
     @@index([conversationId])
     @@index([createdAt])
     @@map("messages")
+}
+
+// ─── Transactional Marketplace ───────────────────────────────────────────────
+
+model ServiceRequest {
+    id          String               @id @default(uuid())
+    userId      String
+    categoryId  String
+    description String               @db.Text
+    urgency     String
+    status      ServiceRequestStatus @default(PENDING)
+    createdAt   DateTime             @default(now())
+    updatedAt   DateTime             @updatedAt
+
+    user        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+    category    ServiceCategory      @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+    quotes      Quote[]
+
+    @@index([userId])
+    @@index([categoryId])
+    @@index([status])
+    @@map("service_requests")
+}
+
+model Quote {
+    id               String         @id @default(uuid())
+    serviceRequestId String
+    userId           String
+    price            Decimal        @db.Decimal(10, 2)
+    message          String         @db.Text
+    accepted         Boolean        @default(false)
+    createdAt        DateTime       @default(now())
+    updatedAt        DateTime       @updatedAt
+
+    serviceRequest   ServiceRequest @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
+    provider         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([serviceRequestId])
+    @@index([userId])
+    @@map("quotes")
+}
+
+model Address {
+    id          String   @id @default(uuid())
+    userId      String
+    alias       String?  // Ej: "Casa", "Trabajo"
+    street      String   // Calle, avenida
+    number      String   // Número exterior
+    apartment   String?  // Número interior
+    zipCode     String?  // Código postal
+    reference   String?  @db.Text
+    isDefault   Boolean  @default(false)
+
+    countryId   String
+    regionId    String
+    localityId  String
+    
+    latitude    Decimal? @db.Decimal(10, 8)
+    longitude   Decimal? @db.Decimal(11, 8)
+
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+
+    user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+    country     Country     @relation(fields: [countryId], references: [id])
+    region      GeoRegion   @relation(fields: [regionId], references: [id])
+    locality    GeoLocality @relation(fields: [localityId], references: [id])
+
+    @@index([userId])
+    @@index([countryId])
+    @@index([regionId])
+    @@index([localityId])
+    @@map("addresses")
 }

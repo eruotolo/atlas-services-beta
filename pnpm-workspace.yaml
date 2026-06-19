@@ -1,6 +1,7 @@
 packages:
   - 'frontend'
   - 'backend'
+  - 'appmobile'
 allowBuilds:
   '@nestjs/core': true
   '@prisma/engines': true
@@ -9,3 +10,4 @@ allowBuilds:
   prisma: true
   protobufjs: true
   sharp: true
+ignoreWorkspaceRootCheck: true

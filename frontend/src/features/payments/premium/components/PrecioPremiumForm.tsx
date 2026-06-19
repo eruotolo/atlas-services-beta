@@ -1,24 +1,52 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useState } from 'react';
+
+import type { Country } from '@/features/geo/types/geoTypes';
+import { Btn, Field, Input, Select } from '@/shared/components/hireeo';
+import { notify } from '@/shared/lib/notify';
 
 import type { PrecioPremium } from '../../types/paymentTypes';
 import { actualizarPrecioPremium, crearPrecioPremium } from '../actions';
 
 interface PrecioPremiumFormProps {
     precioPremium?: PrecioPremium;
+    /** Duración prefijada al agregar desde una tarjeta de duración */
+    defaultDuracion?: number;
+    countries: Country[];
     onSuccess: () => void;
     onCancel: () => void;
 }
 
+const DURACIONES = [
+    { value: 1, label: '1 mes' },
+    { value: 3, label: '3 meses' },
+    { value: 6, label: '6 meses' },
+    { value: 9, label: '9 meses' },
+    { value: 12, label: '12 meses' },
+] as const;
+
 export default function PrecioPremiumForm({
     precioPremium,
+    defaultDuracion,
+    countries,
     onSuccess,
     onCancel,
 }: PrecioPremiumFormProps) {
-    const id = useId();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    // País seleccionado — determina la moneda automáticamente
+    const [selectedCountryCode, setSelectedCountryCode] = useState(
+        precioPremium?.countryCode ?? countries[0]?.code ?? '',
+    );
+
+    const selectedCountry = countries.find((c) => c.code === selectedCountryCode);
+
+    const isEditing = !!precioPremium;
+    const duracionFixed = isEditing || !!defaultDuracion;
+    // Solo pre-seleccionamos si viene una duración fija; de lo contrario dejamos el select vacío
+    const duracionValue = precioPremium?.duracionMeses ?? defaultDuracion;
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -26,139 +54,163 @@ export default function PrecioPremiumForm({
         setError('');
 
         const formData = new FormData(e.currentTarget);
+        const country = countries.find((c) => c.code === formData.get('countryCode'));
 
         try {
-            const data = {
-                duracionMeses: Number(formData.get('duracionMeses')),
-                precio: Number(formData.get('precio')),
-                descripcion: formData.get('descripcion') as string,
-            };
-
-            const result = precioPremium
-                ? await actualizarPrecioPremium({ ...data, id: precioPremium.id })
-                : await crearPrecioPremium(data);
-
-            if (result.error) {
-                setError(result.error);
+            if (isEditing && precioPremium) {
+                const result = await actualizarPrecioPremium({
+                    id: precioPremium.id,
+                    precio: Number(formData.get('precio')),
+                    currency: country?.currency ?? precioPremium.currency ?? 'CLP',
+                    descripcion: formData.get('descripcion') as string,
+                });
+                if (result.error) {
+                    setError(result.error);
+                    notify.error({ title: 'Error al actualizar precio', description: result.error });
+                } else {
+                    notify.success({ title: 'Precio actualizado' });
+                    onSuccess();
+                }
             } else {
-                onSuccess();
+                if (!country) {
+                    setError('Selecciona un país válido');
+                    notify.warning({ title: 'Selecciona un país válido' });
+                    setLoading(false);
+                    return;
+                }
+                const result = await crearPrecioPremium({
+                    countryId: country.id,
+                    duracionMeses: Number(formData.get('duracionMeses')),
+                    precio: Number(formData.get('precio')),
+                    currency: country.currency,
+                    descripcion: formData.get('descripcion') as string,
+                });
+                if (result.error) {
+                    setError(result.error);
+                    notify.error({ title: 'Error al crear precio', description: result.error });
+                } else {
+                    notify.success({
+                        title: 'Precio creado',
+                        description: `${country.name} · ${country.currency}`,
+                    });
+                    onSuccess();
+                }
             }
-        } catch (_err) {
+        } catch {
             setError('Error al procesar la solicitud');
+            notify.error({ title: 'Error al procesar la solicitud' });
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-5 transition-colors duration-300">
-            {precioPremium && (
-                <>
-                    <input type="hidden" name="id" value={precioPremium.id} />
-                    <input type="hidden" name="duracionMeses" value={precioPremium.duracionMeses} />
-                </>
-            )}
-
+        <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-                <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
+                <div
+                    className="rounded-xl border p-4 text-sm"
+                    style={{
+                        borderColor: 'var(--danger)',
+                        background: 'var(--danger-soft)',
+                        color: 'var(--danger)',
+                    }}
+                >
                     {error}
                 </div>
             )}
 
-            <div>
-                <label
-                    htmlFor={`${id}-duracionMeses`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Duración (meses)
-                </label>
-                <select
-                    id={`${id}-duracionMeses`}
-                    name="duracionMeses"
-                    defaultValue={precioPremium?.duracionMeses}
-                    required
-                    disabled={!!precioPremium}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none disabled:bg-gray-50 disabled:opacity-60 dark:border-white/5 dark:bg-gray-800 dark:text-white dark:disabled:bg-gray-950"
-                >
-                    <option value="" className="dark:bg-gray-900">
-                        Seleccionar duración
-                    </option>
-                    <option value="1" className="dark:bg-gray-900">
-                        1 mes
-                    </option>
-                    <option value="3" className="dark:bg-gray-900">
-                        3 meses
-                    </option>
-                    <option value="6" className="dark:bg-gray-900">
-                        6 meses
-                    </option>
-                    <option value="9" className="dark:bg-gray-900">
-                        9 meses
-                    </option>
-                    <option value="12" className="dark:bg-gray-900">
-                        12 meses
-                    </option>
-                </select>
-                {precioPremium && (
-                    <p className="mt-1 text-[10px] font-bold text-gray-500 uppercase dark:text-gray-600">
-                        La duración no puede ser modificada
-                    </p>
-                )}
-            </div>
+            {/* País (solo en creación) */}
+            {!isEditing && (
+                <Field label="País">
+                    <Select
+                        name="countryCode"
+                        value={selectedCountryCode}
+                        onChange={(e) => setSelectedCountryCode(e.target.value)}
+                        required
+                    >
+                        {countries.map((c) => (
+                            <option key={c.code} value={c.code}>
+                                {c.name} ({c.currency})
+                            </option>
+                        ))}
+                    </Select>
+                </Field>
+            )}
 
-            <div>
-                <label
-                    htmlFor={`${id}-precio`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
+            {/* País (display solo en edición) */}
+            {isEditing && precioPremium?.countryName && (
+                <div
+                    className="rounded-xl px-4 py-3 text-[13px]"
+                    style={{ background: 'var(--tint)', color: 'var(--sub)' }}
                 >
-                    Precio (CLP)
-                </label>
-                <input
+                    País: <strong style={{ color: 'var(--ink)' }}>{precioPremium.countryName}</strong>
+                    {precioPremium.currency && (
+                        <> · Moneda: <strong style={{ color: 'var(--ink)' }}>{precioPremium.currency}</strong></>
+                    )}
+                </div>
+            )}
+
+            {/* Duración */}
+            <Field
+                label="Duración"
+                hint={duracionFixed ? 'La duración no puede modificarse desde aquí' : undefined}
+            >
+                {duracionFixed ? (
+                    <>
+                        <input type="hidden" name="duracionMeses" value={duracionValue} />
+                        <div
+                            className="rounded-xl px-4 py-3 text-[13px] font-semibold"
+                            style={{ background: 'var(--tint)', color: 'var(--ink)' }}
+                        >
+                            {DURACIONES.find((d) => d.value === duracionValue)?.label ?? `${duracionValue} meses`}
+                        </div>
+                    </>
+                ) : (
+                    <Select name="duracionMeses" defaultValue="" required>
+                        <option value="" disabled>
+                            Seleccionar duración…
+                        </option>
+                        {DURACIONES.map((d) => (
+                            <option key={d.value} value={d.value}>
+                                {d.label}
+                            </option>
+                        ))}
+                    </Select>
+                )}
+            </Field>
+
+            {/* Precio */}
+            <Field
+                label={`Precio${selectedCountry ? ` (${selectedCountry.currency})` : ''}`}
+            >
+                <Input
                     type="number"
-                    id={`${id}-precio`}
                     name="precio"
                     defaultValue={precioPremium?.precio ? Number(precioPremium.precio) : undefined}
                     required
                     min="0"
                     step="1"
-                    placeholder="9990"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    placeholder={selectedCountry?.currency === 'USD' ? '9.99' : '9990'}
                 />
-            </div>
+            </Field>
 
-            <div>
-                <label
-                    htmlFor={`${id}-descripcion`}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Descripción (opcional)
-                </label>
-                <input
+            {/* Descripción */}
+            <Field label="Descripción" optional>
+                <Input
                     type="text"
-                    id={`${id}-descripcion`}
                     name="descripcion"
                     defaultValue={precioPremium?.descripcion || ''}
-                    placeholder="Ej: 1 mes de servicio premium"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
+                    placeholder="Ej: Plan mensual profesional"
                 />
-            </div>
+            </Field>
 
-            <div className="flex justify-end gap-3 border-t pt-4 dark:border-white/5">
-                <button
-                    type="button"
-                    onClick={onCancel}
-                    disabled={loading}
-                    className="cursor-pointer rounded-xl border border-gray-200 px-6 py-2.5 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:text-gray-400 dark:hover:bg-gray-800"
-                >
+            <div className="mt-8 flex justify-end gap-3">
+                <Btn type="button" variant="secondary" onClick={onCancel} disabled={loading}>
                     Cancelar
-                </button>
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="btn-primary cursor-pointer rounded-xl px-6 py-2.5 text-xs disabled:opacity-50"
-                >
-                    {loading ? 'Guardando...' : precioPremium ? 'Actualizar' : 'Crear'}
-                </button>
+                </Btn>
+                <Btn type="submit" variant="accent" disabled={loading}>
+                    {loading ? 'Guardando...' : isEditing ? 'Actualizar' : 'Crear precio'}
+                </Btn>
             </div>
         </form>
     );

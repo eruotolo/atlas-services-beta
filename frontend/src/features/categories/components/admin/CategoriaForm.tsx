@@ -2,15 +2,18 @@
 
 import { useId, useState } from 'react';
 
-import { Search, X } from 'lucide-react';
+import { Search, X } from '@/shared/components/icons';
 
 import { actualizarCategoria, crearCategoria } from '@/features/categories/actions';
 
 import { CategoryIcon, ICON_NAMES } from '@/shared/components/icons/CategoryIcons';
+import { Btn, Field, Input } from '@/shared/components/hireeo';
+import { notify } from '@/shared/lib/notify';
 
 interface CategoriaServicio {
     id: string;
     nombre: string;
+    nombreEn?: string | null;
     slug: string;
     icono: string | null;
     orden: number;
@@ -23,6 +26,10 @@ interface CategoriaFormProps {
     onCancel: () => void;
 }
 
+function buildCategoryDescription(nombre: string, nombreEn: string | null): string {
+    return nombreEn ? `${nombre} / ${nombreEn} (EN)` : nombre;
+}
+
 export default function CategoriaForm({ categoria, onSuccess, onCancel }: CategoriaFormProps) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
@@ -31,7 +38,12 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
     const [iconSearch, setIconSearch] = useState('');
 
     const nombreId = useId();
+    const nombreEnId = useId();
     const ordenId = useId();
+
+    const labels = categoria
+        ? { success: 'Categoría actualizada', error: 'Error al actualizar categoría', submit: 'Actualizar' }
+        : { success: 'Categoría creada', error: 'Error al crear categoría', submit: 'Crear' };
 
     const [visibleLimit, setVisibleLimit] = useState(50);
 
@@ -39,12 +51,6 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
         iconName.toLowerCase().includes(iconSearch.toLowerCase()),
     );
     const visibleIcons = filteredIcons.slice(0, visibleLimit);
-
-    // Reset limit when search changes
-    if (visibleLimit !== 50 && iconSearch !== '' && visibleIcons.length < 50) {
-        // Optimization: usually handled in useEffect or handler, but simple reset on search change is needed.
-        // Better to do it in the onChange handler.
-    }
 
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
@@ -56,9 +62,10 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
         try {
             const data = {
                 nombre: formData.get('nombre') as string,
+                nombreEn: (formData.get('nombreEn') as string) || null,
                 icono: selectedIcon || null,
                 orden: Number(formData.get('orden')),
-                activo: categoria ? categoria.activo : true,
+                activo: categoria?.activo ?? true,
             };
 
             const result = categoria
@@ -67,11 +74,17 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
 
             if (result.error) {
                 setError(result.error);
+                notify.error({ title: labels.error, description: result.error });
             } else {
+                notify.success({
+                    title: labels.success,
+                    description: buildCategoryDescription(data.nombre, data.nombreEn),
+                });
                 onSuccess();
             }
         } catch (_err) {
             setError('Error al procesar la solicitud');
+            notify.error({ title: 'Error al procesar la solicitud' });
         } finally {
             setLoading(false);
         }
@@ -82,48 +95,53 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
             {categoria && <input type="hidden" name="id" value={categoria.id} />}
 
             {error && (
-                <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-600 dark:border-red-900/30 dark:bg-red-900/20 dark:text-red-400">
+                <div className="rounded-xl border border-red-100 bg-red-50 p-4 text-sm text-red-600">
                     {error}
                 </div>
             )}
 
-            <div>
-                <label
-                    htmlFor={nombreId}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Nombre de la Categoría
-                </label>
-                <input
-                    type="text"
-                    id={nombreId}
-                    name="nombre"
-                    defaultValue={categoria?.nombre}
-                    required
-                    placeholder="Ej: Gasfitería"
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
-                />
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <Field label="Nombre (Español)">
+                    <Input
+                        type="text"
+                        id={nombreId}
+                        name="nombre"
+                        defaultValue={categoria?.nombre}
+                        required
+                        placeholder="Ej: Carpintero"
+                    />
+                </Field>
+
+                <Field label="Nombre (Inglés)" optional hint="Usado en Estados Unidos">
+                    <Input
+                        type="text"
+                        id={nombreEnId}
+                        name="nombreEn"
+                        defaultValue={categoria?.nombreEn ?? ''}
+                        placeholder="Ej: Carpenter"
+                    />
+                </Field>
             </div>
 
             <div className="relative">
-                <span className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500">
+                <span className="mb-1.5 block text-[12px] font-semibold tracking-[-0.005em] text-ink">
                     Icono
                 </span>
                 <div className="flex gap-3">
                     <button
                         type="button"
                         onClick={() => setShowIconPicker(!showIconPicker)}
-                        className="flex w-full cursor-pointer items-center justify-between rounded-xl border border-gray-200 px-4 py-2.5 text-left text-gray-900 transition-all hover:bg-gray-50 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
+                        className="flex w-full cursor-pointer items-center justify-between rounded-xl border border-line px-4 py-2.5 text-left text-ink transition-all hover:bg-tint focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none bg-bg"
                     >
                         <span className="flex items-center gap-3">
                             {selectedIcon ? (
                                 <CategoryIcon
                                     name={selectedIcon}
-                                    className="text-brand dark:text-brand-light"
+                                    className="text-brand "
                                     size={20}
                                 />
                             ) : (
-                                <span className="text-gray-400 dark:text-gray-600">
+                                <span className="text-muted">
                                     Seleccionar icono...
                                 </span>
                             )}
@@ -131,7 +149,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                                 {selectedIcon || 'Sin icono'}
                             </span>
                         </span>
-                        <span className="text-xs font-bold text-brand dark:text-brand-light">
+                        <span className="text-xs font-semibold text-brand ">
                             Cambiar
                         </span>
                     </button>
@@ -139,7 +157,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                         <button
                             type="button"
                             onClick={() => setSelectedIcon('')}
-                            className="cursor-pointer rounded-xl border border-gray-200 p-2.5 text-gray-400 hover:bg-red-50 hover:text-red-600 dark:border-white/5 dark:hover:bg-red-950/30"
+                            className="cursor-pointer rounded-xl border border-line p-2.5 text-muted hover:bg-red-50 hover:text-red-600"
                             title="Quitar icono"
                         >
                             <X size={20} />
@@ -149,10 +167,10 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
 
                 {/* Icon Picker Dropdown */}
                 {showIconPicker && (
-                    <div className="mt-4 w-full overflow-hidden rounded-2xl border border-gray-100 bg-gray-50/50 dark:border-white/5 dark:bg-gray-800/50">
-                        <div className="border-b border-gray-100 p-3 dark:border-white/5">
-                            <div className="flex items-center gap-2 rounded-xl bg-gray-50 px-3 py-2 dark:bg-gray-800">
-                                <Search size={16} className="text-gray-400 dark:text-gray-600" />
+                    <div className="mt-4 w-full overflow-hidden rounded-2xl border border-line bg-tint/50">
+                        <div className="border-b border-line p-3">
+                            <div className="flex items-center gap-2 rounded-xl bg-tint px-3">
+                                <Search size={16} className="text-muted" />
                                 <input
                                     type="text"
                                     placeholder="Buscar icono..."
@@ -161,7 +179,7 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                                         setIconSearch(e.target.value);
                                         setVisibleLimit(50);
                                     }}
-                                    className="w-full bg-transparent text-sm outline-none placeholder:text-gray-400 dark:text-white"
+                                    className="w-full bg-transparent py-2.5 text-sm outline-none placeholder:text-muted text-ink"
                                 />
                             </div>
                         </div>
@@ -178,8 +196,8 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                                         }}
                                         className={`flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl p-2 transition-all ${
                                             isSelected
-                                                ? 'bg-brand/5 text-brand ring-2 ring-brand ring-offset-1 dark:bg-brand-marino/30 dark:text-brand-light dark:ring-brand dark:ring-offset-gray-900'
-                                                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200'
+                                                ? 'bg-brand/5 text-brand ring-2 ring-brand ring-offset-1'
+                                                : 'text-sub hover:bg-tint hover:text-ink'
                                         }`}
                                         title={iconName}
                                     >
@@ -191,13 +209,13 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                                 <button
                                     type="button"
                                     onClick={() => setVisibleLimit((prev) => prev + 50)}
-                                    className="col-span-full mt-2 cursor-pointer rounded-lg bg-gray-100 py-2 text-xs font-medium text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                                    className="col-span-full mt-2 cursor-pointer rounded-lg bg-tint py-2 text-xs font-medium text-sub hover:bg-line"
                                 >
                                     Cargar más ({filteredIcons.length - visibleLimit} restantes)
                                 </button>
                             )}
                             {filteredIcons.length === 0 && (
-                                <div className="col-span-full py-4 text-center text-xs text-gray-400">
+                                <div className="col-span-full py-4 text-center text-xs text-muted">
                                     No se encontraron iconos
                                 </div>
                             )}
@@ -206,42 +224,32 @@ export default function CategoriaForm({ categoria, onSuccess, onCancel }: Catego
                 )}
             </div>
 
-            <div>
-                <label
-                    htmlFor={ordenId}
-                    className="mb-1.5 block text-xs font-black tracking-wider text-gray-700 uppercase dark:text-gray-500"
-                >
-                    Orden
-                </label>
-                <input
+            <Field label="Orden" hint="Menor número aparece primero.">
+                <Input
                     type="number"
                     id={ordenId}
                     name="orden"
                     defaultValue={categoria?.orden || 0}
                     required
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:border-brand focus:ring-2 focus:ring-brand/20 focus:outline-none dark:border-white/5 dark:bg-gray-800 dark:text-white"
                 />
-                <p className="mt-1 text-[10px] tracking-tight text-gray-400 uppercase">
-                    Menor número aparece primero.
-                </p>
-            </div>
+            </Field>
 
-            <div className="flex justify-end gap-3 border-t pt-4 dark:border-white/5">
-                <button
+            <div className="mt-8 flex justify-end gap-3">
+                <Btn
                     type="button"
+                    variant="secondary"
                     onClick={onCancel}
                     disabled={loading}
-                    className="cursor-pointer rounded-xl border border-gray-200 px-6 py-2.5 text-xs font-bold text-gray-700 transition-colors hover:bg-gray-50 disabled:opacity-50 dark:border-white/10 dark:text-gray-400 dark:hover:bg-gray-800"
                 >
                     Cancelar
-                </button>
-                <button
+                </Btn>
+                <Btn
                     type="submit"
+                    variant="primary"
                     disabled={loading}
-                    className="btn-primary cursor-pointer rounded-xl px-6 py-2.5 text-xs disabled:opacity-50"
                 >
-                    {loading ? 'Guardando...' : categoria ? 'Actualizar' : 'Crear'}
-                </button>
+                    {loading ? 'Guardando...' : labels.submit}
+                </Btn>
             </div>
         </form>
     );

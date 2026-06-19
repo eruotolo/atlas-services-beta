@@ -4,6 +4,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 
 import { CurrentUser } from '@common/decorators/current-user.decorator';
+import { ExposeTokens } from '@common/decorators/expose-tokens.decorator';
 
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -14,6 +15,7 @@ export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
     @Post('register')
+    @ExposeTokens()
     @Throttle({ short: { limit: 3, ttl: 60000 } })
     @ApiOperation({ summary: 'Registrar nuevo usuario' })
     register(@Body() dto: RegisterDto) {
@@ -21,18 +23,20 @@ export class AuthController {
     }
 
     @Post('login')
+    @ExposeTokens()
     @HttpCode(HttpStatus.OK)
     @Throttle({ short: { limit: 5, ttl: 60000 } })
     @UseGuards(AuthGuard('local'))
     @ApiOperation({ summary: 'Iniciar sesión — retorna JWT' })
     login(
         @CurrentUser()
-        user: { id: string; email: string; roles: string[]; adminCountries: string[] },
+        user: { id: string; email: string; roles: string[]; adminCountries: string[]; providerCountries: string[] },
     ) {
-        return this.authService.login(user.id, user.email, user.roles, user.adminCountries);
+        return this.authService.login(user.id, user.email, user.roles, user.adminCountries, user.providerCountries);
     }
 
     @Post('refresh')
+    @ExposeTokens()
     @HttpCode(HttpStatus.OK)
     @ApiOperation({ summary: 'Renovar access token con refresh token' })
     refresh(@Body('refreshToken') refreshToken: string) {
@@ -40,10 +44,29 @@ export class AuthController {
     }
 
     @Post('google')
+    @ExposeTokens()
     @HttpCode(HttpStatus.OK)
     @Throttle({ short: { limit: 5, ttl: 60000 } })
     @ApiOperation({ summary: 'Login con Google — recibe idToken, retorna JWT' })
     googleLogin(@Body('idToken') idToken: string) {
         return this.authService.googleLogin(idToken);
+    }
+
+    @Post('apple')
+    @ExposeTokens()
+    @HttpCode(HttpStatus.OK)
+    @Throttle({ short: { limit: 5, ttl: 60000 } })
+    @ApiOperation({ summary: 'Login con Apple — recibe idToken, retorna JWT' })
+    appleLogin(@Body('idToken') idToken: string) {
+        return this.authService.appleLogin(idToken);
+    }
+
+    @Post('microsoft')
+    @ExposeTokens()
+    @HttpCode(HttpStatus.OK)
+    @Throttle({ short: { limit: 5, ttl: 60000 } })
+    @ApiOperation({ summary: 'Login con Microsoft — recibe accessToken, retorna JWT' })
+    microsoftLogin(@Body('accessToken') accessToken: string) {
+        return this.authService.microsoftLogin(accessToken);
     }
 }

@@ -2,15 +2,19 @@
 
 import { useState } from 'react';
 
-import { Edit2, Plus, Trash2 } from 'lucide-react';
+import { Edit2, Plus, Trash2 } from '@/shared/components/icons';
 
 import Modal from '@/shared/components/admin/Modal';
-import type { Column } from '@/shared/components/ui/data-table';
-import { DataTable } from '@/shared/components/ui/data-table';
-import { useDataTable } from '@/shared/components/ui/data-table/useDataTable';
+import { ColumnDef } from '@tanstack/react-table';
+import { DataTable } from '@/shared/components/DataTable';
+import { useDataTable } from '@/shared/components/DataTable/useDataTable';
+import { Btn } from '@/shared/components/hireeo';
+import { Pill } from '@/shared/components/hireeo';
+import { notify } from '@/shared/lib/notify';
 
 import type { PrecioPremium } from '../../types/paymentTypes';
 import { eliminarPrecioPremium, toggleActivoPrecioPremium } from '../actions';
+import type { Country } from '@/features/geo/types/geoTypes';
 import PrecioPremiumForm from './PrecioPremiumForm';
 
 interface PreciosPremiumTableProps {
@@ -23,9 +27,10 @@ interface PreciosPremiumTableProps {
             totalPages: number;
         };
     };
+    countries: Country[];
 }
 
-export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps) {
+export default function PreciosPremiumTable({ result, countries }: PreciosPremiumTableProps) {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedPrecio, setSelectedPrecio] = useState<PrecioPremium | null>(null);
@@ -48,12 +53,13 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
         try {
             const result = await eliminarPrecioPremium(id);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al eliminar precio', description: result.error });
             } else {
+                notify.success({ title: 'Precio eliminado' });
                 window.location.reload();
             }
         } catch (_error) {
-            alert('Error al eliminar precio');
+            notify.error({ title: 'Error al eliminar precio' });
         } finally {
             setIsDeleting(null);
         }
@@ -63,12 +69,13 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
         try {
             const result = await toggleActivoPrecioPremium(id);
             if (result.error) {
-                alert(result.error);
+                notify.error({ title: 'Error al cambiar estado', description: result.error });
             } else {
+                notify.success({ title: 'Estado del precio actualizado' });
                 window.location.reload();
             }
         } catch (_error) {
-            alert('Error al cambiar estado');
+            notify.error({ title: 'Error al cambiar estado' });
         }
     }
 
@@ -80,57 +87,55 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
     }
 
     // Definir las columnas de la tabla
-    const columns: Column<PrecioPremium>[] = [
+    const columns: ColumnDef<PrecioPremium>[] = [
         {
             header: 'Duración',
-            cell: (precio) => (
-                <span className="font-bold text-gray-900 dark:text-white">
+            cell: ({ row: { original: precio } }) => (
+                <span className="font-semibold text-ink">
                     {precio.duracionMeses} {precio.duracionMeses === 1 ? 'mes' : 'meses'}
                 </span>
             ),
         },
         {
             header: 'Precio',
-            cell: (precio) => (
-                <span className="text-gray-600 dark:text-gray-400">
+            cell: ({ row: { original: precio } }) => (
+                <span className="text-sub">
                     ${Number(precio.precio).toLocaleString('es-CL')}
                 </span>
             ),
         },
         {
             header: 'Descripción',
-            cell: (precio) => (
-                <span className="text-gray-600 dark:text-gray-400">
+            cell: ({ row: { original: precio } }) => (
+                <span className="text-sub">
                     {precio.descripcion || '-'}
                 </span>
             ),
         },
         {
             header: 'Estado',
-            cell: (precio) => (
+            cell: ({ row: { original: precio } }) => (
                 <button
                     type="button"
                     onClick={() => handleToggleActivo(precio.id)}
-                    className={`cursor-pointer rounded-full px-3 py-1 text-xs font-bold transition-all hover:scale-105 ${
-                        precio.activo
-                            ? 'bg-green-50 text-green-600 hover:bg-green-100 dark:bg-green-900/20 dark:text-green-400'
-                            : 'bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-500'
-                    }`}
+                    className="cursor-pointer transition-all hover:scale-105"
                     title={precio.activo ? 'Click para desactivar' : 'Click para activar'}
                 >
-                    {precio.activo ? 'Activo' : 'Inactivo'}
+                    <Pill tone={precio.activo ? 'success' : 'default'}>
+                        {precio.activo ? 'Activo' : 'Inactivo'}
+                    </Pill>
                 </button>
             ),
         },
         {
             header: 'Acciones',
-            className: 'text-right',
-            cell: (precio) => (
+            meta: { className: 'text-right' },
+            cell: ({ row: { original: precio } }) => (
                 <div className="flex justify-end gap-2">
                     <button
                         type="button"
                         onClick={() => handleEdit(precio)}
-                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5 dark:text-brand-light dark:hover:bg-brand-marino/30"
+                        className="cursor-pointer rounded-xl p-2 text-brand transition-colors hover:bg-brand/5"
                         title="Editar"
                     >
                         <Edit2 size={18} />
@@ -139,7 +144,7 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
                         type="button"
                         onClick={() => handleDelete(precio.id)}
                         disabled={isDeleting === precio.id}
-                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50 dark:text-red-400 dark:hover:bg-red-900/30"
+                        className="cursor-pointer rounded-xl p-2 text-red-600 transition-colors hover:bg-red-50 disabled:opacity-50"
                         title="Eliminar"
                     >
                         <Trash2 size={18} />
@@ -164,14 +169,14 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
                 totalCount={result.meta.total}
                 isLoading={isPending}
                 actionButton={
-                    <button
+                    <Btn
                         type="button"
                         onClick={() => setIsCreateModalOpen(true)}
-                        className="btn-primary flex cursor-pointer items-center gap-2 rounded-2xl px-4 py-3"
+                        variant="primary"
                     >
                         <Plus size={20} />
                         <span className="hidden sm:inline">Nuevo Precio</span>
-                    </button>
+                    </Btn>
                 }
             />
 
@@ -182,6 +187,7 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
                 title="Crear Precio Premium"
             >
                 <PrecioPremiumForm
+                    countries={countries}
                     onSuccess={handleSuccess}
                     onCancel={() => setIsCreateModalOpen(false)}
                 />
@@ -199,6 +205,7 @@ export default function PreciosPremiumTable({ result }: PreciosPremiumTableProps
                 {selectedPrecio && (
                     <PrecioPremiumForm
                         precioPremium={selectedPrecio}
+                        countries={countries}
                         onSuccess={handleSuccess}
                         onCancel={() => {
                             setIsEditModalOpen(false);

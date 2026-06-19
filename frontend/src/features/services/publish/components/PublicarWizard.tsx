@@ -1,13 +1,12 @@
-'use client';
+﻿'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactElement } from 'react';
 
 import { useSearchParams } from 'next/navigation';
 
-import { Check } from 'lucide-react';
-
 import PaymentBrickWrapper from '@/features/payments/components/PaymentBrickWrapper';
 import { getServicioById } from '@/features/services/actions';
+import { Card, Icon, Mono } from '@/shared/components/hireeo';
 
 import Paso1DatosUsuario from './Paso1DatosUsuario';
 import Paso2TuOficio from './Paso2TuOficio';
@@ -27,7 +26,58 @@ interface PublicarWizardProps {
     usuarioLogueado: Usuario | null;
 }
 
-export default function PublicarWizard({ usuarioLogueado }: PublicarWizardProps) {
+interface StepDef {
+    numero: number;
+    titulo: string;
+    completado: boolean;
+}
+
+interface StepperItemProps {
+    paso: StepDef;
+    isActive: boolean;
+    isLast: boolean;
+}
+
+function StepperItem({ paso, isActive, isLast }: StepperItemProps): ReactElement {
+    const isDone = paso.completado;
+    const bg = isDone ? 'var(--success)' : isActive ? 'var(--ink)' : 'var(--tint)';
+    const color = isDone ? 'white' : isActive ? 'var(--bg)' : 'var(--sub)';
+    return (
+        <div className="flex items-center">
+            <div className="flex items-center gap-2">
+                <span
+                    className="inline-flex h-7 w-7 items-center justify-center rounded-full text-[12px] font-semibold"
+                    style={{ background: bg, color }}
+                >
+                    {isDone ? <Icon name="check" size={12} stroke="white" /> : paso.numero}
+                </span>
+                <div className="hidden leading-tight md:block">
+                    <Mono
+                        className="text-[9.5px] font-semibold tracking-[0.08em]"
+                        style={{
+                            color: isActive ? 'var(--accent)' : 'var(--muted)'}} 
+                    >
+                        PASO {paso.numero}
+                    </Mono>
+                    <div
+                        className="text-[11.5px] font-semibold"
+                        style={{ color: isActive ? 'var(--ink)' : 'var(--sub)' }}
+                    >
+                        {paso.titulo}
+                    </div>
+                </div>
+            </div>
+            {!isLast ? (
+                <span
+                    className="mx-2 h-px w-6 md:w-10"
+                    style={{ background: isDone ? 'var(--success)' : 'var(--line)' }}
+                />
+            ) : null}
+        </div>
+    );
+}
+
+export default function PublicarWizard({ usuarioLogueado }: PublicarWizardProps): ReactElement {
     const searchParams = useSearchParams();
     const upgradeId = searchParams.get('upgrade');
 
@@ -99,90 +149,59 @@ export default function PublicarWizard({ usuarioLogueado }: PublicarWizardProps)
     ];
 
     return (
-        <div className="bg-background min-h-screen py-6 transition-colors duration-300 md:py-12">
-            <div className="container mx-auto max-w-site px-4 sm:px-6 lg:px-8">
-                {/* Progress Steps */}
-                <div className="mb-8 md:mb-12">
-                    <div className="flex items-center justify-between md:justify-center">
-                        {pasos.map((paso, index) => (
-                            <div key={paso.numero} className="flex items-center">
-                                <div
-                                    className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[10px] font-black transition-all md:h-9 md:w-9 md:text-sm ${
-                                        paso.completado
-                                            ? 'bg-green-500 text-white'
-                                            : paso.numero === pasoActual
-                                              ? 'bg-brand text-white'
-                                              : 'bg-gray-200 text-gray-500 dark:bg-gray-800 dark:text-gray-600'
-                                    }`}
-                                >
-                                    {paso.completado ? (
-                                        <Check size={12} className="md:h-4 md:w-4" />
-                                    ) : (
-                                        paso.numero
-                                    )}
-                                </div>
-                                <div className="ml-2 hidden text-left leading-none md:block">
-                                    <p
-                                        className={`text-[12px] font-black tracking-tighter whitespace-nowrap uppercase ${paso.numero === pasoActual ? 'text-brand dark:text-brand-light' : 'text-gray-600 dark:text-gray-500'}`}
-                                    >
-                                        Paso {paso.numero}
-                                    </p>
-                                    <p
-                                        className={`mt-0.5 max-w-[90px] truncate text-[11px] font-bold whitespace-nowrap ${paso.numero === pasoActual ? 'text-gray-900 dark:text-white' : 'text-gray-500'}`}
-                                    >
-                                        {paso.titulo}
-                                    </p>
-                                </div>
-                                {index < pasos.length - 1 && (
-                                    <div
-                                        className={`mx-1.5 h-0.5 w-3 sm:w-6 md:mx-4 md:w-16 ${paso.completado ? 'bg-green-500' : 'bg-gray-200 dark:bg-gray-800'}`}
-                                    />
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                    {/* Título de paso actual solo para móvil */}
-                    {Number.isInteger(pasoActual) && pasos[pasoActual - 1] && (
-                        <div className="mt-4 text-center md:hidden">
-                            <p className="text-xs font-black tracking-widest text-brand uppercase dark:text-brand-light">
-                                Paso {pasoActual}: {pasos[pasoActual - 1].titulo}
-                            </p>
-                        </div>
-                    )}
+        <div className="flex flex-col gap-6">
+            <Card padding={20}>
+                <div className="flex flex-wrap items-center justify-center gap-2">
+                    {pasos.map((paso, index) => (
+                        <StepperItem
+                            key={paso.numero}
+                            paso={paso}
+                            isActive={paso.numero === pasoActual}
+                            isLast={index === pasos.length - 1}
+                        />
+                    ))}
                 </div>
+                {Number.isInteger(pasoActual) && pasos[pasoActual - 1] ? (
+                    <div className="mt-4 text-center md:hidden">
+                        <Mono
+                            className="text-[10.5px] font-semibold tracking-wider text-accent"
+                        >
+                            PASO {pasoActual} · {pasos[pasoActual - 1].titulo.toUpperCase()}
+                        </Mono>
+                    </div>
+                ) : null}
+            </Card>
 
-                {/* Content */}
-                <div className="rounded-[2rem] border border-gray-100 bg-white p-6 shadow-sm md:rounded-[2.5rem] md:p-12 dark:border-white/10 dark:bg-gray-900/40 dark:shadow-none dark:backdrop-blur-xl">
-                    {pasoActual === 1 && <Paso1DatosUsuario onSuccess={handleUsuarioVerificado} />}
-                    {pasoActual === 2 && datosUsuario && (
-                        <Paso2TuOficio usuario={datosUsuario} onSuccess={handleServicioCreado} />
-                    )}
-                    {pasoActual === 3 && (
-                        <Paso3NivelServicio
-                            onSelectBasico={handleSelectBasico}
-                            onSelectPremium={handleSelectPremium}
+            <Card padding={32}>
+                {pasoActual === 1 && <Paso1DatosUsuario onSuccess={handleUsuarioVerificado} />}
+                {pasoActual === 2 && datosUsuario && (
+                    <Paso2TuOficio usuario={datosUsuario} onSuccess={handleServicioCreado} />
+                )}
+                {pasoActual === 3 && (
+                    <Paso3NivelServicio
+                        onSelectBasico={handleSelectBasico}
+                        onSelectPremium={handleSelectPremium}
+                    />
+                )}
+                {pasoActual === 3.5 && servicioSlug && <PasoExitoBasico slug={servicioSlug} />}
+                {pasoActual === 4 && (
+                    <Paso4SeleccionarDuracion onSelect={handleDuracionSeleccionada} />
+                )}
+                {pasoActual === 5 &&
+                    servicioCreado &&
+                    duracionSeleccionada &&
+                    precioSeleccionado && (
+                        <PaymentBrickWrapper
+                            servicioId={servicioCreado}
+                            duracionMeses={duracionSeleccionada}
+                            precio={precioSeleccionado}
+                            email={datosUsuario?.email}
+                            onSuccess={handlePagoExitoso}
+                            onCancel={handleCancelarPago}
                         />
                     )}
-                    {pasoActual === 3.5 && servicioSlug && <PasoExitoBasico slug={servicioSlug} />}
-                    {pasoActual === 4 && (
-                        <Paso4SeleccionarDuracion onSelect={handleDuracionSeleccionada} />
-                    )}
-                    {pasoActual === 5 &&
-                        servicioCreado &&
-                        duracionSeleccionada &&
-                        precioSeleccionado && (
-                            <PaymentBrickWrapper
-                                servicioId={servicioCreado}
-                                duracionMeses={duracionSeleccionada}
-                                precio={precioSeleccionado}
-                                email={datosUsuario?.email}
-                                onSuccess={handlePagoExitoso}
-                                onCancel={handleCancelarPago}
-                            />
-                        )}
-                    {pasoActual === 6 && <Paso6Exito />}
-                </div>
-            </div>
+                {pasoActual === 6 && <Paso6Exito />}
+            </Card>
         </div>
     );
 }
