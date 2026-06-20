@@ -1,6 +1,0 @@
-node_modules
-dist
-.expo
-*.min.js
-.env*
-pnpm-lock.yaml

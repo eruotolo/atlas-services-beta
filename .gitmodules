@@ -1,0 +1,12 @@
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/hireeoapp/hireeo-front.git
+	branch = main
+[submodule "backend"]
+	path = backend
+	url = https://github.com/hireeoapp/hireeo-back.git
+	branch = main
+[submodule "appmobile"]
+	path = appmobile
+	url = https://github.com/hireeoapp/hireeo-mobile.git
+	branch = main
