@@ -11,7 +11,7 @@
 |----|------|----------|---------|---------------------|
 | DT-01 | Backend | Escrow en estado MOCK | Split payments y comisión 15% no implementados en producción; `countryCode` hardcoded a `'es'` | `backend/src/modules/escrow/escrow.service.ts` |
 | DT-02 | Infra | Producción no desplegada | Beta sin deploy final en `hireeo.app` | Roadmap Fase 4 |
-| DT-03 | Repo | Repos anidados desincronizados | `frontend/` y `backend/` tienen `.git` propio; el monorepo raíz los marca como eliminados (`D`) | Raíz del monorepo |
+| ~~DT-03~~ | Repo | ~~Repos anidados desincronizados~~ ✅ RESUELTO (2026-06-20) | Formalizados como **git submodules** (`.gitmodules`). El global referencia cada app por commit; código real en `hireeo-front/back/mobile`. Ver `.doc/arquitectura-repos-deploy.md` | Raíz del monorepo |
 
 ---
 
@@ -36,7 +36,7 @@
 | DT-11 | Backend | Validación DTO estricta | `forbidNonWhitelisted: true` — cualquier campo extra rompe requests; frontend debe estar 100% alineado | `backend/src/main.ts` |
 | DT-12 | Frontend | Doble SDK Gemini | `@google/genai` y `@google/generative-ai` coexisten | `frontend/package.json` |
 | DT-13 | Tooling | CodeGraph MCP no configurado | `.mcp.json` solo tiene shadcn; bases `.codegraph/codegraph.db` existen pero MCP no está en Cursor | `.mcp.json`, `frontend/.codegraph/` |
-| DT-14 | Backend | Deploy serverless | NestJS exporta handler Vercel; requiere validación de cold starts, WebSockets y Prisma en serverless | `backend/src/main.ts`, `backend/vercel.json` |
+| DT-14 | Backend | Deploy serverless ✅ FUNCIONAL (2026-06-20) | `api.hireeo.app` sirve la API (200). Config en repo (`framework:null`, lockfile propio, pnpm 9.15.9). Pendiente validar cold starts y WebSockets en serverless. Ver `.doc/arquitectura-repos-deploy.md` | `backend/src/main.ts`, `backend/vercel.json`, `backend/api/index.js` |
 | DT-15 | Seed | Dependencia de seed manual | Sin `pnpm db:seed`, filtros geo (regiones/localidades) quedan vacíos | `backend/prisma/seed/` |
 
 ---
