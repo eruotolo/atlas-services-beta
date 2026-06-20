@@ -132,18 +132,9 @@ importers:
       '@babel/core':
         specifier: ^7.20.0
         version: 7.29.7
-      '@trivago/prettier-plugin-sort-imports':
-        specifier: ^6.0.2
-        version: 6.0.2(prettier@3.8.1)
       '@types/react':
         specifier: ~19.2.14
         version: 19.2.14
-      prettier:
-        specifier: ^3.8.1
-        version: 3.8.1
-      prettier-plugin-tailwindcss:
-        specifier: ^0.6.14
-        version: 0.6.14(@trivago/prettier-plugin-sort-imports@6.0.2(prettier@3.8.1))(prettier@3.8.1)
       tailwindcss:
         specifier: ^3.4.19
         version: 3.4.19(tsx@4.21.0)(yaml@2.9.0)
@@ -241,9 +232,6 @@ importers:
         specifier: ^20.4.1
         version: 20.4.1(@types/node@22.19.15)
     devDependencies:
-      '@biomejs/biome':
-        specifier: 2.2.0
-        version: 2.2.0
       '@nestjs/cli':
         specifier: ^10.4.9
         version: 10.4.9
@@ -274,9 +262,6 @@ importers:
       dotenv:
         specifier: ^17.3.1
         version: 17.3.1
-      prettier:
-        specifier: ^3.8.1
-        version: 3.8.1
       prisma:
         specifier: ^7.5.0
         version: 7.5.0(@types/react@19.2.14)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
@@ -392,9 +377,6 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.2.1
-      '@trivago/prettier-plugin-sort-imports':
-        specifier: ^6.0.2
-        version: 6.0.2(prettier@3.8.1)
       '@types/dotenv':
         specifier: ^8.2.3
         version: 8.2.3
@@ -416,12 +398,6 @@ importers:
       dotenv:
         specifier: ^17.2.3
         version: 17.3.1
-      prettier:
-        specifier: ^3.5.3
-        version: 3.8.1
-      prettier-plugin-tailwindcss:
-        specifier: ^0.6.12
-        version: 0.6.14(@trivago/prettier-plugin-sort-imports@6.0.2(prettier@3.8.1))(prettier@3.8.1)
       tailwindcss:
         specifier: ^4
         version: 4.2.1
