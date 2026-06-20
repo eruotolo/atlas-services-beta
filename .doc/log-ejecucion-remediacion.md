@@ -172,3 +172,48 @@ Estas acciones invalidan los secretos viejos (incluido el residual en PR refs de
 ### Punteros
 - backend `hireeoapp/hireeo-back` main = `b3d8196`
 - global `eruotolo/atlas-services-beta` main = `d4d35da` (puntero backend → `adde4b6`, se actualiza al `b3d8196` con este log)
+
+---
+
+## FASE 2 — Preparación para integración — COMPLETA
+
+Delta usuario: sin cuentas Stripe/MP → 2.1/2.2 solo config + webhook verification; 2.3 FCM/DeviceToken SÍ implementa.
+
+### 2.1 Pagos config por país — `081fadc`
+- `.env.example`: placeholders Stripe (es/us: SECRET_KEY + WEBHOOK_SECRET) + MercadoPago (cl/ar/uy: ACCESS_TOKEN + WEBHOOK_SECRET) + STRIPE_KYC_WEBHOOK_SECRET + FIREBASE_SERVICE_ACCOUNT.
+- `StripeGateway.createPayment`: TODO claro (`paymentIntents.create` con `metadata.subscriptionId`).
+- `MercadoPagoGateway.createPayment`: TODO claro (`@mercadopago/sdk-node` `Preference.create`).
+- `MercadoPagoGateway.verifyWebhook`: TODO replay window del `ts` (marcado en /cso Fase 1).
+- `verifyWebhook` ya implementado (usado en Fase 1.3). No se instalan SDKs.
+
+### 2.2 Escrow fix país — `f2faf2d`
+- `escrow.service:36`: `countryCode = 'es'` hardcodeado → resuelve país del `Service` del provider (en la categoría del request) → `Country.code` + `currency`. `currency: 'EUR'` hardcodeado → `country.currency`. Split structure sigue stub (sin Stripe Connect/MP Marketplace).
+
+### 2.3 FCM + DeviceToken — `5e7b38f`
+- Prisma: modelo `DeviceToken { id, userId, token, platform, createdAt }` + `@@unique([userId, token])` + cascade. Migración versionada `20260620221813_add_device_token` (aplicada).
+- `POST /users/me/device-token` (JwtAuthGuard): upsert token+platform vía `UsersService.registerDeviceToken`.
+- `NotificationsService`: inyecta PrismaService, lee `DeviceToken` del user, envía vía `getMessaging().sendEachForMulticast` (firebase-admin v14; `sendMulticast` removido en v14). Limpia tokens inválidos (`messaging/invalid-registration-token` / `registration-token-not-registered`) de la DB. Fallback a simulación si `FIREBASE_SERVICE_ACCOUNT` no seteado.
+- `RegisterDeviceTokenDto`: token + platform (ios|android|web) validación.
+
+### 2.4 KYC raw body — `de8ea17`
+- Raw body ya habilitado en Fase 1.3 (`rawBody: true` en main.ts).
+- `KycController`: `@Public()` en `POST /kyc/webhook` (Stripe Identity sin x-api-key). Tipos limpios (`RequestWithUser`, `RawBodyRequest<Request>`), `headerString` para `stripe-signature`.
+- `createVerificationSession` queda stub documentado (hasta cuenta Stripe Identity). `handleWebhook` ya valida firma con `constructEvent` cuando hay secret.
+
+### /cso review focalizado Fase 2
+
+| # | Check | Estado |
+|---|---|---|
+| 1 | Webhooks exentos de ApiKeyGuard (@Public) | ✅ subscriptions + KYC |
+| 2 | Webhooks validan firma criptográfica | ✅ subscriptions (1.3) + KYC (constructEvent) |
+| 3 | DeviceToken unique(userId, token) + cascade | ✅ migración |
+| 4 | FCM limpia tokens inválidos | ✅ cleanupInvalidTokens |
+| 5 | Escrow país ya no hardcodeado | ✅ |
+| 6 | Stubs de pago documentados (TODO Fase 2.1 real) | ✅ |
+| 7 | Replay protection MP | ⚠️ TODO documentado (Fase 2.1 real) |
+
+**Veredicto Fase 2:** ✅ COMPLETA. Confianza 8/10. Pendiente: cuentas Stripe/MP reales + replay window MP (Fase 2.1 cuando se integren).
+
+### Punteros
+- backend `hireeoapp/hireeo-back` main = `de8ea17`
+- global puntero backend se actualiza con este log
