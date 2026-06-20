@@ -1,0 +1,12 @@
+node_modules
+dist
+.next
+.expo
+.vercel
+coverage
+prisma/generated
+*.min.js
+*.min.css
+.env*
+pnpm-lock.yaml
+public
