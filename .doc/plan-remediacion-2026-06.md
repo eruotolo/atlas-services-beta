@@ -3,7 +3,20 @@
 > **Fecha:** 2026-06-20
 > **Generado por:** opencode (glm-5.2) con skill `plan-eng-review` de gstack
 > **Repo:** `next-atlas-services` (monorepo pnpm + 3 git submódulos)
-> **Estado:** Aprobado con 6 cambios del usuario. Pendiente de ejecución.
+> **Estado:** En ejecución (multi-agente). Ver checklists y gates por fase.
+
+---
+
+## Sistema de seguimiento
+
+- **Checklist por fase:** `[x]` = código commiteado (lo marca el agente ejecutor) con su commit.
+- **🧪 QA / Gate — Claude Code:** verificación independiente al cierre de cada fase. Claude Code corre `build`/`lint`/pruebas en vivo y emite veredicto **GO / NO-GO** antes de avanzar.
+- **Leyenda:** `[x]` hecho · `🔧` en progreso · `[ ]` pendiente.
+
+### Estado global (2026-06-20)
+- ✅ **Fase 0.1** secrets a env · ✅ **Fase 1** (1.1–1.5) · 🔧 **Fase 2.1** en progreso
+- ⬜ Fase 0.2/0.3, Fase 2.2–2.4, Fase 3, Fase 4
+- Extra hechos fuera del plan: `ThrottlerGuard` global (rate limiting), `@biomejs/biome` instalado (DT-04)
 
 ---
 
@@ -109,6 +122,17 @@ Antes de ejecutar el plan, se configuraron las 4 herramientas en los 3 hosts:
 
 #### 0.3 Rotar PAT de GitHub (HTTPS credential helper o SSH).
 
+#### Checklist Fase 0
+- [x] 0.1 Secrets a env (seeds + docker-compose) · commits `e3c27fa`, `24fa6e5`
+- [ ] 0.2 Purga de historial git (`git filter-repo`, one-way) · **requiere confirmación del usuario**
+- [ ] 0.3 Rotar PAT de GitHub (DT-21) · **humano**
+
+#### 🧪 QA / Gate — Claude Code
+- [x] Seeds/docker ya no contienen secretos en texto plano (verificado: usan `process.env.*` y `${POSTGRES_PASSWORD}`)
+- [ ] Tras 0.2: confirmar que los secretos no aparecen en `git log -p` de los 4 repos
+- [ ] Tras 0.3: `git remote -v` sin PAT embebido
+- **Veredicto:** 🔧 parcial — 0.1 GO; 0.2/0.3 pendientes (acciones one-way/humanas)
+
 ---
 
 ### FASE 1 — Bugs backend (P0)
@@ -142,6 +166,22 @@ Antes de ejecutar el plan, se configuraron las 4 herramientas en los 3 hosts:
 - `backend/src/common/guards/webhook.guard.ts:10`: `crypto.timingSafeEqual` (patrón de `ApiKeyGuard`).
 - `/cso`.
 
+#### Checklist Fase 1
+- [x] 1.1 Unificar nombres de rol · commit `cbccc6b`
+- [x] 1.2 Fix `c.id` → `c.categoryId` · commit `5ec3d06`
+- [x] 1.3 Webhook firma criptográfica · commits `4dbfa93`, `b3d8196`
+- [x] 1.4 JWT expiración corregida · commit `15a706d`
+- [x] 1.5 Timing-safe guards · commit `adde4b6`
+
+#### 🧪 QA / Gate — Claude Code (review 2026-06-20)
+- [x] `nest build` + `biome check src/` verdes (39 warnings, 0 errores)
+- [x] 1.3 Webhook: `rawBody:true` en `main.ts`; validación **real** (Stripe `constructEvent`, MP HMAC-SHA256); enrutado por país en `payments.service`
+- [x] 1.3 `@Public` aplicado SOLO al webhook (sin fugas de otros endpoints)
+- [x] 1.4 JWT: access `15m` / refresh `30d` (inversión peligrosa corregida)
+- [x] 1.5 `safeEqual` correcto (maneja longitudes distintas sin excepción, costo constante)
+- [ ] ⚠️ **R1**: HMAC de MercadoPago (`mercadopago.gateway.ts:90`) usa `!==`, no `safeEqual` → timing leak teórico
+- **Veredicto:** ✅ **GO** con 1 observación menor (R1, no bloqueante)
+
 ---
 
 ### FASE 2 — Preparar para integración (NO implementar real)
@@ -160,6 +200,19 @@ Antes de ejecutar el plan, se configuraron las 4 herramientas en los 3 hosts:
 
 #### 2.4 KYC — raw body
 - Comparte raw body con Fase 1.3. `createVerificationSession` queda stub documentado hasta cuenta Stripe Identity.
+
+#### Checklist Fase 2
+- [ ] 🔧 2.1 Pagos — config por país + `verifyWebhook` (gateways en progreso, sin commitear)
+- [ ] 2.2 Escrow — fix país hardcodeado (`escrow.service.ts:36` aún `'es'`)
+- [ ] 2.3 FCM real + `DeviceToken` (modelo aún no en `schema.prisma`)
+- [ ] 🔧 2.4 KYC raw body (`rawBody:true` ya está; resto pendiente)
+
+#### 🧪 QA / Gate — Claude Code (pendiente)
+- [ ] `verifyWebhook` implementado y enrutado por país (Stripe + MP)
+- [ ] `escrow.service` resuelve país vía `Quote→ServiceRequest→User` (no hardcode)
+- [ ] Migración `DeviceToken` versionada + endpoint `POST /users/me/device-token` con `JwtAuthGuard`
+- [ ] `build`/`lint` verdes
+- **Veredicto:** ⬜ pendiente de ejecución
 
 ---
 
@@ -185,6 +238,16 @@ Antes de ejecutar el plan, se configuraron las 4 herramientas en los 3 hosts:
 #### 3.6 Eliminar doble detección de país (insegura)
 - `app/page.tsx:36`: borrar fetch a `http://ip-api.com`; delegar al `proxy.ts`.
 - `/cso`.
+
+#### Checklist Fase 3
+- [ ] 3.1 23 componentes a carpeta propia · [ ] 3.2 Redirects a país detectado · [ ] 3.3 Sitemap con prefijo país
+- [ ] 3.4 Unificar `CountryConfig` · [ ] 3.5 Puerto dev 3333 · [ ] 3.6 Quitar doble detección de país
+
+#### 🧪 QA / Gate — Claude Code (pendiente)
+- [ ] `pnpm build` (tsc + next) sin imports rotos tras mover componentes
+- [ ] Redirect respeta país detectado (probar `/buscar` desde distintos `Accept-Language`)
+- [ ] `sitemap.xml` con URLs por país; `app/page.tsx` sin fetch a ip-api
+- **Veredicto:** ⬜ pendiente
 
 ---
 
@@ -213,6 +276,15 @@ Antes de ejecutar el plan, se configuraron las 4 herramientas en los 3 hosts:
 
 #### 4.7 Discrepancia docs Expo v54 vs v56
 - `AGENTS.md` referencia v56, `package.json` instala v54. Alinear `AGENTS.md` a v54.
+
+#### Checklist Fase 4
+- [ ] 4.1 i18n ~140 claves · [ ] 4.2 ChatIA i18n · [ ] 4.3 reviews/payments listos
+- [ ] 4.4 `showNotification` desde socket · [ ] 4.5 Push token (bloqueado por 2.3) · [ ] 4.6 Eliminar `any`/`as any` · [ ] 4.7 Docs Expo v54
+
+#### 🧪 QA / Gate — Claude Code (pendiente)
+- [ ] `pnpm tsc --noEmit` sin `any`/`as any` nuevos; paridad i18n es/en
+- [ ] Notificación in-app dispara en mensaje nuevo (y NO en chat activo / mensaje propio)
+- **Veredicto:** ⬜ pendiente
 
 ---
 
