@@ -121,3 +121,54 @@ Estas acciones invalidan los secretos viejos (incluido el residual en PR refs de
 
 **Confianza:** 8/10 (gate de daily mode). Bajaría si la rotación 0.D no se ejecuta — el secreto residual en PR refs quedaría activo.
 
+
+---
+
+## FASE 1 — Bugs backend (P0) — COMPLETA
+
+### 1.1 Unificar nombres de rol — `cbccc6b`
+- Creado `src/common/enums/role.enum.ts`: `CLIENT='Client'`, `PROVIDER='Professional'`, `ADMIN='Admin'`, `SUPER_ADMIN='SuperAdmin'` (alineados a DB seed) + helper `isAdmin(roles)`.
+- 9 controllers: `@Roles('admin'/'superadmin'/'SUPER_ADMIN')` → `@Roles(Role.*)`.
+- `RolesGuard`: eliminada normalización de minúsculas, match directo con enum (`user.roles` ya contiene nombres de DB vía `auth.service` `r.role.name`).
+- `users.service:186`: `'Administrador'` → `Role.ADMIN` (**fix**: validación país-admin ahora funciona — antes nunca triggeraba porque DB tiene 'Admin' no 'Administrador').
+- `services/ratings/interactions/subscriptions.service`: `includes('admin')` → `isAdmin(requesterRoles)` (**fix**: admin-checks muertos — DB almacena 'Admin' no 'admin').
+- `seed/test-data:47`: `name:'PROVIDER'` → `name:'Professional'` (buscaba un rol inexistente). String literal en vez de import del enum (seed fuera de `tsconfig include`).
+- **Imports normales** (no `import type`) — lección del incidente Fase 0: Role es valor en runtime.
+
+### 1.2 Fix c.id → c.categoryId — `5ec3d06`
+- `service-requests.service.ts:79,83`: `select { id: true }` → `{ categoryId: true }`, `c.id` → `c.categoryId`.
+- **Bug**: `Service.categories` es `ServiceCategoryMap[]` (tabla de unión); `c.id` era el PK de la unión, no el `categoryId` (FK a `ServiceCategory`) que matchea con `ServiceRequest.categoryId`. Los requests disponibles nunca matcheaban correctamente (conjuntos disjuntos de UUIDs).
+
+### 1.3 Webhook suscripciones — firma criptográfica — `4dbfa93` + `b3d8196`
+- `main.ts`: `rawBody: true` (prereq compartido con KYC 2.4).
+- `PaymentsService.verifyWebhook(countryCode, rawBody, parsedBody, headers)`: delega a `StripeGateway.verifyWebhook` (raw body + `stripe-signature` → `constructEvent`) o `MercadoPagoGateway.verifyWebhook` (parsed body + `x-signature` → HMAC).
+- `SubscriptionsService.handleWebhook`: valida firma → 401 si inválida (err toward reject); extracción best-effort del evento → `actualizarEstadoPago`; eventos sin subscriptionId mapeable → 200 `processed:false` (pendiente Fase 2.1).
+- Controller: `PATCH :id/webhook` (stub) → `POST /webhook/:countryCode` con `@Req()`.
+- **Fix crítico (`b3d8196`)**: `@Public()` decorador exime el webhook del `ApiKeyGuard` global (las pasarelas no envían `x-api-key`). Sin esto, el webhook 401 antes de validar firma.
+- Mapeo evento→suscripción pendiente Fase 2.1 (createPayment real setea `metadata.subscriptionId`/`external_reference`).
+
+### 1.4 JWT expiración — `15a706d`
+- `auth.service.ts:300,307`: defaults invertidos `30d`/`7d` → `15m`/`30d` (alineados a `.env.example`). `auth.module.ts:19` ya tenía `15m` correcto.
+
+### 1.5 Timing-safe guards — `adde4b6`
+- `src/common/utils/timing-safe.ts`: `safeEqual(a, b)` (`crypto.timingSafeEqual` con manejo de longitudes distintas) + `headerString` (normaliza `string|string[]`).
+- `ApiKeyGuard` y `WebhookGuard`: `!==` → `safeEqual`. `WebhookGuard` ahora inyecta `ConfigService` (era `process.env` directo).
+
+### /cso review focalizado Fase 1
+
+| # | Check | Estado |
+|---|---|---|
+| 1 | Webhook valida firma antes de actualizar | ✅ 401 sin firma |
+| 2 | Webhook exento de ApiKeyGuard (@Public) | ✅ pasarelas pueden llegar |
+| 3 | ApiKeyGuard timing-safe | ✅ 200 válida / 401 inválida |
+| 4 | WebhookGuard timing-safe | ✅ compila + DI OK (se testea en KYC 2.4) |
+| 5 | JWT defaults 15m/30d | ✅ |
+| 6 | Role enum alineado a DB, admin-checks funcionan | ✅ |
+| 7 | Rutas normales siguen requiriendo x-api-key | ✅ 401 sin / 200 con |
+| 8 | Replay protection webhook | ⚠️ Stripe: sí (constructEvent valida ts). MP: `ts` en firma pero sin ventana temporal explícita → pendiente Fase 2.1 |
+
+**Veredicto Fase 1:** ✅ COMPLETA. Confianza 8/10. Replay protection de MP pendiente Fase 2.1 (no bloquea, las cuentas no están activas).
+
+### Punteros
+- backend `hireeoapp/hireeo-back` main = `b3d8196`
+- global `eruotolo/atlas-services-beta` main = `d4d35da` (puntero backend → `adde4b6`, se actualiza al `b3d8196` con este log)
