@@ -10,3 +10,6 @@ prisma/generated
 .env*
 pnpm-lock.yaml
 public
+opencode.json
+skills-lock.json
+*.lock
