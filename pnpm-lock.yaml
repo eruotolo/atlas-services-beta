@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@biomejs/biome':
+        specifier: 2.2.0
+        version: 2.2.0
       concurrently:
         specifier: ^9.1.2
         version: 9.2.1
@@ -120,9 +123,6 @@ importers:
       '@babel/core':
         specifier: ^7.20.0
         version: 7.29.7
-      '@biomejs/biome':
-        specifier: 2.2.0
-        version: 2.2.0
       '@trivago/prettier-plugin-sort-imports':
         specifier: ^6.0.2
         version: 6.0.2(prettier@3.8.1)
@@ -377,9 +377,6 @@ importers:
         specifier: ^4.3.5
         version: 4.3.6
     devDependencies:
-      '@biomejs/biome':
-        specifier: 2.2.0
-        version: 2.2.0
       '@playwright/test':
         specifier: ^1.57.0
         version: 1.58.2

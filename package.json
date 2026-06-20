@@ -10,9 +10,12 @@
         "dev": "concurrently --names \"backend,frontend\" --prefix-colors \"blue,green\" \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
         "dev:backend": "pnpm --filter backend dev",
         "dev:frontend": "pnpm --filter frontend dev",
-        "db:seed": "pnpm --filter backend db:seed"
+        "db:seed": "pnpm --filter backend db:seed",
+        "lint": "biome check .",
+        "lint:fix": "biome check --write ."
     },
     "devDependencies": {
+        "@biomejs/biome": "2.2.0",
         "concurrently": "^9.1.2",
         "shadcn": "^4.11.0"
     },
