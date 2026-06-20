@@ -120,7 +120,7 @@
 - Obsidian: `SitesDoc/nextjs_projects/next-atlas-services/next-atlas-services.md`
 - Roadmap: `.doc/PlanJunio.md`
 - Deuda mobile: `.doc/appmobile-claude.md` §13
-- Sync agentes: `.doc/AGENT_SYNC.md`
+- Ejecución multi-agente: `.doc/plan-remediacion-2026-06.md` + `.doc/log-ejecucion-remediacion.md`
 
 ---
 
