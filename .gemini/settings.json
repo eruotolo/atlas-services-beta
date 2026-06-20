@@ -1,12 +1,5 @@
 {
   "mcpServers": {
-    "shadcn": {
-      "command": "npx",
-      "args": [
-        "shadcn@latest",
-        "mcp"
-      ]
-    },
     "codegraph": {
       "command": "npx",
       "args": [
@@ -14,7 +7,16 @@
         "@colbymchenry/codegraph",
         "serve",
         "--mcp"
-      ]
+      ],
+      "env": {}
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ],
+      "env": {}
     }
   }
 }

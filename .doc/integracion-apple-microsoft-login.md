@@ -134,7 +134,7 @@ El JWT caduca en máximo 6 meses. Recordar regenerarlo antes de que expire:
 3. **Supported account types**: `Accounts in any organizational directory and personal Microsoft accounts`
    → Esto equivale a `tenantId: 'common'` y permite cuentas @outlook, @hotmail, empresariales, etc.
 4. **Redirect URI**: seleccionar **Web** e ingresar:
-   - Desarrollo: `http://localhost:3000/api/auth/callback/azure-ad`
+   - Desarrollo: `http://localhost:3333/api/auth/callback/azure-ad`
    - Producción: `https://hireeo.com/api/auth/callback/azure-ad`
 5. **Register**
 

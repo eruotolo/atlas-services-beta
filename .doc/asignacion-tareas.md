@@ -58,11 +58,11 @@
 
 | DT | Tarea | Repo | Riesgo |
 |----|-------|------|--------|
-| DT-04 (A5) | Instalar `biome` + `biome.json` + arreglar lint | `hireeo-back` | Destapa muchos errores; acordar reglas primero |
-| DT-26 (A4) | Proteger `chatbot.controller` (auth + throttle) | `hireeo-back` | Seguridad: definir si el chatbot es público |
-| DT-10 | Reducir complejidad en `proxy.ts` | `hireeo-front` | Es el ruteo multi-país; romperlo tira el sitio |
-| DT-27 (A6) | Unificar naming de roles | `hireeo-back` | Tocar autorización |
-| DT-11 | Revisar `forbidNonWhitelisted` | `hireeo-back` | Alineación contrato front/back |
+| ✅ DT-04 (A5) | Instalar `biome` + `biome.json` + arreglar lint | `hireeo-back` | Destapa muchos errores; acordar reglas primero |
+| ✅ DT-26 (A4) | Proteger `chatbot.controller` (auth + throttle) | `hireeo-back` | Seguridad: definir si el chatbot es público |
+| ✅ DT-10 | Reducir complejidad en `proxy.ts` | `hireeo-front` | Es el ruteo multi-país; romperlo tira el sitio |
+| ✅ DT-27 (A6) | Unificar naming de roles | `hireeo-back` | Tocar autorización |
+| ✅ DT-11 | Revisar `forbidNonWhitelisted` | `hireeo-back` | Alineación contrato front/back |
 
 ---
 

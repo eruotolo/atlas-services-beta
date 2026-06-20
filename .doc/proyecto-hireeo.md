@@ -203,7 +203,7 @@ NEXT_PUBLIC_API_KEY=""
 
 # Auth (NextAuth.js v4) — generar con: openssl rand -base64 32
 AUTH_SECRET=""
-AUTH_URL="http://localhost:3000"
+AUTH_URL="http://localhost:3333"
 
 # Google OAuth
 GOOGLE_CLIENT_ID=""
@@ -235,7 +235,7 @@ CONTACT_EMAIL=""
 GEMINI_API_KEY=""
 
 # SEO / Sitemap
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NEXT_PUBLIC_APP_URL="http://localhost:3333"
 ```
 
 ### Backend (`.env`)
@@ -254,7 +254,7 @@ JWT_REFRESH_SECRET=""
 JWT_REFRESH_EXPIRES_IN="30d"
 
 # CORS
-FRONTEND_URL="http://localhost:3000"
+FRONTEND_URL="http://localhost:3333"
 
 # API Key global — generar con: openssl rand -hex 32
 API_KEY=""
@@ -270,7 +270,7 @@ APPLE_CLIENT_ID=""
 ### Desde la raíz del monorepo
 ```bash
 pnpm dev                    # Frontend + Backend en paralelo
-pnpm dev:frontend           # Solo Next.js (puerto 3000)
+pnpm dev:frontend           # Solo Next.js (puerto 3333)
 pnpm dev:backend            # Solo NestJS (puerto 4000)
 pnpm db:seed                # Poblar DB (geo + roles + categorías + precios)
 ```
