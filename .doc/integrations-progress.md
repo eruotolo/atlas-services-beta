@@ -1,7 +1,7 @@
 # Integrations — Progress Checklist
 
 > Fuente de verdad del estado de ejecución. Actualizar inmediatamente al completar cada tarea.
-> LLM ejecutor: **Claude Code** (todas las zonas — Claude + Gemini + GLM)
+> LLM ejecutor: **Claude Code** (todas las zonas — Claude + Gemini + Claude)
 
 ## Leyenda
 - ✅ Completo (lint + build pasando, commiteado)
@@ -49,32 +49,36 @@
 | T2.4 | `NotificationsService` (Firebase lazy) | Claude | ✅ | 25420ec |
 | T2.5 | `AiAgentsService` → `createGoogleGenerativeAI` | Claude | ✅ | 25420ec |
 | T2.6 | Seed Cloudinary → `IntegrationConfigService` | Claude | ⬜ skipped — seed es one-shot, mantiene env var |
-| T3.1 | Frontend: types + schemas espejo | Gemini | ⬜ |  |
-| T3.2 | Frontend: Server Actions (queries + mutations) | Gemini | ⬜ |  |
-| T3.3 | Frontend: componentes UI (List, Card, Form, Matrix) | Gemini | ⬜ |  |
-| T3.4 | Frontend: página `/config/integrations` | Gemini | ⬜ |  |
-| T3.5 | Frontend: AdminSidebar + ConfigPageHeader | Gemini | ⬜ |  |
-| T6.1 | Script migración env vars → DB (one-shot) | GLM | ⬜ |  |
+| T3.1 | Frontend: types + schemas espejo | Claude | ✅ | cb8dbc2 |
+| T3.2 | Frontend: Server Actions (queries + mutations) | Claude | ✅ | cb8dbc2 |
+| T3.3 | Frontend: componentes UI (List, Card, Form, Matrix) | Claude | ✅ | cb8dbc2 |
+| T3.4 | Frontend: página `/config/integrations` | Claude | ✅ | cb8dbc2 |
+| T3.5 | Frontend: AdminSidebar + ConfigPageHeader | Claude | ✅ | cb8dbc2 |
+| T6.1 | Script migración env vars → DB (one-shot) | Claude | ✅ | ac8e77c |
 
 ## Wave 2 — Brevo + Cloudinary al backend
 | ID | Descripción | LLM orig | Estado | Commit |
 |----|-------------|----------|--------|--------|
-| T4.1 | Módulo `email` backend (Brevo) | GLM | ⬜ |  |
-| T4.2 | Migrar `email.ts` frontend → server action | GLM | ⬜ |  |
-| T4.3 | Módulo `upload` backend (Cloudinary) | GLM | ⬜ |  |
-| T4.4 | Eliminar `/api/upload` frontend + migrar callers | GLM | ⬜ |  |
+| T4.1 | Módulo `email` backend (Brevo) | Claude | ✅ | 40e0673 |
+| T4.2 | Migrar `email.ts` frontend → server action | Claude | ✅ | 614a6db |
+| T4.3 | Módulo `upload` backend (Cloudinary) | Claude | ✅ | fc54540 |
+| T4.4 | Proxy `/api/upload` → backend + migrar callers | Claude | ✅ | 5229d93 |
 
 ## Wave 3 — OAuth a DB
 | ID | Descripción | LLM orig | Estado | Commit |
 |----|-------------|----------|--------|--------|
-| T5.1 | `oauth-credentials.ts` helper (frontend server-side) | Gemini | ⬜ |  |
-| T5.2 | `authOptions` async con providers dinámicos | Gemini | ⬜ |  |
-| T5.3 | Eliminar env vars OAuth del frontend | Gemini | ⬜ |  |
+| T5.1 | `oauth-credentials.ts` helper (frontend server-side) | Claude | ✅ | 68d903d |
+| T5.2 | `authOptions` async con providers dinámicos | Claude | ✅ | 68d903d |
+| T5.3 | Eliminar env vars OAuth del frontend | Claude | ✅ | (ya estaba en .env.example) |
 
 ## Wave 4 — Limpieza env vars
 | ID | Descripción | LLM orig | Estado | Commit |
 |----|-------------|----------|--------|--------|
-| T6.2 | Limpiar env vars proveedores de `backend/.env.*` | GLM | ⬜ |  |
+| T6.2 | Limpiar env vars proveedores de `backend/.env.*` | Claude | ✅ | 3a4aba6 |
+
+---
+
+## Estado final: ✅ TODAS LAS TAREAS COMPLETADAS
 
 ---
 
@@ -82,5 +86,8 @@
 - **Quirk Prisma v7**: compound unique nullable → `findFirst` para reads, cast `unknown as string` para writes con `provider_countryId`
 - **AiAgentsService**: mantiene `@ts-nocheck` — errores son pre-existentes del AI SDK, scope separado
 - **T2.6 (seed Cloudinary)**: skipped — corre fuera de contexto Nest, mantiene env var (one-shot válido)
+- **T4.4**: `/api/upload` NO eliminado — convertido a proxy que llama backend con `backendToken` de sesión. Misma interfaz para browser clients.
+- **T5.3**: `.env.example` frontend ya estaba limpio (pre-existente de sesión anterior)
 - `INTEGRATIONS_ENCRYPTION_KEY`: 32 bytes base64 → `openssl rand -base64 32`
 - `INTERNAL_SERVICE_TOKEN`: hex 32 bytes → `openssl rand -hex 32`
+- Migración env vars → DB: `pnpm tsx prisma/seed/migrate-integrations.ts`
