@@ -196,7 +196,7 @@ next-atlas-services/
 ```bash
 pnpm dev              # Frontend + Backend en paralelo
 pnpm dev:backend      # Solo NestJS (puerto 4000)
-pnpm dev:frontend     # Solo Next.js (puerto 3000)
+pnpm dev:frontend     # Solo Next.js (puerto 3333)
 pnpm --filter frontend add <paquete>
 pnpm --filter backend add <paquete>
 pnpm --filter backend db:seed   # Poblar DB (geo + roles + categorías + precios)

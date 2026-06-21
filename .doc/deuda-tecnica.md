@@ -88,23 +88,23 @@
 - [x] **DT-03** — Repos como git submodules (2026-06-20)
 
 ### 🟠 Alta
-- [ ] **DT-26** — Proteger/limitar `chatbot.controller` (auth + throttle)
-- [ ] **DT-04** — Instalar `biome` y reparar lint del backend
-- [ ] **DT-05 / DT-06 / DT-07** — Limpiar restos de Vercel Blob + docs
-- [ ] **DT-08** — Alinear docs al puerto 3333
+- [x] **DT-26** — Proteger/limitar `chatbot.controller` (auth + throttle) (2026-06-21)
+- [x] **DT-04** — Instalar `biome` y reparar lint del backend (2026-06-20)
+- [x] **DT-05 / DT-06 / DT-07** — Limpiar restos de Vercel Blob + docs (2026-06-21)
+- [x] **DT-08** — Alinear docs al puerto 3333 (2026-06-21)
 - [ ] **DT-09** — Fase 4 (Escrow, retargeting Brevo, comisión)
 - [ ] **DT-22** — CORS: agregar `www.hireeo.app` a `FRONTEND_URL`
 
 ### 🟡 Media
-- [ ] **DT-10** — Reducir complejidad cognitiva en `proxy.ts`
-- [ ] **DT-11** — Revisar `forbidNonWhitelisted` (alineación front/back)
-- [ ] **DT-12** — Unificar SDK de Gemini en frontend
-- [ ] **DT-13** — Configurar CodeGraph MCP
+- [x] **DT-10** — Reducir complejidad cognitiva en `proxy.ts` (2026-06-21)
+- [x] **DT-11** — Revisar `forbidNonWhitelisted` — OK, DTOs y backend alineados (2026-06-21)
+- [x] **DT-12** — Unificar SDK de Gemini en frontend — solo `@google/genai` (2026-06-21)
+- [x] **DT-13** — Configurar CodeGraph MCP — ya estaba en `.mcp.json` (2026-06-21)
 - [x] **DT-14** — Deploy serverless del backend funcional (2026-06-20)
-- [ ] **DT-15** — Automatizar/garantizar el seed de geo
+- [x] **DT-15** — Seed de geo: `upsert` + `prisma migrate dev` auto-seedea en dev (2026-06-21)
 - [ ] **DT-23** — Revisar auto-promoción en Vercel `hireeo-back`
-- [ ] **DT-27** — Unificar naming de roles (eliminar doble mapeo)
-- [ ] **DT-28** — `ApiKeyGuard` con comparación time-safe
+- [x] **DT-27** — Unificar naming de roles en proxy.ts: `ADMIN_ROLES`, fix `'Usuario'`→`'Client'` (2026-06-21)
+- [x] **DT-28** — `ApiKeyGuard` con comparación time-safe (2026-06-20)
 
 ### 🟢 Baja
 - [ ] **DT-16** — Paraguay (`py`)
