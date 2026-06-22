@@ -9,9 +9,8 @@
 
 | ID | Área | Problema | Detalle | Archivo / Ubicación |
 |----|------|----------|---------|---------------------|
-| DT-21 | Seguridad | 🔴 PAT de GitHub expuesto | Personal Access Token (`ghp_...`) embebido en texto plano en los remotes de `frontend`/`backend`/`appmobile`. Rotar y migrar a credential helper | `.git/config` de cada sub-repo |
-| DT-24 | Seguridad | 🔴 Rate limiting inerte (A1) | `auth.controller` usa `@Throttle()` pero `ThrottlerGuard` nunca se registra como `APP_GUARD` → login/register sin protección anti-brute-force | `backend/src/app.module.ts` |
-| DT-25 | Seguridad | 🔴 API key pública = guard eludible (A2) | `ApiKeyGuard` (único guard global) valida `x-api-key`, pero el frontend la expone vía `NEXT_PUBLIC_API_KEY` (va al bundle del browser). Seguridad real recae solo en JwtAuthGuard/RolesGuard | `backend/src/common/guards/api-key.guard.ts` |
+| ~~DT-24~~ | Seguridad | ✅ Rate limiting activo (2026-06-20) | `ThrottlerGuard` registrado como `APP_GUARD` en `app.module.ts` | `backend/src/app.module.ts` |
+| ~~DT-25~~ | Seguridad | ✅ API key server-side only (2026-06-21) | `NEXT_PUBLIC_API_KEY` → `API_KEY` (server-side); mobile sin API key; endpoints públicos marcados `@Public()` | múltiples controllers |
 | DT-01 | Backend | Escrow en estado MOCK | Split payments y comisión 15% no implementados en producción; `countryCode` hardcoded a `'es'` | `backend/src/modules/escrow/escrow.service.ts` |
 | DT-02 | Infra | Producción no desplegada | Beta sin deploy final en `hireeo.app` (backend ya vivo en `api.hireeo.app`) | Roadmap Fase 4 |
 | ~~DT-03~~ | Repo | ~~Repos anidados desincronizados~~ ✅ RESUELTO (2026-06-20) | Formalizados como **git submodules** (`.gitmodules`). El global referencia cada app por commit; código real en `hireeo-front/back/mobile`. Ver `.doc/arquitectura-repos-deploy.md` | Raíz del monorepo |
@@ -63,13 +62,10 @@
 
 ## 📋 Acciones recomendadas (priorizadas)
 
-1. **DT-21** — 🔴 Rotar el PAT de GitHub expuesto y migrar a credential helper (seguridad).
-2. **DT-22 + DT-23** — Ajustar CORS (`www`) y revisar auto-promoción en Vercel `hireeo-back`.
-3. **DT-01 + DT-09** — Completar Escrow real (Stripe Connect / MP split) antes de monetización por comisión.
-4. **DT-05 + DT-06 + DT-07** — Limpiar referencias a Vercel Blob y actualizar docs.
-5. **DT-04** — Reparar lint del backend.
-6. **DT-08** — Alinear documentación (Obsidian + `.doc/`) con puerto 3333.
-7. **DT-13** — Agregar CodeGraph al MCP de Cursor para análisis de impacto.
+1. **DT-01 + DT-09** — Completar Escrow (scaffold listo, pendiente API keys reales Stripe/MP).
+2. **DT-02** — Deploy final en `hireeo.app`.
+3. **DT-22** — ✅ CORS con `www.hireeo.app` configurado en Vercel.
+4. **DT-23** — Revisar auto-promoción en Vercel `hireeo-back`.
 
 > ~~DT-03~~ (estrategia de repos) cerrado el 2026-06-20 — submódulos formalizados.
 
@@ -80,31 +76,30 @@
 > Marcar `[x]` al resolver. `🔧` = en progreso. Mantener en orden de prioridad.
 
 ### 🔴 Crítica
-- [ ] **DT-21** — Rotar PAT de GitHub expuesto + credential helper
-- [ ] **DT-24** — Registrar `ThrottlerGuard` como `APP_GUARD` (rate limiting real)
-- [ ] **DT-25** — Quitar dependencia de API key pública; reforzar JwtAuthGuard/RolesGuard
-- [ ] **DT-01** — Implementar Escrow real (Stripe Connect / MP split)
+- [x] **DT-24** — `ThrottlerGuard` como `APP_GUARD` (2026-06-20)
+- [x] **DT-25** — API key server-side only; endpoints públicos `@Public()`; mobile sin API key (2026-06-21)
+- [ ] **DT-01** — Escrow real (scaffold listo, pendiente API keys Stripe/MP producción)
 - [ ] **DT-02** — Deploy final de producción en `hireeo.app`
 - [x] **DT-03** — Repos como git submodules (2026-06-20)
 
 ### 🟠 Alta
-- [ ] **DT-26** — Proteger/limitar `chatbot.controller` (auth + throttle)
-- [ ] **DT-04** — Instalar `biome` y reparar lint del backend
-- [ ] **DT-05 / DT-06 / DT-07** — Limpiar restos de Vercel Blob + docs
-- [ ] **DT-08** — Alinear docs al puerto 3333
-- [ ] **DT-09** — Fase 4 (Escrow, retargeting Brevo, comisión)
-- [ ] **DT-22** — CORS: agregar `www.hireeo.app` a `FRONTEND_URL`
+- [x] **DT-26** — Proteger/limitar `chatbot.controller` (auth + throttle) (2026-06-21)
+- [x] **DT-04** — Instalar `biome` y reparar lint del backend (2026-06-20)
+- [x] **DT-05 / DT-06 / DT-07** — Limpiar restos de Vercel Blob + docs (2026-06-21)
+- [x] **DT-08** — Alinear docs al puerto 3333 (2026-06-21)
+- [ ] **DT-09** — Fase 4 (Escrow scaffold listo, retargeting Brevo, comisión — pendiente APIs reales)
+- [x] **DT-22** — CORS: `www.hireeo.app` configurado en Vercel (2026-06-21)
 
 ### 🟡 Media
-- [ ] **DT-10** — Reducir complejidad cognitiva en `proxy.ts`
-- [ ] **DT-11** — Revisar `forbidNonWhitelisted` (alineación front/back)
-- [ ] **DT-12** — Unificar SDK de Gemini en frontend
-- [ ] **DT-13** — Configurar CodeGraph MCP
+- [x] **DT-10** — Reducir complejidad cognitiva en `proxy.ts` (2026-06-21)
+- [x] **DT-11** — Revisar `forbidNonWhitelisted` — OK, DTOs y backend alineados (2026-06-21)
+- [x] **DT-12** — Unificar SDK de Gemini en frontend — solo `@google/genai` (2026-06-21)
+- [x] **DT-13** — Configurar CodeGraph MCP — ya estaba en `.mcp.json` (2026-06-21)
 - [x] **DT-14** — Deploy serverless del backend funcional (2026-06-20)
-- [ ] **DT-15** — Automatizar/garantizar el seed de geo
+- [x] **DT-15** — Seed de geo: `upsert` + `prisma migrate dev` auto-seedea en dev (2026-06-21)
 - [ ] **DT-23** — Revisar auto-promoción en Vercel `hireeo-back`
-- [ ] **DT-27** — Unificar naming de roles (eliminar doble mapeo)
-- [ ] **DT-28** — `ApiKeyGuard` con comparación time-safe
+- [x] **DT-27** — Unificar naming de roles en proxy.ts: `ADMIN_ROLES`, fix `'Usuario'`→`'Client'` (2026-06-21)
+- [x] **DT-28** — `ApiKeyGuard` con comparación time-safe (2026-06-20)
 
 ### 🟢 Baja
 - [ ] **DT-16** — Paraguay (`py`)

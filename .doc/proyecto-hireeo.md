@@ -26,7 +26,7 @@
 | Tablas | TanStack React Table |
 | Auth | NextAuth.js v4 |
 | Pagos | MercadoPago SDK + Stripe |
-| Storage | Vercel Blob |
+| Storage | Cloudinary |
 | Email | Brevo (Sendinblue) |
 | IA | Google Gemini (`@google/genai`) |
 | Realtime | Socket.io Client |
@@ -222,8 +222,10 @@ AZURE_AD_TENANT_ID="common"
 NEXT_PUBLIC_MP_PUBLIC_KEY="APP_USR-..."
 MP_ACCESS_TOKEN="APP_USR-..."
 
-# Vercel Blob Storage
-BLOB_READ_WRITE_TOKEN=""
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=""
+CLOUDINARY_API_KEY=""
+CLOUDINARY_API_SECRET=""
 
 # Email (Brevo)
 BREVO_API_KEY="xkeysib-..."
