@@ -1,0 +1,392 @@
+[WARN] The "pnpm" field in package.json is no longer read by pnpm. The following keys were ignored: "pnpm.onlyBuiltDependencies". See https://pnpm.io/settings for the new home of each setting.
+src/app/(auth)/onboarding.tsx:54:22 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    52 │     const [selectedRole, setSelectedRole] = useState<Role>('client');
+    53 │ 
+  > 54 │     const selected = ROLES.find((r) => r.id === selectedRole)!;
+       │                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    55 │ 
+    56 │     const handleContinue = (): void => {
+  
+
+src/app/(tabs)/bookings.tsx:7:8 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! This import is unused.
+  
+    5 │ import { useQuery } from '@tanstack/react-query';
+    6 │ 
+  > 7 │ import { Colors } from '@/shared/constants/colors';
+      │        ^^^^^^^^^^
+    8 │ import { BookingCard } from '@/features/bookings/components/BookingCard';
+    9 │ import { useT } from '@/features/i18n/context/LocaleContext';
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+      3   3 │   import { useSafeAreaInsets } from 'react-native-safe-area-context';
+      4   4 │   import { router } from 'expo-router';
+      5     │ - import·{·useQuery·}·from·'@tanstack/react-query';
+          5 │ + import·{·useQuery·}·from·'@tanstack/react-query';
+      6   6 │   
+      7     │ - import·{·Colors·}·from·'@/shared/constants/colors';
+      8   7 │   import { BookingCard } from '@/features/bookings/components/BookingCard';
+      9   8 │   import { useT } from '@/features/i18n/context/LocaleContext';
+  
+
+src/app/(tabs)/bookings.tsx:35:11 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━
+
+  ! This variable requireAuth is unused.
+  
+    33 │     const t = useT();
+    34 │     const { isAuthenticated } = useAuth();
+  > 35 │     const requireAuth = useAuthGate();
+       │           ^^^^^^^^^^^
+    36 │     const [activeTab, setActiveTab] = useState<BookingTab>('upcoming');
+    37 │ 
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend requireAuth with an underscore.
+  
+     33  33 │       const t = useT();
+     34  34 │       const { isAuthenticated } = useAuth();
+     35     │ - ····const·requireAuth·=·useAuthGate();
+         35 │ + ····const·_requireAuth·=·useAuthGate();
+     36  36 │       const [activeTab, setActiveTab] = useState<BookingTab>('upcoming');
+     37  37 │   
+  
+
+src/app/(tabs)/profile.tsx:19:25 lint/complexity/noExcessiveCognitiveComplexity ━━━━━━━━━━━━━━━━━━━━
+
+  ! Excessive complexity of 18 detected (max: 15).
+  
+    17 │ const TOP_BAR_HEIGHT = 52;
+    18 │ 
+  > 19 │ export default function ProfileScreen(): React.JSX.Element {
+       │                         ^^^^^^^^^^^^^
+    20 │     const insets = useSafeAreaInsets();
+    21 │     const t = useT();
+  
+  i Please refactor this function to reduce its complexity score from 18 to the max allowed complexity 15.
+  
+
+src/app/(tabs)/services.tsx:103:9 lint/correctness/noUnusedVariables ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! This variable error is unused.
+  
+    101 │         isLoading,
+    102 │         isError,
+  > 103 │         error,
+        │         ^^^^^
+    104 │     } = useInfiniteQuery({
+    105 │         queryKey: ['services', queryParams],
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+
+src/app/profile/addresses.tsx:26:13 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━
+
+  ! This import is unused.
+  
+    24 │ import { useAddresses, useCreateAddress, useDeleteAddress } from '@/features/profile/hooks/useAddresses';
+    25 │ import type { UserAddress } from '@/features/profile/actions/addresses';
+  > 26 │ import type { GeoRegion, GeoLocality } from '@/features/geo/actions/queries';
+       │             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    27 │ 
+    28 │ interface AddressFormState {
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+     24  24 │   import { useAddresses, useCreateAddress, useDeleteAddress } from '@/features/profile/hooks/useAddresses';
+     25  25 │   import type { UserAddress } from '@/features/profile/actions/addresses';
+     26     │ - import·type·{·GeoRegion,·GeoLocality·}·from·'@/features/geo/actions/queries';
+     27  26 │   
+     28  27 │   interface AddressFormState {
+  
+
+src/app/profile/kyc.tsx:24:7 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! This variable STEPS is unused.
+  
+    22 │ }
+    23 │ 
+  > 24 │ const STEPS = [
+       │       ^^^^^
+    25 │     { icon: 'user', key: 'step1' },
+    26 │     { icon: 'file-text', key: 'step2' },
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend STEPS with an underscore.
+  
+     22  22 │   }
+     23  23 │   
+     24     │ - const·STEPS·=·[
+         24 │ + const·_STEPS·=·[
+     25  25 │       { icon: 'user', key: 'step1' },
+     26  26 │       { icon: 'file-text', key: 'step2' },
+  
+
+src/app/profile/kyc.tsx:178:5 lint/correctness/noUnusedFunctionParameters ━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! This parameter is unused.
+  
+    176 │ function StepRow({
+    177 │     number,
+  > 178 │     icon,
+        │     ^^^^
+    179 │     title,
+    180 │     desc,
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src/app/profile/my-services.tsx:74:38 lint/style/noNonNullAssertion  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    72 │     const { data: services = [], isLoading, isError, refetch } = useQuery({
+    73 │         queryKey: ['my-services', user?.id],
+  > 74 │         queryFn: () => getMyServices(user!.id),
+       │                                      ^^^^^
+    75 │         enabled: user != null,
+    76 │     });
+  
+  i Unsafe fix: Replace with optional chain operator ?. This operator includes runtime checks, so it is safer than the compile-only non-null assertion operator
+  
+     72  72 │       const { data: services = [], isLoading, isError, refetch } = useQuery({
+     73  73 │           queryKey: ['my-services', user?.id],
+     74     │ - ········queryFn:·()·=>·getMyServices(user!.id),
+         74 │ + ········queryFn:·()·=>·getMyServices(user?.id),
+     75  75 │           enabled: user != null,
+     76  76 │       });
+  
+
+src/app/publish/index.tsx:41:26 lint/suspicious/noArrayIndexKey ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    39 │             {Array.from({ length: total }).map((_, i) => (
+    40 │                 <View
+  > 41 │                     key={i}
+       │                          ^
+    42 │                     className={`h-1 rounded-full flex-1 ${i < current ? 'bg-primary' : 'bg-outlineVariant'}`}
+    43 │                 />
+  
+  i This is the source of the key value.
+  
+    37 │     return (
+    38 │         <View className="flex-row items-center gap-2 px-5 py-3">
+  > 39 │             {Array.from({ length: total }).map((_, i) => (
+       │                                                    ^
+    40 │                 <View
+    41 │                     key={i}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src/features/chatbot/components/ChatIA/index.tsx:119:60 lint/style/noNonNullAssertion ━━━━━━━━━━━━━━
+
+  ! Forbidden non-null assertion.
+  
+    117 │                     {item.borradorId != null && (
+    118 │                         <Pressable
+  > 119 │                             onPress={() => handleConfirmar(item.borradorId!)}
+        │                                                            ^^^^^^^^^^^^^^^^
+    120 │                             className="mt-3 bg-primary py-3 rounded-xl items-center flex-row justify-center gap-2"
+    121 │                         >
+  
+
+src/features/chatbot/components/ChatIA/index.tsx:19:43 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━
+
+  ! Several of these imports are unused.
+  
+    17 │ import { useAuth } from '@/features/auth/context/AuthContext';
+    18 │ import { useT } from '@/features/i18n/context/LocaleContext';
+  > 19 │ import { chatConAgente, type MensajeChat, type ProveedorCard as ProveedorType } from '../../actions/chatConAgente';
+       │                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    20 │ import { ProveedorCard } from '../ProveedorCard';
+    21 │ 
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+    19 │ import·{·chatConAgente,·type·MensajeChat,·type·ProveedorCard·as·ProveedorType·}·from·'../../actions/chatConAgente';
+       │                                           ------------------------------------                                     
+
+src/features/chatbot/components/ProveedorCard/index.tsx:7:8 lint/style/useImportType  FIXABLE  ━━━━━━━━━━
+
+  ! All these imports are only used as types.
+  
+    5 │ import { useT } from '@/features/i18n/context/LocaleContext';
+    6 │ import { useCountry } from '@/features/country/context/CountryContext';
+  > 7 │ import { type ProveedorCard as ProveedorType } from '../../actions/chatConAgente';
+      │        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    8 │ 
+    9 │ interface Props {
+  
+  i Importing the types with import type ensures that they are removed by the compilers and avoids loading unnecessary modules.
+  
+  i Safe fix: Use import type.
+  
+     5  5 │   import { useT } from '@/features/i18n/context/LocaleContext';
+     6  6 │   import { useCountry } from '@/features/country/context/CountryContext';
+     7    │ - import·{·type·ProveedorCard·as·ProveedorType·}·from·'../../actions/chatConAgente';
+        7 │ + import·type·{·ProveedorCard·as·ProveedorType·}·from·'../../actions/chatConAgente';
+     8  8 │   
+     9  9 │   interface Props {
+  
+
+src/features/favorites/hooks/useFavorites.ts:54:19 lint/correctness/noUnusedFunctionParameters  FIXABLE  ━━━━━━━━━━
+
+  ! This parameter is unused.
+  
+    52 │             return { previousIds };
+    53 │         },
+  > 54 │         onError: (err, variables, context) => {
+       │                   ^^^
+    55 │             if (context?.previousIds) {
+    56 │                 queryClient.setQueryData(['favorites', 'ids'], context.previousIds);
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: If this is intentional, prepend err with an underscore.
+  
+    52 52 │               return { previousIds };
+    53 53 │           },
+    54    │ - ········onError:·(err,·variables,·context)·=>·{
+       54 │ + ········onError:·(_err,·variables,·context)·=>·{
+    55 55 │               if (context?.previousIds) {
+    56 56 │                   queryClient.setQueryData(['favorites', 'ids'], context.previousIds);
+  
+
+src/features/favorites/hooks/useFavorites.ts:54:24 lint/correctness/noUnusedFunctionParameters  FIXABLE  ━━━━━━━━━━
+
+  ! This parameter is unused.
+  
+    52 │             return { previousIds };
+    53 │         },
+  > 54 │         onError: (err, variables, context) => {
+       │                        ^^^^^^^^^
+    55 │             if (context?.previousIds) {
+    56 │                 queryClient.setQueryData(['favorites', 'ids'], context.previousIds);
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: If this is intentional, prepend variables with an underscore.
+  
+    52 52 │               return { previousIds };
+    53 53 │           },
+    54    │ - ········onError:·(err,·variables,·context)·=>·{
+       54 │ + ········onError:·(err,·_variables,·context)·=>·{
+    55 55 │               if (context?.previousIds) {
+    56 56 │                   queryClient.setQueryData(['favorites', 'ids'], context.previousIds);
+  
+
+src/features/favorites/hooks/useFavorites.ts:59:21 lint/correctness/noUnusedFunctionParameters  FIXABLE  ━━━━━━━━━━
+
+  ! This parameter is unused.
+  
+    57 │             }
+    58 │         },
+  > 59 │         onSettled: (data, error, variables) => {
+       │                     ^^^^
+    60 │             queryClient.invalidateQueries({ queryKey: ['favorites'] });
+    61 │             queryClient.invalidateQueries({ queryKey: ['favorites', 'ids'] });
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: If this is intentional, prepend data with an underscore.
+  
+    57 57 │               }
+    58 58 │           },
+    59    │ - ········onSettled:·(data,·error,·variables)·=>·{
+       59 │ + ········onSettled:·(_data,·error,·variables)·=>·{
+    60 60 │               queryClient.invalidateQueries({ queryKey: ['favorites'] });
+    61 61 │               queryClient.invalidateQueries({ queryKey: ['favorites', 'ids'] });
+  
+
+src/features/favorites/hooks/useFavorites.ts:59:27 lint/correctness/noUnusedFunctionParameters  FIXABLE  ━━━━━━━━━━
+
+  ! This parameter is unused.
+  
+    57 │             }
+    58 │         },
+  > 59 │         onSettled: (data, error, variables) => {
+       │                           ^^^^^
+    60 │             queryClient.invalidateQueries({ queryKey: ['favorites'] });
+    61 │             queryClient.invalidateQueries({ queryKey: ['favorites', 'ids'] });
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: If this is intentional, prepend error with an underscore.
+  
+    57 57 │               }
+    58 58 │           },
+    59    │ - ········onSettled:·(data,·error,·variables)·=>·{
+       59 │ + ········onSettled:·(data,·_error,·variables)·=>·{
+    60 60 │               queryClient.invalidateQueries({ queryKey: ['favorites'] });
+    61 61 │               queryClient.invalidateQueries({ queryKey: ['favorites', 'ids'] });
+  
+
+src/app/(tabs)/profile.tsx:258:62 lint/suspicious/noEmptyBlockStatements ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Unexpected empty block.
+  
+    256 │                         iconBg={`${Colors.secondary}22`}
+    257 │                         iconColor={Colors.secondary}
+  > 258 │                         onPress={() => handleProtected(() => {})}
+        │                                                              ^^
+    259 │                     />
+    260 │                     <MenuRow
+  
+  i Empty blocks are usually the result of an incomplete refactoring. Remove the empty block or add a comment inside it if it is intentional.
+  
+
+src/app/(tabs)/profile.tsx:265:40 lint/suspicious/noEmptyBlockStatements ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Unexpected empty block.
+  
+    263 │                         iconBg={Colors.surfaceContainerHigh}
+    264 │                         iconColor={Colors.onSurfaceVariant}
+  > 265 │                         onPress={() => {}}
+        │                                        ^^
+    266 │                     />
+    267 │                     <MenuRow
+  
+  i Empty blocks are usually the result of an incomplete refactoring. Remove the empty block or add a comment inside it if it is intentional.
+  
+
+src/app/(tabs)/profile.tsx:272:62 lint/suspicious/noEmptyBlockStatements ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Unexpected empty block.
+  
+    270 │                         iconBg={Colors.surfaceContainerHigh}
+    271 │                         iconColor={Colors.onSurfaceVariant}
+  > 272 │                         onPress={() => handleProtected(() => {})}
+        │                                                              ^^
+    273 │                         isLast={!isAuthenticated || !user?.roles?.includes('PROVIDER')}
+    274 │                     />
+  
+  i Empty blocks are usually the result of an incomplete refactoring. Remove the empty block or add a comment inside it if it is intentional.
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 18.
+Checked 98 files in 14ms. No fixes applied.
+Found 7 errors.
+Found 31 warnings.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
+EXIT:1

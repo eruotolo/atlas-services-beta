@@ -1,0 +1,22 @@
+========================================
+EVIDENCIA — TYPECHECK (tsc --noEmit)
+Fecha: 2026-07-19
+Commit: bc5758662b77f0b69410ba7dab4c911cb452ae9a
+========================================
+
+--- BACKEND ---
+$ cd backend && npx tsc --noEmit
+(no output)
+EXIT_TYPECHECK=0
+
+--- FRONTEND ---
+$ cd frontend && npx tsc --noEmit
+(no output)
+EXIT_TYPECHECK=0
+
+--- APPMOBILE ---
+$ cd appmobile && npx tsc --noEmit
+(no output)
+EXIT_TYPECHECK=0
+
+CONCLUSION: TypeScript strict limpio en las 3 capas. Sin errores de tipado.

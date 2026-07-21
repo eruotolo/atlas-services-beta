@@ -1,0 +1,594 @@
+$ pnpm clean && next build
+$ rm -rf .next
+▲ Next.js 16.1.1 (Turbopack)
+- Environments: .env.local, .env.production
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 3.2s
+  Running TypeScript ...
+  Collecting page data using 15 workers ...
+  Generating static pages using 15 workers (0/166) ...
+Error obteniendo métricas de interacciones: Error: Dynamic server usage: Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_58704c95._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/frontend_1796644f._.js:1:5890)
+    at s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6897)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7750) {
+  description: "Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo interacciones: Error: Dynamic server usage: Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_58704c95._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/frontend_1796644f._.js:1:6368)
+    at t (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7512)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7754) {
+  description: "Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo métricas de interacciones: Error: Dynamic server usage: Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_58704c95._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/frontend_1796644f._.js:1:5890)
+    at s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6897)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7750) {
+  description: "Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo interacciones: Error: Dynamic server usage: Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_58704c95._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/frontend_1796644f._.js:1:6368)
+    at t (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7512)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7754) {
+  description: "Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo métricas de interacciones: Error: Dynamic server usage: Route /config couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_9b4d3ec8._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/_92845ccd._.js:2:11456)
+    at s (.next/server/chunks/ssr/[root-of-the-server]__df212e1c._.js:1:5978)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__df212e1c._.js:1:6714) {
+  description: "Route /config couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo interacciones: Error: Dynamic server usage: Route /config couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_9b4d3ec8._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/_92845ccd._.js:2:11934)
+    at t (.next/server/chunks/ssr/[root-of-the-server]__df212e1c._.js:1:6593)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__df212e1c._.js:1:6718) {
+  description: "Route /config couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo precios agrupados: Error: Dynamic server usage: Route /config/premium-prices couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_9b4d3ec8._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/_9b4d3ec8._.js:2:13625)
+    at g (.next/server/chunks/ssr/[root-of-the-server]__90ef0ef8._.js:1:3003) {
+  description: "Route /config/premium-prices couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error al obtener usuarios paginados: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/_58704c95._.js:2:10967)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching admin services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:8276)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_1796644f._.js:1:8312)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching admin services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:8276)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error al obtener usuarios paginados: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/_58704c95._.js:2:10967)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_1796644f._.js:1:8312)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+  Generating static pages using 15 workers (41/166) 
+Error al obtener usuarios paginados: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/_48bcb358._.js:1:731)
+    at async (.next/server/chunks/ssr/[root-of-the-server]__8a52f894._.js:1:13861)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__df212e1c._.js:1:5876) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching admin services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/_48bcb358._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:8276)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__df212e1c._.js:1:5876) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_1796644f._.js:1:8312)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6905)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_1796644f._.js:1:8312)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6905)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+  Generating static pages using 15 workers (82/166) 
+Error fetching category tree: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:450)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching categories: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:1002)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching featured services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:6714)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching categories: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:1002)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching featured services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:6714)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching category tree: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:450)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/_48bcb358._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_a3683851._.js:1:2955)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__df212e1c._.js:1:5986) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo métricas de interacciones: Error: Dynamic server usage: Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_23340e6e._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/frontend_11cc6f00._.js:1:5786)
+    at s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6897)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7750) {
+  description: "Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo interacciones: Error: Dynamic server usage: Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_23340e6e._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/frontend_11cc6f00._.js:1:6264)
+    at t (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7512)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7754) {
+  description: "Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo métricas de interacciones: Error: Dynamic server usage: Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_23340e6e._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/frontend_11cc6f00._.js:1:5786)
+    at s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6897)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7750) {
+  description: "Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo interacciones: Error: Dynamic server usage: Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_23340e6e._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/frontend_11cc6f00._.js:1:6264)
+    at t (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7512)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7754) {
+  description: "Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo métricas de interacciones: Error: Dynamic server usage: Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_23340e6e._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/frontend_11cc6f00._.js:1:5786)
+    at s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6897)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7750) {
+  description: "Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+Error obteniendo interacciones: Error: Dynamic server usage: Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error
+    at w (.next/server/chunks/ssr/300b0_next_dist_af08e67e._.js:1:7049)
+    at m (.next/server/chunks/ssr/300b0_next_915eea27._.js:1:18717)
+    at h (.next/server/chunks/ssr/_68733ff5._.js:34:24878)
+    at d (.next/server/chunks/ssr/_23340e6e._.js:2:389)
+    at <unknown> (.next/server/chunks/ssr/frontend_11cc6f00._.js:1:6264)
+    at t (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7512)
+    at u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7754) {
+  description: "Route /[country]/admin couldn't be rendered statically because it used `headers`. See more info here: https://nextjs.org/docs/messages/dynamic-server-error",
+  digest: 'DYNAMIC_SERVER_USAGE'
+}
+  Generating static pages using 15 workers (124/166) 
+Error al obtener usuarios paginados: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/[root-of-the-server]__8a52f894._.js:1:13861)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_155e262c._.js:1:10844)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching admin services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_cf19ecd5._.js:1:3156)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error al obtener usuarios paginados: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/[root-of-the-server]__8a52f894._.js:1:13861)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching admin services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_cf19ecd5._.js:1:3156)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_155e262c._.js:1:10844)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error al obtener usuarios paginados: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/[root-of-the-server]__8a52f894._.js:1:13861)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching categories: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:1002)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_155e262c._.js:1:10844)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching featured services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:6714)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching admin services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_cf19ecd5._.js:1:3156)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6767)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching category tree: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:450)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching category tree: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:450)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching categories: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:1002)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching featured services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:6714)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching category tree: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:450)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching categories: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:1002)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching featured services: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_src_features_ea372fce._.js:1:6714)
+    at async w (.next/server/chunks/ssr/[root-of-the-server]__660a5a9b._.js:2:13221) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error fetching all public services: TypeError: fetch failed
+    at async u (.next/server/chunks/_b386bbdb._.js:34:47406)
+    at async (.next/server/chunks/300b0_next_dist_esm_build_templates_app-route_b1439c9f.js:37:177938)
+    at async df (.next/server/chunks/300b0_next_dist_esm_build_templates_app-route_b1439c9f.js:37:182822)
+    at async dv (.next/server/chunks/300b0_next_dist_esm_build_templates_app-route_b1439c9f.js:37:183067) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_155e262c._.js:1:10844)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6905)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_155e262c._.js:1:10844)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6905)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+Error obteniendo sponsors: TypeError: fetch failed
+    at async f (.next/server/chunks/ssr/[root-of-the-server]__423d4bd9._.js:1:731)
+    at async (.next/server/chunks/ssr/frontend_155e262c._.js:1:10844)
+    at async s (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:6905)
+    at async u (.next/server/chunks/ssr/[root-of-the-server]__37ea8d8d._.js:1:7731) {
+  [cause]: AggregateError: 
+      at ignore-listed frames {
+    code: 'ECONNREFUSED'
+  }
+}
+✓ Generating static pages using 15 workers (166/166) in 3.8s
+  Finalizing page optimization ...
+
+Route (app)                                       Revalidate  Expire
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /[country]
+├ ƒ /[country]/about-us
+├ ƒ /[country]/admin
+├ ƒ /[country]/admin/categories
+├ ƒ /[country]/admin/interactions
+├ ƒ /[country]/admin/payments
+├ ƒ /[country]/admin/premium-prices
+├ ƒ /[country]/admin/ratings
+├ ƒ /[country]/admin/services
+├ ƒ /[country]/admin/sponsors
+├ ƒ /[country]/admin/users
+├ ƒ /[country]/contact
+├ ƒ /[country]/help
+├ ƒ /[country]/how-it-works
+├ ƒ /[country]/pricing
+├ ƒ /[country]/privacy
+├ ƒ /[country]/profile
+├ ƒ /[country]/profile/addresses
+├ ƒ /[country]/profile/favorites
+├ ƒ /[country]/profile/leads
+├ ƒ /[country]/profile/messages
+├ ƒ /[country]/profile/messages/[conversationId]
+├ ƒ /[country]/profile/quotes
+├ ƒ /[country]/profile/services
+├ ƒ /[country]/profile/settings
+├ ƒ /[country]/profile/verification
+├ ƒ /[country]/publish
+├ ƒ /[country]/search
+├ ƒ /[country]/service/[slug]
+├ ƒ /[country]/terms
+├ ƒ /[country]/unauthorized
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /api/payments/stripe-session
+├ ƒ /api/revalidate
+├ ƒ /api/upload
+├ ƒ /api/webhooks/mercadopago
+├ ƒ /api/webhooks/stripe
+├ ƒ /config
+├ ƒ /config/categories
+├ ƒ /config/countries
+├ ƒ /config/integrations
+├ ƒ /config/interactions
+├ ƒ /config/payments
+├ ƒ /config/premium-prices
+├ ƒ /config/ratings
+├ ƒ /config/services
+├ ƒ /config/sponsors
+├ ƒ /config/users
+├ ƒ /design-system
+├ ƒ /login
+├ ƒ /register
+├ ○ /robots.txt
+└ ○ /sitemap.xml                                          1m      1y
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+
+EXIT:0

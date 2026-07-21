@@ -1,0 +1,6 @@
+[WARN] The "pnpm" field in package.json is no longer read by pnpm. The following keys were ignored: "pnpm.onlyBuiltDependencies". See https://pnpm.io/settings for the new home of each setting.
+
+> backend@0.1.0 build /Users/edgardoruotolo/Sites/nextjs_projects/next-atlas-services/backend
+> nest build && tsc-alias -p tsconfig.build.json
+
+EXIT:0

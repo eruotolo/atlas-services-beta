@@ -1,0 +1,2 @@
+No existe script ni configuración de cobertura útil para Backend o Mobile. Frontend solo dispone de Playwright E2E y no tiene cobertura instrumentada. Por tanto, no se obtuvo porcentaje de cobertura.
+

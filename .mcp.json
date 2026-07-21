@@ -7,13 +7,11 @@
         "mcp"
       ]
     },
-    "codegraph": {
+    "next-devtools": {
       "command": "npx",
       "args": [
         "-y",
-        "@colbymchenry/codegraph",
-        "serve",
-        "--mcp"
+        "next-devtools-mcp@latest"
       ]
     }
   }

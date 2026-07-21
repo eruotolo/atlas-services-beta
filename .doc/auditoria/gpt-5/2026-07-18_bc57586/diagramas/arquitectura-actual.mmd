@@ -1,0 +1,23 @@
+flowchart LR
+    U[Usuarios web] --> CDN[Vercel / CDN]
+    CDN --> FE[Frontend Next.js 16\nSSR/RSC/Route Handlers]
+    M[App Mobile Expo/RN] --> API
+    FE -->|REST /api/v1 + x-api-key| API[Backend NestJS modular]
+    FE -->|Socket.IO /chat| WS[Chat Gateway]
+    M -.->|REST: contratos/config rotos| API
+    M -.->|Socket hardcoded localhost| WS
+    API --> PG[(PostgreSQL / Prisma)]
+    API --> CL[Cloudinary]
+    API --> ST[Stripe]
+    API --> MP[MercadoPago]
+    API --> FB[Firebase / Push]
+    API --> BR[Brevo / Email]
+    API --> GM[Gemini]
+    API --> OAUTH[Google / Apple / Microsoft]
+    WS --> PG
+    subgraph Riesgos de estado local
+      MEM[Rate limit, rooms y caché\nen memoria por instancia]
+    end
+    API --- MEM
+    WS --- MEM
+

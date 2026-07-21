@@ -1,0 +1,52 @@
+{
+  "audit_version": "1.0",
+  "ai_provider": "Anthropic",
+  "model_name": "Claude Fable 5",
+  "normalized_model_name": "claude-fable-5",
+  "audit_started_at": "2026-07-18T21:20:00-04:00",
+  "audit_finished_at": "2026-07-18T22:05:00-04:00",
+  "project_name": "Hireeo (next-atlas-services)",
+  "project_commit": "bc57586",
+  "project_branch": "main",
+  "submodule_commits": {
+    "frontend": "3f73bab",
+    "backend": "ee40d26",
+    "appmobile": "fe9b462"
+  },
+  "scope": ["frontend", "backend", "mobile", "security", "testing", "devops"],
+  "reviewed_paths": [
+    "frontend/src",
+    "backend/src",
+    "backend/prisma",
+    "appmobile/src",
+    "docker-database",
+    "frontend/next.config.ts",
+    "backend/src/main.ts",
+    "backend/src/app.module.ts"
+  ],
+  "excluded_paths": ["node_modules", ".next", "dist", "playwright-report"],
+  "commands_executed": [
+    "git log / submodule status",
+    "tsc --noEmit (frontend, backend, appmobile)",
+    "biome check src/ (frontend, backend, appmobile)",
+    "pnpm build (frontend, backend)",
+    "pnpm audit --prod (frontend, backend, appmobile)"
+  ],
+  "commands_failed": [],
+  "critical_findings": 2,
+  "high_findings": 8,
+  "medium_findings": 9,
+  "low_findings": 6,
+  "informational_findings": 4,
+  "overall_score": 5.4,
+  "confidence_level": "medio-alto",
+  "internet_research_performed": true,
+  "limitations": [
+    "No hubo acceso a entornos desplegados (staging/producción no existen aún)",
+    "No hubo acceso a paneles cloud (Vercel, DB gestionada) ni a variables de entorno reales",
+    "No se ejecutaron tests de carga ni escaneo dinámico (DAST)",
+    "Sin métricas de tráfico/volumen reales; el análisis de escalabilidad es estructural",
+    "appmobile no se ejecutó en dispositivo/emulador; auditoría estática",
+    "pnpm audit reporta árbol de dependencias combinado del monorepo (backend y appmobile comparten transitivas de tooling)"
+  ]
+}

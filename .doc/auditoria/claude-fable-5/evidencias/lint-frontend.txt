@@ -1,0 +1,391 @@
+src/app/(country)/[country]/(account)/profile/favorites/page.tsx:39:11 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━
+
+  ! This variable tienePremium is unused.
+  
+    37 │     }
+    38 │ 
+  > 39 │     const tienePremium = usuario.stats.premiumCount > 0;
+       │           ^^^^^^^^^^^^
+    40 │ 
+    41 │     return (
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend tienePremium with an underscore.
+  
+     37  37 │       }
+     38  38 │   
+     39     │ - ····const·tienePremium·=·usuario.stats.premiumCount·>·0;
+         39 │ + ····const·_tienePremium·=·usuario.stats.premiumCount·>·0;
+     40  40 │   
+     41  41 │       return (
+  
+
+src/app/(country)/[country]/(account)/profile/leads/page.tsx:189:13 lint/a11y/noSvgWithoutTitle ━━━━━━━━━━
+
+  ! Alternative text title element cannot be empty
+  
+    187 │             style={{ paddingTop: 48, paddingBottom: 48, gap: 16 }}
+    188 │         >
+  > 189 │             <svg
+        │             ^^^^
+  > 190 │                 width="72"
+         ...
+  > 195 │                 style={{ opacity: 0.3 }}
+  > 196 │             >
+        │             ^
+    197 │                 <circle cx="36" cy="36" r="32" stroke="var(--ink)" strokeWidth="2.5" />
+    198 │                 <path
+  
+  i For accessibility purposes, SVGs should have an alternative text, provided via title element. If the svg element has role="img", you should add the aria-label or aria-labelledby attribute.
+  
+
+src/app/(country)/[country]/(account)/profile/leads/page.tsx:39:11 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━
+
+  ! This variable tienePremium is unused.
+  
+    37 │     }
+    38 │ 
+  > 39 │     const tienePremium = usuario.stats.premiumCount > 0;
+       │           ^^^^^^^^^^^^
+    40 │ 
+    41 │     // Cotizaciones aceptadas (trabajos ganados)
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend tienePremium with an underscore.
+  
+     37  37 │       }
+     38  38 │   
+     39     │ - ····const·tienePremium·=·usuario.stats.premiumCount·>·0;
+         39 │ + ····const·_tienePremium·=·usuario.stats.premiumCount·>·0;
+     40  40 │   
+     41  41 │       // Cotizaciones aceptadas (trabajos ganados)
+  
+
+src/app/(country)/[country]/(account)/profile/messages/[conversationId]/page.tsx:47:11 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━
+
+  ! This variable tienePremium is unused.
+  
+    46 │     const messagesResult = await getMensajes(conversationId);
+  > 47 │     const tienePremium = usuario.stats.premiumCount > 0;
+       │           ^^^^^^^^^^^^
+    48 │ 
+    49 │     return (
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend tienePremium with an underscore.
+  
+    45 45 │   
+    46 46 │       const messagesResult = await getMensajes(conversationId);
+    47    │ - ····const·tienePremium·=·usuario.stats.premiumCount·>·0;
+       47 │ + ····const·_tienePremium·=·usuario.stats.premiumCount·>·0;
+    48 48 │   
+    49 49 │       return (
+  
+
+src/app/(country)/[country]/(account)/profile/messages/page.tsx:39:11 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━
+
+  ! This variable tienePremium is unused.
+  
+    37 │     }
+    38 │ 
+  > 39 │     const tienePremium = usuario.stats.premiumCount > 0;
+       │           ^^^^^^^^^^^^
+    40 │ 
+    41 │     return (
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend tienePremium with an underscore.
+  
+    37 37 │       }
+    38 38 │   
+    39    │ - ····const·tienePremium·=·usuario.stats.premiumCount·>·0;
+       39 │ + ····const·_tienePremium·=·usuario.stats.premiumCount·>·0;
+    40 40 │   
+    41 41 │       return (
+  
+
+src/app/(country)/[country]/(account)/profile/page.tsx:42:11 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━
+
+  ! This variable tienePremium is unused.
+  
+    40 │     }
+    41 │ 
+  > 42 │     const tienePremium = usuario.stats.premiumCount > 0;
+       │           ^^^^^^^^^^^^
+    43 │     const basicCount = usuario.stats.totalServicios - usuario.stats.premiumCount;
+    44 │     const tieneBasicos = basicCount > 0;
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend tienePremium with an underscore.
+  
+     40  40 │       }
+     41  41 │   
+     42     │ - ····const·tienePremium·=·usuario.stats.premiumCount·>·0;
+         42 │ + ····const·_tienePremium·=·usuario.stats.premiumCount·>·0;
+     43  43 │       const basicCount = usuario.stats.totalServicios - usuario.stats.premiumCount;
+     44  44 │       const tieneBasicos = basicCount > 0;
+  
+
+src/app/(country)/[country]/(account)/profile/quotes/page.tsx:11:15 lint/correctness/noUnusedImports  FIXABLE  ━━━━━━━━━━
+
+  ! Several of these imports are unused.
+  
+     9 │ import { getProfilePageData } from '@/features/users/actions';
+    10 │ 
+  > 11 │ import { Btn, Mono } from '@/shared/components/hireeo';
+       │               ^^^^
+    12 │ import { PageHeader } from '@/shared/components/hireeo';
+    13 │ 
+  
+  i Unused imports might be the result of an incomplete refactoring.
+  
+  i Unsafe fix: Remove the unused imports.
+  
+    11 │ import·{·Btn,·Mono·}·from·'@/shared/components/hireeo';
+       │               -----                                    
+
+src/app/(country)/[country]/(account)/profile/quotes/page.tsx:38:11 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━
+
+  ! This variable tienePremium is unused.
+  
+    36 │     }
+    37 │ 
+  > 38 │     const tienePremium = usuario.stats.premiumCount > 0;
+       │           ^^^^^^^^^^^^
+    39 │ 
+    40 │     // Fetch quotes for every request in parallel
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend tienePremium with an underscore.
+  
+     36  36 │       }
+     37  37 │   
+     38     │ - ····const·tienePremium·=·usuario.stats.premiumCount·>·0;
+         38 │ + ····const·_tienePremium·=·usuario.stats.premiumCount·>·0;
+     39  39 │   
+     40  40 │       // Fetch quotes for every request in parallel
+  
+
+src/app/(country)/[country]/(account)/profile/services/page.tsx:26:11 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━
+
+  ! This variable dict is unused.
+  
+    24 │     }
+    25 │ 
+  > 26 │     const dict = await getDictionary(country);
+       │           ^^^^
+    27 │     const services = await getUserServices(session.user.id);
+    28 │ 
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend dict with an underscore.
+  
+    24 24 │       }
+    25 25 │   
+    26    │ - ····const·dict·=·await·getDictionary(country);
+       26 │ + ····const·_dict·=·await·getDictionary(country);
+    27 27 │       const services = await getUserServices(session.user.id);
+    28 28 │   
+  
+
+src/app/(country)/[country]/(account)/profile/settings/page.tsx:28:11 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━
+
+  ! This variable tienePremium is unused.
+  
+    27 │     const profile = await getProfilePageData(backendUser.id);
+  > 28 │     const tienePremium = (profile?.stats.premiumCount ?? 0) > 0;
+       │           ^^^^^^^^^^^^
+    29 │ 
+    30 │     const usuarioData = {
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend tienePremium with an underscore.
+  
+    26 26 │   
+    27 27 │       const profile = await getProfilePageData(backendUser.id);
+    28    │ - ····const·tienePremium·=·(profile?.stats.premiumCount·??·0)·>·0;
+       28 │ + ····const·_tienePremium·=·(profile?.stats.premiumCount·??·0)·>·0;
+    29 29 │   
+    30 30 │       const usuarioData = {
+  
+
+src/app/(country)/[country]/(account)/profile/verification/page.tsx:113:11 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━
+
+  ! This variable tienePremium is unused.
+  
+    111 │     }
+    112 │ 
+  > 113 │     const tienePremium = usuario.stats.premiumCount > 0;
+        │           ^^^^^^^^^^^^
+    114 │     const isVerified = kycStatus?.isKycVerified ?? false;
+    115 │     const verifiedAt = kycStatus?.kycVerifiedAt ?? null;
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend tienePremium with an underscore.
+  
+    111 111 │       }
+    112 112 │   
+    113     │ - ····const·tienePremium·=·usuario.stats.premiumCount·>·0;
+        113 │ + ····const·_tienePremium·=·usuario.stats.premiumCount·>·0;
+    114 114 │       const isVerified = kycStatus?.isKycVerified ?? false;
+    115 115 │       const verifiedAt = kycStatus?.kycVerifiedAt ?? null;
+  
+
+src/app/(country)/[country]/(public)/publish/page.tsx:28:40 lint/suspicious/noExplicitAny ━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    26 │             nombre: session.user.name || '',
+    27 │             email: session.user.email || '',
+  > 28 │             telefono: (session.user as any).phone ?? null,
+       │                                        ^^^
+    29 │         };
+    30 │     }
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/app/(country)/[country]/(public)/publish/page.tsx:19:13 lint/correctness/noUnusedVariables ━━━━━━━━━━
+
+  ! This variable country is unused.
+  
+    18 │ export default async function PublicarPage({ params }: Props) {
+  > 19 │     const { country } = await params;
+       │             ^^^^^^^
+    20 │     const session = await getServerSession(authOptions);
+    21 │ 
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+
+src/app/(country)/[country]/(public)/service/[slug]/page.tsx:113:1 suppressions/unused ━━━━━━━━━━━━━
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    111 │ }
+    112 │ 
+  > 113 │ // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: composición de la pantalla detail con múltiples bloques
+        │ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    114 │ export default async function ServiceDetailPage({ params }: Props) {
+    115 │     const { country, slug } = await params;
+  
+
+src/app/api/auth/[...nextauth]/route.ts:64:42 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    62 │ ): Promise<JWT> {
+    63 │     if (account.provider === 'credentials' && user) {
+  > 64 │         const u = user as Record<string, any>;
+       │                                          ^^^
+    65 │         return {
+    66 │             ...token,
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/app/api/auth/[...nextauth]/route.ts:208:5 suppressions/unused ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Suppression comment has no effect. Remove the suppression or make sure you are suppressing the correct rule.
+  
+    206 │ async function handler(req: Request, ctx: { params: Promise<{ nextauth: string[] }> }): Promise<Response> {
+    207 │     const options = await buildDynamicOptions();
+  > 208 │     // biome-ignore lint/suspicious/noExplicitAny: next-auth v4 App Router handler requires this cast
+        │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    209 │     return NextAuth(req as unknown as Parameters<typeof NextAuth>[0], ctx as unknown as Parameters<typeof NextAuth>[1], options as unknown as Parameters<typeof NextAuth>[2]) as unknown as Promise<Response>;
+    210 │ }
+  
+
+src/app/api/revalidate/route.ts:15:14 lint/correctness/noUnusedVariables  FIXABLE  ━━━━━━━━━━━━━━━━━
+
+  ! This variable err is unused.
+  
+    13 │         revalidateTag(tag, 'max');
+    14 │         return NextResponse.json({ revalidated: true, now: Date.now(), tag });
+  > 15 │     } catch (err) {
+       │              ^^^
+    16 │         return NextResponse.json({ message: 'Error revalidating' }, { status: 500 });
+    17 │     }
+  
+  i Unused variables are often the result of an incomplete refactoring, typos, or other sources of bugs.
+  
+  i Unsafe fix: If this is intentional, prepend err with an underscore.
+  
+    13 13 │           revalidateTag(tag, 'max');
+    14 14 │           return NextResponse.json({ revalidated: true, now: Date.now(), tag });
+    15    │ - ····}·catch·(err)·{
+       15 │ + ····}·catch·(_err)·{
+    16 16 │           return NextResponse.json({ message: 'Error revalidating' }, { status: 500 });
+    17 17 │       }
+  
+
+src/features/analytics/components/admin/DashboardCharts/index.tsx:189:53 lint/suspicious/noArrayIndexKey ━━━━━━━━━━
+
+  ! Avoid using the index of an array as key property in an element.
+  
+    187 │                                 {topData.map((_, idx) => (
+    188 │                                     <Cell
+  > 189 │                                         key={`bar-${idx}`}
+        │                                                     ^^^
+    190 │                                         fill={idx === 0 ? '#2D4E8F' : idx === 1 ? '#5B8FD4' : '#A9C7E8'}
+    191 │                                     />
+  
+  i This is the source of the key value.
+  
+    185 │                                 barSize={18}
+    186 │                             >
+  > 187 │                                 {topData.map((_, idx) => (
+        │                                                  ^^^
+    188 │                                     <Cell
+    189 │                                         key={`bar-${idx}`}
+  
+  i The order of the items may change, and this also affects performances and component state.
+  
+  i Check the React documentation. 
+  
+
+src/features/analytics/components/admin/InteraccionesTable/index.tsx:6:8 lint/style/useImportType  FIXABLE  ━━━━━━━━━━
+
+  ! All these imports are only used as types.
+  
+    5 │ import { Pill } from '@/shared/components/hireeo';
+  > 6 │ import { ColumnDef } from '@tanstack/react-table';
+      │        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    7 │ import { DataTable } from '@/shared/components/DataTable';
+    8 │ import { useDataTable } from '@/shared/components/DataTable/useDataTable';
+  
+  i Importing the types with import type ensures that they are removed by the compilers and avoids loading unnecessary modules.
+  
+  i Safe fix: Use import type.
+  
+    6 │ import·type·{·ColumnDef·}·from·'@tanstack/react-table';
+      │        +++++                                           
+
+src/shared/lib/chatWidgetBus.ts:3:29 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    1 │ type ChatWidgetEvent = 'open_chat' | 'close_chat';
+    2 │ 
+  > 3 │ type EventHandler = (data?: any) => void;
+      │                             ^^^
+    4 │ 
+    5 │ class ChatWidgetBus {
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 49.
+Checked 325 files in 87ms. No fixes applied.
+Found 69 warnings.
+EXIT:0

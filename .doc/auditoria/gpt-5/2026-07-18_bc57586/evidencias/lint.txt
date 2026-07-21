@@ -1,0 +1,9 @@
+Auditoría GPT-5 — evidencia de lint (2026-07-18)
+
+- `pnpm lint` (raíz): exit 1, 0,425 s. Biome detecta configuración raíz anidada en `backend/biome.json`.
+- `pnpm --filter frontend lint`: exit 0, 0,413 s. 69 warnings, 0 errores, 325 archivos.
+- `pnpm --filter backend lint`: exit 1, 0,421 s. 17 errores y 40 warnings, 142 archivos.
+- `pnpm --filter appmobile lint`: exit 1, 0,453 s. 7 errores y 31 warnings, 98 archivos.
+
+El typecheck exitoso no invalida estos errores de calidad.
+

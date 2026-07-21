@@ -1,0 +1,8 @@
+Auditoría GPT-5 — evidencia de TypeScript (2026-07-18)
+
+- Frontend: `pnpm --filter frontend exec tsc --noEmit --incremental false` — exit 0, 3,425 s.
+- Backend: `pnpm --filter backend exec tsc --noEmit --incremental false` — exit 0, 2,076 s.
+- Mobile: `pnpm --filter appmobile exec tsc --noEmit --incremental false` — exit 0, 1,492 s.
+
+Backend contiene cinco archivos de IA con `@ts-nocheck`; por ello el resultado no cubre toda esa lógica.
+

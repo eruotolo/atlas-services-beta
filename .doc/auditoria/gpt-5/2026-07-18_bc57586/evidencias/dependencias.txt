@@ -1,0 +1,9 @@
+Auditoría GPT-5 — dependencias (2026-07-18)
+
+Se ejecutaron `pnpm list -r --depth 0` y `pnpm outdated -r` sin modificar lockfiles. Versiones principales confirmadas:
+- Frontend: Next.js 16.1.1, React 19, TypeScript strict, Tailwind 4.
+- Backend: NestJS 10, Prisma, PostgreSQL 16, Stripe, MercadoPago, Firebase, Cloudinary, Brevo y Gemini.
+- Mobile: Expo 54.0.35, React Native 0.81.5, Expo Router 6.0.24, NativeWind 4.2.5, React Query 5.101.0.
+
+`expo-doctor` aislado: 15/18 checks pasaron y 3 fallaron: opción Metro inesperada `unstable_enableSymlinks`, peer faltante `react-native-worklets` y tres desajustes menores de versión.
+

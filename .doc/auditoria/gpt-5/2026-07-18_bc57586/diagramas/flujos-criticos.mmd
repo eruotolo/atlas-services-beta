@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant C as Cliente Web/Mobile
+    participant A as API
+    participant DB as PostgreSQL
+    participant P as Pasarela
+    C->>A: Crear intención (plan/servicio)
+    A->>DB: Resolver propietario, precio, moneda y país
+    A->>DB: Persistir payment_intent + idempotency key
+    A->>P: Crear checkout con metadata inmutable
+    P-->>C: Checkout
+    P->>A: Webhook firmado
+    A->>P: Recuperar evento/recurso
+    A->>DB: Transacción: validar importe/moneda/estado + registrar evento
+    A->>DB: Activar entitlement una sola vez
+    A-->>P: 2xx idempotente
+

@@ -1,0 +1,69 @@
+%%{init: {'theme':'base', 'themeVariables': {'primaryColor':'#1e40af', 'primaryTextColor':'#fff', 'primaryBorderColor':'#1e3a8a', 'lineColor':'#475569', 'secondaryColor':'#f1f5f9', 'tertiaryColor':'#fff'}}}%%
+flowchart TB
+    subgraph Clients["Clientes"]
+        WEB["Web (Next.js 16.1.1)\nVercel"]
+        MOB["Mobile (Expo SDK 54)\nEAS"]
+    end
+
+    subgraph VercelFE["Vercel - Frontend"]
+        MW["proxy.ts\nmiddleware multi-pais"]
+        SSR["Server Components\nServer Actions (35)"]
+        APIFE["/api/* route handlers\nwebhooks Stripe/MP"]
+    end
+
+    subgraph VercelBE["Vercel - Backend (serverless)"]
+        API["NestJS 10\n/api/v1/*"]
+        GUARDS["ApiKeyGuard (global)\nThrottlerGuard (global)\nJwtAuthGuard (NO global!)"]
+        MODS["24 modulos\nauth, services, payments,\nchat, notifications, ..."]
+        WS["chat.gateway\nsocket.io"]
+        SWAG["Swagger /api/docs"]
+    end
+
+    subgraph DB["Base de datos"]
+        PG[("PostgreSQL 16\nPrisma 7.5\n22 modelos")]
+    end
+
+    subgraph Cache["Caché / Colas"]
+        REDIS["Redis\n(NO EXISTE)"]
+        BULL["BullMQ workers\n(NO EXISTEN)"]
+    end
+
+    subgraph External["Servicios externos"]
+        STRIPE["Stripe\n(es, us)"]
+        MP["MercadoPago\n(cl, ar, uy)"]
+        CLOUD["Cloudinary\nimagenes"]
+        FIREBASE["Firebase\nFCM push"]
+        BREVO["Brevo\nemail"]
+        GEMINI["Google Gemini\nAI agents"]
+    end
+
+    WEB -->|HTTPS| MW
+    WEB -->|SSR fetch + x-api-key| API
+    WEB <-->|/api/webhooks| STRIPE
+    WEB <-->|/api/webhooks| MP
+    WEB --> APIFE
+
+    MOB -->|HTTPS CSR\nSIN x-api-key!| API
+    MOB <-->|socket.io\nlocalhost hardcodeado| WS
+
+    MW --> SSR
+    SSR --> APIFE
+
+    API --> GUARDS --> MODS
+    MODS --> PG
+    MODS <--> CLOUD
+    MODS <--> STRIPE
+    MODS <--> MP
+    MODS <--> FIREBASE
+    MODS <--> BREVO
+    MODS <--> GEMINI
+
+    MODS -.->|stubs - no implementado| REDIS
+    MODS -.->|no implementado| BULL
+
+    WS -->|join sin validar IDOR| PG
+
+    style GUARDS fill:#dc2626,color:#fff
+    style REDIS fill:#94a3b8,color:#000,stroke-dasharray: 5 5
+    style BULL fill:#94a3b8,color:#000,stroke-dasharray: 5 5
+    style WS fill:#f59e0b,color:#000

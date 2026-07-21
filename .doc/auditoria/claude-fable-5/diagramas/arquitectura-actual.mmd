@@ -1,0 +1,44 @@
+graph TD
+    subgraph Clients
+        WEB["Frontend Next.js 16.1<br/>Vercel (App Router)"]
+        MOB["App Mobile Expo 54<br/>React Native 0.81"]
+    end
+
+    subgraph Vercel_Serverless
+        WEB
+        API["Backend NestJS 10<br/>handler serverless (main.ts)"]
+    end
+
+    subgraph Terceros
+        MP["MercadoPago<br/>(cl, ar, uy)"]
+        ST["Stripe<br/>(es, us)"]
+        CLD["Cloudinary<br/>(imágenes)"]
+        GEMINI["Google Gemini<br/>(AI agents / chatbot)"]
+        FCM["Firebase Admin<br/>(push)"]
+        OAUTH["Google / Apple / Microsoft<br/>OAuth"]
+    end
+
+    DB[("PostgreSQL 16<br/>Prisma 7 + adapter-pg")]
+
+    WEB -->|"x-api-key + Bearer JWT<br/>/api/v1"| API
+    MOB -->|"Bearer JWT (SIN x-api-key)<br/>/api/v1"| API
+    WEB -.->|"WebSocket /chat<br/>(socket.io)"| API
+    MOB -.->|"WebSocket /chat<br/>(socket.io)"| API
+
+    API --> DB
+    API --> CLD
+    API --> GEMINI
+    API --> FCM
+    API --> MP
+    API --> ST
+
+    WEB -->|"next-auth v4<br/>getServerSession"| OAUTH
+    WEB -->|"webhooks stripe / mercadopago<br/>(duplicado con backend)"| MP
+    WEB -->|"webhooks stripe"| ST
+    WEB -->|"upload proxy"| CLD
+
+    MP -->|"webhook firma HMAC"| API
+    ST -->|"webhook constructEvent"| API
+
+    classDef stub fill:#ffe0e0,stroke:#c00;
+    class MP,ST stub;

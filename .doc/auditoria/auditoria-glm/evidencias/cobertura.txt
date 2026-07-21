@@ -1,0 +1,43 @@
+========================================
+EVIDENCIA — COBERTURA DE TESTS
+Fecha: 2026-07-19
+========================================
+
+--- BACKEND ---
+$ find backend -name "*.spec.ts" -not -path "*/node_modules/*" -not -path "*/dist/*"
+(sin resultados)
+
+CONCLUSION: 0 archivos *.spec.ts en backend. Sin tests unitarios.
+No hay jest.config.ts en backend. package.json no tiene script "test".
+
+--- FRONTEND ---
+$ find frontend/tests -type f
+frontend/tests/admin.spec.ts
+frontend/tests/guest.spec.ts
+frontend/tests/security.spec.ts
+frontend/tests/user.spec.ts
+frontend/tests/playwright.config.ts (no es test real)
+
+CONCLUSION: 5 archivos de tests E2E (Playwright) en frontend.
+No hay tests unitarios (no hay *.test.ts o *.spec.ts en src/).
+Config: playwright.config.ts (no revisado a fondo).
+
+--- APPMOBILE ---
+$ find appmobile -name "*.spec.ts" -o -name "*.test.ts" 2>/dev/null | grep -v node_modules
+(sin resultados)
+
+CONCLUSION: 0 archivos de tests en mobile. Sin Jest configurado.
+No hay script "test" en package.json.
+
+--- RESUMEN DE COBERTURA ---
+Backend:    0% (0 tests)
+Frontend:   ~X% (5 E2E; sin unit)
+Mobile:     0% (0 tests)
+
+COVERAGE ESTIMADA POR LINEA DE CODIGO:
+- Backend  (~7500 lineas modulos): ~0%
+- Frontend (~325 archivos TS/TSX): ~5% (vía E2E parcial)
+- Mobile   (~98 archivos):         0%
+
+CONCLUSION GENERAL: Cobertura insuficiente para detectar regresiones.
+Recomendado: empezar con servicios criticos (auth, payments, services, ratings).

@@ -1,0 +1,10 @@
+Auditoría GPT-5 — evidencia de compilación (2026-07-18)
+
+Los builds se ejecutaron en copias temporales aisladas para no generar ni reemplazar artefactos en el proyecto original.
+
+- Frontend: `next build` — exit 0. Compilación y typecheck correctos; 166 páginas estáticas. Durante prerender se observaron errores capturados `ECONNREFUSED` al Backend y avisos `DYNAMIC_SERVER_USAGE` por `headers()`, sin hacer fallar el build.
+- Backend: `nest build`, `tsc-alias` y `prisma validate` — exit 0. Esquema Prisma válido.
+- Mobile web: export estático Expo — exit 0; 31 rutas. Bundle de entrada web observado: ~1,82 MB, no comparable con tamaño nativo.
+
+No se ejecutaron builds de App Store/Play Store ni en dispositivo real.
+

@@ -1,0 +1,720 @@
+src/main.ts:101:9 lint/suspicious/noConsole  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Don't use console.
+  
+     99 │         const port = configService.get<number>('PORT', 4000);
+    100 │         await app.listen(port);
+  > 101 │         console.log(`🚀 Backend corriendo en: http://localhost:${port}/api/v1`);
+        │         ^^^^^^^^^^^
+    102 │     });
+    103 │ }
+  
+  i The use of console is often reserved for debugging.
+  
+  i Unsafe fix: Remove console.
+  
+     99  99 │           const port = configService.get<number>('PORT', 4000);
+    100 100 │           await app.listen(port);
+    101     │ - ········console.log(`🚀·Backend·corriendo·en:·http://localhost:${port}/api/v1`);
+    102 101 │       });
+    103 102 │   }
+  
+
+src/modules/ai-agents/dto/agent-chat.dto.ts:15:16 lint/style/noInferrableTypes  FIXABLE  ━━━━━━━━━━━
+
+  ! This type annotation is trivially inferred from its initialization.
+  
+    14 │     @IsString()
+  > 15 │     countryCode: string = 'cl';
+       │                ^^^^^^^^
+    16 │ 
+    17 │     @IsString()
+  
+  i Safe fix: Remove the type annotation.
+  
+    13 13 │   
+    14 14 │       @IsString()
+    15    │ - ····countryCode:·string·=·'cl';
+       15 │ + ····countryCode·=·'cl';
+    16 16 │   
+    17 17 │       @IsString()
+  
+
+src/modules/ai-agents/tools/categories.tool.ts:5:47 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    3 │ import { z } from 'zod';
+    4 │ 
+  > 5 │ export const obtenerCategorias = (categories: any) =>
+      │                                               ^^^
+    6 │     tool({
+    7 │         description: 'Lista todas las categorías de servicios disponibles en el país del usuario. Úsala cuando no estés seguro de qué categoría aplica.',
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/categories.tool.ts:13:33 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    11 │         execute: async ({ countryCode }) => {
+    12 │             const cats = await categories.findAll(countryCode);
+  > 13 │             return cats.map((c: any) => ({ slug: c.slug, nombre: c.name }));
+       │                                 ^^^
+    14 │         },
+    15 │     });
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/geo.tool.ts:5:38 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    3 │ import { z } from 'zod';
+    4 │ 
+  > 5 │ export const buscarLocalidad = (geo: any) =>
+      │                                      ^^^
+    6 │     tool({
+    7 │         description: 'Busca el slug exacto de una localidad dado su nombre. Úsala cuando el usuario mencione una ciudad o pueblo para obtener el localitySlug correcto.',
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/geo.tool.ts:17:25 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    15 │                 const localidades = await geo.findLocalitiesByRegion(region.id);
+    16 │                 const match = localidades.find(
+  > 17 │                     (l: any) => l.name.toLowerCase().includes(nombre.toLowerCase()),
+       │                         ^^^
+    18 │                 );
+    19 │                 if (match) return { slug: match.slug, nombre: match.name, regionId: region.id };
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/service-requests.tool.ts:5:48 lint/suspicious/noExplicitAny ━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    3 │ import { z } from 'zod';
+    4 │ 
+  > 5 │ export const crearBorradorSolicitud = (prisma: any) =>
+      │                                                ^^^
+    6 │     tool({
+    7 │         description: 'Crea un borrador de solicitud de servicio SOLO cuando el usuario haya confirmado explícitamente que quiere continuar con un proveedor específico. NO llamar sin confirmación.',
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/service-requests.tool.ts:17:74 lint/correctness/noUnusedFunctionParameters ━━━━━━━━━━
+
+  ! This parameter is unused.
+  
+    15 │             urgency: z.enum(['urgent', 'this_week', 'whenever']),
+    16 │         }),
+  > 17 │         execute: async ({ userId, serviceId, descripcion, categoriaSlug, countryCode, urgency }) => {
+       │                                                                          ^^^^^^^^^^^
+    18 │             const category = await prisma.serviceCategory.findFirst({
+    19 │                 where: { slug: categoriaSlug }
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src/modules/ai-agents/tools/services.tool.ts:5:45 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    3 │ import { z } from 'zod';
+    4 │ 
+  > 5 │ export const buscarProveedores = (services: any) =>
+      │                                             ^^^
+    6 │     tool({
+    7 │         description: 'Busca proveedores activos filtrados por categoría, localidad y urgencia. Devuelve hasta 3 resultados ordenados por calificación. Úsala una vez que sepas la categoría y la ubicación.',
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/services.tool.ts:22:41 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    20 │                 page: 1,
+    21 │             });
+  > 22 │             return result.items.map((s: any) => ({
+       │                                         ^^^
+    23 │                 id: s.id,
+    24 │                 titulo: s.title,
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/categories/categories.controller.ts:49:20 lint/style/useNumberNamespace  FIXABLE  ━━━━━━━━━━
+
+  ! Use Number.parseInt instead of the equivalent global.
+  
+    47 │     ) {
+    48 │         return this.service.findAllPaginated(
+  > 49 │             page ? parseInt(page, 10) : 1,
+       │                    ^^^^^^^^
+    50 │             limit ? parseInt(limit, 10) : 12,
+    51 │             query,
+  
+  i ES2015 moved some globals into the Number namespace for consistency.
+  
+  i Safe fix: Use Number.parseInt instead.
+  
+    47 47 │       ) {
+    48 48 │           return this.service.findAllPaginated(
+    49    │ - ············page·?·parseInt(page,·10)·:·1,
+       49 │ + ············page·?·Number.parseInt(page,·10)·:·1,
+    50 50 │               limit ? parseInt(limit, 10) : 12,
+    51 51 │               query,
+  
+
+src/modules/categories/categories.controller.ts:50:21 lint/style/useNumberNamespace  FIXABLE  ━━━━━━━━━━
+
+  ! Use Number.parseInt instead of the equivalent global.
+  
+    48 │         return this.service.findAllPaginated(
+    49 │             page ? parseInt(page, 10) : 1,
+  > 50 │             limit ? parseInt(limit, 10) : 12,
+       │                     ^^^^^^^^
+    51 │             query,
+    52 │         );
+  
+  i ES2015 moved some globals into the Number namespace for consistency.
+  
+  i Safe fix: Use Number.parseInt instead.
+  
+    48 48 │           return this.service.findAllPaginated(
+    49 49 │               page ? parseInt(page, 10) : 1,
+    50    │ - ············limit·?·parseInt(limit,·10)·:·12,
+       50 │ + ············limit·?·Number.parseInt(limit,·10)·:·12,
+    51 51 │               query,
+    52 52 │           );
+  
+
+src/modules/categories/categories.service.ts:174:32 lint/style/noInferrableTypes  FIXABLE  ━━━━━━━━━━
+
+  ! This type annotation is trivially inferred from its initialization.
+  
+    172 │     }
+    173 │ 
+  > 174 │     async findAllPaginated(page: number = 1, limit: number = 12, query?: string) {
+        │                                ^^^^^^^^
+    175 │         const skip = (page - 1) * limit;
+    176 │         const where: Prisma.ServiceCategoryWhereInput = query
+  
+  i Safe fix: Remove the type annotation.
+  
+    172 172 │       }
+    173 173 │   
+    174     │ - ····async·findAllPaginated(page:·number·=·1,·limit:·number·=·12,·query?:·string)·{
+        174 │ + ····async·findAllPaginated(page·=·1,·limit:·number·=·12,·query?:·string)·{
+    175 175 │           const skip = (page - 1) * limit;
+    176 176 │           const where: Prisma.ServiceCategoryWhereInput = query
+  
+
+src/modules/categories/categories.service.ts:174:51 lint/style/noInferrableTypes  FIXABLE  ━━━━━━━━━━
+
+  ! This type annotation is trivially inferred from its initialization.
+  
+    172 │     }
+    173 │ 
+  > 174 │     async findAllPaginated(page: number = 1, limit: number = 12, query?: string) {
+        │                                                   ^^^^^^^^
+    175 │         const skip = (page - 1) * limit;
+    176 │         const where: Prisma.ServiceCategoryWhereInput = query
+  
+  i Safe fix: Remove the type annotation.
+  
+    172 172 │       }
+    173 173 │   
+    174     │ - ····async·findAllPaginated(page:·number·=·1,·limit:·number·=·12,·query?:·string)·{
+        174 │ + ····async·findAllPaginated(page:·number·=·1,·limit·=·12,·query?:·string)·{
+    175 175 │           const skip = (page - 1) * limit;
+    176 176 │           const where: Prisma.ServiceCategoryWhereInput = query
+  
+
+src/modules/chatbot/dto/detect-service.dto.ts:10:16 lint/style/noInferrableTypes  FIXABLE  ━━━━━━━━━━
+
+  ! This type annotation is trivially inferred from its initialization.
+  
+     9 │     @IsString()
+  > 10 │     countryCode: string = 'cl';
+       │                ^^^^^^^^
+    11 │ }
+    12 │ 
+  
+  i Safe fix: Remove the type annotation.
+  
+     8  8 │   
+     9  9 │       @IsString()
+    10    │ - ····countryCode:·string·=·'cl';
+       10 │ + ····countryCode·=·'cl';
+    11 11 │   }
+    12 12 │   
+  
+
+src/modules/crm/crm.controller.ts:15:32 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    13 │   @Get('dashboard')
+    14 │   @ApiOperation({ summary: 'Obtener los datos del Kanban para el panel del Profesional' })
+  > 15 │   getDashboard(@Request() req: any) {
+       │                                ^^^
+    16 │     // req.user.id es el ID del proveedor
+    17 │     return this.crmService.getKanbanDashboard(req.user.id);
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/escrow/escrow.controller.ts:16:34 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    14 │   @Post('checkout')
+    15 │   @ApiOperation({ summary: 'Generar link de pago Escrow (Split Payment) para una Cotización' })
+  > 16 │   createCheckout(@Request() req: any, @Body() dto: CreateEscrowPaymentDto) {
+       │                                  ^^^
+    17 │     return this.escrowService.generateCheckoutLink(req.user.id, dto.quoteId);
+    18 │   }
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/escrow/escrow.service.ts:31:20 lint/style/useNumberNamespace  FIXABLE  ━━━━━━━━━━━━━━━━━
+
+  ! Use Number.parseFloat instead of the equivalent global.
+  
+    30 │     const amountStr = quote.price.toString();
+  > 31 │     const amount = parseFloat(amountStr);
+       │                    ^^^^^^^^^^
+    32 │     const platformFee = amount * this.PLATFORM_FEE_PERCENTAGE;
+    33 │     const providerAmount = amount - platformFee;
+  
+  i ES2015 moved some globals into the Number namespace for consistency.
+  
+  i Safe fix: Use Number.parseFloat instead.
+  
+    29 29 │   
+    30 30 │       const amountStr = quote.price.toString();
+    31    │ - ····const·amount·=·parseFloat(amountStr);
+       31 │ + ····const·amount·=·Number.parseFloat(amountStr);
+    32 32 │       const platformFee = amount * this.PLATFORM_FEE_PERCENTAGE;
+    33 33 │       const providerAmount = amount - platformFee;
+  
+
+src/modules/interactions/interactions.controller.ts:40:20 lint/style/useNumberNamespace  FIXABLE  ━━━━━━━━━━
+
+  ! Use Number.parseInt instead of the equivalent global.
+  
+    38 │     ) {
+    39 │         return this.service.findAllPaginated(
+  > 40 │             page ? parseInt(page, 10) : 1,
+       │                    ^^^^^^^^
+    41 │             limit ? parseInt(limit, 10) : 20,
+    42 │             query,
+  
+  i ES2015 moved some globals into the Number namespace for consistency.
+  
+  i Safe fix: Use Number.parseInt instead.
+  
+    38 38 │       ) {
+    39 39 │           return this.service.findAllPaginated(
+    40    │ - ············page·?·parseInt(page,·10)·:·1,
+       40 │ + ············page·?·Number.parseInt(page,·10)·:·1,
+    41 41 │               limit ? parseInt(limit, 10) : 20,
+    42 42 │               query,
+  
+
+src/modules/notifications/dto/create-notification.dto.ts:22:12 lint/suspicious/noExplicitAny ━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    20 │     @ApiProperty({ description: 'Datos adicionales JSON' })
+    21 │     @IsOptional()
+  > 22 │     data?: any;
+       │            ^^^
+    23 │ }
+    24 │ 
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 39.
+Checked 142 files in 34ms. No fixes applied.
+Found 17 errors.
+Found 40 warnings.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
+[WARN] The "pnpm" field in package.json is no longer read by pnpm. The following keys were ignored: "pnpm.onlyBuiltDependencies". See https://pnpm.io/settings for the new home of each setting.
+src/modules/integrations/crypto.service.ts:3:25 lint/style/useNodejsImportProtocol  FIXABLE  ━━━━━━━━━━
+
+  i A Node.js builtin module should be imported with the node: protocol.
+  
+    1 │ import { BadRequestException, Injectable, Logger, OnModuleInit } from '@nestjs/common';
+    2 │ import { ConfigService } from '@nestjs/config';
+  > 3 │ import * as crypto from 'crypto';
+      │                         ^^^^^^^^
+    4 │ 
+    5 │ @Injectable()
+  
+  i Using the node: protocol is more explicit and signals that the imported module belongs to Node.js.
+  
+  i Unsafe fix: Add the node: protocol.
+  
+     1  1 │   import { BadRequestException, Injectable, Logger, OnModuleInit } from '@nestjs/common';
+     2  2 │   import { ConfigService } from '@nestjs/config';
+     3    │ - import·*·as·crypto·from·'crypto';
+        3 │ + import·*·as·crypto·from·'node:crypto';
+     4  4 │   
+     5  5 │   @Injectable()
+  
+
+src/main.ts:101:9 lint/suspicious/noConsole  FIXABLE  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Don't use console.
+  
+     99 │         const port = configService.get<number>('PORT', 4000);
+    100 │         await app.listen(port);
+  > 101 │         console.log(`🚀 Backend corriendo en: http://localhost:${port}/api/v1`);
+        │         ^^^^^^^^^^^
+    102 │     });
+    103 │ }
+  
+  i The use of console is often reserved for debugging.
+  
+  i Unsafe fix: Remove console.
+  
+     99  99 │           const port = configService.get<number>('PORT', 4000);
+    100 100 │           await app.listen(port);
+    101     │ - ········console.log(`🚀·Backend·corriendo·en:·http://localhost:${port}/api/v1`);
+    102 101 │       });
+    103 102 │   }
+  
+
+src/modules/ai-agents/dto/agent-chat.dto.ts:15:16 lint/style/noInferrableTypes  FIXABLE  ━━━━━━━━━━━
+
+  ! This type annotation is trivially inferred from its initialization.
+  
+    14 │     @IsString()
+  > 15 │     countryCode: string = 'cl';
+       │                ^^^^^^^^
+    16 │ 
+    17 │     @IsString()
+  
+  i Safe fix: Remove the type annotation.
+  
+    13 13 │   
+    14 14 │       @IsString()
+    15    │ - ····countryCode:·string·=·'cl';
+       15 │ + ····countryCode·=·'cl';
+    16 16 │   
+    17 17 │       @IsString()
+  
+
+src/modules/ai-agents/tools/categories.tool.ts:5:47 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    3 │ import { z } from 'zod';
+    4 │ 
+  > 5 │ export const obtenerCategorias = (categories: any) =>
+      │                                               ^^^
+    6 │     tool({
+    7 │         description: 'Lista todas las categorías de servicios disponibles en el país del usuario. Úsala cuando no estés seguro de qué categoría aplica.',
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/categories.tool.ts:13:33 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    11 │         execute: async ({ countryCode }) => {
+    12 │             const cats = await categories.findAll(countryCode);
+  > 13 │             return cats.map((c: any) => ({ slug: c.slug, nombre: c.name }));
+       │                                 ^^^
+    14 │         },
+    15 │     });
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/geo.tool.ts:5:38 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    3 │ import { z } from 'zod';
+    4 │ 
+  > 5 │ export const buscarLocalidad = (geo: any) =>
+      │                                      ^^^
+    6 │     tool({
+    7 │         description: 'Busca el slug exacto de una localidad dado su nombre. Úsala cuando el usuario mencione una ciudad o pueblo para obtener el localitySlug correcto.',
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/geo.tool.ts:17:25 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    15 │                 const localidades = await geo.findLocalitiesByRegion(region.id);
+    16 │                 const match = localidades.find(
+  > 17 │                     (l: any) => l.name.toLowerCase().includes(nombre.toLowerCase()),
+       │                         ^^^
+    18 │                 );
+    19 │                 if (match) return { slug: match.slug, nombre: match.name, regionId: region.id };
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/service-requests.tool.ts:5:48 lint/suspicious/noExplicitAny ━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    3 │ import { z } from 'zod';
+    4 │ 
+  > 5 │ export const crearBorradorSolicitud = (prisma: any) =>
+      │                                                ^^^
+    6 │     tool({
+    7 │         description: 'Crea un borrador de solicitud de servicio SOLO cuando el usuario haya confirmado explícitamente que quiere continuar con un proveedor específico. NO llamar sin confirmación.',
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/service-requests.tool.ts:17:74 lint/correctness/noUnusedFunctionParameters ━━━━━━━━━━
+
+  ! This parameter is unused.
+  
+    15 │             urgency: z.enum(['urgent', 'this_week', 'whenever']),
+    16 │         }),
+  > 17 │         execute: async ({ userId, serviceId, descripcion, categoriaSlug, countryCode, urgency }) => {
+       │                                                                          ^^^^^^^^^^^
+    18 │             const category = await prisma.serviceCategory.findFirst({
+    19 │                 where: { slug: categoriaSlug }
+  
+  i Unused parameters might be the result of an incomplete refactoring.
+  
+
+src/modules/ai-agents/tools/services.tool.ts:5:45 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    3 │ import { z } from 'zod';
+    4 │ 
+  > 5 │ export const buscarProveedores = (services: any) =>
+      │                                             ^^^
+    6 │     tool({
+    7 │         description: 'Busca proveedores activos filtrados por categoría, localidad y urgencia. Devuelve hasta 3 resultados ordenados por calificación. Úsala una vez que sepas la categoría y la ubicación.',
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/ai-agents/tools/services.tool.ts:22:41 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    20 │                 page: 1,
+    21 │             });
+  > 22 │             return result.items.map((s: any) => ({
+       │                                         ^^^
+    23 │                 id: s.id,
+    24 │                 titulo: s.title,
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/categories/categories.controller.ts:49:20 lint/style/useNumberNamespace  FIXABLE  ━━━━━━━━━━
+
+  ! Use Number.parseInt instead of the equivalent global.
+  
+    47 │     ) {
+    48 │         return this.service.findAllPaginated(
+  > 49 │             page ? parseInt(page, 10) : 1,
+       │                    ^^^^^^^^
+    50 │             limit ? parseInt(limit, 10) : 12,
+    51 │             query,
+  
+  i ES2015 moved some globals into the Number namespace for consistency.
+  
+  i Safe fix: Use Number.parseInt instead.
+  
+    47 47 │       ) {
+    48 48 │           return this.service.findAllPaginated(
+    49    │ - ············page·?·parseInt(page,·10)·:·1,
+       49 │ + ············page·?·Number.parseInt(page,·10)·:·1,
+    50 50 │               limit ? parseInt(limit, 10) : 12,
+    51 51 │               query,
+  
+
+src/modules/categories/categories.controller.ts:50:21 lint/style/useNumberNamespace  FIXABLE  ━━━━━━━━━━
+
+  ! Use Number.parseInt instead of the equivalent global.
+  
+    48 │         return this.service.findAllPaginated(
+    49 │             page ? parseInt(page, 10) : 1,
+  > 50 │             limit ? parseInt(limit, 10) : 12,
+       │                     ^^^^^^^^
+    51 │             query,
+    52 │         );
+  
+  i ES2015 moved some globals into the Number namespace for consistency.
+  
+  i Safe fix: Use Number.parseInt instead.
+  
+    48 48 │           return this.service.findAllPaginated(
+    49 49 │               page ? parseInt(page, 10) : 1,
+    50    │ - ············limit·?·parseInt(limit,·10)·:·12,
+       50 │ + ············limit·?·Number.parseInt(limit,·10)·:·12,
+    51 51 │               query,
+    52 52 │           );
+  
+
+src/modules/categories/categories.service.ts:174:32 lint/style/noInferrableTypes  FIXABLE  ━━━━━━━━━━
+
+  ! This type annotation is trivially inferred from its initialization.
+  
+    172 │     }
+    173 │ 
+  > 174 │     async findAllPaginated(page: number = 1, limit: number = 12, query?: string) {
+        │                                ^^^^^^^^
+    175 │         const skip = (page - 1) * limit;
+    176 │         const where: Prisma.ServiceCategoryWhereInput = query
+  
+  i Safe fix: Remove the type annotation.
+  
+    172 172 │       }
+    173 173 │   
+    174     │ - ····async·findAllPaginated(page:·number·=·1,·limit:·number·=·12,·query?:·string)·{
+        174 │ + ····async·findAllPaginated(page·=·1,·limit:·number·=·12,·query?:·string)·{
+    175 175 │           const skip = (page - 1) * limit;
+    176 176 │           const where: Prisma.ServiceCategoryWhereInput = query
+  
+
+src/modules/categories/categories.service.ts:174:51 lint/style/noInferrableTypes  FIXABLE  ━━━━━━━━━━
+
+  ! This type annotation is trivially inferred from its initialization.
+  
+    172 │     }
+    173 │ 
+  > 174 │     async findAllPaginated(page: number = 1, limit: number = 12, query?: string) {
+        │                                                   ^^^^^^^^
+    175 │         const skip = (page - 1) * limit;
+    176 │         const where: Prisma.ServiceCategoryWhereInput = query
+  
+  i Safe fix: Remove the type annotation.
+  
+    172 172 │       }
+    173 173 │   
+    174     │ - ····async·findAllPaginated(page:·number·=·1,·limit:·number·=·12,·query?:·string)·{
+        174 │ + ····async·findAllPaginated(page:·number·=·1,·limit·=·12,·query?:·string)·{
+    175 175 │           const skip = (page - 1) * limit;
+    176 176 │           const where: Prisma.ServiceCategoryWhereInput = query
+  
+
+src/modules/chatbot/dto/detect-service.dto.ts:10:16 lint/style/noInferrableTypes  FIXABLE  ━━━━━━━━━━
+
+  ! This type annotation is trivially inferred from its initialization.
+  
+     9 │     @IsString()
+  > 10 │     countryCode: string = 'cl';
+       │                ^^^^^^^^
+    11 │ }
+    12 │ 
+  
+  i Safe fix: Remove the type annotation.
+  
+     8  8 │   
+     9  9 │       @IsString()
+    10    │ - ····countryCode:·string·=·'cl';
+       10 │ + ····countryCode·=·'cl';
+    11 11 │   }
+    12 12 │   
+  
+
+src/modules/crm/crm.controller.ts:15:32 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    13 │   @Get('dashboard')
+    14 │   @ApiOperation({ summary: 'Obtener los datos del Kanban para el panel del Profesional' })
+  > 15 │   getDashboard(@Request() req: any) {
+       │                                ^^^
+    16 │     // req.user.id es el ID del proveedor
+    17 │     return this.crmService.getKanbanDashboard(req.user.id);
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/escrow/escrow.controller.ts:16:34 lint/suspicious/noExplicitAny ━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    14 │   @Post('checkout')
+    15 │   @ApiOperation({ summary: 'Generar link de pago Escrow (Split Payment) para una Cotización' })
+  > 16 │   createCheckout(@Request() req: any, @Body() dto: CreateEscrowPaymentDto) {
+       │                                  ^^^
+    17 │     return this.escrowService.generateCheckoutLink(req.user.id, dto.quoteId);
+    18 │   }
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+src/modules/escrow/escrow.service.ts:31:20 lint/style/useNumberNamespace  FIXABLE  ━━━━━━━━━━━━━━━━━
+
+  ! Use Number.parseFloat instead of the equivalent global.
+  
+    30 │     const amountStr = quote.price.toString();
+  > 31 │     const amount = parseFloat(amountStr);
+       │                    ^^^^^^^^^^
+    32 │     const platformFee = amount * this.PLATFORM_FEE_PERCENTAGE;
+    33 │     const providerAmount = amount - platformFee;
+  
+  i ES2015 moved some globals into the Number namespace for consistency.
+  
+  i Safe fix: Use Number.parseFloat instead.
+  
+    29 29 │   
+    30 30 │       const amountStr = quote.price.toString();
+    31    │ - ····const·amount·=·parseFloat(amountStr);
+       31 │ + ····const·amount·=·Number.parseFloat(amountStr);
+    32 32 │       const platformFee = amount * this.PLATFORM_FEE_PERCENTAGE;
+    33 33 │       const providerAmount = amount - platformFee;
+  
+
+src/modules/notifications/dto/create-notification.dto.ts:22:12 lint/suspicious/noExplicitAny ━━━━━━━━━━
+
+  ! Unexpected any. Specify a different type.
+  
+    20 │     @ApiProperty({ description: 'Datos adicionales JSON' })
+    21 │     @IsOptional()
+  > 22 │     data?: any;
+       │            ^^^
+    23 │ }
+    24 │ 
+  
+  i any disables many type checking rules. Its use should be avoided.
+  
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 39.
+Checked 142 files in 13ms. No fixes applied.
+Found 17 errors.
+Found 40 warnings.
+check ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+
+EXIT:1

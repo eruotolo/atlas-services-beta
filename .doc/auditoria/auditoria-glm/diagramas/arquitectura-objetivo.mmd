@@ -1,0 +1,86 @@
+%%{init: {'theme':'base', 'themeVariables': {'primaryColor':'#15803d', 'primaryTextColor':'#fff', 'lineColor':'#475569'}}}%%
+flowchart TB
+    subgraph Clients["Clientes"]
+        WEB["Web (Next.js)"]
+        MOB["Mobile (Expo + @hireeo/contracts)"]
+    end
+
+    subgraph Edge["Edge / Frontend"]
+        MW["proxy.ts"]
+        SSR["Server Components\nServer Actions"]
+    end
+
+    subgraph Backend["Backend NestJS"]
+        API["/api/v1/*"]
+        GLOBALGUARD["JwtAuthGuard GLOBAL\n+ @Public() explicito\n+ rate limit por endpoint"]
+        OPENAPI["OpenAPI spec\n-> cliente TS generado"]
+        HEALTH["/health, /ready"]
+    end
+
+    subgraph DB["PostgreSQL"]
+        PG[("Primary + read replica")]
+        SOFT["soft-delete en\nUser, Service, Message"]
+        RT["RefreshToken model\ncon rotation"]
+        PW["ProcessedWebhook\nidempotencia"]
+    end
+
+    subgraph Infra["Infraestructura añadida"]
+        REDIS["Redis Upstash\nrate limit + cache + denylist"]
+        BULL["BullMQ workers\nemails + push + webhooks"]
+        CHAT["Chat service\nPusher/Ably/VM"]
+    end
+
+    subgraph Obs["Observabilidad"]
+        SENTRY["Sentry\n3 capas"]
+        PINO["pino + correlation IDs"]
+        OTEL["OpenTelemetry"]
+        GRAFANA["Dashboards"]
+    end
+
+    subgraph External["Externos"]
+        STRIPE["Stripe"]
+        MP["MercadoPago"]
+        CLOUD["Cloudinary"]
+        FIREBASE["Firebase"]
+    end
+
+    subgraph CI["CI/CD"]
+        GHA["GitHub Actions\nlint+typecheck+test+audit+build"]
+        SAST["SAST + secret scan"]
+    end
+
+    WEB --> MW --> SSR
+    SSR -->|fetch + x-api-key + JWT| API
+    MOB -->|fetch + x-api-key + JWT| API
+    MOB <-->|chat| CHAT
+    API <--> CHAT
+
+    API --> GLOBALGUARD --> OPENAPI
+    API --> PG
+    API --> REDIS
+    API --> BULL
+    API --> HEALTH
+
+    BULL <--> STRIPE
+    BULL <--> MP
+    BULL <--> FIREBASE
+    API <--> CLOUD
+
+    SENTRY -.-> API
+    SENTRY -.-> SSR
+    SENTRY -.-> MOB
+    PINO -.-> API
+    OTEL -.-> API
+    OTEL -.-> CHAT
+
+    GHA --> API
+    GHA --> SSR
+    GHA --> MOB
+    SAST --> GHA
+
+    style GLOBALGUARD fill:#15803d,color:#fff
+    style REDIS fill:#0891b2,color:#fff
+    style BULL fill:#0891b2,color:#fff
+    style CHAT fill:#0891b2,color:#fff
+    style SENTRY fill:#7c3aed,color:#fff
+    style GHA fill:#a16207,color:#fff

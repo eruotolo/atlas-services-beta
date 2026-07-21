@@ -1,0 +1,9 @@
+Auditoría GPT-5 — evidencia de tests (2026-07-18)
+
+Inventario rastreado:
+- Frontend: 4 specs Playwright (`guest`, `user`, `admin`, `security`).
+- Backend: 0 tests.
+- Mobile: 0 tests.
+
+Los E2E no se ejecutaron: la configuración usa puerto/rutas/estado autenticado inconsistentes, depende de archivos de sesión locales ignorados y puede mutar una base de datos sin aislamiento ni cleanup. No se inventan resultados.
+

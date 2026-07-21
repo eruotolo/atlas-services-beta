@@ -60,7 +60,6 @@ next-env.d.ts
 # IDEs
 .idea/
 .vscode/
-.codegraph/
 
 # Claude Code — configuración local, memoria y agentes
 .claude/
@@ -74,4 +73,9 @@ docker-database/postgres-data/
 # Prototipo de diseño (referencia, no parte del código fuente)
 NuevoHireeoApp/
 Nuevo Hireeo App.zip
-.gstack/
+
+# Serena MCP
+.serena/
+
+# Graphify — output generado (cache, grafo)
+graphify-out/

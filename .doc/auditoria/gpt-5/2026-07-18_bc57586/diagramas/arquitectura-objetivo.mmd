@@ -1,0 +1,19 @@
+flowchart LR
+    WEB[Web] --> EDGE[CDN/WAF]
+    EDGE --> BFF[Next.js / BFF\nsesión HttpOnly]
+    MOB[Mobile] --> API[API NestJS modular\nJWT + policies por recurso/país]
+    BFF --> API
+    API --> DB[(PostgreSQL gestionado\nPITR + réplicas cuando métricas lo exijan)]
+    API --> OBJ[Cloudinary / objetos]
+    API --> Q[Cola de trabajos\nsolo para email, push, IA y webhooks]
+    Q --> EXT[Stripe · MercadoPago · Brevo · Firebase · Gemini]
+    API --> RT[Realtime + estado compartido]
+    MOB --> RT
+    BFF --> RT
+    API --> OBS[Logs JSON · métricas RED · trazas · alertas]
+    BFF --> OBS
+    MOB --> OBS
+    CONTRACT[OpenAPI versionado\nclientes generados + contract tests] --> BFF
+    CONTRACT --> MOB
+    CONTRACT --> API
+

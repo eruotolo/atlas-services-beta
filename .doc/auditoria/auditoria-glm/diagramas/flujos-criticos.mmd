@@ -1,0 +1,54 @@
+%%{init: {'theme':'base', 'themeVariables': {'primaryColor':'#1e40af', 'primaryTextColor':'#fff', 'lineColor':'#475569'}}}%%
+flowchart LR
+    subgraph Flujo1["F1: Login + OAuth"]
+        A1["Usuario\ncredenciales/Google"] --> A2["POST /auth/login\nor /auth/google"]
+        A2 --> A3["Backend valida\nemite JWT access 15m\n+ refresh 30d"]
+        A3 --> A4["Frontend: cookie httpOnly\nMobile: SecureStore"]
+        A4 -.->|"RIESGO: refresh no revocable"| R1["BE-SEC-002"]
+        A4 -.->|"RIESGO: tokens en session.user"| R2["FE-SEC-008"]
+    end
+
+    subgraph Flujo2["F2: Publicar servicio"]
+        B1["Form /publish"] --> B2["publicarServicioPublico"]
+        B2 --> B3["POST /api/v1/services"]
+        B3 --> B4["DB: Service creado"]
+        B2 -.->|"IDOR: usuarioId del form"| R3["FE-SEC-001"]
+        B3 -.->|"No exige rol PROFESSIONAL"| R4["BE-SEC-012"]
+    end
+
+    subgraph Flujo3["F3: Pago Stripe premium"]
+        C1["Click pagar"] --> C2["POST /api/payments/stripe-session"]
+        C2 --> C3["Stripe Checkout"]
+        C3 --> C4["Webhook a /api/webhooks/stripe"]
+        C4 --> C5["fetch /subscriptions/activate"]
+        C5 --> C6["DB: service.level=PREMIUM"]
+        C2 -.->|"Precio client-side"| R5["FE-SEC-007"]
+        C5 -.->|"SIN x-api-key - 401!"| R6["FE-PAY-001\nROT0"]
+    end
+
+    subgraph Flujo4["F4: Chat cliente-proveedor"]
+        D1["Cliente inicia chat"] --> D2["POST /conversations"]
+        D2 --> D3["Socket.io connect\n/auth verify"]
+        D3 --> D4["join_conversation\nroom conversation:id"]
+        D4 --> D5["POST /messages\nemit new_message"]
+        D4 -.->|"IDOR: join sin validar"| R7["BE-SEC-004"]
+        D3 -.->|"CORS wildcard"| R8["BE-PAY-002"]
+    end
+
+    subgraph Flujo5["F5: Multi-pais routing"]
+        E1["Request"] --> E2["proxy.ts"]
+        E2 --> E3{"Es legacy?"}
+        E3 -->|Si| E4["Redirect 301\n/{country}{path}"]
+        E3 -->|No| E5{"Requiere auth?"}
+        E5 -->|Si| E6["getToken\nvalidate sesion + pais"]
+        E5 -->|No| E7["Next"]
+    end
+
+    style R1 fill:#dc2626,color:#fff
+    style R2 fill:#dc2626,color:#fff
+    style R3 fill:#dc2626,color:#fff
+    style R4 fill:#f59e0b,color:#000
+    style R5 fill:#dc2626,color:#fff
+    style R6 fill:#dc2626,color:#fff
+    style R7 fill:#dc2626,color:#fff
+    style R8 fill:#f59e0b,color:#000

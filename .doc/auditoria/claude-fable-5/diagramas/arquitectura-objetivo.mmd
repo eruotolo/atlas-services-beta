@@ -1,0 +1,45 @@
+graph TD
+    subgraph Edge
+        CDN["CDN / WAF<br/>(Vercel Edge)"]
+    end
+
+    subgraph Frontend
+        WEB["Next.js 16.2.6+<br/>Auth.js v5"]
+    end
+
+    subgraph Mobile
+        MOB["Expo SDK 56+<br/>React Query + SecureStore"]
+    end
+
+    subgraph Backend_Runtime_Persistente
+        API["NestJS 11<br/>contenedor long-running<br/>(Railway/Fly/Render)"]
+        WS["WebSocket Gateway<br/>socket.io + Redis adapter"]
+    end
+
+    subgraph Datos
+        DB[("PostgreSQL 16<br/>+ réplica lectura")]
+        REDIS[("Redis<br/>rate-limit + ws pub/sub + cache")]
+    end
+
+    subgraph Observabilidad
+        OTEL["OpenTelemetry / APM"]
+        SENTRY["Sentry (web + mobile + api)"]
+        LOGS["Logs estructurados centralizados"]
+    end
+
+    CDN --> WEB
+    WEB -->|"contrato OpenAPI<br/>tipos generados"| API
+    MOB -->|"x-api-key + JWT<br/>contrato OpenAPI"| API
+    WEB -.-> WS
+    MOB -.-> WS
+    WS --> REDIS
+    API --> DB
+    API --> REDIS
+    API --> OTEL
+    WEB --> SENTRY
+    MOB --> SENTRY
+    API --> SENTRY
+    API --> LOGS
+
+    MP["Pasarelas reales<br/>(no stubs)"]
+    API --> MP

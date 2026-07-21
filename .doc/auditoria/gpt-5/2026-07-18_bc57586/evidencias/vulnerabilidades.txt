@@ -1,0 +1,13 @@
+Auditoría GPT-5 — `pnpm audit --prod --json` (2026-07-18)
+
+Resumen del árbol combinado: 1514 dependencias de producción; 2 advisories críticos, 40 altos, 69 moderados y 8 bajos.
+
+Interpretación:
+- Next.js 16.1.1 está dentro de rangos afectados por advisories altos; el bypass de Proxy más reciente se corrige en 16.2.6.
+- Multer 2.0.2 es alcanzable desde el endpoint de upload y debe priorizarse.
+- protobufjs crítico aparece vía Firebase/Firestore, pero no se confirmó una ruta con schema controlado por usuario.
+- shell-quote crítico aparece vía tooling de React Native; no se confirmó exposición en runtime de producción.
+- Otros advisories son transitivos; requieren análisis de alcanzabilidad antes de actualizar.
+
+Un conteo de auditoría no equivale a vulnerabilidades explotables confirmadas.
+

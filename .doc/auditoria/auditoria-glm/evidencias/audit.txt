@@ -1,0 +1,43 @@
+========================================
+EVIDENCIA — DEPENDENCY AUDIT (pnpm audit --prod)
+Fecha: 2026-07-19
+========================================
+
+--- BACKEND (workspace) ---
+$ cd backend && pnpm audit --prod
+119 vulnerabilities found
+Severity: 8 low | 69 moderate | 40 high | 2 critical
+
+Principales:
+- multer 2.0.2 (via @nestjs/platform-express>multer)  HIGH  CVSS 7.5  CVE-2026-5079  GHSA-72gw-mp4g-v24j
+  DoS via deeply nested field names. Patched in 2.2.0.
+- hono <4.12.25 (via @prisma/client>prisma>@prisma/dev>hono)  HIGH  CVSS 7.1  CVE-2026-54290  GHSA-88fw-hqm2-52qc
+  Dev dependency only.
+- ws 8.18.3, 8.19.0 (via @google/genai>ws, appmobile>socket.io-client>engine.io-client>ws)  HIGH  CVSS 7.5  CVE-2026-48779  GHSA-96hv-2xvq-fx4p
+- undici <6.27.0 (via appmobile>expo>@expo/cli>undici)  HIGH  CVSS 7.5  CVE-2026-12151  GHSA-vxpw-j846-p89q
+
+--- FRONTEND ---
+$ cd frontend && pnpm audit --prod
+30 vulnerabilities found
+Severity: 3 low | 14 moderate | 13 high
+
+Todas las 13 HIGH son en `next` 16.1.1:
+- GHSA-jcc7-9wpm-mj36  null origin dev HMR CSRF          patched 16.1.7
+- GHSA-3g8h-86w9-wvmq  middleware/proxy cache poisoning  patched 16.2.5
+- GHSA-vfv6-92ff-j949  RSC cache poisoning              patched 16.2.5
+- Varias otras DoS variants (>=16.0.0 <16.2.5)            patched 16.2.5/16.2.6
+
+Y en transitivas:
+- minimatch 9.x (via @google/genai>google-auth-library)  HIGH  >=9.0.0 <9.0.7
+- ws 8.x (via @google/genai>ws)                            HIGH  <8.21.0
+
+--- APPMOBILE (workspace) ---
+$ cd appmobile && pnpm audit --prod
+119 vulnerabilities found
+Severity: 8 low | 69 moderate | 40 high | 2 critical
+(Comparte workspace con backend; incluye las mismas transitivas)
+
+CONCLUSION:
+- Frontend: 13 HIGH todas en next 16.1.1 — UPDATE NEXT.JS a >=16.2.6 (una sola acción cierra todas).
+- Backend: multer HIGH en producción; ws/undici/hono en dev/transitivas.
+- Mobile: ws/undici transitivas en Expo CLI (dev).

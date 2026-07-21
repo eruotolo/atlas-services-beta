@@ -1,0 +1,54 @@
+========================================
+EVIDENCIA — LINT (biome)
+Fecha: 2026-07-19
+========================================
+
+--- BACKEND ---
+$ cd backend && pnpm lint
+> ../node_modules/.bin/biome check src/
+
+The number of diagnostics exceeds the limit allowed. Use --max-diagnostics to increase it.
+Diagnostics not shown: 39.
+Checked 142 files in 53ms. No fixes applied.
+Found 17 errors.
+Found 40 warnings.
+
+Ejemplos visibles:
+- src/modules/notifications/dto/create-notification.dto.ts:22  lint/suspicious/noExplicitAny  (data?: any)
+- src/modules/quotes/quotes.service.ts:31  lint/style/useNumberNamespace  (parseFloat -> Number.parseFloat)
+- src/modules/interactions/interactions.controller.ts:40  lint/style/useNumberNamespace  (parseInt -> Number.parseInt)
+- src/main.ts:13,86  lint/suspicious/noExplicitAny (cachedServer/handler)
+
+ELIFECYCLE Command failed with exit code 1.
+EXIT_LINT=0 (code reportado por shell, pero biome falló con exit 1)
+
+--- FRONTEND ---
+$ cd frontend && pnpm lint
+> biome check
+sh: biome: command not found
+ELIFECYCLE Command failed with exit code.
+
+CONCLUSION: El script lint del frontend está ROTO.
+El binario `biome` no está en node_modules ni en devDependencies.
+Probable causa: dependía de una instalación global o del workspace raíz que no existe.
+
+--- APPMOBILE ---
+$ cd appmobile && pnpm lint
+(biome check)
+
+The number of diagnostics exceeds the limit allowed.
+Diagnostics not shown: 18.
+Checked 98 files in 63ms. No fixes applied.
+Found 7 errors.
+Found 31 warnings.
+
+Ejemplos visibles:
+- src/app/(tabs)/profile.tsx:258  lint/suspicious/noEmptyBlockStatements  (onPress={() => handleProtected(() => {})})
+- src/app/(tabs)/profile.tsx:265  lint/suspicious/noEmptyBlockStatements  (onPress={() => {}})
+- src/app/(tabs)/profile.tsx:272  lint/suspicious/noEmptyBlockStatements
+- src/features/messages/components/MessagesList/onSettled  (rename _error)
+
+ELIFECYCLE Command failed with exit code 1.
+
+CONCLUSION: Backend y Mobile fallan lint (errores biome auto-fixeables).
+Frontend ni siquiera corre biome (E004 — crítico para CI).

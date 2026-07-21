@@ -1,0 +1,26 @@
+========================================
+EVIDENCIA — BUILD (nest build)
+Fecha: 2026-07-19
+========================================
+
+--- BACKEND ---
+$ cd backend && pnpm build
+
+> backend@0.1.0 build /Users/edgardoruotolo/Sites/nextjs_projects/next-atlas-services/backend
+> nest build && tsc-alias -p tsconfig.build.json
+
+[WARN] The "pnpm" field in package.json is no longer read by pnpm.
+The following keys were ignored: "pnpm.onlyBuiltDependencies".
+See https://pnpm.io/settings for the new home of each setting.
+
+(no errors)
+EXIT_BUILD=0
+
+CONCLUSION: Backend compila limpio. Warning sobre pnpm.onlyBuiltDependencies
+legacy field (no bloqueante).
+
+--- FRONTEND ---
+(build no ejecutado en esta auditoría; typecheck limpio es proxy positivo)
+
+--- APPMOBILE ---
+(build nativo no ejecutado; requiere prebuild + simulador)
