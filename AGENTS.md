@@ -38,16 +38,16 @@ features/
     ├── actions/             # Server Actions y llamadas a API
     ├── components/
     │   └── <NombreComponente>/   # ← carpeta obligatoria por componente
-    │       └── index.tsx
+    │       └── <NombreComponente>.tsx   # archivo con el nombre del componente, NUNCA index.tsx
     ├── lib/                 # helpers y utilidades del dominio
     ├── schemas/             # schemas Zod del dominio
     └── types/               # tipos TypeScript del dominio
 ```
 
 Ejemplos:
-- `AdminSidebar` → `features/admin/components/AdminSidebar/index.tsx`
-- `ConfigPageHeader` → `features/admin/components/ConfigPageHeader/index.tsx`
-- `ServiceCard` → `features/services/components/ServiceCard/index.tsx`
+- `AdminSidebar` → `features/admin/components/AdminSidebar/AdminSidebar.tsx`
+- `ConfigPageHeader` → `features/admin/components/ConfigPageHeader/ConfigPageHeader.tsx`
+- `ServiceCard` → `features/services/components/ServiceCard/ServiceCard.tsx`
 
 #### Componentes reutilizables → `shared/`
 
@@ -57,19 +57,21 @@ Un componente shared no tiene lógica de dominio y puede usarse en cualquier fea
 shared/
 ├── components/
 │   └── <NombreComponente>/   # ← carpeta obligatoria por componente
-│       └── index.tsx
+│       └── <NombreComponente>.tsx   # archivo con el nombre del componente, NUNCA index.tsx
 ├── lib/                     # utils globales (formatCurrency, cn, etc.)
 ├── types/                   # tipos globales del proyecto
 └── schemas/                 # schemas Zod reutilizables
 ```
 
 Ejemplos:
-- `PageHeader` → `shared/components/PageHeader/index.tsx`
-- `Avatar` → `shared/components/Avatar/index.tsx`
-- `Icon`, `Mono` → `shared/components/Icon/index.tsx`, etc.
+- `PageHeader` → `shared/components/PageHeader/PageHeader.tsx`
+- `Avatar` → `shared/components/Avatar/Avatar.tsx`
+- `Icon`, `Mono` → `shared/components/Icon/Icon.tsx`, etc.
 
 #### Reglas de aplicación
 
+- **NUNCA** usar `index.tsx` como nombre de archivo del componente — el archivo debe llamarse igual que el componente (`Footer/Footer.tsx`, no `Footer/index.tsx`).
+- **EXCEPCIÓN**: los `index.ts`/`index.tsx` que actúan como *barrel* de una carpeta agrupadora (ej. `features/home/components/index.ts`, `shared/components/hireeo/index.ts`, `shared/components/icons/index.tsx`) no son un componente único y sí pueden llamarse `index`.
 - **NUNCA** crear un archivo de componente plano (`ComponenteName.tsx`) fuera de su carpeta propia.
 - **NUNCA** mover un componente de `features/` a `shared/` por conveniencia. Si dos features necesitan algo en común, crear un componente shared *nuevo* sin lógica de dominio.
 - **NUNCA** poner componentes que pertenezcan a un dominio (ej. `Home`, `Legal`, `Admin`) dentro de `shared/components/`. Deben ir a su respectiva carpeta en `features/` (ej. `features/home/components/HeroSection`).
@@ -205,6 +207,7 @@ pnpm db:seed          # Pobla geo + roles + categorías + precios (5 países)
 - **Geo actions deben usar `apiClient`**: Las funciones en `features/geo/actions/queries.ts` deben usar `apiClient.get()` (no `fetch` directo). El backend tiene `ApiKeyGuard` global — `fetch` sin el header `x-api-key` recibe 401 silencioso y retorna `[]`.
 - **Cognitive complexity > 15**: Si Biome rechaza por complejidad, extraer funciones puras o subcomponentes fuera del componente principal. Usar `biome-ignore` solo como último recurso con justificación.
 - **Seed obligatorio para geo**: Sin ejecutar `pnpm --filter backend db:seed`, los filtros de región y ciudad no aparecen (la tabla `GeoRegion` está vacía).
+- **`index.tsx` en componentes → corregido (2026-07-22)**: 136 componentes usaban `NombreComponente/index.tsx` a pesar de que la regla ya estaba escrita. Ahora el archivo SIEMPRE se llama igual que el componente (`Footer/Footer.tsx`). Excepción: barrels de carpetas agrupadoras (`hireeo/index.ts`, `icons/index.tsx`, `home/components/index.ts`, etc.) sí pueden llamarse `index`.
 
 
 ---
