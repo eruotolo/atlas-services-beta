@@ -10,6 +10,7 @@
         "dev": "concurrently --names \"backend,frontend\" --prefix-colors \"blue,green\" \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
         "dev:backend": "pnpm --filter backend dev",
         "dev:frontend": "pnpm --filter frontend dev",
+        "clean": "pnpm --filter frontend clean",
         "db:seed": "pnpm --filter backend db:seed",
         "lint": "biome check .",
         "lint:fix": "biome check --write .",
@@ -26,8 +27,9 @@
     },
     "pnpm": {
         "onlyBuiltDependencies": [
+            "@firebase/util",
+            "@google/genai",
             "@nestjs/core",
-            "@prisma/client",
             "@prisma/engines",
             "bcrypt",
             "esbuild",
