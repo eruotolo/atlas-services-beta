@@ -115,7 +115,6 @@ next-atlas-services/
 - Tokens de color: `src/shared/constants/colors.ts` es la única fuente de verdad; `tailwind.config.js` los replica (mantener sincronizados manualmente si se agregan tokens).
 - Excepciones donde se mantiene `style={{...}}` inline: sombras/elevation, valores calculados en runtime, animaciones de Animated/Reanimated, callbacks de `Pressable` `({ pressed }) =>`.
 - `contentContainerClassName` en `ScrollView` en lugar de `contentContainerStyle` para estilos estáticos.
-- Iconos: MCP `icons0` obligatorio (no Lucide, no Heroicons).
 
 ## 4. Gestión de Paquetes
 **SIEMPRE usar `pnpm`**. Nunca npm ni yarn.
@@ -195,13 +194,6 @@ pnpm db:seed          # Pobla geo + roles + categorías + precios (5 países)
 - Paleta: fondo `bg-white`, cards `bg-gray-50`, accent `bg-blue-600`, éxito `bg-green-500`
 - Textos: genéricos (no hardcodeados a Chiloé ni a ningún país específico)
 - Los filtros de ubicación se cargan dinámicamente desde la API geo (no hardcodeados)
-
-### 🌟 Iconos — REGLA DE ORO (NO NEGOCIABLE)
-- **Si la app requiere usar algún icono, usar el MCP `icons0`, eso tiene todo incluido.**
-- **SIEMPRE usar el MCP `icons0`** para obtener iconos. NUNCA buscar iconos de otra fuente.
-- Está **PROHIBIDO** usar Lucide React, Heroicons, FontAwesome ni ninguna otra librería de iconos.
-- Flujo obligatorio: antes de usar cualquier ícono, consultar el MCP `icons0` para obtener el SVG o nombre correcto.
-- Si el MCP `icons0` no está disponible en la sesión, reportarlo al usuario antes de continuar.
 
 ## 9. Errores ya corregidos (no repetir)
 - **Geo actions deben usar `apiClient`**: Las funciones en `features/geo/actions/queries.ts` deben usar `apiClient.get()` (no `fetch` directo). El backend tiene `ApiKeyGuard` global — `fetch` sin el header `x-api-key` recibe 401 silencioso y retorna `[]`.
