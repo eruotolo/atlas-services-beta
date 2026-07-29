@@ -263,6 +263,87 @@ parar el contenedor o usar `npx next build`.
 
 ---
 
+## 9. Estado de producción (relevado el 28/07)
+
+**Producción está viva**, al contrario de lo que decía la documentación previa:
+
+| | Estado |
+|---|---|
+| `hireeo.app` | 308 → redirige a `www.hireeo.app` |
+| `www.hireeo.app` | 200, desplegado en Vercel desde `main` de `hireeo-front` |
+| `api.hireeo.app` | 200, backend desplegado (`backend/vercel.json` reescribe todo a `/api`) |
+| Login con Google en prod | **Funciona**, con su propio cliente OAuth |
+
+**El dominio canónico es `www`.** El callback de OAuth en prod es
+`https://www.hireeo.app/api/auth/callback/google`.
+
+### Dos clientes OAuth distintos
+
+| Entorno | Client ID | Proyecto |
+|---|---|---|
+| Producción | `65289837267-cdg2bvnu…` | Preexistente, dueño desconocido |
+| Local | `722593962113-ros9qk4n…` | `hireeo`, de luisnuy@gmail.com |
+
+Se verificó contra Google que el cliente de producción acepta su redirect URI (302 al
+consentimiento, sin `redirect_uri_mismatch`). El cliente nuevo tiene registrado
+`hireeo.app` **sin** `www`: si alguna vez se migra producción a ese cliente, hay que
+agregar la variante con `www` o el login falla.
+
+> ⚠️ El proyecto `65289837267` probablemente pertenece a la cuenta de Google de
+> `hireeoapp`, la misma que está en recuperación. Si hace falta tocar ese cliente
+> (agregar dominios, rotar el secret, publicar la app), se necesita acceso a esa cuenta.
+> Conviene averiguar de quién es antes de que sea urgente.
+
+### Riesgo al desplegar: la validación de `aud`
+
+El backend ahora compara el `aud` del token contra el `clientId` que devuelve
+`IntegrationConfigService`, que busca primero en la tabla `integrations` y después en la
+variable `GOOGLE_CLIENT_ID` **del backend**. El frontend obtiene el suyo de la misma tabla
+vía el endpoint runtime, o de **su propia** `GOOGLE_CLIENT_ID` en Vercel.
+
+El login de prod se rompe **solo** si la tabla `integrations` no tiene Google **y** el
+backend no tiene `GOOGLE_CLIENT_ID`, mientras el frontend sí la tiene.
+
+**Verificar antes de desplegar:** entrar a `https://www.hireeo.app/config/integrations`
+como SuperAdmin y confirmar que Google OAuth esté configurado. Si no está, cargar las
+credenciales ahí, o confirmar que el backend en Vercel tenga
+`GOOGLE_CLIENT_ID=65289837267-cdg2bvnu3hvp82bunhk5i4c4gjvo2gpq.apps.googleusercontent.com`.
+
+### Orden seguro para ir a producción
+
+1. Aplicar la migración a la base de prod: `DATABASE_URL="<prod>" pnpm --filter backend db:migrate:deploy`.
+   **Es obligatorio y va primero**: `geo.service` ya pide `latitude`/`longitude` en sus
+   `select`, así que sin la migración `/geo/regions/:id/localities` devuelve 500.
+2. Verificar el Client ID en `integrations` de prod (ver arriba).
+3. Mergear **backend** y esperar el deploy.
+4. Mergear **frontend**.
+5. Poblar coordenadas en prod: `DATABASE_URL="<prod>" pnpm --filter backend db:geocode`
+   (lee de `coordinates.json`, no vuelve a pegarle a Nominatim).
+
+> Para probar antes de publicar, abrir un PR desde `dev-lnunez`: Vercel genera un deploy de
+> preview. Se puede validar todo salvo el login con Google, porque las URLs de preview son
+> dinámicas y Google no acepta comodines en los redirect URI.
+
+## 10. Dónde quedó el trabajo
+
+Rama **`dev-lnunez`** en los tres repos del monorepo, todo pusheado:
+
+| Repo | Commit |
+|---|---|
+| `eruotolo/atlas-services-beta` (paraguas) | `192ee2d` — Docker, scripts y este documento |
+| `hireeoapp/hireeo-front` | `c7a6d18` — auth y ubicación |
+| `hireeoapp/hireeo-back` | `635c40c` — auth, geo y migración |
+
+El paraguas apunta a los commits nuevos de los submódulos, así que se baja una sola cosa.
+
+**Sin commitear a propósito** (son cambios locales preexistentes, no de este trabajo):
+`AGENTS.md`, `.gitignore`, y el contenido de `.doc/`, `.agents/` y `.codegraph/`.
+
+
+---
+
+## Notas de troubleshooting
+
 **Error `module factory is not available` en el frontend.** Si el navegador tira
 *"Module ... jsx-dev-runtime ... was instantiated because it was required from X, but the
 module factory is not available"*, no es caché del navegador: son los `node_modules` del
@@ -287,7 +368,25 @@ con un secreto distinto al actual (pasa si el contenedor arrancó alguna vez sin
 DevTools → Application → Storage → Clear site data.
 
 
-## Pendientes
+## Pendientes para retomar
+
+### Antes de desplegar a producción
+- [ ] Verificar Google OAuth en `https://www.hireeo.app/config/integrations` (ver sección 9)
+- [ ] Aplicar la migración `add_locality_coordinates` a la base de prod — **bloqueante**
+- [ ] Averiguar de quién es el proyecto de Google `65289837267` de producción
+- [ ] Abrir PRs desde `dev-lnunez` y validar en el deploy de preview de Vercel
+
+### Producto
+- [ ] Mostrar el campo de código postal siempre en US y ES, no solo al rechazar el permiso.
+      Hoy, si el usuario acepta pero la ubicación sale mal (típico en desktop, que resuelve
+      por wifi/IP), no tiene cómo corregirla salvo el selector de localidad.
+- [ ] Sembrar servicios en localidades repartidas: los 5 de USA están todos en Birmingham y
+      los 5 de Uruguay en Artigas, así que la búsqueda por radio no se puede probar de verdad
+- [ ] Vista en el admin para revisar y fusionar las localidades con `autoCreated = true`
+- [ ] Dashboard de métricas: desde dónde se conectan los usuarios
+
+### Deuda técnica
+
 
 - [ ] Commitear: ~20 archivos en `hireeo-front`, ~12 en `hireeo-back`, y lo de Docker en el paraguas
 - [ ] Sembrar servicios en localidades repartidas, para poder probar la búsqueda por radio
