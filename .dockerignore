@@ -1,0 +1,50 @@
+# Dependencias — se instalan dentro de la imagen
+**/node_modules
+
+# Builds
+**/.next
+**/dist
+**/build
+**/out
+**/*.tsbuildinfo
+
+# Datos de Postgres (bind mount, no van al contexto de build)
+docker-database/postgres-data
+
+# Git
+.git
+.gitmodules
+
+# Secretos y entornos locales
+.secrets
+**/.env
+**/.env.local
+**/.env*.local
+
+# Herramientas de agentes / editores
+.claude
+.agents
+.agent
+.codegraph
+.gemini
+.serena
+graphify-out
+.idea
+.vscode
+
+# Testing
+**/coverage
+frontend/test-results
+frontend/playwright-report
+frontend/playwright/.auth
+frontend/playwright/.cache
+
+# Mobile (no se dockeriza)
+appmobile/.expo
+appmobile/android
+appmobile/ios
+
+# Documentación y misc
+.doc
+*.log
+.DS_Store

@@ -1,0 +1,186 @@
+#!/usr/bin/env bash
+#
+# Baja lo que está en prod (origin/main de los 3 submódulos) y deja el stack
+# de Docker levantado y sano.
+#
+#   ./docker/sync                    bajar y levantar
+#   ./docker/sync --force-rebuild    reconstruir aunque no cambien dependencias
+#   ./docker/sync --skip-migrations  no tocar la base
+#   ./docker/sync --no-pull          solo reconstruir/levantar, sin bajar nada
+#
+# Aborta si algún submódulo tiene cambios sin commitear: nunca pisa trabajo tuyo.
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+if [[ -t 1 ]]; then
+    G=$'\033[32m'; R=$'\033[31m'; Y=$'\033[33m'; B=$'\033[1m'; D=$'\033[2m'; N=$'\033[0m'
+else
+    G=''; R=''; Y=''; B=''; D=''; N=''
+fi
+
+step() { printf '%s→%s %s\n' "$B" "$N" "$1"; }
+ok()   { printf '  %s✓%s %s\n' "$G" "$N" "$1"; }
+warn() { printf '  %s⚠%s %s\n' "$Y" "$N" "$1"; }
+die()  { printf '\n%s✗ %s%s\n' "$R" "$1" "$N" >&2; exit 1; }
+
+FORCE_REBUILD=false
+SKIP_MIGRATIONS=false
+DO_PULL=true
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --force-rebuild)   FORCE_REBUILD=true ;;
+        --skip-migrations) SKIP_MIGRATIONS=true ;;
+        --no-pull)         DO_PULL=false ;;
+        -h|--help)         sed -n '2,12p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+        *)                 die "Opción desconocida: $1" ;;
+    esac
+    shift
+done
+
+SUBS=(frontend backend appmobile)
+
+# --- 1. Chequeos previos --------------------------------------------------
+
+docker info >/dev/null 2>&1 || die "Docker no está corriendo. Abrí Docker Desktop y reintentá."
+
+if $DO_PULL; then
+    dirty=()
+    for s in "${SUBS[@]}"; do
+        [[ -n "$(git -C "$s" status --porcelain)" ]] && dirty+=("$s")
+    done
+    if ((${#dirty[@]} > 0)); then
+        printf '\n%s✗ Hay cambios sin commitear en: %s%s\n' "$R" "${dirty[*]}" "$N" >&2
+        printf '\n%sNo bajo nada para no pisarte el trabajo. Commiteá o guardá con stash:%s\n' "$D" "$N" >&2
+        for s in "${dirty[@]}"; do
+            printf '\n  %s%s:%s\n' "$B" "$s" "$N" >&2
+            git -C "$s" status --short | sed 's/^/    /' >&2
+            printf '    %sgit -C %s stash%s\n' "$D" "$s" "$N" >&2
+        done
+        exit 1
+    fi
+fi
+
+# --- 2. Bajar origin/main -------------------------------------------------
+
+# Arrays indexados en paralelo a SUBS: macOS trae bash 3.2, sin arrays asociativos.
+pkg_before=()
+head_before=()
+for i in "${!SUBS[@]}"; do
+    s="${SUBS[$i]}"
+    pkg_before[$i]="$(shasum "$s/package.json" | cut -d' ' -f1)"
+    head_before[$i]="$(git -C "$s" rev-parse --short HEAD)"
+done
+
+any_code_change=false
+deps_changed=false
+rebuild_needed=$FORCE_REBUILD
+
+if $DO_PULL; then
+    step 'Bajando origin/main de los submódulos'
+    for i in "${!SUBS[@]}"; do
+        s="${SUBS[$i]}"
+        git -C "$s" fetch origin main --quiet
+        if ! git -C "$s" merge --ff-only origin/main --quiet 2>/dev/null; then
+            die "$s divergió de origin/main y no puedo hacer fast-forward. Resolvelo a mano:
+    git -C $s log --oneline HEAD..origin/main
+    git -C $s log --oneline origin/main..HEAD"
+        fi
+
+        head_after="$(git -C "$s" rev-parse --short HEAD)"
+        if [[ "$head_after" == "${head_before[$i]}" ]]; then
+            printf '  %-10s %ssin cambios%s\n' "$s" "$D" "$N"
+        else
+            count="$(git -C "$s" rev-list --count "${head_before[$i]}..HEAD")"
+            printf '  %-10s %s..%s  %s(%s commits)%s\n' "$s" "${head_before[$i]}" "$head_after" "$G" "$count" "$N"
+            any_code_change=true
+        fi
+    done
+else
+    step 'Sin bajar cambios (--no-pull)'
+fi
+
+# --- 3. ¿Hace falta reconstruir? ------------------------------------------
+
+# El pnpm-lock.yaml vive en el paraguas pero los package.json en los submódulos.
+# Si cambió algún manifiesto, hay que regenerar el lockfile ANTES de construir,
+# o el `pnpm install --frozen-lockfile` de la imagen falla.
+for i in "${!SUBS[@]}"; do
+    s="${SUBS[$i]}"
+    pkg_after="$(shasum "$s/package.json" | cut -d' ' -f1)"
+    if [[ "$pkg_after" != "${pkg_before[$i]}" ]]; then
+        deps_changed=true
+        warn "cambió $s/package.json"
+        [[ "$s" == "frontend" || "$s" == "backend" ]] && rebuild_needed=true
+    fi
+done
+
+if $deps_changed; then
+    step 'Regenerando el lockfile del paraguas'
+    pnpm install --no-frozen-lockfile 2>&1 | tail -3
+    ok 'lockfile actualizado (acordate de commitearlo al paraguas)'
+fi
+
+if $rebuild_needed; then
+    step 'Reconstruyendo imágenes'
+    start=$SECONDS
+    docker compose build 2>&1 | grep -E "^ (Image|Service)|ERROR" || true
+    ok "build en $((SECONDS - start))s"
+elif $any_code_change; then
+    printf '  %ssin cambios de dependencias → no hace falta rebuild (el bind mount ya trae el código)%s\n' "$D" "$N"
+fi
+
+# --- 4. Levantar y esperar salud -----------------------------------------
+
+step 'Levantando el stack'
+docker compose up -d 2>&1 | grep -E "Started|Created|Recreated|Error" | sed 's/^/  /' || true
+
+if $any_code_change && ! $rebuild_needed; then
+    # El watcher recarga solo, pero un restart garantiza estado limpio tras un pull grande.
+    docker compose restart backend frontend >/dev/null 2>&1 || true
+fi
+
+printf '  esperando healthchecks'
+healthy=false
+for _ in $(seq 1 60); do
+    pending="$(docker compose ps --format '{{.Name}} {{.Health}}' | awk '$2 != "healthy" && $2 != "" {print $1}')"
+    if [[ -z "$pending" ]]; then healthy=true; break; fi
+    printf '.'
+    sleep 5
+done
+printf '\n'
+
+if ! $healthy; then
+    printf '  %s✗ Estos servicios no llegaron a healthy:%s\n' "$R" "$N"
+    docker compose ps --format '  {{.Name}}\t{{.State}}\t{{.Health}}'
+    die "Revisá los logs: docker compose logs -f"
+fi
+ok 'stack healthy'
+
+# --- 5. Migraciones -------------------------------------------------------
+
+if $SKIP_MIGRATIONS; then
+    warn 'migraciones omitidas (--skip-migrations)'
+else
+    step 'Aplicando migraciones pendientes'
+    # `migrate deploy` es idempotente y no interactivo: aplica solo lo que falta
+    # y nunca ofrece resetear la base (a diferencia de `migrate dev`).
+    out="$(docker compose exec -T backend pnpm --filter backend db:migrate:deploy 2>&1 || true)"
+    if grep -q "No pending migrations" <<<"$out"; then
+        printf '  %ssin migraciones pendientes%s\n' "$D" "$N"
+    elif grep -qE "Applying migration|migrations? applied" <<<"$out"; then
+        grep -E "Applying migration" <<<"$out" | sed 's/^/  /'
+        ok 'migraciones aplicadas'
+    else
+        warn 'no pude interpretar la salida de Prisma:'
+        tail -5 <<<"$out" | sed 's/^/    /'
+    fi
+fi
+
+# --- 6. Validar URLs ------------------------------------------------------
+
+printf '\n'
+"$ROOT/docker/check-urls"

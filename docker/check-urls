@@ -1,0 +1,190 @@
+#!/usr/bin/env bash
+#
+# Valida el entorno local de Hireeo: recorre las URLs importantes y verifica
+# que devuelvan el código esperado. Al final imprime la lista para abrir en el
+# navegador.
+#
+#   ./docker/check-urls
+#
+# Devuelve 1 si alguna URL no responde lo esperado.
+#
+# Nota sobre las rutas protegidas: el código esperado es 307 (redirect a login).
+# Si alguna devolviera 200, sería un agujero de seguridad, no un éxito.
+
+set -uo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+FRONT="http://localhost:3333"
+API="http://localhost:4000/api/v1"
+ADMINER="http://localhost:8081"
+
+if [[ -t 1 ]]; then
+    G=$'\033[32m'; R=$'\033[31m'; Y=$'\033[33m'; B=$'\033[1m'; D=$'\033[2m'; N=$'\033[0m'
+else
+    G=''; R=''; Y=''; B=''; D=''; N=''
+fi
+
+pass=0
+fail=0
+failed_list=()
+
+check() { # check <descripción> <url> <esperado> [args extra de curl...]
+    local desc="$1" url="$2" expected="$3"
+    shift 3
+    local code
+    code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 25 "$@" "$url" 2>/dev/null)
+    if [[ "$code" == "$expected" ]]; then
+        printf '  %s✓%s %-44s %s\n' "$G" "$N" "$desc" "$code"
+        pass=$((pass + 1))
+    else
+        printf '  %s✗%s %-44s %s%s%s (esperado %s)\n' "$R" "$N" "$desc" "$R" "${code:-sin respuesta}" "$N" "$expected"
+        fail=$((fail + 1))
+        failed_list+=("$desc → $url")
+    fi
+}
+
+section() { printf '\n%s%s%s\n' "$B" "$1" "$N"; }
+
+# --- Datos dinámicos: no hardcodeamos secretos ni IDs ---------------------
+
+API_KEY="$(grep -E '^API_KEY=' backend/.env.local 2>/dev/null | head -1 | cut -d= -f2- | tr -d '"'"'"' ')"
+if [[ -z "$API_KEY" ]]; then
+    printf '%s⚠  No pude leer API_KEY de backend/.env.local — omito los chequeos de la API.%s\n' "$Y" "$N"
+fi
+
+# Slug real de un servicio, para probar la página de detalle
+SLUG="$(docker compose exec -T postgres sh -c \
+    'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -t -A -c "select slug from services limit 1;"' \
+    2>/dev/null | tr -d '\r\n ')"
+
+REGION_ID="$(docker compose exec -T postgres sh -c \
+    'psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -t -A -c "select id from geo_regions limit 1;"' \
+    2>/dev/null | tr -d '\r\n ')"
+
+printf '%sValidando entorno local%s %s(frontend 3333 · backend 4000 · adminer 8081)%s\n' "$B" "$N" "$D" "$N"
+
+# --- Frontend: páginas públicas ------------------------------------------
+
+section 'Frontend — públicas'
+check 'Home (redirige a /cl)'        "$FRONT/"                 302
+check 'Home Chile'                   "$FRONT/cl"               200
+check 'Búsqueda'                     "$FRONT/cl/search"        200
+check 'Publicar servicio'            "$FRONT/cl/publish"       200
+check 'Planes premium'               "$FRONT/cl/pricing"       200
+check 'Cómo funciona'                "$FRONT/cl/how-it-works"  200
+check 'Nosotros'                     "$FRONT/cl/about-us"      200
+check 'Contacto'                     "$FRONT/cl/contact"       200
+check 'Ayuda'                        "$FRONT/cl/help"          200
+check 'Design system'                "$FRONT/design-system"    200
+if [[ -n "$SLUG" ]]; then
+    check "Detalle de servicio"      "$FRONT/cl/service/$SLUG" 200
+else
+    printf '  %s⚠%s %-44s %s\n' "$Y" "$N" 'Detalle de servicio' 'sin datos en la DB (¿falta el seed?)'
+fi
+
+# --- Multi-país -----------------------------------------------------------
+
+section 'Frontend — multi-país'
+check 'Chile (CLP · MercadoPago)'    "$FRONT/cl" 200
+check 'Argentina (ARS · MercadoPago)' "$FRONT/ar" 200
+check 'Uruguay (UYU · MercadoPago)'  "$FRONT/uy" 200
+check 'España (EUR · Stripe)'        "$FRONT/es" 200
+check 'Estados Unidos (USD · Stripe)' "$FRONT/us" 200
+
+# --- Auth y rutas protegidas ---------------------------------------------
+
+section 'Frontend — auth y rutas protegidas'
+check 'Login'                        "$FRONT/login"            200
+check 'Registro'                     "$FRONT/register"         200
+check 'Perfil (debe pedir login)'    "$FRONT/cl/profile"       307
+check 'Mis servicios (login)'        "$FRONT/cl/profile/services" 307
+check 'Mensajes (login)'             "$FRONT/cl/profile/messages" 307
+check 'Admin (login)'                "$FRONT/cl/admin"         307
+check 'Config SuperAdmin (login)'    "$FRONT/config"           307
+
+# --- Legales --------------------------------------------------------------
+
+section 'Frontend — legales'
+check 'Términos'                     "$FRONT/cl/terms"         200
+check 'Privacidad'                   "$FRONT/cl/privacy"       200
+check 'Cookies'                      "$FRONT/cl/cookies"       200
+check 'Seguridad'                    "$FRONT/cl/security"      200
+
+# --- Backend API ----------------------------------------------------------
+
+if [[ -n "$API_KEY" ]]; then
+    H=(-H "x-api-key: $API_KEY")
+    section 'Backend API'
+    check 'Países'                   "$API/geo/countries"              200 "${H[@]}"
+    check 'Detalle de país (cl)'     "$API/geo/countries/cl"           200 "${H[@]}"
+    check 'Regiones de Chile'        "$API/geo/countries/cl/regions"   200 "${H[@]}"
+    if [[ -n "$REGION_ID" ]]; then
+        check 'Localidades de región' "$API/geo/regions/$REGION_ID/localities" 200 "${H[@]}"
+    fi
+    check 'Categorías'               "$API/categories"                 200 "${H[@]}"
+    check 'Árbol de categorías'      "$API/categories/tree"            200 "${H[@]}"
+    check 'Servicios'                "$API/services"                   200 "${H[@]}"
+    [[ -n "$SLUG" ]] && check 'Servicio por slug' "$API/services/$SLUG" 200 "${H[@]}"
+    check 'Precios'                  "$API/prices"                     200 "${H[@]}"
+    check 'Sponsors'                 "$API/sponsors"                   200 "${H[@]}"
+    # El catálogo (geo, servicios, categorías, precios, sponsors) está marcado
+    # @Public() a propósito: se lee sin API key. El guard protege el resto.
+    check 'Catálogo público sin key → 200' "$API/geo/countries"        200
+    check 'Protegido sin key → 401'  "$API/interactions"               401
+    check 'Ratings sin JWT → 401'    "$API/ratings"                    401 "${H[@]}"
+fi
+
+# --- Infra ----------------------------------------------------------------
+
+section 'Infra'
+check 'Adminer'                      "$ADMINER"                200
+
+# --- Resumen --------------------------------------------------------------
+
+printf '\n%s%d OK%s' "$G" "$pass" "$N"
+if ((fail > 0)); then
+    printf ' · %s%d con problemas%s\n' "$R" "$fail" "$N"
+    for f in "${failed_list[@]}"; do printf '    %s%s%s\n' "$D" "$f" "$N"; done
+else
+    printf ' · %ssin fallos%s\n' "$G" "$N"
+fi
+
+# --- Lista para el navegador ---------------------------------------------
+
+cat <<EOF
+
+${B}Para probar en el navegador${N}
+  ${B}Público${N}
+    $FRONT/cl                    home Chile
+    $FRONT/cl/search             búsqueda con filtros de región y localidad
+    $FRONT/cl/publish            publicar un servicio
+    $FRONT/cl/pricing            planes premium en CLP
+    $FRONT/cl/how-it-works       cómo funciona
+EOF
+[[ -n "$SLUG" ]] && echo "    $FRONT/cl/service/$SLUG   detalle de servicio"
+cat <<EOF
+
+  ${B}Multi-país${N} — cambian moneda, regiones y pasarela
+    $FRONT/ar                    Argentina · ARS · MercadoPago
+    $FRONT/uy                    Uruguay · UYU · MercadoPago
+    $FRONT/es                    España · EUR · Stripe
+    $FRONT/us                    Estados Unidos · USD · Stripe
+
+  ${B}Con sesión${N} — entrá primero por $FRONT/login
+    ${D}SuperAdmin: nluis@outlook.com — password en SEED_SUPERADMIN_PASSWORD_LNUNEZ${N}
+    ${D}de backend/.env.local (no se versiona)${N}
+    $FRONT/cl/profile            perfil
+    $FRONT/cl/profile/services   mis servicios
+    $FRONT/cl/admin              panel admin del país
+    $FRONT/config                config global de SuperAdmin
+    $FRONT/config/integrations   credenciales de Stripe, MercadoPago, OAuth
+
+  ${B}Herramientas${N}
+    $ADMINER                  Adminer ${D}(server postgres · user hireeo · db db_hireeo)${N}
+    $FRONT/design-system         design system
+
+EOF
+
+((fail == 0))
