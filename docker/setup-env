@@ -1,0 +1,163 @@
+#!/usr/bin/env bash
+#
+# Genera los archivos de variables de entorno para desarrollo local.
+#
+#   ./docker/setup-env            crea los que falten
+#   ./docker/setup-env --force    sobrescribe los existentes
+#
+# Cada desarrollador genera sus propios secretos: son solo para su máquina, no hay
+# nada que compartir por chat ni por correo. Los archivos están en .gitignore.
+#
+# Existe porque los .env.example de los submódulos están desactualizados y copiarlos
+# a mano lleva a tres errores silenciosos:
+#   - el frontend lee API_KEY (server-side), no NEXT_PUBLIC_API_KEY
+#   - NextAuth v4 necesita NEXTAUTH_URL y NEXTAUTH_SECRET, no solo AUTH_*
+#   - prisma.config.ts hace `import 'dotenv/config'`, que solo lee .env, mientras
+#     NestJS lee .env.local — de ahí el symlink backend/.env -> .env.local
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+
+if [[ -t 1 ]]; then
+    G=$'\033[32m'; Y=$'\033[33m'; B=$'\033[1m'; D=$'\033[2m'; N=$'\033[0m'
+else
+    G=''; Y=''; B=''; D=''; N=''
+fi
+
+FORCE=false
+[[ "${1:-}" == "--force" ]] && FORCE=true
+
+created=()
+skipped=()
+
+# Estos dos valores tienen que coincidir entre frontend y backend
+API_KEY="$(openssl rand -hex 32)"
+INTERNAL_SERVICE_TOKEN="$(openssl rand -hex 32)"
+
+DB_USER="hireeo"
+DB_PASS="hireeo_local_dev"
+DB_NAME="db_hireeo"
+DB_PORT="5435" # el 5433 suele estar ocupado por otros proyectos
+
+write_file() { # write_file <ruta> <contenido>
+    local path="$1" content="$2"
+    if [[ -e "$path" ]] && ! $FORCE; then
+        skipped+=("$path")
+        return
+    fi
+    printf '%s' "$content" > "$path"
+    created+=("$path")
+}
+
+# --- .env (lo lee docker-compose) ----------------------------------------
+
+write_file ".env" "$(
+    cat <<EOF
+# Credenciales de Postgres que consume docker-compose.yml
+POSTGRES_USER=${DB_USER}
+POSTGRES_PASSWORD=${DB_PASS}
+POSTGRES_DB=${DB_NAME}
+EOF
+)"
+
+# --- backend/.env.local ---------------------------------------------------
+
+write_file "backend/.env.local" "$(
+    cat <<EOF
+NODE_ENV=development
+PORT=4000
+
+# Fuera de Docker la base se alcanza por el puerto publicado. Dentro de Docker el
+# compose inyecta DATABASE_URL apuntando a postgres:5432, y gana el compose porque
+# dotenv no sobrescribe variables que ya están en process.env.
+DATABASE_URL="postgresql://${DB_USER}:${DB_PASS}@localhost:${DB_PORT}/${DB_NAME}?schema=public"
+DIRECT_DATABASE_URL="postgresql://${DB_USER}:${DB_PASS}@localhost:${DB_PORT}/${DB_NAME}?schema=public"
+
+JWT_SECRET="$(openssl rand -base64 64 | tr -d '\n')"
+JWT_EXPIRES_IN="15m"
+JWT_REFRESH_SECRET="$(openssl rand -base64 64 | tr -d '\n')"
+JWT_REFRESH_EXPIRES_IN="30d"
+
+FRONTEND_URL="http://localhost:3333"
+
+# Tiene que coincidir con API_KEY del frontend
+API_KEY="${API_KEY}"
+
+# Clave AES-256-GCM con la que se cifran las credenciales de integraciones en la DB
+INTEGRATIONS_ENCRYPTION_KEY="$(openssl rand -base64 32)"
+
+# Tiene que coincidir con INTERNAL_SERVICE_TOKEN del frontend. Sin esto, el
+# ServiceTokenGuard rechaza /integrations/runtime y /config/integrations no sirve.
+INTERNAL_SERVICE_TOKEN="${INTERNAL_SERVICE_TOKEN}"
+
+# Passwords de los SuperAdmin que crea el seed
+SEED_SUPERADMIN_PASSWORD_EDGARDO="$(openssl rand -base64 12 | tr -d '/+=' | cut -c1-14)"
+SEED_SUPERADMIN_PASSWORD_LNUNEZ="$(openssl rand -base64 12 | tr -d '/+=' | cut -c1-14)"
+EOF
+)"
+
+# --- frontend/.env.local -------------------------------------------------
+
+write_file "frontend/.env.local" "$(
+    cat <<EOF
+NEXT_PUBLIC_API_URL="http://localhost:4000/api/v1"
+
+# OJO: el apiClient lee API_KEY (server-side), NO NEXT_PUBLIC_API_KEY como dice el
+# .env.example. Con el nombre equivocado, /config y /admin fallan con "API Key inválida".
+API_KEY="${API_KEY}"
+
+# NextAuth v4 usa las NEXTAUTH_*; las AUTH_* quedan por compatibilidad.
+AUTH_SECRET="$(openssl rand -base64 32)"
+NEXTAUTH_SECRET="\${AUTH_SECRET}"
+AUTH_URL="http://localhost:3333"
+NEXTAUTH_URL="http://localhost:3333"
+
+# Tiene que coincidir con INTERNAL_SERVICE_TOKEN del backend
+INTERNAL_SERVICE_TOKEN="${INTERNAL_SERVICE_TOKEN}"
+
+NEXT_PUBLIC_APP_URL="http://localhost:3333"
+EOF
+)"
+
+# NEXTAUTH_SECRET no puede interpolar a AUTH_SECRET: Next no expande variables.
+if [[ -f frontend/.env.local ]]; then
+    secret="$(grep -E '^AUTH_SECRET=' frontend/.env.local | cut -d= -f2-)"
+    if [[ -n "$secret" ]]; then
+        tmp="$(mktemp)"
+        sed "s|^NEXTAUTH_SECRET=.*|NEXTAUTH_SECRET=${secret}|" frontend/.env.local > "$tmp"
+        mv "$tmp" frontend/.env.local
+    fi
+fi
+
+# --- backend/.env -> .env.local ------------------------------------------
+# prisma.config.ts hace `import 'dotenv/config'`, que solo lee .env. Sin el symlink,
+# `prisma migrate dev` falla con "datasource.url property is required".
+
+if [[ ! -e backend/.env ]] || $FORCE; then
+    ln -sf .env.local backend/.env
+    created+=("backend/.env → .env.local (symlink)")
+fi
+
+# --- Resumen -------------------------------------------------------------
+
+printf '\n%sArchivos de entorno%s\n' "$B" "$N"
+for f in "${created[@]:-}"; do [[ -n "$f" ]] && printf '  %s✓%s creado   %s\n' "$G" "$N" "$f"; done
+for f in "${skipped[@]:-}"; do [[ -n "$f" ]] && printf '  %s•%s ya existe %s %s(--force para sobrescribir)%s\n' "$Y" "$N" "$f" "$D" "$N"; done
+
+if [[ ${#created[@]} -gt 0 ]]; then
+    cat <<EOF
+
+${B}Siguiente paso${N}
+  docker compose up -d --build
+  docker compose run --rm backend pnpm --filter backend db:migrate
+  docker compose run --rm backend pnpm --filter backend db:seed
+  ./docker/check-urls
+
+${B}Tus passwords de SuperAdmin${N} ${D}(quedaron en backend/.env.local)${N}
+$(grep -E '^SEED_SUPERADMIN' backend/.env.local 2>/dev/null | sed 's/^/  /')
+
+${D}Ninguno de estos archivos se versiona: están todos en .gitignore.${N}
+EOF
+fi
