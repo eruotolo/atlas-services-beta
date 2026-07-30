@@ -92,6 +92,12 @@ INTEGRATIONS_ENCRYPTION_KEY="$(openssl rand -base64 32)"
 # ServiceTokenGuard rechaza /integrations/runtime y /config/integrations no sirve.
 INTERNAL_SERVICE_TOKEN="${INTERNAL_SERVICE_TOKEN}"
 
+# Login con Google: el backend valida que el claim \`aud\` del token coincida con este
+# Client ID. Si solo se configura en el frontend, el login vuelve bien de Google y el
+# backend lo rechaza con "El acceso con Google no está configurado". El secret NO hace
+# falta acá: el backend solo valida tokens ya emitidos.
+# GOOGLE_CLIENT_ID="722593962113-ros9qk4n46gl9nh0r3s6ho16kcuqlhbk.apps.googleusercontent.com"
+
 # Passwords de los SuperAdmin que crea el seed
 SEED_SUPERADMIN_PASSWORD_EDGARDO="$(openssl rand -base64 12 | tr -d '/+=' | cut -c1-14)"
 SEED_SUPERADMIN_PASSWORD_LNUNEZ="$(openssl rand -base64 12 | tr -d '/+=' | cut -c1-14)"
@@ -118,6 +124,12 @@ NEXTAUTH_URL="http://localhost:3333"
 INTERNAL_SERVICE_TOKEN="${INTERNAL_SERVICE_TOKEN}"
 
 NEXT_PUBLIC_APP_URL="http://localhost:3333"
+
+# Login con Google. Descomentar y completar el secret; el Client ID es del proyecto
+# "hireeo" de Google Cloud, que ya tiene registrado el callback de localhost:3333.
+# Acordate de poner el MISMO GOOGLE_CLIENT_ID en backend/.env.local.
+# GOOGLE_CLIENT_ID="722593962113-ros9qk4n46gl9nh0r3s6ho16kcuqlhbk.apps.googleusercontent.com"
+# GOOGLE_CLIENT_SECRET=""
 EOF
 )"
 
@@ -157,6 +169,12 @@ ${B}Siguiente paso${N}
 
 ${B}Tus passwords de SuperAdmin${N} ${D}(quedaron en backend/.env.local)${N}
 $(grep -E '^SEED_SUPERADMIN' backend/.env.local 2>/dev/null | sed 's/^/  /')
+
+${B}Para el login con Google${N} ${D}(opcional)${N}
+  Descomentá GOOGLE_CLIENT_ID y GOOGLE_CLIENT_SECRET en frontend/.env.local, y
+  GOOGLE_CLIENT_ID en backend/.env.local. Van los tres o no funciona: el backend
+  valida el claim \`aud\` contra su propio Client ID.
+  Tu cuenta tiene que estar en los test users del proyecto de Google.
 
 ${D}Ninguno de estos archivos se versiona: están todos en .gitignore.${N}
 EOF
