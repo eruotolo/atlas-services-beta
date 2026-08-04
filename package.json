@@ -10,6 +10,7 @@
         "dev": "concurrently --names \"backend,frontend\" --prefix-colors \"blue,green\" \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
         "dev:backend": "pnpm --filter backend dev",
         "dev:frontend": "pnpm --filter frontend dev",
+        "stop": "kill -9 $(lsof -ti:3333,4000) 2>/dev/null && echo 'Servidores detenidos' || echo 'No hay servidores corriendo en los puertos 3333/4000'",
         "clean": "pnpm --filter frontend clean",
         "db:seed": "pnpm --filter backend db:seed",
         "lint": "biome check .",

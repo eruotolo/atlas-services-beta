@@ -64,6 +64,9 @@ next-env.d.ts
 # Claude Code — configuración local, memoria y agentes
 .claude/
 
+# Gemini — configuración y herramientas locales
+/.gemini/
+
 # Internal Tools & Scripts
 /scripts/
 

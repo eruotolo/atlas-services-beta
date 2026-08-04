@@ -14,6 +14,9 @@
 | DT-01 | Backend | Escrow en estado MOCK | Split payments y comisión 15% no implementados en producción; `countryCode` hardcoded a `'es'` | `backend/src/modules/escrow/escrow.service.ts` |
 | DT-02 | Infra | Producción no desplegada | Beta sin deploy final en `hireeo.app` (backend ya vivo en `api.hireeo.app`) | Roadmap Fase 4 |
 | ~~DT-03~~ | Repo | ~~Repos anidados desincronizados~~ ✅ RESUELTO (2026-06-20) | Formalizados como **git submodules** (`.gitmodules`). El global referencia cada app por commit; código real en `hireeo-front/back/mobile`. Ver `.doc/arquitectura-repos-deploy.md` | Raíz del monorepo |
+| DT-29 | Frontend/Backend | Publicar servicio roto: campo `comuna` nunca se envía | `Paso2TuOficio.tsx` setea `regionCode`/`localitySlug`, pero `publicarServicioPublico` lee `formData.get('comuna')` → siempre `null` → error "Todos los campos son requeridos". Ver `.doc/analizar/bug-publicar-servicio.md` | `frontend/src/features/services/publish/actions/mutations.ts` |
+| DT-30 | Frontend/Backend | Publicar servicio roto: payload en inglés vs DTO en español | `mutations.ts` manda `title/description/price/commune/categoryIds/socialNetworks`; el DTO real espera `titulo/descripcion/precio/comuna/categoriaIds/redesSociales`. Con `forbidNonWhitelisted: true` el backend rechaza el POST con 400. Ver `.doc/analizar/bug-publicar-servicio.md` | `backend/src/modules/services/dto/create-service.dto.ts` |
+| DT-31 | Frontend | Publicar servicio roto: invitado sin sesión → 401 | `verificarOCrearUsuario` registra al invitado en el backend pero no crea sesión de NextAuth; `POST /services` (JwtAuthGuard) falla sin `backendToken`. Ver `.doc/analizar/bug-publicar-servicio.md` | `frontend/src/features/services/publish/actions/mutations.ts` |
 
 ---
 
@@ -45,6 +48,7 @@
 | DT-23 | Infra | Deploy no auto-promueve | Push a `main` de `hireeo-back` genera Production pero no toma el dominio; hubo que promover manualmente. Revisar settings de promoción | Vercel proyecto `hireeo-back` |
 | DT-27 | Backend | Doble naming de roles (A6) | `RolesGuard` mapea `Admin`→`['Admin','admin']`, `Professional`→`['Professional','provider']`, etc. Nombres inconsistentes entre capas; frágil para autorización | `backend/src/common/guards/roles.guard.ts` |
 | DT-28 | Seguridad | Comparación no time-safe (A7) | `ApiKeyGuard` usa `apiKey !== validKey` (no constante en tiempo). Timing attack teórico, bajo impacto | `backend/src/common/guards/api-key.guard.ts` |
+| DT-32 | Frontend | Categorías y precios premium ignoran el país activo | `getCategorias()` (Paso 2 del wizard) y `obtenerPreciosPremiumActivos()` se llaman sin `countryCode` → siempre caen al default `'cl'`. Ver `.doc/analizar/bug-publicar-servicio.md` | `frontend/src/features/services/publish/components/Paso2TuOficio/Paso2TuOficio.tsx`, `frontend/src/features/payments/actions/queries.ts:155` |
 
 ---
 
@@ -62,10 +66,12 @@
 
 ## 📋 Acciones recomendadas (priorizadas)
 
-1. **DT-01 + DT-09** — Completar Escrow (scaffold listo, pendiente API keys reales Stripe/MP).
-2. **DT-02** — Deploy final en `hireeo.app`.
-3. **DT-22** — ✅ CORS con `www.hireeo.app` configurado en Vercel.
-4. **DT-23** — Revisar auto-promoción en Vercel `hireeo-back`.
+1. **DT-29 + DT-30 + DT-31** — Arreglar el flujo de "Publicar Servicio" (roto de punta a punta hoy). Ver `.doc/analizar/bug-publicar-servicio.md`.
+2. **DT-01 + DT-09** — Completar Escrow (scaffold listo, pendiente API keys reales Stripe/MP).
+3. **DT-02** — Deploy final en `hireeo.app`.
+4. **DT-22** — ✅ CORS con `www.hireeo.app` configurado en Vercel.
+5. **DT-23** — Revisar auto-promoción en Vercel `hireeo-back`.
+6. **DT-32** — Pasar `countryCode` a categorías y precios premium del wizard de publicación.
 
 > ~~DT-03~~ (estrategia de repos) cerrado el 2026-06-20 — submódulos formalizados.
 
@@ -81,6 +87,9 @@
 - [ ] **DT-01** — Escrow real (scaffold listo, pendiente API keys Stripe/MP producción)
 - [ ] **DT-02** — Deploy final de producción en `hireeo.app`
 - [x] **DT-03** — Repos como git submodules (2026-06-20)
+- [ ] **DT-29** — Corregir campo `comuna` en `publicarServicioPublico` (no llega desde `Paso2TuOficio.tsx`)
+- [ ] **DT-30** — Alinear payload de `mutations.ts` con `create-service.dto.ts` (inglés vs español)
+- [ ] **DT-31** — Crear sesión de NextAuth tras registro de invitado en Paso 1, o autenticar antes de `POST /services`
 
 ### 🟠 Alta
 - [x] **DT-26** — Proteger/limitar `chatbot.controller` (auth + throttle) (2026-06-21)
@@ -107,6 +116,7 @@
 - [ ] **DT-18** — Rate limiter de upload fuera de memoria
 - [ ] **DT-19** — Deuda mobile (ver `appmobile-claude.md` §13)
 - [ ] **DT-20** — Modelo de monetización en transición
+- [ ] **DT-32** — Pasar `countryCode` a categorías/precios premium del wizard de publicación
 
 ---
 
