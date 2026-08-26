@@ -498,7 +498,7 @@ Genera [`05-risk-matrix.md`](http://05-risk-matrix.md), [`04-global-obligation-r
 
 Incluye al menos estas columnas:
 
-| ID | Riesgo/escenario de litigio | Hecho/evidencia | Jurisdicción | Norma/autoridad | Probabilidad | Impacto | Exposición (legal, financiera, reputacional, operativa) | Controles actuales | Brecha | Mitigación específica | Propietario | Prioridad | Dependencia | Evidencia de cierre | Estado |
+| ID | Riesgo/escenario de litigio | implementado/evidencia | Jurisdicción | Norma/autoridad | Probabilidad | Impacto | Exposición (legal, financiera, reputacional, operativa) | Controles actuales | Brecha | Mitigación específica | Propietario | Prioridad | Dependencia | Evidencia de cierre | Estado |
 
 Construye escenarios reales: acceso indebido a datos, tracking sin consentimiento, transferencia no documentada, servicio fraudulento, accidente entre partes, cobro/reembolso controvertido, reseña falsa, contenido ilícito, reclamación IP, salida de IA dañina/alucinada, sesgo/ranking injusto, suplantación, menor, breach, renovación oscura, precio engañoso, incumplimiento de derechos, dependencia de proveedor, pérdida de backups y suspensión injustificada. Para cada escenario no exageres: explica las condiciones que lo activan y los límites de la evidencia.
 

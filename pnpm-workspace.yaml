@@ -2,6 +2,7 @@ packages:
   - 'frontend'
   - 'backend'
   - 'appmobile'
+  - 'diagrama'
 allowBuilds:
   '@nestjs/core': true
   '@prisma/engines': true

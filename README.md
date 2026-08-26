@@ -78,7 +78,6 @@ app/
 │           ├── usuarios/
 │           ├── categorias/
 │           ├── precios-premium/
-│           ├── sponsors/
 │           ├── calificaciones/
 │           ├── pagos/
 │           └── interacciones/
@@ -172,7 +171,6 @@ frontend/src/
 │   ├── services/              # Servicios ofertados
 │   ├── categories/            # Categorías
 │   ├── payments/              # Pagos y suscripciones
-│   ├── sponsors/              # Espacios publicitarios
 │   ├── users/                 # Perfil y gestión de usuarios
 │   └── reviews/               # Calificaciones
 │
@@ -213,7 +211,6 @@ backend/src/modules/
 ├── categories/    # Categorías (globales o por país)
 ├── prices/        # Precios premium por país y duración
 ├── subscriptions/ # Suscripciones (usa precio del país del usuario)
-├── sponsors/      # Sponsors (globales o por país)
 ├── ratings/       # Calificaciones y reseñas
 ├── payments/      # Gateway pattern: MercadoPago | Stripe
 └── interactions/  # Clicks y contactos (analítica)
@@ -235,7 +232,6 @@ backend/src/modules/
 | `PremiumPrice` | Sí | `countryId` (FK obligatorio) |
 | `GeoRegion` | Sí | `countryId` |
 | `GeoLocality` | Sí | via `GeoRegion.countryId` |
-| `Sponsor` | Opcional | `countryId` nullable (null = global) |
 | `Category` | Opcional | `countryCode` nullable (null = global) |
 | `User` | No | Cuenta global (sin countryId) |
 
