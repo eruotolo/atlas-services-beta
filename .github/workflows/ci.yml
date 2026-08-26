@@ -1,0 +1,64 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    backend:
+        name: backend (lint + build + tests)
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: backend
+        env:
+            # Variables mínimas para que el backend arranque solo lo necesario
+            # en build/test. Las credenciales reales nunca viven en CI: las
+            # integraciones se firman con claves de sandbox fuera de este flujo.
+            INTEGRATIONS_ENCRYPTION_KEY: cGZjOS8vTWFydmVsb3VzQ2lwaGVyS2V5MTIzNDU2Nzg=
+            INTERNAL_SERVICE_TOKEN: ci-internal-service-token
+            API_KEY: ci-api-key
+            JWT_SECRET: ci-jwt-secret-not-for-production
+            JWT_REFRESH_SECRET: ci-jwt-refresh-secret-not-for-production
+            FRONTEND_URL: http://localhost:3334
+        steps:
+            - uses: actions/checkout@v4
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: 10
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: pnpm
+            - name: Install workspace dependencies
+              run: pnpm install --frozen-lockfile
+            - name: Generate Prisma client (no DB required)
+              run: pnpm --filter backend db:generate
+            - name: Build backend
+              run: pnpm --filter backend build
+            - name: Run backend tests (node --test runner)
+              run: pnpm --filter backend test
+
+    frontend:
+        name: frontend (build)
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: frontend
+        env:
+            NEXT_TELEMETRY_DISABLED: 1
+        steps:
+            - uses: actions/checkout@v4
+            - uses: pnpm/action-setup@v4
+              with:
+                  version: 10
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: pnpm
+            - name: Install workspace dependencies
+              run: pnpm install --frozen-lockfile
+            - name: Build frontend
+              run: pnpm --filter frontend build

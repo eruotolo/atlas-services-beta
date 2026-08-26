@@ -1,0 +1,79 @@
+@import '@fontsource-variable/geist';
+@import '@fontsource/instrument-serif/400.css';
+@import '@fontsource/instrument-serif/400-italic.css';
+@import '@xyflow/react/dist/style.css';
+@import 'tailwindcss';
+
+@theme {
+    --color-ink: #0a0a0a;
+    --color-sub: #5b5b5b;
+    --color-muted: #767676;
+    --color-line: #ebebeb;
+    --color-hairline: #f1f1f1;
+    --color-bg: #fcfcfc;
+    --color-tint: #f7f8fa;
+    --color-accent: #2d4e8f;
+    --color-accent-bright: #5b8fd4;
+    --color-accent-soft: #e6eefa;
+    --color-success: #16a34a;
+    --color-warning: #e0a82e;
+    --color-danger: #d04545;
+    --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+    --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+    --font-mono: 'Geist Variable', ui-monospace, SFMono-Regular, monospace;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'ss01' on, 'cv11' on;
+    -webkit-font-smoothing: antialiased;
+}
+
+.hireeo-edge {
+    stroke: #d4d4d4 !important;
+}
+
+.hireeo-edge-hot {
+    stroke: #2d4e8f !important;
+}
+
+.react-flow__edge-text {
+    fill: #767676;
+    font-size: 9px;
+    font-family: var(--font-mono);
+}
+
+.react-flow__controls-button {
+    background: #fff;
+    border-bottom-color: #ebebeb;
+    fill: #0a0a0a;
+}
+
+.react-flow__minimap {
+    background: #fcfcfc;
+}
+
+@keyframes hireeo-play-progress {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.hireeo-play-progress {
+    transform-origin: left center;
+    animation-name: hireeo-play-progress;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
