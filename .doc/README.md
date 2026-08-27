@@ -23,10 +23,6 @@ Este directorio reúne documentación operativa y de producto del repositorio. C
   - [Admin](./testingqa/plan-e2e-admin.md)
   - [SuperAdmin](./testingqa/plan-e2e-superadmin.md)
   - [Publicación multipaís](./testingqa/plan-e2e-publicacion-multipais.md)
-- [Tareas pendientes](./tareaspendientes/)
-  - [Plan de remediación legal del frontend](./tareaspendientes/plan-remediacion-legal-frontend.md)
-  - [Matriz de decisiones — Fase 0 remediación legal](./tareaspendientes/matriz-decisiones-fase0-legal.md)
-- [Expediente legal](./legal-research/README.md)
 - [Activos de referencia](./assets/)
 
 ## Convenciones
