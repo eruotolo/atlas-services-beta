@@ -7,6 +7,15 @@ tags: [hireeo, testing, e2e, client, incidencias]
 
 Referencia: [[../testingqa/plan-e2e-client]]. Entorno: frontend `http://localhost:3334`, backend `http://localhost:4445/api/v1`, DB local (`docker-database`, puerto 5435). Ejecución iniciada 2026-08-27, cuenta `client1.cl@hireeo.app`.
 
+> [!success] Estado de resolución (remediación 2026-08-29, [[grok-e2e-incidencias]])
+> - **INC-003 — RESUELTO.** Backend: `@Roles(Role.PROVIDER)` + `RolesGuard` en `GET /service-requests/available` y `GET /quotes/my-quotes` (verificado en vivo: Client → 403, Professional → 200). Frontend: guard de rol en `profile/leads/page.tsx` y `profile/services/page.tsx`, redirige a `/unauthorized` si no es Professional.
+> - **INC-004 — RESUELTO.** `actualizarPassword`: `.parse()` movido dentro del try/catch, errores de Zod/API ahora legibles en vez de un genérico. Ver también F8 (patrón P1 aplicado transversalmente con `parseOrFail`).
+> - **INC-004b — RESUELTO.** Política única (8+, mayúscula, minúscula, número, especial) unificada en `userSchemas.ts`, `authSchemas.ts` (registro) y `register.dto.ts` (backend). Fixture `Hireeo2026!Test` sigue siendo válido.
+> - **INC-005 — RESUELTO.** `AddressForm.tsx` consume `getActiveCountries()` (público) en vez de `getAdminCountries` (admin-only) — verificado con Client real en `cl` y `es`, 200 en `GET /geo/countries` con `id` tipado en `CountryConfig`.
+> - **INC-006 — RESUELTO.** `ChatMensajes.tsx` lee `session.user.backendToken` (antes leía campos inexistentes) — el socket ahora conecta de verdad.
+> - **INC-007 — RESUELTO.** `handleSend` bloquea el envío con error visible si el socket no está conectado (nunca mensaje fantasma); reconciliación de ID temporal cuando llega el mensaje real por socket.
+> - **INC-008 — Verificado sin regresión** tras el fix del interceptor de fechas (F1/INC-012): no se reprodujo Invalid Date/NaN en las pantallas de este plan.
+
 ## INC-003 — El dashboard de Professional (leads, servicios) no valida el rol, solo la sesión
 
 - **Caso**: E2E-CLI-013
@@ -150,7 +159,8 @@ En `handleSend()` (`ChatMensajes.tsx:132-146`), el mensaje se agrega al estado l
 - El botón **"Solicitar este servicio"** en la ficha pública NO abre ningún wizard de `ServiceRequest` — abre el mismo widget de chat flotante que el botón "Chat" (`frontend/src/features/services/components/detail/ServiceBookingCard/ServiceBookingCard.tsx:51-52,102-106`: ambos botones llaman `chatWidgetBus.emit('open_chat', conversationId)`).
 - No existe en el frontend ningún componente de formulario/wizard para crear un `ServiceRequest` (categoría, descripción, urgencia, presupuesto, ubicación) — se buscó en todo `features/services/` y solo aparecen componentes de **lectura** (`ServiceRequestCard`, para el dashboard de leads del Professional) y acciones de lectura (`getAvailableLeads`, `getMySentQuotes`). El endpoint backend `POST /service-requests` existe y funciona (probado insertando el registro directamente y viéndolo aparecer correctamente en "Leads disponibles" del Professional), pero **no hay ningún punto de entrada en la UI que lo invoque**.
 - El modelo de datos tampoco soporta lo que describe el caso: `service_requests` solo tiene `categoryId`, `description`, `urgency`, `countryId` — no hay campos de presupuesto ni ubicación como anticipa el plan ("presupuesto/ubicación/campos disponibles").
-- **No se trata de un bug reproducible en código roto** — es una discrepancia entre lo que describe el plan de pruebas y el flujo real del producto (que reemplazó la creación formal de una solicitud por chat directo). Se insertó un `ServiceRequest` fixture por SQL para poder probar de todas formas la aceptación de cotizaciones (E2E-CLI-010, ver estado de ejecución) — pero E2E-CLI-009 en sí queda **NOT-APPLICABLE** hasta que Edgardo decida si el wizard se debe construir o si el caso de prueba debe actualizarse para reflejar el flujo de chat.
+- **No se trata de un bug reproducible en código roto** — es una discrepancia entre lo que describe el plan de pruebas y el flujo real del producto (que reemplazó la creación formal de una solicitud por chat directo). Se insertó un `ServiceRequest` fixture por SQL para poder probar de todas formas la aceptación de cotizaciones (E2E-CLI-010, ver estado de ejecución).
+- **Resuelto (Gate `G-REQUEST`, plan canónico [[grok-e2e-incidencias]] §7, 2026-08-29): no se construye wizard.** Es una feature nueva, fuera de alcance de esta remediación — el flujo real (chat directo) queda como el comportamiento esperado. E2E-CLI-009 se actualiza a **NOT-APPLICABLE / chat-only**, no a un bug pendiente.
 
 ---
 

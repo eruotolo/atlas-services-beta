@@ -73,6 +73,15 @@ El reseteo también incrementó `tokenVersion` de cada cuenta, invalidando cualq
 - Cada wizard cubre validación, retroceso/cancelación cuando exista, éxito, error recuperable y persistencia posterior.
 - La evidencia demuestra el resultado desde la UI, no solo una respuesta de API.
 
+## Remediación de incidencias (2026-08-29)
+
+El [[../tareaspendientes/grok-e2e-incidencias|plan canónico de remediación]] cerró 23 de las 24 incidencias únicas de código detectadas en estos planes (una, INC-019, quedó en modo mitigación por Gate `G-COUNTRY` — ver el plan para el detalle). Cada informe de incidencias por rol tiene su propio bloque "Estado de resolución" con el detalle y la evidencia de cada fix.
+
+Informes de apoyo generados durante la remediación:
+- [Informe de fechas (T1.3)](./informe-fechas-t1.3.md) — endpoints con fechas rotas por el bug del interceptor de serialización (INC-012), insumo de la verificación de INC-008.
+- [Informe de inventario de países (T7.1)](./informe-inventario-paises-t7.1.md) — los 17 puntos hardcodeados que motivaron el modo mitigación de INC-019.
+- Snapshot de base de datos previo a la remediación en `snapshots/` (fuera de git, no versionado).
+
 ## Automatización posterior
 
 Parametrizar los casos por país en Playwright, con selectores de rol o `data-testid` estables, fixtures aislados y trazas/video/screenshot al fallar. Separar los casos que interactúan con Stripe, MercadoPago, Cloudinary, Gemini o Stripe Identity: ejecutarlos en sandbox y simular solo cuando el proveedor no ofrezca un flujo E2E seguro.

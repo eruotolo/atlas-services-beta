@@ -7,6 +7,15 @@ tags: [hireeo, testing, e2e, publicacion, multipais, incidencias]
 
 Referencia: [[../testingqa/plan-e2e-publicacion-multipais]]. Entorno: frontend `http://localhost:3334`, backend `http://localhost:4445/api/v1`, DB local (`docker-database`, puerto 5435). Ejecución iniciada 2026-08-28, vía alta anónima real (sin cuentas seed) en `cl`, `uy`, `ar`, `es`, `us`, cada uno con usuario y servicio propios (`e2e-publish-<pais>-<timestamp>@example.test`).
 
+> [!note] Renumeración canónica (2026-08-29)
+> Los `INC-012`/`INC-013`/`INC-014` de **este** informe colisionaban con IDs ya usados en [[e2e-professional-incidencias]]. En el plan de remediación [[grok-e2e-incidencias]] pasan a ser: `INC-012` (redes sociales no visibles) → **INC-023**; `INC-013` (rate limit upload por IP) → **INC-024**; `INC-014` ("Completar con IA" en wizard anónimo) → **cerrado como duplicado de INC-009** (mismo archivo `frontend/src/features/services/publish/actions/mutations.ts`, mismo literal de error, un solo fix cierra ambos). `INC-015` (i18n del wizard) no colisiona y se mantiene igual. Ver tabla de mapping en §2 de [[grok-e2e-incidencias]].
+
+> [!success] Estado de resolución (remediación 2026-08-29, [[grok-e2e-incidencias]])
+> - **INC-023 (era INC-012 aquí) — RESUELTO.** Componente nuevo `ServiceSocialLinks` (regla de oro: carpeta propia) wireado en `ServiceAbout`; los 8 tipos de `SocialMediaType` tienen icono, `aria-label`, `target="_blank" rel="noopener noreferrer"`.
+> - **INC-024 (era INC-013 aquí) — RESUELTO.** Throttle de `/upload` ahora por usuario autenticado (`UploadThrottlerGuard`, no por IP), límite subido a 60/h (antes 20/h) + `Retry-After`; frontend cachea URLs ya subidas para no re-subir en un reintento tras 429.
+> - **INC-014/MP (wizard anónimo, "Completar con IA") — cerrado como duplicado de INC-009**, resuelto por el mismo fix (ver [[e2e-professional-incidencias]]).
+> - **INC-015 — RESUELTO.** Wizard de publicación (Pasos 1-3) migrado a `getDictionary`/`publishWizard` — verificado en vivo: `/us/publish` en inglés, `/cl/publish` sin regresión en español.
+
 ## INC-012 — Las redes sociales cargadas en el wizard se persisten correctamente pero nunca se muestran en la ficha pública del servicio
 
 - **Caso**: E2E-PUB (Guion, paso 4 y 7 — "todos los tipos disponibles de redes sociales... coherentes"; criterio de aprobación "Se cargan y se visualizan correctamente... los ocho tipos de red social/sitio web")

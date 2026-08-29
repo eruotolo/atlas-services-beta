@@ -9,6 +9,14 @@ Referencia: [[../testingqa/plan-e2e-superadmin]]. Entorno: frontend `http://loca
 
 **Fixtures usados y limpiados al cierre**: país `zz` ("E2E Test Country ZZ Editado", creado/editado/activado/desactivado para probar E2E-SUP-002, eliminado de DB al final — no existe endpoint de eliminación de países en la UI), usuario `e2e-supadmin-test-admin-cl@example.test` (creado con rol Admin/Chile para probar E2E-SUP-004, ascendido a SuperAdmin, eliminado desde la UI), precio premium de 1 mes para `zz` (creado para probar E2E-SUP-006, eliminado desde la UI). Verificado al cierre: `countries` (5 filas, solo los reales), `users` (36, igual que al inicio), `premium_prices` (20, igual que al inicio).
 
+> [!success] Estado de resolución (remediación 2026-08-29, [[grok-e2e-incidencias]])
+> - **INC-016 — RESUELTO** (ver detalle en [[e2e-admin-incidencias]]).
+> - **INC-018 — RESUELTO** (ver detalle en [[e2e-admin-incidencias]]).
+> - **INC-019 — MITIGADO (Gate `G-COUNTRY`, no modo completo).** Inventario formal de 17 puntos hardcodeados (`.doc/testingqa/informe-inventario-paises-t7.1.md`) supera el corte de 15 del plan y toca lógica de negocio real (pasarela de pago, registry legal) — no se implementa fuente única de países dinámicos como parte de esta remediación. Sí se aplicó: UI honesta en `/config/countries` (el toggle "Activo" ahora aclara que no implica mercado operativo) y `crearUsuario` propaga el error real del backend en vez de "el email puede estar en uso" fijo. Modo completo queda como plan propio futuro.
+> - **INC-020 — RESUELTO.** Backend: asignar el rol SuperAdmin con `countryCode` en el payload ahora devuelve 400 explícito. Frontend: el form de asignación de roles deja de enviar `countryCode` al elegir SuperAdmin.
+> - **INC-021 — Verificado sin staleness real.** El fetch de precios premium ya usa `revalidate: 0` + `revalidatePath` + reload tras mutación; no se reprodujo el conteo desactualizado.
+> - **INC-022 — RESUELTO.** `getDashboardStats` ahora pasa `countryCode` a `getAdminUsers`/`getAdminServices`/`getInteraccionesMetricas` — verificado en vivo: `/ar/admin` y `/cl/admin` muestran conteos distintos y acotados a cada país, no los globales.
+
 ## INC-019 — El módulo "Países" de SuperAdmin es solo un editor de metadatos: crear un país nuevo no lo hace operativo en ningún flujo real, y el error al intentar asignarle un Admin es totalmente engañoso
 
 - **Caso**: E2E-SUP-002

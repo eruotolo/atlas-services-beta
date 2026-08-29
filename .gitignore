@@ -73,6 +73,9 @@ next-env.d.ts
 # Docker — datos persistidos de PostgreSQL
 docker-database/postgres-data/
 
+# Snapshots de DB de testing E2E (no versionar dumps con datos)
+.doc/testingqa/snapshots/
+
 # Prototipo de diseño (referencia, no parte del código fuente)
 NuevoHireeoApp/
 Nuevo Hireeo App.zip

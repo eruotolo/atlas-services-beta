@@ -281,6 +281,23 @@ Si un launcher falla, Orca registra el intento y usa el siguiente modelo válido
 - Fixtures nuevos: `E2E-<ROL>-<PAIS>-<timestamp>`. Limpieza solo de IDs de la corrida, con procedimiento autorizado.
 - Snapshot de DB en T0.4 (fuera de git). Proveedores externos solo sandbox; sin credenciales = `BLOCKED`.
 
+### 5.8 Contratos congelados (T0.5)
+
+Ejecutado en F0, antes de dispatch de la primera ola. Válido para todos los workers.
+
+| Contrato | Definición |
+|---|---|
+| **Reset password** | **Revisado 2026-08-29 tras revalidación de código (decisión de Edgardo)**: el código actual NO usa token/link de reseteo — genera password nueva y la envía por email directamente, por decisión de producto ya auditada (`AUD-12`, comentario en `auth.service.ts:276-281`: "no bifurcar en un flujo de link de reseteo separado"). **No se revierte AUD-12, no se agrega token/tabla/migración/endpoint nuevo.** Fix mínimo: generar la password nueva, enviar el email **primero** (o con compensación), y NO persistir `password`/`emailVerified`/`tokenVersion` si el envío falla. Respuesta siempre genérica anti-enumeración (ya lo es) |
+| **País público vs. admin** | Flujos públicos (AddressForm, selectors de país en Client/Professional) consumen `GET /api/v1/geo/countries` (`@Public()`). Los endpoints de `/config/countries` (CRUD) son exclusivos de SuperAdmin — ningún flujo público los llama |
+| **Categoría create** | Admin de país crea categorías con **su propio** `countryCode` (nunca null/global). Solo SuperAdmin crea categorías globales (`countryCode: null`) |
+| **Fecha ISO** | Toda fecha que cruza el interceptor global de serialización sale como string ISO 8601, nunca como objeto `Date` crudo ni `{}`. Guard explícito para `Date` junto al de `Prisma.Decimal` |
+| **429 upload** | Throttle de `/upload` por **usuario autenticado** (no solo IP); fallback IP solo para anónimos. Límite ≥60/h. Respuesta 429 con header `Retry-After` y mensaje explícito, nunca genérico |
+| **ServiceRequest (chat-only)** | No existe wizard de creación de `ServiceRequest`. Ambos CTA de solicitud abren el chat directo con el Professional. Los casos E2E deben reflejar este flujo real, no un wizard inexistente |
+| **Países soportados (INC-019/T7.*)** | `SUPPORTED_COUNTRIES` hardcodeado como array literal en `backend/src/modules/auth/dto/register.dto.ts` (`['cl','ar','uy','es','us']`). Confirmado como uno de los puntos del inventario T7.1 |
+
+> [!warning] Default aplicado — skills `nextjs-ddd-expert`/`nestjs-architect` no instaladas (2026-08-29)
+> Ninguna de las dos skills existe en `~/.claude/skills/`, `~/.claude/agents/` ni en el proyecto. §5.5 dicta "Skill ausente → tarea BLOCKED", pero bloquear el 100% de las tareas contradice la ejecución autónoma pedida. **Default aplicado**: las reglas de arquitectura que esas skills debían imponer ya están íntegramente en `CLAUDE.md` de este proyecto (DDD folder structure, regla de oro de componentes, Server/Client Components, reglas NestJS en `~/.claude/rules/nextjs.md`/`nestjs.md`), que todo worker Claude en este repo carga automáticamente. Se procede sin las skills nombradas, exigiendo cumplimiento de CLAUDE.md en cada spec de worker. No se escala — es una discrepancia de infraestructura, no una decisión de producto.
+
 ---
 
 ## 6. Fases
@@ -333,7 +350,7 @@ Skill: `nestjs-architect`. Leases: `L-AUTH-BE`, categorías create, users roles.
 
 | Tarea | INC | Alcance |
 |---|---|---|
-| T1.4 | INC-002 | Token reset de un uso, **hasheado**, con expiración y consumo atómico. Enviar email **antes** (o transacción con compensación). Si Brevo falla: **no** cambian hash, `emailVerified` ni `tokenVersion`. Respuestas anti-enumeración |
+| T1.4 | INC-002 | **Actualizado**: NO se implementa token/link de reseteo (revertiría `AUD-12`, decisión de producto vigente). Fix mínimo sobre el flujo actual (email con password nueva): generar la password, enviar el email **antes** de persistir (o transacción con compensación). Si Brevo falla: **no** cambian `password`, `emailVerified` ni `tokenVersion`. Respuesta anti-enumeración (ya la tiene) |
 | T1.5 | INC-003 | `@Roles(Role.PROFESSIONAL)` en `GET /service-requests/available` y `GET /quotes/my-quotes`. Client autenticado → 403. Professional → 200 |
 | T1.6 | INC-016 BE | `POST /categories`: `@CurrentUser()`, `assertAdminCanManageCategory` como en update/delete. Admin crea con **su** `countryCode`; solo SuperAdmin crea globales. `countryCode` y `parentId` en `CreateCategoryDto` |
 | T1.7 | INC-020 | Al pasar a SuperAdmin: `countryId = NULL`. Al pasar a Admin: país obligatorio. Promoción/degradación atómicas. Script de corrección para filas ya inconsistentes (no tocar SuperAdmin reales) |

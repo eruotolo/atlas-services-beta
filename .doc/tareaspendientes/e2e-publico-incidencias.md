@@ -7,6 +7,10 @@ tags: [hireeo, testing, e2e, publico, incidencias]
 
 Referencia: [[../testingqa/plan-e2e-publico]]. Entorno: frontend `http://localhost:3334`, backend `http://localhost:4445/api/v1`, DB local (`docker-database`, puerto 5435). Ejecución iniciada 2026-08-27.
 
+> [!success] Estado de resolución (remediación 2026-08-29, [[grok-e2e-incidencias]])
+> - **INC-001 — RESUELTO.** `HeroSearchBar.tsx`: ubicación libre se resuelve por match difuso contra localidades reales (`locality=slug`) o se ignora, nunca viaja como `q`; el texto del problema ahora sí viaja en `q` junto a la categoría (`c`). `matchmaking.ts`: los 13 slugs de `CATEGORY_MAP`/`CATEGORY_LABELS` fueron corregidos contra `GET /categories` real (`gasfiteria`→`plomeria`, etc., ver diff de la fase F5).
+> - **INC-002 — RESUELTO** (diseño revisado, decisión de Edgardo 2026-08-29). El flujo real es "email con password nueva" (no token/link, `AUD-12`) — se preserva esa decisión. Fix: el email se envía **antes** de persistir el cambio; si falla, no se toca `password`/`emailVerified`/`tokenVersion`. Tests unitarios cubren ambos casos (éxito y fallo de envío).
+
 ## INC-001 — Buscador del Home: el texto libre de ubicación se manda como texto de búsqueda, no como filtro geográfico
 
 - **Caso**: E2E-PUB-003
@@ -81,7 +85,9 @@ El frontend agrava el efecto de forma intencional: `frontend/src/features/auth/a
 
 ## Nota de documentación (no es bug) — E2E-PUB-005, slug cruzado entre países
 
-El caso dice "slug cuyo país real difiere redirige al prefijo canónico". El comportamiento real es **404**, no redirect, cuando el slug simplemente no existe bajo ese país (caso normal, ya que el slug es único por país — decisión documentada como AUD-32 en `frontend/src/features/services/actions/queries.ts:183-184`). El código de redirect (`frontend/src/app/(country)/[country]/(public)/service/[slug]/page.tsx:122-125`) sí existe, pero solo se activa si el backend devolviera un servicio con `countryCode` distinto al de la URL — algo que no ocurre en la búsqueda actual porque el backend ya filtra por `slug + countryCode`. Sugerencia: actualizar la redacción del caso E2E-PUB-005 para reflejar que el resultado esperado ante un slug ajeno es 404, y que el redirect es defensivo para colisiones de slug entre países (mismo slug generado independientemente en dos países), no para el caso general.
+El caso dice "slug cuyo país real difiere redirige al prefijo canónico". El comportamiento real es **404**, no redirect, cuando el slug simplemente no existe bajo ese país (caso normal, ya que el slug es único por país — decisión documentada como AUD-32 en `frontend/src/features/services/actions/queries.ts:183-184`). El código de redirect (`frontend/src/app/(country)/[country]/(public)/service/[slug]/page.tsx:122-125`) sí existe, pero solo se activa si el backend devolviera un servicio con `countryCode` distinto al de la URL — algo que no ocurre en la búsqueda actual porque el backend ya filtra por `slug + countryCode`.
+
+**Resuelto (Gate `G-SLUG`, plan canónico [[grok-e2e-incidencias]] §7, 2026-08-29): el resultado esperado ante un slug ajeno es 404.** El caso E2E-PUB-005 queda actualizado con ese criterio de aceptación; el redirect existente es defensivo para colisiones de slug entre países (mismo slug generado independientemente en dos países), no para el caso general.
 
 ---
 

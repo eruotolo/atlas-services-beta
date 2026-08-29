@@ -9,6 +9,19 @@ Referencia: [[../testingqa/plan-e2e-professional]]. Entorno: frontend `http://lo
 
 **Ronda 2 (2026-08-29)** — se completaron los casos pendientes de la ronda 1: E2E-PRO-011 (reseñas, antes NOT-TESTADO), re-test interactivo de E2E-PRO-007 y E2E-PRO-010, y verificación puntual de wizard en `pro1.uy@hireeo.app` y `pro1.us@hireeo.app`. Para E2E-PRO-011 se aprovechó una reseña `ACTIVE` de `client1.cl@hireeo.app` ya existente en DB desde la ronda 1 (no se creó ninguna reseña nueva); esa reseña no se veía en la ficha pública al inicio de la sesión por staleness de caché de 60s (ver INC-011), y quedó visible correctamente ("4.0 (1)") al re-consultarla más tarde. Durante el re-test de cambio de contraseña se cambió temporalmente la contraseña de `pro1.cl@hireeo.app` a un valor de prueba y se revirtió a la estándar (`Hireeo2026!Test`) al finalizar — confirmado con login exitoso.
 
+> [!note] Renumeración canónica (2026-08-29)
+> Los IDs `INC-012`, `INC-013` e `INC-014` de este informe son **canónicos** en el plan de remediación [[grok-e2e-incidencias]] (no colisionan, se conservan tal cual). La colisión de numeración fue con el informe [[e2e-publicacion-multipais-incidencias]], cuyos `INC-012`/`INC-013`/`INC-014` propios se renumeraron a `INC-023`/`INC-024`/duplicado de `INC-009` respectivamente. Ver tabla de mapping en §2 de [[grok-e2e-incidencias]].
+
+> [!success] Estado de resolución (remediación 2026-08-29, [[grok-e2e-incidencias]])
+> - **INC-009 — RESUELTO** (cierra también INC-014/MP del informe [[e2e-publicacion-multipais-incidencias]] como duplicado). `generarDescripcionIA` esperaba `{data:[...]}` de `GET /categories`, que devuelve un array plano — corregido siguiendo el patrón ya usado en `getCategorias`.
+> - **INC-010 — RESUELTO.** Teléfono requerido también en el flujo Admin (antes solo en el propio); `.parse()` de las 4 funciones de creación/edición movido dentro del try/catch con mensajes legibles.
+> - **INC-011 — RESUELTO.** Las mutaciones de servicio ahora llaman `revalidateTag` sobre `servicio-slug-{country}-{slug}`, `servicios` y `servicios-destacados-{country}` — la ficha pública refleja el cambio en el siguiente request.
+> - **INC-012 — RESUELTO.** Guard `instanceof Date → toISOString()` en `stripSensitiveFields` (interceptor global), antes de la rama de objeto genérico. Tests de contrato agregados; ver `.doc/testingqa/informe-fechas-t1.3.md` para el detalle completo de endpoints afectados.
+> - **INC-013 — RESUELTO.** `totalCalificaciones` ahora suma `totalRatings` real de cada servicio, ya no hardcodeado en 0.
+> - **INC-014 — RESUELTO.** Parte A: tras cambio de password exitoso, `signOut` limpio con aviso (evita el loop de redirección por `tokenVersion` desincronizado). Parte B: errores de Zod ahora legibles por campo.
+>
+> Contraseña de `pro1.cl@hireeo.app` verificada en `Hireeo2026!Test` al cierre de la remediación.
+
 ## INC-009 — "Completar con IA" (generar descripción) está roto para el 100% de los Professionals, en los 5 países
 
 - **Caso**: E2E-PRO-002

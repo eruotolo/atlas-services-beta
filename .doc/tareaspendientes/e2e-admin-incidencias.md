@@ -9,6 +9,11 @@ Referencia: [[../testingqa/plan-e2e-admin]]. Entorno: frontend `http://localhost
 
 **Ronda 2 (2026-08-29)** — se completó lo pendiente: se resolvió el gap de E2E-ADM-007 (la sección "Precios Premium" del Admin **sí existe** y funciona, ver INC-018 más abajo sobre por qué no se había visto), se re-confirmó por código que INC-016 sigue vigente, se ejecutó el recorrido interactivo completo (E2E-ADM-003/004/005/006/007/009/011) en `ar` como segundo país (no solo `cl`), y se completó E2E-ADM-008 con las combinaciones de país que faltaban (`uy→us`, `us→cl`, además de las ya probadas `cl→ar`/`es→us`).
 
+> [!success] Estado de resolución (remediación 2026-08-29, [[grok-e2e-incidencias]])
+> - **INC-016 — RESUELTO.** Backend: `POST /categories` ahora recibe `@CurrentUser()` y fuerza `countryCode` del Admin (ignora el body); SuperAdmin puede crear global o scoped. Verificado en vivo: Admin `cl` intentando forzar `countryCode:"ar"` termina scoped a `cl`; SuperAdmin sin código → global; con código inválido → 400. Frontend: `CategoriaForm` oculta el selector de país a Admin de país (solo SuperAdmin lo ve), padre siempre visible.
+> - **INC-017 — RESUELTO.** `CategoriasTable` deshabilita editar/eliminar/toggle-activo cuando la categoría es global (`countryCode === null`) y el usuario no es SuperAdmin, con tooltip persistente ("Solo SuperAdmin puede modificar categorías globales").
+> - **INC-018 — RESUELTO.** `getAdminPreciosPremium`: el parámetro de búsqueda (antes `_search`, ignorado) ahora filtra de verdad contra país/moneda/duración/precio/estado; la paginación hace `.slice()` real sobre el resultado filtrado (antes siempre devolvía todo sin paginar).
+
 ## INC-016 — Un Admin de país puede crear categorías GLOBALES que quedan visibles y usables en los 5 países, sin poder revertirlo él mismo
 
 - **Caso**: E2E-ADM-002
