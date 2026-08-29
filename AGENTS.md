@@ -10,7 +10,7 @@ Este archivo proporciona instrucciones permanentes a Claude Code cuando trabaja 
 - Enfocarte solo en lo solicitado. No agregar mejoras, refactorizaciones ni optimizaciones no pedidas.
 - No asumir contexto de chats anteriores.
 - **Plan Mode primero** — Presenta un plan detallado y espera aprobación antes de implementar. Termina siempre el plan con: “¿Apruebas este plan? ¿Qué cambiarías?”
-- **Verificación obligatoria** — Después de cualquier cambio en `frontend/` o `backend/`: Ejecuta `pnpm lint && pnpm build`. Nunca marques una tarea como terminada sin lint + build pasando.
+- **Verificación obligatoria** — Para cambios relevantes en `frontend/`, cambios en `backend/` o cuando el usuario lo solicite explícitamente: ejecuta `pnpm lint && pnpm build`. Para cambios menores de frontend (especialmente ajustes visuales), no ejecutar `build` automáticamente mientras `pnpm dev` esté activo: el script de build limpia `.next` y puede corromper la caché activa de Turbopack. En esos casos, usar verificaciones puntuales; el build completo requiere detener primero el servidor de desarrollo.
 
 ## 1. Uso obligatorio de Agentes por área
 - `frontend/` → Skill `nextjs-ddd-expert`
@@ -24,6 +24,7 @@ Este archivo proporciona instrucciones permanentes a Claude Code cuando trabaja 
 - **Scope quirúrgico**: Prohibido modificar archivos de configuración (`package.json`, `tsconfig.json`, `biome.json`, etc.) salvo solicitud explícita.
 - **No reescribas archivos completos**: Si el archivo tiene > 50 líneas, entrega solo el bloque modificado.
 - **DRY Enforcement**: Verificar si la lógica ya existe antes de escribir.
+- **DRY Tailwind**: Para estilos estáticos repetidos en 2+ lugares, extraer una clase semántica en `@layer components`; para un valor de layout único, usar una utilidad arbitraria de Tailwind en el JSX. Nunca crear un componente React solo para deduplicar una `grid-template`.
 - **Contract-First**: Si Frontend necesita un dato del Backend inexistente, generar primero la Interface TypeScript.
 
 ### 🗂️ Organización de Componentes — REGLA DE ORO (NO NEGOCIABLE)
@@ -83,17 +84,16 @@ next-atlas-services/
 ├── frontend/src/
 │   ├── app/
 │   │   ├── (country)/[country]/   # RUTAS ACTIVAS (con país en URL)
-│   │   │   ├── (public)/          # Home, buscar, perfil, publicar, etc.
-│   │   │   └── (admin)/admin/     # Panel admin scoped al país
-│   │   ├── (public)/              # LEGACY — redirects a /cl/...
-│   │   ├── (admin)/               # LEGACY — re-exporters del admin
+│   │   │   ├── (public)/          # Home, buscar, publicar, etc.
+│   │   │   ├── (admin)/admin/     # Panel admin scoped al país
+│   │   │   └── (account)/         # Perfil, mensajes, favoritos, etc.
+│   │   ├── page.tsx               # único redirect de fallback (detecta país → /{country})
 │   │   └── api/                   # Route Handlers (auth, webhooks, upload)
 │   ├── features/
 │   │   ├── geo/                   # Países, regiones, localidades
 │   │   ├── services/              # Servicios
 │   │   ├── categories/            # Categorías
 │   │   ├── payments/              # Pagos y suscripciones
-│   │   ├── sponsors/              # Publicidad
 │   │   ├── users/                 # Usuarios y perfil
 │   │   └── reviews/               # Calificaciones
 │   ├── lib/
@@ -101,7 +101,7 @@ next-atlas-services/
 │   │   └── providers/CountryProvider.tsx
 │   └── shared/
 ├── backend/src/
-│   ├── modules/ (geo, auth, users, services, categories, prices, subscriptions, sponsors, ratings, payments, interactions)
+│   ├── modules/ (geo, auth, users, services, categories, prices, subscriptions, ratings, payments, interactions)
 │   └── common/ (guards, decorators, filters)
 ├── docker-database/
 ├── appmobile/               # Expo SDK 54, React Native 0.81.5, expo-router 6
@@ -131,6 +131,7 @@ pnpm --filter backend db:seed   # Poblar DB (geo + roles + categorías + precios
 > **Hireeo (Beta)** — Marketplace multi-país de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas).
 > Países: Chile (`cl`), Argentina (`ar`), Uruguay (`uy`), España (`es`), Estados Unidos (`us`). **(Nota: Pendiente incorporar Paraguay (`py`) en el futuro).**
 > **Dominio oficial:** `hireeo.app` (un solo dominio con subpaths por país: `/cl`, `/ar`, `/uy`, `/es`, `/us`, y futuramente `/py`). Producción aún no desplegada.
+> Roles de usuario (`backend/src/common/enums/role.enum.ts`): `Client`, `Professional`, `Admin`, `SuperAdmin`.
 
 ## 6. Arquitectura Multi-País
 
@@ -202,9 +203,37 @@ pnpm db:seed          # Pobla geo + roles + categorías + precios (5 países)
 - **`index.tsx` en componentes → corregido (2026-07-22)**: 136 componentes usaban `NombreComponente/index.tsx` a pesar de que la regla ya estaba escrita. Ahora el archivo SIEMPRE se llama igual que el componente (`Footer/Footer.tsx`). Excepción: barrels de carpetas agrupadoras (`hireeo/index.ts`, `icons/index.tsx`, `home/components/index.ts`, etc.) sí pueden llamarse `index`.
 
 
+## 10. Selección de modelos y orquestación al planificar
+
+Al generar cualquier plan (Plan Mode), evaluar explícitamente lo siguiente antes de asignar modelo/agente:
+
+1. **Orquestación**: si la tarea es multi-fase o multi-agente, usar la skill de Orca-cli `Orchestrate`/`Orquestación` para coordinar el plan.
+2. **Selección de modelo según dificultad real de la tarea** — no asumir el modelo más caro por defecto:
+
+   | Motor | Modelo | Uso recomendado |
+   |---|---|---|
+   | Claude Code | Fable | Solo si la tarea es extremadamente difícil, y únicamente para planificar |
+   | Claude Code | Opus 5 | Solo tareas muy difíciles; preferentemente para planificar |
+   | Claude Code | Sonnet 5 | Caballo de batalla — todas las tareas; también sirve para orquestar |
+   | Claude Code | Haiku 4.5 | Tareas repetitivas sin razonamiento; búsqueda e investigación en internet |
+   | Codex | gpt-5.6-sol | Modelo frontier agéntico — tareas de codificación más exigentes |
+   | Codex | gpt-5.6-terra | Balanceado — trabajo cotidiano |
+   | Codex | gpt-5.6-luna | Rápido y económico |
+   | Grok | Grok 4.6 | Con niveles de razonamiento Low / Medium / High / Extra High |
+
+   Niveles de razonamiento (Codex/Grok): **Low** (rápido, razonamiento liviano) · **Medium** (default, balance velocidad/profundidad) · **High** (mayor profundidad para problemas complejos) · **Extra High / Max / Ultra** (máxima profundidad, consumen el límite de uso más rápido).
+
+3. **Regla de eficiencia de tokens (obligatoria)**: tener en cuenta el consumo de tokens al elegir calidad de modelo — una calidad muy elevada en una tarea simple no ayuda y le resta recursos al resto del trabajo. Para tareas simples o repetitivas usar modelos medium (Sonnet 5, gpt-5.6-terra medium, Grok 4.6 medium). Reservar Fable, Opus 5, gpt-5.6-sol y los niveles Extra High/Max/Ultra solo cuando la dificultad real de la tarea lo justifique explícitamente en el plan.
+
 ---
 
 ## Documentación en Obsidian
+
+### Mantenimiento de `.doc/`
+
+- Cada vez que se agregue, elimine, renombre o mueva un archivo o carpeta dentro de `.doc/`, actualizar `.doc/README.md` y el `README.md` del área afectada cuando exista.
+- Mantener los enlaces Markdown relativos actualizados y verificarlos antes de terminar la tarea.
+- No incluir secretos, contraseñas ni tokens en documentación versionada; documentar el procedimiento seguro para obtenerlos.
 
 La documentación de este proyecto vive en el vault **SitesDoc**. Al iniciar cualquier sesión de trabajo, leer la nota:
 
