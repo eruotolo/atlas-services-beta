@@ -131,6 +131,7 @@ pnpm --filter backend db:seed   # Poblar DB (geo + roles + categorías + precios
 > **Hireeo (Beta)** — Marketplace multi-país de servicios manuales (electricistas, carpinteros, gásfiter, fletes, mudanzas).
 > Países: Chile (`cl`), Argentina (`ar`), Uruguay (`uy`), España (`es`), Estados Unidos (`us`). **(Nota: Pendiente incorporar Paraguay (`py`) en el futuro).**
 > **Dominio oficial:** `hireeo.app` (un solo dominio con subpaths por país: `/cl`, `/ar`, `/uy`, `/es`, `/us`, y futuramente `/py`). Producción aún no desplegada.
+> Roles de usuario (`backend/src/common/enums/role.enum.ts`): `Client`, `Professional`, `Admin`, `SuperAdmin`.
 
 ## 6. Arquitectura Multi-País
 
