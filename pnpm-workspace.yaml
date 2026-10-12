@@ -14,3 +14,7 @@ allowBuilds:
 ignoreWorkspaceRootCheck: true
 overrides:
   multer: 2.2.0
+packageExtensions:
+  '@nestjs/swagger':
+    peerDependencies:
+      typescript: '*'

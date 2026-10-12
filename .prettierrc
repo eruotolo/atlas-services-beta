@@ -61,7 +61,8 @@
                     "<THIRD_PARTY_MODULES>",
                     "^src/(.*)$",
                     "^[./]"
-                ]
+                ],
+                "importOrderParserPlugins": ["typescript", "decorators-legacy"]
             }
         }
     ]
