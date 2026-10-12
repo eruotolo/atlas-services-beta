@@ -8,7 +8,7 @@ on:
 
 jobs:
     backend:
-        name: backend (lint + build + tests)
+        name: backend (lint + knip + build + tests)
         runs-on: ubuntu-latest
         defaults:
             run:
@@ -34,6 +34,9 @@ jobs:
               run: pnpm install --frozen-lockfile
             - name: Lint backend
               run: pnpm --filter backend lint
+            # Falla ante código huérfano nuevo (archivos, exports, dependencias): baseline en cero.
+            - name: Check orphan code (knip)
+              run: pnpm --filter backend knip
             - name: Generate Prisma client (no DB required)
               run: pnpm --filter backend db:generate
             - name: Build backend
@@ -42,7 +45,7 @@ jobs:
               run: pnpm --filter backend test
 
     frontend:
-        name: frontend (type-check + lint + tests + build)
+        name: frontend (type-check + lint + knip + tests + build)
         runs-on: ubuntu-latest
         defaults:
             run:
@@ -67,6 +70,9 @@ jobs:
               run: pnpm --filter frontend type-check
             - name: Lint frontend
               run: pnpm --filter frontend lint
+            # Falla ante código huérfano nuevo (archivos, exports, dependencias): baseline en cero.
+            - name: Check orphan code (knip)
+              run: pnpm --filter frontend knip
             - name: Run frontend tests and regression guards
               run: pnpm --filter frontend test
             - name: Build frontend

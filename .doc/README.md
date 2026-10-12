@@ -4,6 +4,8 @@ Este directorio reúne documentación operativa y de producto del repositorio. C
 
 ## Índice
 
+- [Diagnóstico DDD/DRY de hireeo (T-32)](./2026-10-11-diagnostico-ddd-dry-hireeo.md)
+- [Barrido de código huérfano y control en CI (CA-224)](./2026-10-12-barrido-codigo-huerfano-hireeo.md)
 - [Arquitectura](./arquitectura/)
   - [Repositorios y despliegue](./arquitectura/arquitectura-repos-deploy.md)
   - [Flujos del producto](./arquitectura/flujos-hireeo.md)
