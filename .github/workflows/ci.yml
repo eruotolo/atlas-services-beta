@@ -42,7 +42,7 @@ jobs:
               run: pnpm --filter backend test
 
     frontend:
-        name: frontend (build)
+        name: frontend (type-check + lint + tests + build)
         runs-on: ubuntu-latest
         defaults:
             run:
@@ -60,5 +60,11 @@ jobs:
                   cache: pnpm
             - name: Install workspace dependencies
               run: pnpm install --frozen-lockfile
+            - name: Type-check frontend
+              run: pnpm --filter frontend type-check
+            - name: Lint frontend
+              run: pnpm --filter frontend lint
+            - name: Run frontend tests and regression guards
+              run: pnpm --filter frontend test
             - name: Build frontend
               run: pnpm --filter frontend build
