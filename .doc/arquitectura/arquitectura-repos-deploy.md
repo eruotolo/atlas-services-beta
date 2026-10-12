@@ -139,14 +139,33 @@ El frontend (`hireeo-front`) consume la API vía `lib/api/apiClient.ts`, que env
 
 ---
 
-## 4. Variables de entorno (Vercel — proyecto hireeo-back)
+## 4. Variables de entorno (Vercel)
 
-Cargadas en el dashboard (Production + Preview). Las críticas:
-`DATABASE_URL`, `JWT_SECRET`, `JWT_REFRESH_SECRET`, `API_KEY`, `FRONTEND_URL`,
-`WEBHOOK_SECRET`.
+Cargadas en el dashboard de cada proyecto (Production y Preview). Detalle completo,
+sensibilidad y rotación: `.doc/infra/infra-env-vars-y-rotacion.md`. Solo nombres aquí.
 
-> ⚠️ `API_KEY` (backend) **debe** coincidir con `NEXT_PUBLIC_API_KEY` (frontend),
-> o el `ApiKeyGuard` rechaza todo con 401.
+**Proyecto `hireeo-back`** — obligatorias: `DATABASE_URL`, `JWT_SECRET`,
+`JWT_REFRESH_SECRET`, `API_KEY`, `INTERNAL_SERVICE_TOKEN`, `INTEGRATIONS_ENCRYPTION_KEY` y
+`FRONTEND_URL` (en producción el backend se niega a arrancar sin ella). Opcionales:
+`DIRECT_DATABASE_URL`, `JWT_EXPIRES_IN`, `JWT_REFRESH_EXPIRES_IN`, `REDIS_URL`,
+`DATABASE_POOL_MAX`; `BACKEND_PUBLIC_URL` solo al habilitar pagos. `DATABASE_URL` debe estar
+disponible en el **build**, porque `buildCommand` corre `prisma migrate deploy`.
+
+**Proyecto `hireeo-front`** — obligatorias: `NEXT_PUBLIC_API_URL` (antes del build: se
+incrusta en el bundle y, si falta, cae a `localhost`), `NEXT_PUBLIC_APP_URL`, `API_KEY`,
+`INTERNAL_SERVICE_TOKEN`, `AUTH_SECRET`, `NEXTAUTH_URL`. Opcionales: `REVALIDATE_SECRET`
+(necesaria si se usa `/api/revalidate`), `CONTACT_EMAIL`, `NEXT_PUBLIC_APP_URL_<CC>`.
+
+> ⚠️ `API_KEY` y `INTERNAL_SERVICE_TOKEN` deben tener **el mismo valor** en `hireeo-back` y
+> `hireeo-front`, o el `ApiKeyGuard` / `ServiceTokenGuard` rechazan todo con 401.
+> `NEXT_PUBLIC_API_KEY` y `WEBHOOK_SECRET` **no existen** en el código: no cargarlas
+> (la primera quedaría expuesta al navegador).
+
+**Migraciones:** `buildCommand` ejecuta `prisma migrate deploy`, que lee
+`backend/prisma.config.ts`: usa `DIRECT_DATABASE_URL` si existe y, si no, `DATABASE_URL`.
+Con una base detrás de pooler (Neon `-pooler`, PgBouncer) conviene cargar
+`DIRECT_DATABASE_URL` con la conexión directa. Los deployments de Preview también migran:
+Preview no debe apuntar a la base de producción.
 
 ---
 
@@ -156,10 +175,18 @@ Cargadas en el dashboard (Production + Preview). Las críticas:
   pero (por el estado heredado) hubo que **promover manualmente** el último build
   para que `api.hireeo.app` lo sirviera. Vigilar que el próximo push se
   auto-promueva; si no, promover en Vercel → Deployments → "Promote to Production".
-- **CORS:** `FRONTEND_URL` debería incluir `https://hireeo.app,https://www.hireeo.app`
+- **CORS:** `FRONTEND_URL` debe incluir `https://hireeo.app,https://www.hireeo.app`
   (el dominio canónico redirige a `www`). Necesario para llamadas client-side.
-- **🔴 Seguridad — sigue sin resolver (confirmado 2026-08-24):** los remotes `origin`
-  de los submódulos `frontend` y `backend` (`git remote -v`) siguen con un token de
-  GitHub embebido en texto plano en la URL. **Rotarlo** (GitHub → Settings →
-  Developer settings → revocar) y reconfigurar el remote con un credential helper
-  (`git config credential.helper`) en vez de incrustarlo en la URL.
+- **Token de GitHub (verificado 2026-10-12):** los remotes `origin` de `frontend`, `backend`
+  y del repo global **ya no llevan token embebido** en la URL (`git remote -v`). Queda
+  pendiente que **Edgardo confirme que el token anterior fue revocado** en GitHub →
+  Settings → Developer settings; hasta entonces debe darse por comprometido.
+- **CI y submódulos:** el CI vive solo en el repo global y los repos que despliega Vercel
+  (`hireeo-back`, `hireeo-front`) no tienen workflows propios. Para que el CI clone los
+  submódulos privados de `hireeoapp` hace falta un secreto `SUBMODULES_TOKEN` con lectura a
+  esos repos (lo crea Edgardo); luego se agrega `submodules: recursive` y
+  `token: ${{ secrets.SUBMODULES_TOKEN }}` a `actions/checkout`.
+- **Seed de producción:** el deploy aplica migraciones pero no siembra datos; `pnpm db:seed`
+  también crea usuarios y servicios de prueba, por lo que no debe correrse tal cual contra
+  producción. Pendiente definir un seed acotado (ver
+  `.doc/infra/CA-204/builds-migraciones-variables.md`, B5).

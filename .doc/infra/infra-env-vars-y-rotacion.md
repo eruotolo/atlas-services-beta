@@ -9,7 +9,7 @@
 > la tabla `Integration` cifrada con AES-256-GCM y se administran desde
 > `/{country}/config/integrations`. La excepción transitoria es el fallback de
 > `IntegrationConfigService`, que está pensado solo para desarrollo y
-> 예정이다 fecha de retiro (ver "Fallback de variables de entorno" más abajo).
+> tiene fecha de retiro por definir (ver "Fallback de variables de entorno" más abajo).
 >
 > **Ninguna credencial real va en este documento.** Los nombres y propósitos sí;
 > los valores van en el gestor de secretos (1Password / Bitwarden / Vercel
@@ -22,7 +22,7 @@
 | Variable | Propósito | Quién la consume | Sensibilidad |
 | --- | --- | --- | --- |
 | `DATABASE_URL` | Cadena de conexión PostgreSQL (formato `postgresql://USER:PASS@HOST:PORT/DB`). | `PrismaService` al construir el adapter `PrismaPg`. | Alta — credencial de DB. |
-| `DIRECT_DATABASE_URL` | Cadena de conexión directa, usada por migraciones Prisma. | `prisma migrate`. | Alta — credencial de DB. |
+| `DIRECT_DATABASE_URL` | Cadena de conexión **directa** (sin pooler) a PostgreSQL. Opcional: si existe, `prisma.config.ts` la usa para las migraciones (`prisma migrate deploy` incluido); si no, usa `DATABASE_URL`. El runtime no la lee. | `backend/prisma.config.ts` (datasource y `migrate.adapter`). | Alta — credencial de DB. |
 | `JWT_SECRET` | Firma de access tokens (HS256/HS512). | `JwtService` / `AuthModule`. | Alta — quien firma auth. |
 | `JWT_REFRESH_SECRET` | Firma de refresh tokens. | `JwtService` / `AuthModule`. | Alta — quien firma auth. |
 | `JWT_EXPIRES_IN` / `JWT_REFRESH_EXPIRES_IN` | Tiempos de expiración. | `JwtService`. | Baja — formato duración. |
@@ -30,22 +30,42 @@
 | `INTERNAL_SERVICE_TOKEN` | Token máquina-a-máquina que NextAuth envía al backend para leer credenciales OAuth desde `/api/v1/integrations/runtime`. Debe coincidir entre frontend y backend. | `ServiceTokenGuard`. | Alta — equivalente a una service account. |
 | `INTEGRATIONS_ENCRYPTION_KEY` | Clave AES-256-GCM de 32 bytes en base64. Cifra y descifra las credenciales guardadas en `Integration`. | `CryptoService`. | **Crítica** — si se pierde, todas las credenciales del panel son irrecuperables. |
 | `FRONTEND_URL` | Lista separada por comas de URLs permitidas para CORS y para armar `callbackUrl` en OAuth health checks. | CORS, `IntegrationHealthService`. | Baja — URL pública. |
-| `NODE_ENV` / `PORT` | Entorno y puerto del proceso. | Bootstrap NestJS. | Baja. |
-| `SEED_SUPERADMIN_PASSWORD_*` | Contraseñas temporales para cuentas SuperAdmin durante el seed. | `prisma/seed/users`. | Alta — cuentas admin. Solo seed. |
+| `NODE_ENV` / `PORT` | Entorno y puerto del proceso. En Vercel `NODE_ENV` lo fija la plataforma y `PORT` no se carga (serverless). | Bootstrap NestJS. | Baja. |
+| `VERCEL` | La define Vercel. Activa `trust proxy` y hace obligatoria `FRONTEND_URL`. No cargarla a mano. | `main.ts`, `frontend-url.util.ts`. | Baja. |
+| `REDIS_URL` | Opcional. Si falta, el rate limit usa contadores en PostgreSQL. | `RateLimitStorageService`. | Alta si se define — credencial de Redis. |
+| `DATABASE_POOL_MAX` | Opcional. Tamaño máximo del pool de `pg` (por defecto 5). | `PrismaService`. | Baja. |
+| `BACKEND_PUBLIC_URL` | Solo pagos: URL pública del backend para la notificación de MercadoPago. Con pagos deshabilitados no se necesita. | `PaymentsService`. | Baja — URL pública. |
+| `SEED_SUPERADMIN_PASSWORD` | Contraseña de las cuentas SuperAdmin durante el seed (obligatoria al correr `db:seed`). | `prisma/seed/roles-users`. | Alta — cuentas admin. Solo seed, nunca en Vercel. |
+| `SEED_ADMIN_PASSWORD` / `SEED_PROFESSIONAL_PASSWORD` / `SEED_CLIENT_PASSWORD` | Contraseñas de los usuarios de prueba por país. Obligatorias si `NODE_ENV=production`; en desarrollo hay un valor de prueba. | `prisma/seed/users`. | Alta. Solo seed, nunca en Vercel. |
+
+> **Obligatorias al arrancar** (`backend/src/config/env.validation.ts`): `DATABASE_URL`,
+> `JWT_SECRET`, `JWT_REFRESH_SECRET`, `API_KEY`, `INTEGRATIONS_ENCRYPTION_KEY` e
+> `INTERNAL_SERVICE_TOKEN`. En producción (o en Vercel) también `FRONTEND_URL`.
+> `WEBHOOK_SECRET` (sin prefijo) y `APPLE_CLIENT_ID` **no** las lee el backend: no cargarlas.
+> `FRONTEND_URL` debe incluir `https://hireeo.app,https://www.hireeo.app`.
 
 ### 1.2. Frontend (`frontend/.env.local` y variables de Vercel)
 
 | Variable | Propósito | Quién la consume | Sensibilidad |
 | --- | --- | --- | --- |
-| `NEXT_PUBLIC_API_URL` | URL base del backend que ve el navegador. | `apiClient.ts`. | Baja — pública. |
-| `NEXT_PUBLIC_FRONTEND_URL` | URL pública del frontend (usada en callbacks OAuth generados en runtime). | Server Components y NextAuth. | Baja — pública. |
+| `NEXT_PUBLIC_API_URL` | URL base del backend que ve el navegador. **Obligatoria en producción y antes del build**: se incrusta en el bundle y, si falta, el cliente cae a `http://localhost:4000/api/v1` sin avisar. | `apiBaseUrl.ts`, `socket.ts`. | Baja — pública. |
+| `NEXT_PUBLIC_APP_URL` | URL pública del frontend (SEO, sitemap, metadata). Si falta cae a `hireeo.app` / `www.hireeo.app`. | `layout.tsx`, `siteUrl.ts`. | Baja — pública. |
+| `NEXT_PUBLIC_APP_URL_CL` / `_AR` / `_UY` / `_ES` / `_US` | Opcionales: URL por país (por defecto `https://hireeo.app/<país>`). | `countryUtils.ts`. | Baja — pública. |
 | `API_KEY` | Igual al `API_KEY` del backend; el frontend la pega como header `x-api-key`. | `apiClient.ts`. | Alta — bypass de auth (mitigada por HTTPS). |
 | `INTERNAL_SERVICE_TOKEN` | Igual al del backend; el frontend lo usa para leer credenciales OAuth desde el runtime controller. | `IntegrationRuntimeClient` (panel de Integraciones). | Alta — service token. |
-| `NEXTAUTH_SECRET` | Firma cookies de sesión. | NextAuth. | Alta. |
+| `AUTH_SECRET` | Firma cookies de sesión (NextAuth `secret` y `getToken` del proxy). | `auth.ts`, `proxy.ts`. | Alta. |
 | `NEXTAUTH_URL` | URL pública del frontend (callback base). | NextAuth. | Baja. |
+| `REVALIDATE_SECRET` | Secreto del endpoint `/api/revalidate`. Sin ella el endpoint responde 401 siempre. | `api/revalidate/route.ts`. | Alta. |
+| `CONTACT_EMAIL` | Destinatario del formulario de contacto (por defecto `info@hireeo.app`). | `features/contact`. | Baja. |
+| `INTERNAL_API_URL` | Solo Docker: URL del backend alcanzable desde el servidor. No cargar en Vercel. | `apiBaseUrl.ts`. | Baja. |
 | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` | **Solo durante la migración inicial.** Una vez cargadas en el panel, deben quedar en `.env` como respaldo histórico o eliminarse. | NextAuth provider. | Alta — al migrar al panel, dejar de consultar. |
 | `APPLE_ID` / `APPLE_SECRET` | Igual: durante la transición. | NextAuth provider. | Alta — JWT caduca a 6 meses. |
 | `AZURE_AD_CLIENT_ID` / `AZURE_AD_CLIENT_SECRET` / `AZURE_AD_TENANT_ID` | Igual: durante la transición. | NextAuth provider. | Alta. |
+
+> **No cargar** `NEXT_PUBLIC_API_KEY`: ningún código la lee, y con el prefijo `NEXT_PUBLIC_`
+> acabaría en el navegador. La clave que el frontend envía es `API_KEY` (solo servidor).
+> Tampoco se leen `AUTH_URL`, `MP_*`, `BREVO_*`, `CLOUDINARY_*` ni `GEMINI_API_KEY` en el
+> frontend: las credenciales de proveedor viven en el panel de Integraciones.
 
 > **Importante.** NextAuth hoy todavía lee algunas credenciales OAuth desde
 > variables de entorno como red de seguridad. El criterio de salida de la fase
@@ -148,7 +168,7 @@ Estas claves se rotan **re desplegando** el servicio con la nueva variable:
 | `API_KEY` | cada 6 meses | `openssl rand -hex 32` |
 | `INTERNAL_SERVICE_TOKEN` | cada 6 meses | `openssl rand -hex 32` |
 | `INTEGRATIONS_ENCRYPTION_KEY` | **no rotar salvo emergencia** — implica re-cifrar todas las filas de `Integration` | `node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"` |
-| `NEXTAUTH_SECRET` | cada 6 meses | `openssl rand -base64 32` |
+| `AUTH_SECRET` | cada 6 meses | `openssl rand -base64 32` |
 
 **Procedimiento (claves que no son `INTEGRATIONS_ENCRYPTION_KEY`).**
 

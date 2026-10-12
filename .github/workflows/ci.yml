@@ -26,14 +26,14 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - uses: pnpm/action-setup@v4
-              with:
-                  version: 10
             - uses: actions/setup-node@v4
               with:
                   node-version: 22
                   cache: pnpm
             - name: Install workspace dependencies
               run: pnpm install --frozen-lockfile
+            - name: Lint backend
+              run: pnpm --filter backend lint
             - name: Generate Prisma client (no DB required)
               run: pnpm --filter backend db:generate
             - name: Build backend
@@ -52,14 +52,17 @@ jobs:
         steps:
             - uses: actions/checkout@v4
             - uses: pnpm/action-setup@v4
-              with:
-                  version: 10
             - uses: actions/setup-node@v4
               with:
                   node-version: 22
                   cache: pnpm
             - name: Install workspace dependencies
               run: pnpm install --frozen-lockfile
+            # El lint del frontend usa ../node_modules/.bin/biome: la raíz del repo
+            # es la que instala biome (frontend/ es su propio workspace).
+            - name: Install root tooling (biome)
+              working-directory: .
+              run: pnpm install --frozen-lockfile --filter .
             - name: Type-check frontend
               run: pnpm --filter frontend type-check
             - name: Lint frontend
