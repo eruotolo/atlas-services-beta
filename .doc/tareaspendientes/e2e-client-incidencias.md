@@ -14,7 +14,7 @@ Referencia: [[../testingqa/plan-e2e-client]]. Entorno: frontend `http://localhos
 > - **INC-005 — RESUELTO.** `AddressForm.tsx` consume `getActiveCountries()` (público) en vez de `getAdminCountries` (admin-only) — verificado con Client real en `cl` y `es`, 200 en `GET /geo/countries` con `id` tipado en `CountryConfig`.
 > - **INC-006 — RESUELTO.** `ChatMensajes.tsx` lee `session.user.backendToken` (antes leía campos inexistentes) — el socket ahora conecta de verdad.
 > - **INC-007 — RESUELTO.** `handleSend` bloquea el envío con error visible si el socket no está conectado (nunca mensaje fantasma); reconciliación de ID temporal cuando llega el mensaje real por socket.
-> - **INC-008 — Verificado sin regresión** tras el fix del interceptor de fechas (F1/INC-012): no se reprodujo Invalid Date/NaN en las pantallas de este plan.
+> - **INC-008 — RESUELTO** (CA-205). Tras el fix del interceptor (INC-012) las fechas llegan en ISO, pero `LeadCard` conservaba un `timeAgo` propio, en español fijo y sin guarda (`hace NaN d` ante una fecha inválida). `formatRelativeTime` (`lib/country/format.ts`) reemplaza ese cálculo y el de `ServiceReviewsList`: usa el idioma del país y una fecha ausente o inválida da vacío. Cubierto por `format.test.ts`.
 
 ## INC-003 — El dashboard de Professional (leads, servicios) no valida el rol, solo la sesión
 

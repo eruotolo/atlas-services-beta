@@ -109,7 +109,7 @@ Ejecución en curso — ver seguimiento en la conversación con Edgardo.
 | E2E-PUB-010 | **FAIL — INC-002** | Browser, `cl`. Bug de backend no específico de país, alcance multi-país |
 | E2E-PUB-011 | PASS | HTTP + Browser, los 5 países vía HTTP (`/profile`, `/admin` → 307 a `/login`); Chat/Solicitar confirmado en browser para `cl` |
 | E2E-PUB-012 | PASS | HTTP, los 5 países (rutas legacy sin prefijo agregan `/cl` por fallback; `/config` sin país es diseño correcto, no country-scoped) |
-| E2E-PUB-013 | Pendiente | Requiere sandbox MercadoPago/Stripe — no iniciado |
+| E2E-PUB-013 | N/A (CA-205) | Los pagos están deshabilitados en los cinco países por decisión de Edgardo (2026-10-12): el wizard publica sin nivel, duración ni pago y no hay sandbox que probar. `payments-disabled.spec.ts` verifica que ninguna pantalla ofrece Premium ni checkout |
 | E2E-PUB-014 | PASS | Browser, `cl` ("Solicitar este servicio" sin sesión pide login, cero `ServiceRequest` creados) |
 
 **Alcance por país**: la verificación interactiva completa (browser) se hizo en `cl`. En `ar`/`uy`/`es`/`us` se verificó por HTTP lo estructural (redirects, status 200, protección de rutas) — ver filas arriba. Los dos bugs encontrados (INC-001, INC-002) están en código compartido sin lógica de país, por lo que aplican a los 5 países por igual, pero no se confirmó interactivamente en cada uno. Pendiente: E2E-PUB-013 (wizard de publicación completo, requiere credenciales de sandbox de pago MercadoPago/Stripe) y réplica interactiva completa en `ar`/`uy`/`es`/`us`.

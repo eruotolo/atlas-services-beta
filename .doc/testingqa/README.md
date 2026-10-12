@@ -82,6 +82,6 @@ Informes de apoyo generados durante la remediación:
 - [Informe de inventario de países (T7.1)](./informe-inventario-paises-t7.1.md) — los 17 puntos hardcodeados que motivaron el modo mitigación de INC-019.
 - Snapshot de base de datos previo a la remediación en `snapshots/` (fuera de git, no versionado).
 
-## Automatización posterior
+## Automatización
 
-Parametrizar los casos por país en Playwright, con selectores de rol o `data-testid` estables, fixtures aislados y trazas/video/screenshot al fallar. Separar los casos que interactúan con Stripe, MercadoPago, Cloudinary, Gemini o Stripe Identity: ejecutarlos en sandbox y simular solo cuando el proveedor no ofrezca un flujo E2E seguro.
+La suite Playwright de `frontend/tests/e2e/` ejecuta estos planes por rol y por país (público, Client, Professional, Admin, SuperAdmin, seguridad de rutas y pagos deshabilitados); el entorno local, las credenciales y los comandos están en `frontend/tests/README.md`. Quedan manuales los casos que dependen de proveedores sin sandbox (Cloudinary, Gemini, Stripe Identity) y, mientras los pagos estén deshabilitados por decisión de producto, todo cobro con MercadoPago o Stripe.
