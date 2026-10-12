@@ -19,6 +19,8 @@ Este directorio reúne documentación operativa y de producto del repositorio. C
   - [CA-204: seguridad, pagos deshabilitados y operación](./infra/CA-204/seguridad-pagos-operacion.md)
   - [CA-204: builds, migraciones, variables por entorno y CI](./infra/CA-204/builds-migraciones-variables.md)
   - [CA-204: revisión QA](./infra/CA-204/qa-revision-benjamin-torres.md)
+  - [CA-204: revalidación final tras CA-205](./infra/CA-204/revalidacion-final-2026-10-12.md)
+  - [CA-204: QA de la revalidación final](./infra/CA-204/qa-revalidacion-final-2026-10-12.md)
 - [Testing QA](./testingqa/)
   - [Índice E2E por rol y país](./testingqa/README.md)
   - [Público](./testingqa/plan-e2e-publico.md)
